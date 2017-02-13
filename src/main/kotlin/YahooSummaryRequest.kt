@@ -1,0 +1,92 @@
+import okhttp3.HttpUrl
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import org.codehaus.jackson.JsonNode
+import org.codehaus.jackson.map.ObjectMapper
+
+
+class YahooSummaryRequest(val symbol: String) {
+
+    /*
+
+    Example URL:
+
+    https://query2.finance.yahoo.com/v10/finance/quoteSummary/AVGO
+        ?formatted=true
+        &crumb=X8WUMkCCDSk
+        &lang=en-US
+        &region=US
+        &modules=defaultKeyStatistics%2CfinancialData%2CcalendarEvents
+        &corsDomain=finance.yahoo.com
+
+    */
+
+    private val version: Int = 10
+
+    private val modules = arrayOf(
+            "defaultKeyStatistics",
+            "financialData",
+            "calendarEvents"
+    )
+    private val modulesParam = "modules"
+    private val moduleSeparator: String = "%2C"
+
+    private val baseUrl: String = "https://query2.finance.yahoo.com/v$version/finance/quoteSummary/$symbol"
+    private val urlParams = mapOf(
+            "formatted" to "true",
+            "corsDomain" to "finance.yahoo.com"
+    )
+
+    private val urlBuilder = HttpUrl.parse(baseUrl).newBuilder()
+    private val client = OkHttpClient()
+    private lateinit var request: Request
+    private lateinit var response: Response
+
+    private var data: String? = null
+    private lateinit var tree: JsonNode
+    private val mapper by lazy { ObjectMapper() }
+
+    fun execute(): YahooSummaryRequest {
+//        for ((key, value) in urlParams) {
+//            urlBuilder.addQueryParameter(key, value)
+//        }
+        urlBuilder.addEncodedQueryParameter(modulesParam, modules.joinToString(moduleSeparator))
+
+        val url = urlBuilder.build().toString()
+
+        println("Sending summary request for $symbol:")
+        println(url)
+
+        request = Request.Builder().url(url).build()
+        response = client.newCall(request).execute()
+
+        val code = response.code()
+        if (code == 200) {
+            data = response.body().string()
+        } else if (code == 404) {
+            val tree = mapper.readTree(response.body().string())
+            val error = tree.get("quoteSummary")?.get("error")
+
+            if (error != null) {
+                println("Request error: " + error["code"])
+                println(error["description"])
+            }
+        }
+
+        return this
+    }
+
+    fun data(): String? { return data }
+    fun tree(): JsonNode { return tree }
+
+    fun parse(): YahooSummaryRequest {
+        if (data == null) {
+            throw Exception("No data to parse.")
+        }
+
+        tree = mapper.readTree(data)
+
+        return this
+    }
+}
