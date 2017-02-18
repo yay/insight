@@ -7,13 +7,12 @@ import org.apache.commons.csv.CSVRecord
 import java.io.StringReader
 import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.util.*
 
 enum class DataFrequency {
     DAY, WEEK, MONTH
 }
 
-class YahooDataRequest(var symbol: String, var frequency: DataFrequency = DataFrequency.DAY) {
+class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency.DAY) {
 
     /*
 
@@ -71,7 +70,7 @@ class YahooDataRequest(var symbol: String, var frequency: DataFrequency = DataFr
         endDate.year
     }
 
-    fun startDate(date: LocalDate): YahooDataRequest {
+    fun startDate(date: LocalDate): YahooData {
         urlBuilder
                 .addQueryParameter(startYearParam, date.year.toString())
                 .addQueryParameter(startMonthParam, date.monthValue.toString())
@@ -80,7 +79,7 @@ class YahooDataRequest(var symbol: String, var frequency: DataFrequency = DataFr
         return this
     }
 
-    fun endDate(date: LocalDate): YahooDataRequest {
+    fun endDate(date: LocalDate): YahooData {
         urlBuilder
                 .addQueryParameter(endYearParam, date.year.toString())
                 .addQueryParameter(endMonthParam, date.monthValue.toString())
@@ -89,7 +88,7 @@ class YahooDataRequest(var symbol: String, var frequency: DataFrequency = DataFr
         return this
     }
 
-    fun execute(): YahooDataRequest {
+    fun execute(): YahooData {
         urlBuilder.addQueryParameter(symbolParam, symbol)
 
         startDate(startDate)
@@ -114,7 +113,7 @@ class YahooDataRequest(var symbol: String, var frequency: DataFrequency = DataFr
         return this
     }
 
-    fun parse(): YahooDataRequest {
+    fun parse(): YahooData {
 //        CSVFormat.DEFAULT.withHeader(*header).parse(StringReader(data))
         records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(StringReader(data))
 
@@ -133,7 +132,7 @@ class YahooDataRequest(var symbol: String, var frequency: DataFrequency = DataFr
                 it.get(header[2]).toFloat(),
                 it.get(header[3]).toFloat(),
                 it.get(header[4]).toFloat(),
-                it.get(header[5]).toFloat(),
+                it.get(header[5]).toInt(),
                 it.get(header[6]).toFloat()
         ) }
     }

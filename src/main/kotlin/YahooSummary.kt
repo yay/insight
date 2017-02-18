@@ -6,7 +6,7 @@ import org.codehaus.jackson.JsonNode
 import org.codehaus.jackson.map.ObjectMapper
 
 
-class YahooSummaryRequest(val symbol: String) {
+class YahooSummary(val symbol: String) {
 
     /*
 
@@ -44,10 +44,10 @@ class YahooSummaryRequest(val symbol: String) {
     private lateinit var response: Response
 
     private var data: String? = null
-    private lateinit var tree: JsonNode
+    private var tree: JsonNode? = null
     private val mapper by lazy { ObjectMapper() }
 
-    fun execute(): YahooSummaryRequest {
+    fun execute(): YahooSummary {
 //        for ((key, value) in urlParams) {
 //            urlBuilder.addQueryParameter(key, value)
 //        }
@@ -78,9 +78,15 @@ class YahooSummaryRequest(val symbol: String) {
     }
 
     fun data(): String? { return data }
-    fun tree(): JsonNode { return tree }
 
-    fun parse(): YahooSummaryRequest {
+    fun prettyData(): String {
+        val mapper = ObjectMapper()
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this.tree())
+    }
+
+    fun tree(): JsonNode? { return tree }
+
+    fun parse(): YahooSummary {
         if (data == null) {
             throw Exception("No data to parse.")
         }

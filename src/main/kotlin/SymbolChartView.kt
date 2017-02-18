@@ -1,3 +1,4 @@
+import javafx.scene.chart.BarChart
 import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.LineChart
 import javafx.scene.chart.NumberAxis
@@ -6,26 +7,35 @@ import tornadofx.*
 import java.text.SimpleDateFormat
 
 
-class SymbolChart : View() {
+class SymbolChartView : View("Stock Chart") {
 
-    val symbolTable = find(SymbolTable::class)
+    val symbolTableView = find(SymbolTableView::class)
     private lateinit var chart: LineChart<String, Number>
+    private lateinit var volumeChart: BarChart<String, Number>
 
     override fun onDock() {
-        chart.title = "${symbolTable.symbolProperty.value} stock price"
-        var showGridLines = symbolTable.symbolView.items.count() < 100
+        chart.title = symbolTableView.symbol.value
+        var showGridLines = symbolTableView.symbolTable.items.count() < 100
         chart.isHorizontalGridLinesVisible = showGridLines
         chart.verticalGridLinesVisible = showGridLines
-        chart.series(symbolTable.symbolProperty.value) {
+        chart.series(symbolTableView.symbol.value) {
             val dateFormat = SimpleDateFormat("d MMM, yyyy")
-            for (item in symbolTable.symbolView.items.reversed()) {
+            for (item in symbolTableView.symbolTable.items.reversed()) {
                 data(dateFormat.format(item.date), item.close)
             }
         }
+
+//        volumeChart.series("Volume") {
+//            val dateFormat = SimpleDateFormat("d MMM, yyyy")
+//            for (item in symbolTableView.symbolTable.items.reversed()) {
+//                data(dateFormat.format(item.date), item.volume)
+//            }
+//        }
     }
 
     override fun onUndock() {
         chart.data.clear()
+//        volumeChart.data.clear()
     }
 
     override val root = vbox()
@@ -41,7 +51,7 @@ class SymbolChart : View() {
                     maxWidth = Double.MAX_VALUE
                     setOnAction {
                         replaceWith(
-                                SymbolTable::class
+                                SymbolTableView::class
 //                                ViewTransition.Slide(
 //                                        0.3.seconds,
 //                                        ViewTransition.Direction.RIGHT
@@ -57,6 +67,12 @@ class SymbolChart : View() {
                 isLegendVisible = false
                 vgrow = Priority.ALWAYS
             }
+
+//            volumeChart = barchart("Volume", CategoryAxis(), NumberAxis()) {
+//                animated = false
+//                maxHeight = 200.0
+//            }
+
         }
     }
 
