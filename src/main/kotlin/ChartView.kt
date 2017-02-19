@@ -7,7 +7,7 @@ import tornadofx.*
 import java.text.SimpleDateFormat
 
 
-class SymbolChartView : View("Stock Chart") {
+class ChartView : View("Stock Chart") {
 
     val symbolTableView = find(SymbolTableView::class)
     private lateinit var chart: LineChart<String, Number>
@@ -21,7 +21,7 @@ class SymbolChartView : View("Stock Chart") {
         chart.series(symbolTableView.symbol.value) {
             val dateFormat = SimpleDateFormat("d MMM, yyyy")
             for (item in symbolTableView.symbolTable.items.reversed()) {
-                data(dateFormat.format(item.date), item.close)
+                data(dateFormat.format(item.date), item.adjClose)
             }
         }
 

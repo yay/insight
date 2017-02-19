@@ -52,7 +52,7 @@ class DataFetcherView : View() {
             column("Start Time", FetcherTask::startTime)
         }
 
-        listview(listOf("hello", "hi").observable()) {
+        listview(Settings.watchlists["Main"]?.observable()) {
             vgrow = Priority.ALWAYS
         }
     }

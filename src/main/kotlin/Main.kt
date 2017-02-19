@@ -1,9 +1,20 @@
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import javafx.application.Application
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
 import tornadofx.App
 import tornadofx.importStylesheet
+import java.io.File
+import java.time.temporal.TemporalUnit
+import java.util.*
+import kotlin.concurrent.schedule
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.Executors
+import java.util.concurrent.ScheduledExecutorService
+import jdk.nashorn.internal.objects.NativeDate.getSeconds
+import java.time.*
 
 
 class InsightApp : App(SymbolTableView::class) {
@@ -14,8 +25,38 @@ class InsightApp : App(SymbolTableView::class) {
 
 }
 
+val settingsFileName = "settings.json"
+
+fun run() {
+    // http://stackoverflow.com/questions/20387881/how-to-run-certain-task-every-day-at-a-particular-time-using-scheduledexecutorse
+    val localNow = LocalDateTime.now()
+    val currentZone = ZoneId.of("America/Los_Angeles")
+    val zonedNow = ZonedDateTime.of(localNow, currentZone)
+    var zonedNext5: ZonedDateTime
+    zonedNext5 = zonedNow.withHour(5).withMinute(0).withSecond(0)
+    if (zonedNow > zonedNext5)
+        zonedNext5 = zonedNext5.plusDays(1)
+
+    val duration = Duration.between(zonedNow, zonedNext5)
+    val initialDelay = duration.getSeconds()
+
+    val scheduler = Executors.newScheduledThreadPool(1)
+    scheduler.scheduleAtFixedRate(object: TimerTask() {
+        override fun run() {
+
+        }
+    }, initialDelay, (24 * 60 * 60).toLong(), TimeUnit.SECONDS)
+}
+
 fun main(args: Array<String>) {
+    val mapper = jacksonObjectMapper()
+    mapper.readValue<Settings>(File(settingsFileName))
+
     Application.launch(InsightApp::class.java, *args)
+
+    Runtime.getRuntime().addShutdownHook(Thread {
+        mapper.writeValue(File(settingsFileName), Settings)
+    })
 }
 
 fun _main(args: Array<String>) = runBlocking {

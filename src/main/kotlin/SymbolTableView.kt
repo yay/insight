@@ -109,7 +109,7 @@ class SymbolTableView : View("Stock Data") {
                 button("Chart") {
                     setOnAction {
                         replaceWith(
-                                SymbolChartView::class
+                                ChartView::class
 //                            ViewTransition.Slide(
 //                                    0.3.seconds,
 //                                    ViewTransition.Direction.LEFT
