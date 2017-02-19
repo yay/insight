@@ -7,6 +7,7 @@ import org.apache.commons.csv.CSVRecord
 import java.io.StringReader
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.util.logging.Logger
 
 enum class DataFrequency {
     DAY, WEEK, MONTH
@@ -34,6 +35,7 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
 
     private var data: String = ""
     private lateinit var records: Iterable<CSVRecord>
+    private val log by lazy { Logger.getLogger(this::class.java.name) }
 
     // In Kotlin, unlike Java or C#, classes do not have static methods.
     // In most cases, it's recommended to simply use package-level functions instead.
@@ -100,8 +102,7 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
 
         val url = urlBuilder.build().toString()
 
-        println("Sending historical data request for $symbol:")
-        println(url)
+        log.info { "Sending historical data request for $symbol:\n$url" }
 
         request = Request.Builder().url(url).build()
         response = client.newCall(request).execute()
@@ -121,6 +122,7 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
     }
 
     fun data(): String { return data }
+
     fun records(): Iterable<CSVRecord> { return records }
 
     fun list(): List<StockSymbol> {
@@ -135,6 +137,11 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
                 it.get(header[5]).toInt(),
                 it.get(header[6]).toFloat()
         ) }
+    }
+
+    fun call(f: YahooData.() -> Unit): YahooData {
+        f()
+        return this
     }
 
 }

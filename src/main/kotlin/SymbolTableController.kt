@@ -1,11 +1,9 @@
-import javafx.collections.ObservableList
 import javafx.scene.Node
 import javafx.scene.control.ComboBox
 import javafx.scene.control.DatePicker
 import org.codehaus.jackson.map.ObjectMapper
 import tornadofx.Controller
 import tornadofx.observable
-import java.time.LocalDate
 
 class SymbolTableController : Controller() {
 
@@ -20,7 +18,8 @@ class SymbolTableController : Controller() {
         val request = YahooData(symbol, DataFrequency.valueOf(period.value.toUpperCase()))
                 .startDate(startDate.value)
                 .endDate(endDate.value)
-                .execute().parse()
+                .execute()
+                .parse()
 
         view.symbolData.value = request.data()
         view.symbolTable.items = request.list().observable()

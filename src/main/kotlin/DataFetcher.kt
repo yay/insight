@@ -1,5 +1,4 @@
 import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.NonCancellable.isActive
 import kotlinx.coroutines.experimental.async
 import org.codehaus.jackson.map.ObjectMapper
 import java.io.File
@@ -27,7 +26,7 @@ object YahooFetcher {
 
             // http://stackoverflow.com/questions/35444264/how-do-i-write-to-a-file-in-kotlin/35445704
             val file = File("$stockDataDir/$symbol.csv")
-            file.parentFile.mkdirs();
+            file.parentFile.mkdirs()
             file.writeText(request.data())
         }
     }

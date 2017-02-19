@@ -4,6 +4,14 @@ import okhttp3.Request
 import okhttp3.Response
 import org.codehaus.jackson.JsonNode
 import org.codehaus.jackson.map.ObjectMapper
+import java.util.logging.Logger
+
+// Java 9:
+// New Logging API
+// Money API
+// Process API
+// HTTP2 and WebSocket (currently use OkHttp)
+// JSON API - currently use Jackson for JSON and XML (works very well)
 
 
 class YahooSummary(val symbol: String) {
@@ -46,6 +54,7 @@ class YahooSummary(val symbol: String) {
     private var data: String? = null
     private var tree: JsonNode? = null
     private val mapper by lazy { ObjectMapper() }
+    private val log by lazy { Logger.getLogger(this::class.java.name) }
 
     fun execute(): YahooSummary {
 //        for ((key, value) in urlParams) {
@@ -55,36 +64,27 @@ class YahooSummary(val symbol: String) {
 
         val url = urlBuilder.build().toString()
 
-        println("Sending summary request for $symbol:")
-        println(url)
+        log.info { "Sending summary request for $symbol:\n$url" }
 
         request = Request.Builder().url(url).build()
         response = client.newCall(request).execute()
 
         val code = response.code()
+        val body = response.body().string()
+
         if (code == 200) {
-            data = response.body().string()
-        } else if (code == 404) {
-            val tree = mapper.readTree(response.body().string())
+            data = body
+        } else {
+            val tree = mapper.readTree(body)
             val error = tree.get("quoteSummary")?.get("error")
 
             if (error != null) {
-                println("Request error: " + error["code"])
-                println(error["description"])
+                log.warning { "Request error: ${error["code"]}\n${error["description"]}" }
             }
         }
 
         return this
     }
-
-    fun data(): String? { return data }
-
-    fun prettyData(): String {
-        val mapper = ObjectMapper()
-        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this.tree())
-    }
-
-    fun tree(): JsonNode? { return tree }
 
     fun parse(): YahooSummary {
         if (data == null) {
@@ -95,4 +95,18 @@ class YahooSummary(val symbol: String) {
 
         return this
     }
+
+    fun tree(): JsonNode? { return tree }
+
+    fun data(): String? { return data }
+
+    fun prettyData(): String {
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this.tree())
+    }
+
+    fun call(f: YahooSummary.() -> Unit): YahooSummary {
+        f()
+        return this
+    }
+
 }
