@@ -13,7 +13,7 @@ class SymbolTableController : Controller() {
 
         val startDate = node.lookup("#startDate") as DatePicker
         val endDate = node.lookup("#endDate") as DatePicker
-        var period = node.lookup("#period") as ComboBox<String>
+        val period = node.lookup("#period") as ComboBox<String>
 
         val request = YahooData(symbol, DataFrequency.valueOf(period.value.toUpperCase()))
                 .startDate(startDate.value)
@@ -29,7 +29,7 @@ class SymbolTableController : Controller() {
         val request = YahooSummary(symbol).execute().parse()
         val tree = request.tree()
         val mapper = ObjectMapper()
-        var pretty = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(tree)
+        val pretty = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(tree)
 
         view.symbolSummary.value = pretty
     }

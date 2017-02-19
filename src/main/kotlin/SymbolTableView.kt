@@ -1,10 +1,8 @@
-import javafx.application.HostServices
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
 import javafx.event.EventHandler
 import javafx.geometry.Insets
 import javafx.geometry.Pos
-import javafx.scene.control.DatePicker
 import javafx.scene.control.TabPane
 import javafx.scene.control.TableView
 import javafx.scene.input.KeyCode
@@ -15,12 +13,17 @@ import java.time.LocalDate
 
 class SymbolTableView : View("Stock Data") {
 
-    val controller: SymbolTableController by inject()
-
     lateinit var symbolTable: TableView<StockSymbol>
 
     var symbol = SimpleStringProperty("AAPL")
+    val startDate = datepicker {
+        value = LocalDate.now().minusYears(1)
+    }
+    val endDate = datepicker {
+        value = LocalDate.now()
+    }
     val period = SimpleStringProperty("Week")
+    val periodValues = DataFrequency.values().map { it -> it.toString().toLowerCase().capitalize() }
     var symbolData = SimpleStringProperty("")
     var symbolSummary = SimpleStringProperty("")
 
@@ -31,6 +34,7 @@ class SymbolTableView : View("Stock Data") {
         primaryStage.minWidth = 900.0
         primaryStage.minHeight = 600.0
 
+
         with (root) {
             hbox {
                 spacing = 10.0
@@ -39,68 +43,70 @@ class SymbolTableView : View("Stock Data") {
 
                 label("Symbol:")
                 textfield(symbol) {
+                    tooltip("Fetches symbol data and summary") {
+                        font = Font.font("Verdana")
+                    }
                     textProperty().onChange { value ->
                         this.text = value?.toUpperCase()
                     }
                     onKeyReleased = EventHandler { key ->
                         if (key.code == KeyCode.ENTER) {
+
+                            val frequency = DataFrequency.valueOf(period.value.toUpperCase())
+                            val dataRequest = YahooData(symbol.value, frequency)
+                            var summaryRequest = YahooSummary(symbol.value)
+
                             runAsyncWithProgress {
-                                controller.fetch(root, symbol.value)
+
+                                dataRequest
+                                        .startDate(startDate.value)
+                                        .endDate(endDate.value)
+                                        .execute()
+                                        .parse()
+
+                                summaryRequest
+                                        .execute()
+                                        .parse()
+                            } ui {
+                                symbolData.value = dataRequest.data()
+                                symbolTable.items = dataRequest.list().observable()
+                                symbolSummary.value = summaryRequest.prettyData()
                             }
                         }
                     }
                 }
 
                 label("Period:")
-                val periodValues = DataFrequency.values().map { it -> it.toString().toLowerCase().capitalize() }
-                combobox(period, FXCollections.observableArrayList(periodValues)) {
-                    id = "period"
-                }
+                combobox(period, FXCollections.observableArrayList(periodValues))
 
-                button {
-                    text = "Fetch All"
-                    tooltip("Fetches both data and summary") {
-                        font = Font.font("Verdana")
-                    }
+//                button {
+//
+//                    text = "Fetch Data"
+//
+//                    setOnAction {
+//                        isDisable = true
+//                        runAsyncWithProgress {
+//                            controller.fetchData(root, symbol.value)
+//                        } ui {
+//                            isDisable = false
+//                        }
+//                    }
+//                }
+//
+//                button {
+//                    text = "Fetch Summary"
+//
+//                    setOnAction {
+//                        isDisable = true
+//                        runAsyncWithProgress {
+//                            controller.fetchSummary(root, symbol.value)
+//                        } ui {
+//                            isDisable = false
+//                        }
+//                    }
+//                }
 
-                    setOnAction {
-                        isDisable = true
-                        runAsyncWithProgress {
-                            controller.fetch(root, symbol.value)
-                        } ui {
-                            isDisable = false
-                        }
-                    }
-                }
-
-                button {
-
-                    text = "Fetch Data"
-
-                    setOnAction {
-                        isDisable = true
-                        runAsyncWithProgress {
-                            controller.fetchData(root, symbol.value)
-                        } ui {
-                            isDisable = false
-                        }
-                    }
-                }
-
-                button {
-                    text = "Fetch Summary"
-
-                    setOnAction {
-                        isDisable = true
-                        runAsyncWithProgress {
-                            controller.fetchSummary(root, symbol.value)
-                        } ui {
-                            isDisable = false
-                        }
-                    }
-                }
-
-                button("Show Chart") {
+                button("Chart") {
                     setOnAction {
                         replaceWith(
                                 SymbolChartView::class
@@ -112,9 +118,9 @@ class SymbolTableView : View("Stock Data") {
                     }
                 }
 
-                button("Show CSV") {
+                button("News") {
                     setOnAction {
-                        replaceWith(SymbolCsvView::class)
+                        replaceWith(NewsView::class)
                     }
                 }
             }
@@ -125,16 +131,10 @@ class SymbolTableView : View("Stock Data") {
                 alignment = Pos.CENTER_LEFT
 
                 label("Start date: ")
-                datepicker {
-                    id = "startDate"
-                    value = LocalDate.now().minusYears(1)
-                }
+                this += startDate
 
                 label("End date: ")
-                datepicker {
-                    id = "endDate"
-                    value = LocalDate.now()
-                }
+                this += endDate
 
                 button("Data Fetcher") {
                     setOnAction {

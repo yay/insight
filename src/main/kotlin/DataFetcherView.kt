@@ -32,7 +32,7 @@ class DataFetcherView : View() {
             padding = Insets(10.0)
             alignment = Pos.CENTER_LEFT
 
-            button("Show Table") {
+            button("Back") {
                 setOnAction {
                     replaceWith(SymbolTableView::class)
                 }

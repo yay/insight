@@ -15,7 +15,7 @@ class SymbolChartView : View("Stock Chart") {
 
     override fun onDock() {
         chart.title = symbolTableView.symbol.value
-        var showGridLines = symbolTableView.symbolTable.items.count() < 100
+        val showGridLines = symbolTableView.symbolTable.items.count() < 100
         chart.isHorizontalGridLinesVisible = showGridLines
         chart.verticalGridLinesVisible = showGridLines
         chart.series(symbolTableView.symbol.value) {
@@ -47,7 +47,7 @@ class SymbolChartView : View("Stock Chart") {
             hbox {
                 paddingAll = 10.0
 
-                button("Show Table") {
+                button("Back") {
                     maxWidth = Double.MAX_VALUE
                     setOnAction {
                         replaceWith(

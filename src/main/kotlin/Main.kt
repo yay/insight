@@ -1,14 +1,9 @@
-// http://square.github.io/okhttp/
-// http://jdbi.github.io/
-
-import YahooFetcher.asyncFetchData
-import YahooFetcher.asyncFetchSummary
 import javafx.application.Application
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.runBlocking
 import tornadofx.App
 import tornadofx.importStylesheet
-import java.io.File
-import java.time.LocalDate
 
 
 class InsightApp : App(SymbolTableView::class) {
@@ -19,7 +14,11 @@ class InsightApp : App(SymbolTableView::class) {
 
 }
 
-fun main(args: Array<String>) = runBlocking<Unit> {
+fun main(args: Array<String>) {
+    Application.launch(InsightApp::class.java, *args)
+}
+
+fun _main(args: Array<String>) = runBlocking {
     val symbols = listOf("AVGO", "MSFT", "C", "SCHW", "BAC")
 
     val dataJob = async(CommonPool) {
@@ -33,10 +32,45 @@ fun main(args: Array<String>) = runBlocking<Unit> {
     summaryJob.await()
 }
 
-fun _main(args: Array<String>) = runBlocking<Unit> {
+//class GreeterImpl : GreeterGrpc.GreeterImplBase {
+//
+//}
+//
+//class HelloServer {
+//    private val log by lazy { Logger.getLogger(this::class.java.name) }
+//
+//    private val port: Int = 50051
+//    private var server: Server? = null
+//
+//    fun start() {
+//        server = ServerBuilder.forPort(port)
+//                .addService { GreeterImpl() }
+//                .build()
+//                .start()
+//
+//        log.info { "Server started, listening on $port." }
+//
+//        Runtime.getRuntime().addShutdownHook(Thread {
+//            System.err.println("Shutting down server.")
+//            this.stop()
+//        })
+//    }
+//
+//    fun stop() {
+//        server?.shutdown()
+//    }
+//
+//    fun blockUntilShutdown() {
+//        server?.awaitTermination()
+//    }
+//}
+
+fun Mmain(args: Array<String>) = runBlocking<Unit> {
 //    val tree = insight.YahooSummary("MSFT").execute().parse().tree()
 //    println(tree["quoteSummary"]["result"][0]["defaultKeyStatistics"]["enterpriseValue"]["fmt"])
     Application.launch(InsightApp::class.java, *args)
+
+
 
 
 //    val job = launch(CommonPool) { doWorld() }
