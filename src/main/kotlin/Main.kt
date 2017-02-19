@@ -7,14 +7,13 @@ import kotlinx.coroutines.experimental.runBlocking
 import tornadofx.App
 import tornadofx.importStylesheet
 import java.io.File
-import java.time.temporal.TemporalUnit
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.util.*
-import kotlin.concurrent.schedule
-import java.util.concurrent.TimeUnit
 import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledExecutorService
-import jdk.nashorn.internal.objects.NativeDate.getSeconds
-import java.time.*
+import java.util.concurrent.TimeUnit
 
 
 class InsightApp : App(SymbolTableView::class) {
@@ -55,7 +54,8 @@ fun main(args: Array<String>) {
     Application.launch(InsightApp::class.java, *args)
 
     Runtime.getRuntime().addShutdownHook(Thread {
-        mapper.writeValue(File(settingsFileName), Settings)
+//        mapper.writeValue(File(settingsFileName), Settings)
+        mapper.writerWithDefaultPrettyPrinter().writeValue(File(settingsFileName), Settings)
     })
 }
 
