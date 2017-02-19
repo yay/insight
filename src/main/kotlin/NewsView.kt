@@ -5,6 +5,8 @@ import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.control.Alert
 import javafx.scene.control.ListView
+import javafx.scene.control.Tab
+import javafx.scene.control.TabPane
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
 import javafx.scene.text.Font
@@ -21,6 +23,10 @@ class NewsView : View() {
     var symbol = SimpleStringProperty("AAPL")
     val timeout: Int = 10000
     lateinit var listview: ListView<NewsItem>
+    lateinit var browserTab: Tab
+    val storyWebView = webview {
+        vgrow = Priority.ALWAYS
+    }
 
     // https://developer.yahoo.com/finance/company.html
 
@@ -51,7 +57,11 @@ class NewsView : View() {
                 }
             }
 
-            tabpane {
+            val tabPane = tabpane {
+
+                tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
+                vgrow = Priority.ALWAYS
+
                 tab("News") {
                     vbox {
                         hbox {
@@ -149,6 +159,11 @@ class NewsView : View() {
                         listview = listview {
                             cellCache {
                                 val item = it
+//                                setOnMouseClicked {
+//                                    storyWebView.engine.load(item.url)
+//                                    // http://stackoverflow.com/questions/6902377/javafx-tabpane-how-to-set-the-selected-tab
+//                                    tabPane.selectionModel.select(browserTab)
+//                                }
                                 vbox {
                                     hyperlink(item.headline) {
                                         tooltip(item.url)
@@ -186,15 +201,24 @@ class NewsView : View() {
                     }
                 }
 
-                tab("Browser") {
-                    vbox {
-                        webview {
-                            vgrow = Priority.ALWAYS
-                        }
-                    }
-                }
+//                browserTab = tab("Browser") {
+//                    vbox {
+//                        hbox {
+//                            spacing = 10.0
+//                            padding = Insets(10.0)
+//                            alignment = Pos.CENTER_LEFT
+//
+//                            button("Back") {
+//                                setOnAction {
+//                                    storyWebView.engine.executeScript("history.back()")
+//                                }
+//                            }
+//                        }
+//
+//                        this += storyWebView
+//                    }
+//                }
 
-                vgrow = Priority.ALWAYS
             }
         }
     }

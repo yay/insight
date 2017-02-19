@@ -157,6 +157,9 @@ class SymbolTableView : View("Stock Data") {
 //        }
             tabpane {
 
+                tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
+                vgrow = Priority.ALWAYS
+
                 tab("Data") {
                     symbolTable = tableview(listOf<StockSymbol>().observable()) {
                         column("Date", StockSymbol::dateProperty).minWidth(250)
@@ -184,8 +187,6 @@ class SymbolTableView : View("Stock Data") {
                     }
                 }
 
-                tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
-                vgrow = Priority.ALWAYS
             }
 
 
