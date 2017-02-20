@@ -1,14 +1,11 @@
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import javafx.application.Application
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
-import org.quartz.*
-import org.quartz.impl.StdSchedulerFactory
+import org.quartz.Job
+import org.quartz.JobExecutionContext
 import tornadofx.App
 import tornadofx.importStylesheet
-import java.io.File
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -26,7 +23,17 @@ class InsightApp : App(SymbolTableView::class) {
 
 }
 
-val settingsFileName = "settings.json"
+fun main(args: Array<String>) {
+    Settings.load()
+    Settings.saveOnShutdown()
+
+    Application.launch(InsightApp::class.java, *args)
+}
+
+
+
+
+
 
 fun run() {
     // http://stackoverflow.com/questions/20387881/how-to-run-certain-task-every-day-at-a-particular-time-using-scheduledexecutorse
@@ -55,8 +62,8 @@ class HelloJob : Job {
     }
 }
 
-fun main(args: Array<String>) {
-//    val jobDetail = JobBuilder.newJob(HelloJob::class.java)
+fun schedule() {
+    //    val jobDetail = JobBuilder.newJob(HelloJob::class.java)
 //            .withIdentity("dummyJobName", "group1")
 //            .build()
 //
@@ -71,16 +78,10 @@ fun main(args: Array<String>) {
 //    scheduler.start()
 //    scheduler.scheduleJob(jobDetail, trigger)
 
-    Settings.load()
-    Application.launch(InsightApp::class.java, *args)
-    Settings.saveOnShutdown()
-
-
-//    val cronTrigger = TriggerBuilder.newTrigger()
+    //    val cronTrigger = TriggerBuilder.newTrigger()
 //            .withIdentity("dummyCronTrigger", "group1")
 //            .withSchedule(CronScheduleBuilder.cronSchedule("0/5 * * * * ?"))
 //            .build()
-
 }
 
 fun _main(args: Array<String>) = runBlocking {
