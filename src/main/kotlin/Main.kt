@@ -4,6 +4,8 @@ import javafx.application.Application
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
+import org.quartz.*
+import org.quartz.impl.StdSchedulerFactory
 import tornadofx.App
 import tornadofx.importStylesheet
 import java.io.File
@@ -47,16 +49,38 @@ fun run() {
     }, initialDelay, (24 * 60 * 60).toLong(), TimeUnit.SECONDS)
 }
 
+class HelloJob : Job {
+    override fun execute(context: JobExecutionContext?) {
+        println("I'M DOING MY JOB HERE! JOB JOB JOB... DONE!")
+    }
+}
+
 fun main(args: Array<String>) {
-    val mapper = jacksonObjectMapper()
-    mapper.readValue<Settings>(File(settingsFileName))
+//    val jobDetail = JobBuilder.newJob(HelloJob::class.java)
+//            .withIdentity("dummyJobName", "group1")
+//            .build()
+//
+//    val trigger = TriggerBuilder.newTrigger()
+//            .withIdentity("dummyTriggerName", "group1")
+//            .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+//                    .withIntervalInSeconds(5)
+//                    .repeatForever())
+//            .build()
+//
+//    val scheduler = StdSchedulerFactory().getScheduler()
+//    scheduler.start()
+//    scheduler.scheduleJob(jobDetail, trigger)
 
+    Settings.load()
     Application.launch(InsightApp::class.java, *args)
+    Settings.saveOnShutdown()
 
-    Runtime.getRuntime().addShutdownHook(Thread {
-//        mapper.writeValue(File(settingsFileName), Settings)
-        mapper.writerWithDefaultPrettyPrinter().writeValue(File(settingsFileName), Settings)
-    })
+
+//    val cronTrigger = TriggerBuilder.newTrigger()
+//            .withIdentity("dummyCronTrigger", "group1")
+//            .withSchedule(CronScheduleBuilder.cronSchedule("0/5 * * * * ?"))
+//            .build()
+
 }
 
 fun _main(args: Array<String>) = runBlocking {

@@ -33,6 +33,7 @@ class NewsView : View() {
     val baseUrl = "http://finance.yahoo.com"
     val ipoUrl = "$baseUrl/news/category-ipos/?bypass=true"
     val companyUrl = "$baseUrl/rss/headline?s="
+    val upgradesUrl = "$baseUrl/news/category-upgrades-and-downgrades/?bypass=true"
 
     override fun onDock() {
     }
