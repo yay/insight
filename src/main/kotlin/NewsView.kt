@@ -16,8 +16,6 @@ import java.awt.Desktop
 import java.net.URI
 
 
-class NewsItem(val headline: String, val url: String, val cite: String = "")
-
 class NewsView : View() {
 
     var symbol = SimpleStringProperty("AAPL")
@@ -92,8 +90,8 @@ class NewsView : View() {
                                                 }
                                                 val newsItem = NewsItem(
                                                         headline = a.text(),
-                                                        url = href,
-                                                        cite = cite
+                                                        url = href
+//                                                        cite = cite
                                                 )
                                                 list.add(newsItem)
                                             }
@@ -139,8 +137,8 @@ class NewsView : View() {
                                                     val pubDate = item.select("pubDate")
                                                     val newsItem = NewsItem(
                                                             headline = title.text(),
-                                                            url = link.text(),
-                                                            cite = pubDate.text()
+                                                            url = link.text()
+//                                                            cite = pubDate.text()
                                                     )
                                                     list.add(newsItem)
                                                 }

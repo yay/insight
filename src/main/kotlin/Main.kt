@@ -24,10 +24,12 @@ class InsightApp : App(SymbolTableView::class) {
 }
 
 fun main(args: Array<String>) {
-    Settings.load()
-    Settings.saveOnShutdown()
+//    Settings.load()
+//    Settings.saveOnShutdown()
 
-    Application.launch(InsightApp::class.java, *args)
+    YahooCompanyNews("AVGO").fetch().print()
+
+//    Application.launch(InsightApp::class.java, *args)
 }
 
 
