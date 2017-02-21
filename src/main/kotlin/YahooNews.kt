@@ -40,7 +40,7 @@ abstract class News {
     }
 
     fun print() {
-        mapper.writerWithDefaultPrettyPrinter().writeValue(System.out, items)
+        print(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(items))
     }
 
     abstract fun read(doc: Document)

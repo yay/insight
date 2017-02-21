@@ -28,6 +28,8 @@ fun main(args: Array<String>) {
 //    Settings.saveOnShutdown()
 
     YahooCompanyNews("AVGO").fetch().print()
+    YahooCompanyNews("NVDA").fetch().print()
+    YahooCompanyNews("MSFT").fetch().print()
 
 //    Application.launch(InsightApp::class.java, *args)
 }
