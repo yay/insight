@@ -4,6 +4,7 @@ import okhttp3.Request
 import okhttp3.Response
 import org.codehaus.jackson.JsonNode
 import org.codehaus.jackson.map.ObjectMapper
+import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 
 // Java 9:
@@ -45,13 +46,21 @@ class YahooSummary(val symbol: String) {
             "formatted" to "true",
             "corsDomain" to "finance.yahoo.com"
     )
-
     private val urlBuilder = HttpUrl.parse(baseUrl).newBuilder()
-    private val client = OkHttpClient()
+
+    val connectTimeout: Long = 10
+    val readTimeout: Long = 30
+
+    private val client by lazy {
+        OkHttpClient.Builder()
+                .connectTimeout(connectTimeout, TimeUnit.SECONDS)
+                .readTimeout(readTimeout, TimeUnit.SECONDS)
+                .build()
+    }
     private lateinit var request: Request
     private lateinit var response: Response
 
-    private var data: String? = null
+    private var data: String = ""
     private var tree: JsonNode? = null
     private val mapper by lazy { ObjectMapper() }
     private val log by lazy { Logger.getLogger(this::class.java.name) }
@@ -87,7 +96,7 @@ class YahooSummary(val symbol: String) {
     }
 
     fun parse(): YahooSummary {
-        if (data == null) {
+        if (data.isBlank()) {
             throw Exception("No data to parse.")
         }
 
@@ -98,10 +107,15 @@ class YahooSummary(val symbol: String) {
 
     fun tree(): JsonNode? { return tree }
 
-    fun data(): String? { return data }
+    fun data(): String { return data }
 
     fun prettyData(): String {
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this.tree())
+    }
+
+    fun print(): YahooSummary {
+        print(prettyData())
+        return this
     }
 
     fun call(f: YahooSummary.() -> Unit): YahooSummary {

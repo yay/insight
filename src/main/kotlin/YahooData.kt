@@ -7,11 +7,19 @@ import org.apache.commons.csv.CSVRecord
 import java.io.StringReader
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 
 enum class DataFrequency {
     DAY, WEEK, MONTH
 }
+
+// In Kotlin, unlike Java or C#, classes do not have static methods.
+// In most cases, it's recommended to simply use package-level functions instead.
+// Or a companion object. Note that, even though the members of companion objects
+// look like static members in other languages, at runtime those are still instance
+// members of real objects.
+val YahooDataHeader: Array<String> = arrayOf("Date", "Open", "High", "Low", "Close", "Volume", "Adj Close")
 
 class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency.DAY) {
 
@@ -29,20 +37,23 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
 
     private val baseUrl: String = "http://chart.finance.yahoo.com/table.csv"
     private val urlBuilder = HttpUrl.parse(baseUrl).newBuilder()
-    private val client = OkHttpClient()
-    private lateinit var request: Request // TODO: timeout
-    private lateinit var response: Response // TODO: async
+
+    val connectTimeout: Long = 10
+    val readTimeout: Long = 30
+
+    private val client by lazy {
+        OkHttpClient.Builder()
+                .connectTimeout(connectTimeout, TimeUnit.SECONDS)
+                .readTimeout(readTimeout, TimeUnit.SECONDS)
+                .build()
+    }
+
+    private lateinit var request: Request
+    private lateinit var response: Response
 
     private var data: String = ""
     private lateinit var records: Iterable<CSVRecord>
     private val log by lazy { Logger.getLogger(this::class.java.name) }
-
-    // In Kotlin, unlike Java or C#, classes do not have static methods.
-    // In most cases, it's recommended to simply use package-level functions instead.
-    // Or a companion object.
-    companion object {
-        val header: Array<String> = arrayOf("Date", "Open", "High", "Low", "Close", "Volume", "Adj Close")
-    }
 
     private val symbolParam = "s"
 
@@ -115,9 +126,14 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
     }
 
     fun parse(): YahooData {
-//        CSVFormat.DEFAULT.withHeader(*header).parse(StringReader(data))
+//        CSVFormat.DEFAULT.withHeader(*YahooDataHeader).parse(StringReader(data))
         records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(StringReader(data))
 
+        return this
+    }
+
+    fun print(): YahooData {
+        println(data)
         return this
     }
 
@@ -126,6 +142,7 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
     fun records(): Iterable<CSVRecord> { return records }
 
     fun list(): List<StockSymbol> {
+        val header = YahooDataHeader
         val dateFormat = SimpleDateFormat("yyyy-MM-dd")
 
         return records.map { it -> StockSymbol(
