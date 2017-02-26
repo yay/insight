@@ -1,6 +1,5 @@
 package main
 
-import javafx.application.Application
 import style.Styles
 import tornadofx.App
 import tornadofx.importStylesheet
@@ -16,9 +15,12 @@ class InsightApp : App(SymbolTableView::class) {
 }
 
 fun main(args: Array<String>) {
-    Settings.load()
-    Settings.saveOnShutdown()
-    Application.launch(InsightApp::class.java, *args)
+//    Settings.load()
+//    Settings.saveOnShutdown()
+//    Application.launch(InsightApp::class.java, *args)
+
+
+    USCompanies.fetchSummary()
 
 //    main.YahooCompanyNews("AVGO").fetch().print()
 //    main.YahooCompanyNews("NVDA").fetch().print()

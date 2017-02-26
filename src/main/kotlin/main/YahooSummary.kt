@@ -99,10 +99,11 @@ class YahooSummary(val symbol: String) {
 
     fun parse(): YahooSummary {
         if (data.isBlank()) {
-            throw Exception("No data to parse.")
+//            throw Exception("No data to parse.")
+            log.warning { "No data to parse for $symbol." }
+        } else {
+            tree = mapper.readTree(data)
         }
-
-        tree = mapper.readTree(data)
 
         return this
     }

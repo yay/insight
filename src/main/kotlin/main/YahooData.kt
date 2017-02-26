@@ -142,6 +142,8 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
             data = response.body().string()
         }
 
+        response.close()
+
         return this
     }
 
