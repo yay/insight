@@ -1,3 +1,5 @@
+package main
+
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -28,7 +30,7 @@ object YahooDataColumns {
 // Or a companion object. Note that, even though the members of companion objects
 // look like static members in other languages, at runtime those are still instance
 // members of real objects.
-//val YahooDataHeader: Array<String> = arrayOf("Date", "Open", "High", "Low", "Close", "Volume", "Adj Close")
+//val main.getYahooDataHeader: Array<String> = arrayOf("Date", "Open", "High", "Low", "Close", "Volume", "Adj Close")
 val YahooDataHeader: Array<String> = arrayOf(
         YahooDataColumns.time,
         YahooDataColumns.open,
@@ -144,7 +146,7 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
     }
 
     fun parse(): YahooData {
-//        CSVFormat.DEFAULT.withHeader(*YahooDataHeader).parse(StringReader(data))
+//        CSVFormat.DEFAULT.withHeader(*main.getYahooDataHeader).parse(StringReader(data))
         records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(StringReader(data))
 
         return this

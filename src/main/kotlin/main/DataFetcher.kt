@@ -1,3 +1,5 @@
+package main
+
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.async
 import org.codehaus.jackson.map.ObjectMapper

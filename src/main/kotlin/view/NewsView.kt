@@ -1,3 +1,5 @@
+package view
+
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
 import javafx.event.EventHandler
@@ -10,6 +12,7 @@ import javafx.scene.control.TabPane
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
 import javafx.scene.text.Font
+import main.NewsItem
 import org.jsoup.Jsoup
 import tornadofx.*
 import java.awt.Desktop
@@ -61,7 +64,7 @@ class NewsView : View() {
                 tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
                 vgrow = Priority.ALWAYS
 
-                tab("News") {
+                tab("main.News") {
                     vbox {
                         hbox {
                             spacing = 10.0

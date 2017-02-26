@@ -1,3 +1,5 @@
+package main
+
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.jsoup.Connection
 import org.jsoup.Jsoup
@@ -33,7 +35,7 @@ abstract class News {
         if (code == 200) {
             read(doc)
         } else {
-            log.warning { "News request status code: $code\nURL: $url" }
+            log.warning { "main.News request status code: $code\nURL: $url" }
         }
 
         return this

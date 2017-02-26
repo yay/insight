@@ -1,3 +1,5 @@
+package main
+
 import tornadofx.getProperty
 import tornadofx.property
 import java.util.*

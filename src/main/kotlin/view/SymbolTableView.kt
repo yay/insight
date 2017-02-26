@@ -1,3 +1,5 @@
+package view
+
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
 import javafx.event.EventHandler
@@ -8,6 +10,10 @@ import javafx.scene.control.TableView
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
 import javafx.scene.text.Font
+import main.DataFrequency
+import main.StockSymbol
+import main.YahooData
+import main.YahooSummary
 import tornadofx.*
 import java.time.LocalDate
 
@@ -118,7 +124,7 @@ class SymbolTableView : View("Stock Data") {
                     }
                 }
 
-                button("News") {
+                button("main.News") {
                     setOnAction {
                         replaceWith(NewsView::class)
                     }
@@ -139,7 +145,7 @@ class SymbolTableView : View("Stock Data") {
                 button("Data Fetcher") {
                     setOnAction {
                         replaceWith(DataFetcherView::class)
-//                        var hs = HostServices(insight.InsightApp::class.objectInstance)
+//                        var hs = HostServices(insight.main.InsightApp::class.objectInstance)
 //                        getHostServices().showDocument("http://www.yahoo.com");
                     }
                 }

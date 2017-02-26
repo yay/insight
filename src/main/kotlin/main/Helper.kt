@@ -1,7 +1,9 @@
+package main
+
 import java.text.DecimalFormat
 
 fun Long.toReadableNumber(): String {
-    // E.g. 10_550_000_000.toReadableNumber()  // 10.6B
+    // E.g. 10_550_000_000.main.toReadableNumber()  // 10.6B
     if (this <= 0) return "0"
     val units = arrayOf("", "K", "M", "B", "T")
     val digitGroups = (Math.log10(this.toDouble()) / Math.log10(1000.0)).toInt()

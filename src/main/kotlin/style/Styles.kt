@@ -1,3 +1,5 @@
+package style
+
 import tornadofx.Stylesheet
 import tornadofx.cssclass
 

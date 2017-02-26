@@ -1,9 +1,15 @@
+package controller
+
 import javafx.scene.Node
 import javafx.scene.control.ComboBox
 import javafx.scene.control.DatePicker
+import main.DataFrequency
+import main.YahooData
+import main.YahooSummary
 import org.codehaus.jackson.map.ObjectMapper
 import tornadofx.Controller
 import tornadofx.observable
+import view.SymbolTableView
 
 class SymbolTableController : Controller() {
 

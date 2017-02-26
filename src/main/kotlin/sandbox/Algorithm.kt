@@ -1,3 +1,5 @@
+package sandbox
+
 import javafx.geometry.Point2D
 
 fun Point2D.lineDistance(p1: Point2D, p2: Point2D): Double {

@@ -1,6 +1,9 @@
+package view
+
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.layout.Priority
+import main.AppSettings
 import tornadofx.*
 import java.io.*
 import java.time.LocalDate
