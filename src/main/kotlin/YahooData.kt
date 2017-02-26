@@ -14,12 +14,30 @@ enum class DataFrequency {
     DAY, WEEK, MONTH
 }
 
+object YahooDataColumns {
+    val time     = "Date"
+    val open     = "Open"
+    val high     = "High"
+    val low      = "Low"
+    val close    = "Close"
+    val adjClose = "Adj Close"
+    val volume   = "Volume"
+}
 // In Kotlin, unlike Java or C#, classes do not have static methods.
 // In most cases, it's recommended to simply use package-level functions instead.
 // Or a companion object. Note that, even though the members of companion objects
 // look like static members in other languages, at runtime those are still instance
 // members of real objects.
-val YahooDataHeader: Array<String> = arrayOf("Date", "Open", "High", "Low", "Close", "Volume", "Adj Close")
+//val YahooDataHeader: Array<String> = arrayOf("Date", "Open", "High", "Low", "Close", "Volume", "Adj Close")
+val YahooDataHeader: Array<String> = arrayOf(
+        YahooDataColumns.time,
+        YahooDataColumns.open,
+        YahooDataColumns.high,
+        YahooDataColumns.low,
+        YahooDataColumns.close,
+        YahooDataColumns.volume,
+        YahooDataColumns.adjClose
+)
 
 class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency.DAY) {
 
@@ -140,6 +158,20 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
     fun data(): String { return data }
 
     fun records(): Iterable<CSVRecord> { return records }
+
+    fun ohlc(): List<OHLC> {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+
+        return records.map { it -> OHLC(
+                dateFormat.parse(it.get(YahooDataColumns.time)).toInstant().toEpochMilli(),
+                it.get(YahooDataColumns.open).toDouble(),
+                it.get(YahooDataColumns.high).toDouble(),
+                it.get(YahooDataColumns.low).toDouble(),
+                it.get(YahooDataColumns.close).toDouble(),
+                it.get(YahooDataColumns.adjClose).toDouble(),
+                it.get(YahooDataColumns.volume).toLong()
+        ) }
+    }
 
     fun list(): List<StockSymbol> {
         val header = YahooDataHeader
