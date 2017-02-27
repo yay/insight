@@ -90,7 +90,7 @@ object USCompanies {
             for ((symbol) in companies) {
                 val file = File("${AppSettings.paths.summary}/$date/$exchange/$symbol.json")
                 file.parentFile.mkdirs()
-                val data = YahooSummary(symbol)
+                val data = YahooSummary(symbol, MainHttpClient.client)
                         .execute()
                         .parse()
                         .prettyData()

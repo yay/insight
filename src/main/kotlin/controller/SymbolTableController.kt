@@ -4,6 +4,7 @@ import javafx.scene.Node
 import javafx.scene.control.ComboBox
 import javafx.scene.control.DatePicker
 import main.DataFrequency
+import main.MainHttpClient
 import main.YahooData
 import main.YahooSummary
 import org.codehaus.jackson.map.ObjectMapper
@@ -32,7 +33,7 @@ class SymbolTableController : Controller() {
     }
 
     fun fetchSummary(node: Node, symbol: String) {
-        val request = YahooSummary(symbol).execute().parse()
+        val request = YahooSummary(symbol, MainHttpClient.client).execute().parse()
         val tree = request.tree()
         val mapper = ObjectMapper()
         val pretty = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(tree)

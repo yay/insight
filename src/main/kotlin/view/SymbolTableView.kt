@@ -10,10 +10,7 @@ import javafx.scene.control.TableView
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
 import javafx.scene.text.Font
-import main.DataFrequency
-import main.StockSymbol
-import main.YahooData
-import main.YahooSummary
+import main.*
 import tornadofx.*
 import java.time.LocalDate
 
@@ -60,7 +57,7 @@ class SymbolTableView : View("Stock Data") {
 
                             val frequency = DataFrequency.valueOf(period.value.toUpperCase())
                             val dataRequest = YahooData(symbol.value, frequency)
-                            var summaryRequest = YahooSummary(symbol.value)
+                            var summaryRequest = YahooSummary(symbol.value, MainHttpClient.client)
 
                             runAsyncWithProgress {
 

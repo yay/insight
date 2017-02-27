@@ -17,7 +17,7 @@ import java.util.logging.Logger
 // JSON API - currently use Jackson for JSON and XML (works very well)
 
 
-class YahooSummary(val symbol: String) {
+class YahooSummary(val symbol: String, val client: OkHttpClient) {
 
     /*
 
@@ -50,15 +50,15 @@ class YahooSummary(val symbol: String) {
     )
     private val urlBuilder = HttpUrl.parse(baseUrl).newBuilder()
 
-    val connectTimeout: Long = 10
-    val readTimeout: Long = 30
-
-    private val client by lazy {
-        OkHttpClient.Builder()
-                .connectTimeout(connectTimeout, TimeUnit.SECONDS)
-                .readTimeout(readTimeout, TimeUnit.SECONDS)
-                .build()
-    }
+//    val connectTimeout: Long = 10
+//    val readTimeout: Long = 30
+//
+//    private val client by lazy {
+//        OkHttpClient.Builder()
+//                .connectTimeout(connectTimeout, TimeUnit.SECONDS)
+//                .readTimeout(readTimeout, TimeUnit.SECONDS)
+//                .build()
+//    }
 
     private var data: String = ""
     private var tree: JsonNode? = null
