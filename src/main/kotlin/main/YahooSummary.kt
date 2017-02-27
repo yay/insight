@@ -59,8 +59,6 @@ class YahooSummary(val symbol: String) {
                 .readTimeout(readTimeout, TimeUnit.SECONDS)
                 .build()
     }
-    private lateinit var request: Request
-    private lateinit var response: Response
 
     private var data: String = ""
     private var tree: JsonNode? = null
@@ -77,20 +75,22 @@ class YahooSummary(val symbol: String) {
 
         log.info { "Sending summary request for $symbol:\n$url" }
 
-        request = Request.Builder().url(url).build()
-        response = client.newCall(request).execute()
+        val request = Request.Builder().url(url).build()
+        val response = client.newCall(request).execute()
 
-        val code = response.code()
-        val body = response.body().string()
+        response.use {
+            val code = it.code()
+            val body = it.body().string()
 
-        if (code == 200) {
-            data = body
-        } else {
-            val tree = mapper.readTree(body)
-            val error = tree.get("quoteSummary")?.get("error")
+            if (code == 200) {
+                data = body
+            } else {
+                val tree = mapper.readTree(body)
+                val error = tree.get("quoteSummary")?.get("error")
 
-            if (error != null) {
-                log.warning { "Request error: ${error["code"]}\n${error["description"]}" }
+                if (error != null) {
+                    log.warning { "Request error: ${error["code"]}\n${error["description"]}" }
+                }
             }
         }
 

@@ -20,6 +20,7 @@ fun main(args: Array<String>) {
 //    Application.launch(InsightApp::class.java, *args)
 
 
+//    USCompanies.fetchData()
     USCompanies.fetchSummary()
 
 //    main.YahooCompanyNews("AVGO").fetch().print()

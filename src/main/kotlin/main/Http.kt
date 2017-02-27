@@ -4,7 +4,7 @@ import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
-fun HttpGet(url: String, params: Map<String, String>): String? {
+fun httpGet(url: String, params: Map<String, String>): String? {
     var data: String? = null
 
     val urlBuilder = HttpUrl.parse(url).newBuilder()
@@ -22,6 +22,8 @@ fun HttpGet(url: String, params: Map<String, String>): String? {
     if (code == 200) {
         data = response.body().string()
     }
+
+    response.close()
 
     return data
 }

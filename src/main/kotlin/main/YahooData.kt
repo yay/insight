@@ -68,9 +68,6 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
                 .build()
     }
 
-    private lateinit var request: Request
-    private lateinit var response: Response
-
     private var data: String = ""
     private lateinit var records: Iterable<CSVRecord>
     private val log by lazy { Logger.getLogger(this::class.java.name) }
@@ -135,14 +132,14 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
 
         log.info { "Sending historical data request for $symbol:\n$url" }
 
-        request = Request.Builder().url(url).build()
-        response = client.newCall(request).execute()
+        val request = Request.Builder().url(url).build()
+        val response = client.newCall(request).execute()
 
-        if (response.code() == 200) {
-            data = response.body().string()
+        response.use {
+            if (it.code() == 200) {
+                data = it.body().string()
+            }
         }
-
-        response.close()
 
         return this
     }

@@ -130,6 +130,12 @@
             <version>2.2.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+
         <!--<dependency>-->
             <!--&lt;!&ndash; https://github.com/mdeverdelhan/ta4j &ndash;&gt;-->
             <!--&lt;!&ndash; Technical Analysis For Java &ndash;&gt;-->

@@ -39,7 +39,7 @@ object USCompanies {
                 "exchange" to exchange
         )
         if (exchange in exchanges) {
-            val data = HttpGet(baseUrl, params)
+            val data = httpGet(baseUrl, params)
 
             if (data != null) {
                 val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(StringReader(data))
