@@ -1,8 +1,6 @@
 package main
 
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.experimental.*
 import style.Styles
 import tornadofx.App
 import tornadofx.importStylesheet
@@ -31,10 +29,19 @@ fun main(args: Array<String>) {
 //    }
 //    println("Synchronous version completed in $syncTime ms.")
 
-    val asyncTime = measureTimeMillis {
-        USCompanies.asyncFetchSummary()
-    }
-    println("Asynchronous version completed in $asyncTime ms.")
+
+
+
+
+//    val asyncTime = measureTimeMillis {
+//        USCompanies.asyncFetchSummary()
+//    }
+//    println("Asynchronous version completed in $asyncTime ms.")
+
+
+
+
+
 
 //    main.YahooCompanyNews("AVGO").fetch().print()
 //    main.YahooCompanyNews("NVDA").fetch().print()

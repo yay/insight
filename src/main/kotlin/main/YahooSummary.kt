@@ -1,5 +1,6 @@
 package main
 
+import kotlinx.coroutines.experimental.delay
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -7,6 +8,7 @@ import okhttp3.Response
 import org.codehaus.jackson.JsonNode
 import org.codehaus.jackson.JsonProcessingException
 import org.codehaus.jackson.map.ObjectMapper
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 
@@ -79,21 +81,24 @@ class YahooSummary(val symbol: String, val client: OkHttpClient) {
         val request = Request.Builder().url(url).build()
         val response = client.newCall(request).execute()
 
-        response.use {
-            val code = it.code()
-            val body = it.body().string()
-
-            if (code == 200) {
-                data = body
-            } else {
-                val tree = mapper.readTree(body)
-                val error = tree.get("quoteSummary")?.get("error")
-
-                if (error != null) {
-                    log.warning { "Request error: ${error["code"]}\n${error["description"]}" }
-                }
-            }
+        if (response.isSuccessful) {
+//            try {
+                data = response.body().string()
+//            } catch (e: IOException) {
+//            }
+        } else {
+//                throw IOException("Unexpected code: " + response)
+            log.warning { "Unexpected code: " + response }
         }
+        response.close()
+
+//        response.use {
+//            if (it.isSuccessful) {
+//                data = it.body().string()
+//            } else {
+//                log.warning { "Unexpected code: " + response }
+//            }
+//        }
 
         return this
     }

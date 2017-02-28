@@ -1,9 +1,6 @@
 package main
 
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.experimental.*
 import org.apache.commons.csv.CSVFormat
 import java.io.File
 import java.io.StringReader
@@ -106,25 +103,29 @@ object USCompanies {
 
     fun asyncFetchSummary() = runBlocking {
         val date: String = LocalDate.now().toString()
+        var jobs = arrayListOf<Deferred<Unit>>()
 
         for (exchange in exchanges) {
             val companies = getCompanies(exchange)
 
             if (companies != null) {
                 for ((symbol) in companies) {
-                    val job = async(CommonPool) {
-                        val file = File("${AppSettings.paths.summary}/$date/$exchange/$symbol.json")
-                        file.parentFile.mkdirs()
-                        val data = YahooSummary(symbol, HttpClients.main)
+                    println(exchange + " " + symbol)
+                    var job = async(CommonPool) {
+                        var data = YahooSummary(symbol, HttpClients.main)
                                 .execute()
                                 .parse()
                                 .prettyData()
 
+                        val file = File("${AppSettings.paths.summary}/$date/$exchange/$symbol.json")
+                        file.parentFile.mkdirs()
                         file.writeText(data)
                     }
-                    job.await()
+                    jobs.add(job)
                 }
             }
         }
+
+        jobs.forEach { it.await() }
     }
 }
