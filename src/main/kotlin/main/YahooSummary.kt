@@ -5,6 +5,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import org.codehaus.jackson.JsonNode
+import org.codehaus.jackson.JsonProcessingException
 import org.codehaus.jackson.map.ObjectMapper
 import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
@@ -102,7 +103,11 @@ class YahooSummary(val symbol: String, val client: OkHttpClient) {
 //            throw Exception("No data to parse.")
             log.warning { "No data to parse for $symbol." }
         } else {
-            tree = mapper.readTree(data)
+            try {
+                tree = mapper.readTree(data)
+            } catch (e: JsonProcessingException) {
+                log.info { data }
+            }
         }
 
         return this

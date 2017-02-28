@@ -1,5 +1,9 @@
 package main
 
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.runBlocking
 import org.apache.commons.csv.CSVFormat
 import java.io.File
 import java.io.StringReader
@@ -90,12 +94,36 @@ object USCompanies {
             for ((symbol) in companies) {
                 val file = File("${AppSettings.paths.summary}/$date/$exchange/$symbol.json")
                 file.parentFile.mkdirs()
-                val data = YahooSummary(symbol, MainHttpClient.client)
+                val data = YahooSummary(symbol, HttpClients.main)
                         .execute()
                         .parse()
                         .prettyData()
 
                 file.writeText(data)
+            }
+        }
+    }
+
+    fun asyncFetchSummary() = runBlocking {
+        val date: String = LocalDate.now().toString()
+
+        for (exchange in exchanges) {
+            val companies = getCompanies(exchange)
+
+            if (companies != null) {
+                for ((symbol) in companies) {
+                    val job = async(CommonPool) {
+                        val file = File("${AppSettings.paths.summary}/$date/$exchange/$symbol.json")
+                        file.parentFile.mkdirs()
+                        val data = YahooSummary(symbol, HttpClients.main)
+                                .execute()
+                                .parse()
+                                .prettyData()
+
+                        file.writeText(data)
+                    }
+                    job.await()
+                }
             }
         }
     }

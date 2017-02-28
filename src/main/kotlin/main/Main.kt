@@ -1,9 +1,13 @@
 package main
 
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.runBlocking
 import style.Styles
 import tornadofx.App
 import tornadofx.importStylesheet
 import view.SymbolTableView
+import kotlin.system.measureTimeMillis
 
 
 class InsightApp : App(SymbolTableView::class) {
@@ -21,7 +25,16 @@ fun main(args: Array<String>) {
 
 
 //    USCompanies.fetchData()
-    USCompanies.fetchSummary()
+
+//    val syncTime = measureTimeMillis {
+//        USCompanies.fetchSummary()
+//    }
+//    println("Synchronous version completed in $syncTime ms.")
+
+    val asyncTime = measureTimeMillis {
+        USCompanies.asyncFetchSummary()
+    }
+    println("Asynchronous version completed in $asyncTime ms.")
 
 //    main.YahooCompanyNews("AVGO").fetch().print()
 //    main.YahooCompanyNews("NVDA").fetch().print()

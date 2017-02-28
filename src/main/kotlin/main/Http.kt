@@ -5,12 +5,10 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.util.concurrent.TimeUnit
 
-object MainHttpClient {
-    val connectTimeout: Long = 10
-    val readTimeout: Long = 30
-    val client = OkHttpClient.Builder()
-            .connectTimeout(connectTimeout, TimeUnit.SECONDS)
-            .readTimeout(readTimeout, TimeUnit.SECONDS)
+object HttpClients {
+    val main = OkHttpClient.Builder()
+            .connectTimeout(10L, TimeUnit.SECONDS)
+            .readTimeout(30L, TimeUnit.SECONDS)
             .build()
 }
 

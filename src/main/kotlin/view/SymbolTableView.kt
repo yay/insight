@@ -57,7 +57,7 @@ class SymbolTableView : View("Stock Data") {
 
                             val frequency = DataFrequency.valueOf(period.value.toUpperCase())
                             val dataRequest = YahooData(symbol.value, frequency)
-                            var summaryRequest = YahooSummary(symbol.value, MainHttpClient.client)
+                            var summaryRequest = YahooSummary(symbol.value, HttpClients.main)
 
                             runAsyncWithProgress {
 
