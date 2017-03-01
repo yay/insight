@@ -98,7 +98,7 @@ class YahooSummary(val symbol: String, val client: OkHttpClient = HttpClients.ma
                 }
             } else {
 //                throw IOException( "Unexpected code: " + it )
-                log.warning { "Unexpected code: " + it }
+                log.warning { "$symbol request. Unexpected code: " + it }
             }
         }
 
@@ -107,13 +107,12 @@ class YahooSummary(val symbol: String, val client: OkHttpClient = HttpClients.ma
 
     fun parse(): YahooSummary {
         if (data.isBlank()) {
-//            throw Exception("No data to parse.")
             log.warning { "No data to parse for $symbol." }
         } else {
             try {
                 tree = mapper.readTree(data)
             } catch (e: JsonProcessingException) {
-                log.info { data }
+                log.info { "Parsing exception: $e\n$data" }
             }
         }
 

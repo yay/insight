@@ -1,5 +1,9 @@
 package main
 
+// https://github.com/Kotlin/kotlinx.coroutines/blob/master/coroutines-guide.md
+// https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md
+// https://github.com/Kotlin/kotlinx.coroutines
+
 import kotlinx.coroutines.experimental.*
 import style.Styles
 import tornadofx.App
@@ -34,15 +38,15 @@ fun main(args: Array<String>) {
 
 
 
-//    val asyncTime = measureTimeMillis {
-//        USCompanies.asyncFetchSummary()
-//    }
-//    println("Asynchronous version completed in $asyncTime ms.")
-
-    val asyncNewsTime = measureTimeMillis {
-        USCompanies.asyncFetchNews()
+    val asyncTime = measureTimeMillis {
+        USCompanies.asyncFetchSummary()
     }
-    println("Asynchronous version completed in $asyncNewsTime ms.")
+    println("Asynchronous version completed in $asyncTime ms.")
+
+//    val asyncNewsTime = measureTimeMillis {
+//        USCompanies.asyncFetchNews()
+//    }
+//    println("Asynchronous version completed in $asyncNewsTime ms.")
 
 
 //    YahooCompanyNews("AVGO").fetch().print()
