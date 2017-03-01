@@ -1,52 +1,58 @@
 package main
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import java.io.File
-import java.time.LocalDate
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.logging.Logger
 
-class NewsItem(val headline: String, val url: String) {
-    var date: LocalDate = LocalDate.now()
-    var content: String = ""
-    var cite: String = ""
-}
+class NewsItem(
+        val headline: String,
+        val url: String,
+        val date: Date = Date()
+//        val story: String = ""
+)
 
 abstract class News {
     val items = mutableListOf<NewsItem>()
 
-    val timeout: Int = 10000
+    val timeout: Int = 30000
     val log: Logger by lazy { Logger.getLogger(this::class.java.name) }
 
     abstract val baseUrl: String
     abstract var url: String
 
-    protected lateinit var connection: Connection
     protected val mapper by lazy { jacksonObjectMapper() }
 
     fun fetch(): News {
-        connection = Jsoup.connect(url).timeout(timeout)
+        val connection = Jsoup.connect(url).timeout(timeout)
 //        connection.followRedirects(false)
-        val doc = connection.get()
-        val code = connection.response().statusCode()
-
-        if (code == 200) {
+        try {
+            val doc = connection.get()
+//            val code = connection.response().statusCode()
             read(doc)
-        } else {
-            log.warning { "main.News request status code: $code\nURL: $url" }
+        } catch (e: IOException) {
+            log.warning { "News request failed: $e\nURL: $url" }
         }
 
         return this
     }
 
+    fun json() = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(items)
+
     fun print() {
-        print(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(items))
+        print(json())
     }
 
     abstract fun read(doc: Document)
 }
+
+// RSS 2.0
+var rssPubDateParser = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z")
+// Atom (ISO 8601)
+var atomDateParser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz")
 
 abstract class YahooNews : News() {
     override val baseUrl = "http://finance.yahoo.com"
@@ -60,7 +66,7 @@ class YahooIpoNews : YahooNews() {
 
         for (listItem in listItems) {
             val a = listItem.select("a")
-            val cite = a.next().text()
+//            val cite = a.next().text()
             var href = a.attr("href")
             // If news item comes from Yahoo Finance itself, the base url
             // will be missing.
@@ -88,8 +94,9 @@ class YahooCompanyNews(symbol: String) : YahooNews() {
             val newsItem = NewsItem(
                     headline = title.text(),
                     url = link.text()
+//                    date = rssPubDateParser.parse(pubDate.text())
+//                    date = LocalDateTime.ofInstant(rssPubDateParser.parse(pubDate.text()).toInstant(), ZoneId.systemDefault())
             )
-            newsItem.cite = pubDate.text()
             items.add(newsItem)
         }
     }

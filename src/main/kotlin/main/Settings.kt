@@ -44,6 +44,6 @@ object AppSettings {
         var storage = "../insight_storage"
         var data = "$storage/stock_data"
         var summary = "$storage/stock_summary"
-        var news = "$storage/stockNews"
+        var news = "$storage/stock_news"
     }
 }

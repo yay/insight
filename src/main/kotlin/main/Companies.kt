@@ -96,7 +96,7 @@ object USCompanies {
             for ((symbol) in companies) {
                 val file = File("${AppSettings.paths.summary}/$date/$exchange/$symbol.json")
                 file.parentFile.mkdirs()
-                val data = YahooSummary(symbol, HttpClients.main)
+                val data = YahooSummary(symbol)
                         .execute()
                         .parse()
                         .prettyData()
@@ -115,7 +115,7 @@ object USCompanies {
 
             companies?.map { (symbol) ->
                 async(CommonPool) {
-                    val data = YahooSummary(symbol, HttpClients.main)
+                    val data = YahooSummary(symbol)
                             .execute()
                             .parse()
                             .prettyData()
@@ -129,4 +129,28 @@ object USCompanies {
 
         jobs.forEach { it.await() }
     }
+
+    fun asyncFetchNews() = runBlocking {
+        val date: String = LocalDate.now().toString()
+        val jobs = arrayListOf<Deferred<Unit>>()
+
+        for (exchange in exchanges) {
+            val companies = getCompanies(exchange)
+
+            companies?.map { (symbol) ->
+                async(CommonPool) {
+                    val data = YahooCompanyNews(symbol)
+                            .fetch()
+                            .json()
+
+                    val file = File("${AppSettings.paths.news}/$date/$exchange/$symbol.json")
+                    file.parentFile.mkdirs()
+                    file.writeText(data)
+                }
+            }?.forEach { it.await() }
+        }
+
+        jobs.forEach { it.await() }
+    }
+
 }

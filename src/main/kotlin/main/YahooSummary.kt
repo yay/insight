@@ -20,7 +20,7 @@ import java.util.logging.Logger
 // JSON API - currently use Jackson for JSON and XML (works very well)
 
 
-class YahooSummary(val symbol: String, val client: OkHttpClient) {
+class YahooSummary(val symbol: String, val client: OkHttpClient = HttpClients.main) {
 
     /*
 

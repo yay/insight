@@ -34,19 +34,25 @@ fun main(args: Array<String>) {
 
 
 
-    val asyncTime = measureTimeMillis {
-        USCompanies.asyncFetchSummary()
+//    val asyncTime = measureTimeMillis {
+//        USCompanies.asyncFetchSummary()
+//    }
+//    println("Asynchronous version completed in $asyncTime ms.")
+
+    val asyncNewsTime = measureTimeMillis {
+        USCompanies.asyncFetchNews()
     }
-    println("Asynchronous version completed in $asyncTime ms.")
+    println("Asynchronous version completed in $asyncNewsTime ms.")
+
+
+//    YahooCompanyNews("AVGO").fetch().print()
 
 
 
 
-
-
-//    main.YahooCompanyNews("AVGO").fetch().print()
-//    main.YahooCompanyNews("NVDA").fetch().print()
-//    main.YahooCompanyNews("MSFT").fetch().print()
+//    YahooCompanyNews("AVGO").fetch().print()
+//    YahooCompanyNews("NVDA").fetch().print()
+//    YahooCompanyNews("MSFT").fetch().print()
 
 //    main.YahooSummary("NVDA").execute().parse().print()
 //    val list = main.YahooData("NVDA").execute().parse().ohlc()

@@ -173,7 +173,7 @@ class NewsView : View() {
                                             Desktop.getDesktop().browse(URI(item.url));
                                         }
                                     }
-                                    label(item.cite)
+//                                    label(item.cite)
                                 }
 //                    form {
 //                        fieldset {
