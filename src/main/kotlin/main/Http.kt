@@ -3,6 +3,7 @@ package main
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 object HttpClients {
@@ -22,16 +23,28 @@ fun httpGet(url: String, params: Map<String, String>): String? {
     }
 
     val requestUrl = urlBuilder.build().toString()
-    val client = OkHttpClient()
     val request = Request.Builder().url(requestUrl).build()
-    val response = client.newCall(request).execute()
-    val code = response.code()
+    val response = HttpClients.main.newCall(request).execute()
 
-    if (code == 200) {
-        data = response.body().string()
+//    val code = response.code()
+//
+//    if (code == 200) {
+//        data = response.body().string()
+//    }
+//
+//    response.close()
+
+    response.use {
+        if (it.isSuccessful) {
+            try {
+                data = it.body().string()
+            } catch (e: IOException) {
+                println("111")
+            }
+        } else {
+            throw IOException( "Unexpected code: " + it )
+        }
     }
-
-    response.close()
 
     return data
 }

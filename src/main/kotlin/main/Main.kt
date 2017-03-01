@@ -27,16 +27,17 @@ fun main(args: Array<String>) {
 //    val syncTime = measureTimeMillis {
 //        USCompanies.fetchSummary()
 //    }
+//    // Synchronous version is about 7 times slower.
 //    println("Synchronous version completed in $syncTime ms.")
 
 
 
 
 
-//    val asyncTime = measureTimeMillis {
-//        USCompanies.asyncFetchSummary()
-//    }
-//    println("Asynchronous version completed in $asyncTime ms.")
+    val asyncTime = measureTimeMillis {
+        USCompanies.asyncFetchSummary()
+    }
+    println("Asynchronous version completed in $asyncTime ms.")
 
 
 

@@ -47,21 +47,10 @@ class YahooSummary(val symbol: String, val client: OkHttpClient) {
     private val moduleSeparator: String = "%2C"
 
     private val baseUrl: String = "https://query2.finance.yahoo.com/v$version/finance/quoteSummary/$symbol"
-    private val urlParams = mapOf(
-            "formatted" to "true",
-            "corsDomain" to "finance.yahoo.com"
-    )
-    private val urlBuilder = HttpUrl.parse(baseUrl).newBuilder()
-
-//    val connectTimeout: Long = 10
-//    val readTimeout: Long = 30
-//
-//    private val client by lazy {
-//        OkHttpClient.Builder()
-//                .connectTimeout(connectTimeout, TimeUnit.SECONDS)
-//                .readTimeout(readTimeout, TimeUnit.SECONDS)
-//                .build()
-//    }
+//    private val urlParams = mapOf(
+//            "formatted" to "true",
+//            "corsDomain" to "finance.yahoo.com"
+//    )
 
     private var data: String = ""
     private var tree: JsonNode? = null
@@ -72,33 +61,46 @@ class YahooSummary(val symbol: String, val client: OkHttpClient) {
 //        for ((key, value) in urlParams) {
 //            urlBuilder.addQueryParameter(key, value)
 //        }
-        urlBuilder.addEncodedQueryParameter(modulesParam, modules.joinToString(moduleSeparator))
+        val urlBuilder = HttpUrl.parse(baseUrl).newBuilder()
+                .addEncodedQueryParameter(modulesParam, modules.joinToString(moduleSeparator))
 
-        val url = urlBuilder.build().toString()
+        val url = urlBuilder.build()
 
         log.info { "Sending summary request for $symbol:\n$url" }
 
         val request = Request.Builder().url(url).build()
         val response = client.newCall(request).execute()
 
-        if (response.isSuccessful) {
-//            try {
-                data = response.body().string()
-//            } catch (e: IOException) {
-//            }
-        } else {
-//                throw IOException("Unexpected code: " + response)
-            log.warning { "Unexpected code: " + response }
-        }
-        response.close()
-
-//        response.use {
-//            if (it.isSuccessful) {
-//                data = it.body().string()
-//            } else {
-//                log.warning { "Unexpected code: " + response }
-//            }
+//        if (response.isSuccessful) {
+////            try {
+//                data = response.body().string()
+////            } catch (e: IOException) {
+////            }
+//        } else {
+////                throw IOException("Unexpected code: " + response)
+//            log.warning { "Unexpected code: " + response }
 //        }
+//        response.close()
+
+//        if (response.isSuccessful) {
+//            data = response.body().string()
+//        } else {
+//            log.warning { "Unexpected code: " + response }
+//        }
+
+        response.use {
+            if (it.isSuccessful) {
+                try {
+                    data = it.body().string()
+                } catch (e: IOException) {
+                    println("111")
+                    println("222")
+                }
+            } else {
+//                throw IOException( "Unexpected code: " + it )
+                log.warning { "Unexpected code: " + it }
+            }
+        }
 
         return this
     }
