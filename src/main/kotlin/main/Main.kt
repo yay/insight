@@ -4,7 +4,8 @@ package main
 // https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md
 // https://github.com/Kotlin/kotlinx.coroutines
 
-import kotlinx.coroutines.experimental.*
+import javafx.application.Application
+import org.skife.jdbi.v2.DBI
 import style.Styles
 import tornadofx.App
 import tornadofx.importStylesheet
@@ -21,6 +22,11 @@ class InsightApp : App(SymbolTableView::class) {
 }
 
 fun main(args: Array<String>) {
+    val db = DBI("jdbc:postgresql://localhost:5432/postgres")
+    val runner = MigrationRunner(db)
+}
+
+fun fake_main(args: Array<String>) {
 //    Settings.load()
 //    Settings.saveOnShutdown()
 //    Application.launch(InsightApp::class.java, *args)
@@ -38,10 +44,10 @@ fun main(args: Array<String>) {
 
 
 
-    val asyncTime = measureTimeMillis {
-        USCompanies.asyncFetchSummary()
-    }
-    println("Asynchronous version completed in $asyncTime ms.")
+//    val asyncTime = measureTimeMillis {
+//        USCompanies.asyncFetchSummary()
+//    }
+//    println("Asynchronous version completed in $asyncTime ms.")
 
 //    val asyncNewsTime = measureTimeMillis {
 //        USCompanies.asyncFetchNews()

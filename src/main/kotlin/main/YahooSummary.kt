@@ -1,15 +1,12 @@
 package main
 
-import kotlinx.coroutines.experimental.delay
+import com.fasterxml.jackson.core.JsonProcessingException
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.Response
-import org.codehaus.jackson.JsonNode
-import org.codehaus.jackson.JsonProcessingException
-import org.codehaus.jackson.map.ObjectMapper
 import java.io.IOException
-import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 
 // Java 9:

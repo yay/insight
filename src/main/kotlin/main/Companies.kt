@@ -4,12 +4,10 @@ import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
-import okhttp3.OkHttpClient
 import org.apache.commons.csv.CSVFormat
 import java.io.File
 import java.io.StringReader
 import java.time.LocalDate
-import java.util.concurrent.TimeUnit
 
 // http://www.nasdaq.com/screening/company-list.aspx
 
@@ -59,7 +57,6 @@ object USCompanies {
                         it.get("IPOyear")
                 ) }
 
-//                println(data)
             }
         }
 
@@ -108,7 +105,6 @@ object USCompanies {
 
     fun asyncFetchSummary() = runBlocking {
         val date: String = LocalDate.now().toString()
-        val jobs = arrayListOf<Deferred<Unit>>()
 
         for (exchange in exchanges) {
             val companies = getCompanies(exchange)
@@ -126,8 +122,6 @@ object USCompanies {
                 }
             }?.forEach { it.await() }
         }
-
-        jobs.forEach { it.await() }
     }
 
     fun asyncFetchNews() = runBlocking {

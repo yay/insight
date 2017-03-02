@@ -1,10 +1,10 @@
 package controller
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import javafx.scene.Node
 import javafx.scene.control.ComboBox
 import javafx.scene.control.DatePicker
 import main.*
-import org.codehaus.jackson.map.ObjectMapper
 import tornadofx.Controller
 import tornadofx.observable
 import view.SymbolTableView

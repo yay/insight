@@ -26,14 +26,6 @@ fun httpGet(url: String, params: Map<String, String>): String? {
     val request = Request.Builder().url(requestUrl).build()
     val response = HttpClients.main.newCall(request).execute()
 
-//    val code = response.code()
-//
-//    if (code == 200) {
-//        data = response.body().string()
-//    }
-//
-//    response.close()
-
     response.use {
         if (it.isSuccessful) {
             try {
