@@ -1,0 +1,22 @@
+Finance data delay by exchange for Yahoo Finance:
+http://finance.yahoo.com/exchanges?bypass=true
+
+IMPORTANT: quotes for NYSE, Nasdaq and AMEX are 15 min delayed on Yahoo Finance.
+
+Stock summary doesn't contain price information, but price affects certain fundamentals,
+such as P/E ratio.
+
+It's probably best to download the EOD quotes and company summaries 15 min after the market
+close: at 4:15pm EDT.
+
+Finance data delay by exchange for Google Finance:
+https://www.google.com/googlefinance/disclaimer/
+
+NYSE, Nasdaq data is real-time on Google Finance; except for trades placed outside of
+exchanges - for those volume and price data is 15 min delayed, whatever that means.
+
+Example URL: http://www.google.com/finance/info?client=ig&infotype=infoquoteall&q=AVGO
+Below also works:
+http://www.google.com/finance/info?q=AVGO
+http://www.google.com/finance/info?q=AVGO,MSFT
+This returns "commented out" JSON, so don't forget to remove the comment before parsing.

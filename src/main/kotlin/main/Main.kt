@@ -22,8 +22,13 @@ class InsightApp : App(SymbolTableView::class) {
 }
 
 fun main(args: Array<String>) {
-    val db = DBI("jdbc:postgresql://localhost:5432/postgres")
-    val runner = MigrationRunner(db)
+//    val db = DBI("jdbc:postgresql://localhost:5432/postgres")
+//    val runner = MigrationRunner(db)
+
+    val asyncTime = measureTimeMillis {
+        USCompanies.asyncFetchSummary()
+    }
+    println("Asynchronous version completed in $asyncTime ms.")
 }
 
 fun fake_main(args: Array<String>) {
