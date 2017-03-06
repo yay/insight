@@ -87,12 +87,7 @@ class YahooSummary(val symbol: String, val client: OkHttpClient = HttpClients.ma
 
         response.use {
             if (it.isSuccessful) {
-                try {
-                    data = it.body().string()
-                } catch (e: IOException) {
-                    println("111")
-                    println("222")
-                }
+                data = it.body().string()
             } else {
 //                throw IOException( "Unexpected code: " + it )
                 log.warning { "$symbol request. Unexpected code: " + it }
