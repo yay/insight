@@ -5,6 +5,9 @@ package main
 // https://github.com/Kotlin/kotlinx.coroutines
 
 import javafx.application.Application
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.runBlocking
 import org.skife.jdbi.v2.DBI
 import style.Styles
 import tornadofx.App
@@ -21,18 +24,34 @@ class InsightApp : App(SymbolTableView::class) {
 
 }
 
-fun main(args: Array<String>) {
+fun main(args: Array<String>) = runBlocking {
 //    val db = DBI("jdbc:postgresql://localhost:5432/postgres")
 //    val runner = MigrationRunner(db)
 
-    val asyncTime = measureTimeMillis {
-        USCompanies.asyncFetchSummary()
+//    println(IntradayData("AAPL").execute().data())
+
+    async(CommonPool) {
+        var map = mutableMapOf<String, MutableMap<String, String>>()
+        USCompanies.forAll { exchange, companies ->
+            val symbolNames = mutableMapOf<String, String>()
+            companies.forEach { symbolNames[it.symbol] = it.name }
+            map[exchange] = symbolNames
+        }
+        Settings.save(map, "exchanges.json")
     }
-    println("Asynchronous version completed in $asyncTime ms.")
+
+    Settings.load(AppSettings)
+    Settings.saveOnShutdown(AppSettings)
+    Application.launch(InsightApp::class.java, *args)
+
+//    val asyncTime = measureTimeMillis {
+//        USCompanies.asyncFetchSummary()
+//    }
+//    println("Asynchronous version completed in $asyncTime ms.")
 }
 
 fun fake_main(args: Array<String>) {
-//    Settings.load()
+//    Settings.load(AppSettings)
 //    Settings.saveOnShutdown()
 //    Application.launch(InsightApp::class.java, *args)
 
