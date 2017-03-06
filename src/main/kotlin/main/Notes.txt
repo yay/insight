@@ -20,3 +20,7 @@ Below also works:
 http://www.google.com/finance/info?q=AVGO
 http://www.google.com/finance/info?q=AVGO,MSFT
 This returns "commented out" JSON, so don't forget to remove the comment before parsing.
+
+
+Google's intraday prices API:
+https://www.google.com/finance/getprices?q=NVDA&x=NASD&i=120&p=25m&f=d,c,v,o,h,l&df=cpct&auto=1&ts=1488811864695&ei=7nW9WIiCNsGMUO-2htAE&authuser=0
