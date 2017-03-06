@@ -5,6 +5,8 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
 
+// http://www.networkerror.org/component/content/article/1-technical-wootness/44-googles-undocumented-finance-api.html
+
 private object Params {
     val symbol = "q"    // Stock symbol.
     val exchange = "x"  // Stock exchange symbol on which stock is traded (ex: NASD)
@@ -62,7 +64,7 @@ class IntradayData(val symbol: String, val client: OkHttpClient = HttpClients.ma
     fun execute(): IntradayData {
         urlBuilder
                 .addQueryParameter(Params.symbol, symbol)
-                .addQueryParameter(Params.exchange, "NASD") // TODO: how to find out the exchange?
+//                .addQueryParameter(Params.exchange, "NASD") // TODO: how to find out the exchange?
                 .addQueryParameter(Params.interval, "60")
                 .addQueryParameter(Params.period, "1d")
                 .addQueryParameter(Params.format, "d,c,v,o,h,l")
@@ -78,7 +80,7 @@ class IntradayData(val symbol: String, val client: OkHttpClient = HttpClients.ma
             if (it.isSuccessful) {
                 data = it.body().string()
             } else {
-                throw IOException( "$symbol request. Unexpected code: " + it )
+                println( "$symbol request. Unexpected code: " + it )
             }
         }
 

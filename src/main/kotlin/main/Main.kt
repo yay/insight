@@ -4,11 +4,7 @@ package main
 // https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md
 // https://github.com/Kotlin/kotlinx.coroutines
 
-import javafx.application.Application
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
-import org.skife.jdbi.v2.DBI
 import style.Styles
 import tornadofx.App
 import tornadofx.importStylesheet
@@ -30,24 +26,37 @@ fun main(args: Array<String>) = runBlocking {
 
 //    println(IntradayData("AAPL").execute().data())
 
-    async(CommonPool) {
-        var map = mutableMapOf<String, MutableMap<String, String>>()
-        USCompanies.forAll { exchange, companies ->
-            val symbolNames = mutableMapOf<String, String>()
-            companies.forEach { symbolNames[it.symbol] = it.name }
-            map[exchange] = symbolNames
-        }
-        Settings.save(map, "exchanges.json")
-    }
+//    async(CommonPool) {
+//        var map = mutableMapOf<String, MutableMap<String, String>>()
+//        USCompanies.forAll { exchange, companies ->
+//            val symbolNames = mutableMapOf<String, String>()
+//            companies.forEach { symbolNames[it.symbol] = it.name }
+//            map[exchange] = symbolNames
+//        }
+//        Settings.save(map, "exchanges.json")
+//    }
 
-    Settings.load(AppSettings)
-    Settings.saveOnShutdown(AppSettings)
-    Application.launch(InsightApp::class.java, *args)
+//    Settings.load(AppSettings)
+//    Settings.saveOnShutdown(AppSettings)
+//    Application.launch(InsightApp::class.java, *args)
 
 //    val asyncTime = measureTimeMillis {
 //        USCompanies.asyncFetchSummary()
 //    }
 //    println("Asynchronous version completed in $asyncTime ms.")
+
+
+//    val syncTime = measureTimeMillis {
+//        USCompanies.fetchSummary()
+//    }
+//    // Synchronous version is about 7 times slower.
+//    println("Synchronous version completed in $syncTime ms.")
+
+    val syncTime = measureTimeMillis {
+        USCompanies.fetchIntraday()
+    }
+    // Synchronous version is about 7 times slower.
+    println("Synchronous version completed in $syncTime ms.")
 }
 
 fun fake_main(args: Array<String>) {

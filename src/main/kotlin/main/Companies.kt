@@ -103,6 +103,18 @@ object USCompanies {
         }
     }
 
+    fun fetchIntraday() {
+        val date: String = LocalDate.now().toString()
+        forAll { exchange, companies ->
+            for ((symbol) in companies) {
+                val file = File("${AppSettings.paths.intradayData}/$date/$exchange/$symbol.txt")
+                file.parentFile.mkdirs()
+                val data = IntradayData(symbol).execute().data()
+                file.writeText(data)
+            }
+        }
+    }
+
     fun asyncFetchSummary() = runBlocking {
         val date: String = LocalDate.now().toString()
 
