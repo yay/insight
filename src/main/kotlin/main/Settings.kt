@@ -1,7 +1,6 @@
 package main
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.File
 
 typealias WatchlistName = String
@@ -9,33 +8,31 @@ typealias Watchlist = MutableList<String>
 
 object Settings {
 
-    val settingsFileName = "settings.json"
-
     private val mapper by lazy { jacksonObjectMapper() }
-    private var isSaveOnShutdown = false
 
-    fun load() {
-        mapper.readValue<AppSettings>(File(settingsFileName))
+    private fun getFileName(obj: Any): String = "${obj::class.java.name.split(".").last()}.json"
+
+    fun load(obj: Any) {
+        mapper.readValue(File(getFileName(obj)), obj::class.java)
     }
 
-    fun save() {
-        mapper.writerWithDefaultPrettyPrinter().writeValue(File(settingsFileName), AppSettings)
+    fun save(obj: Any) {
+        mapper.writerWithDefaultPrettyPrinter().writeValue(File(getFileName(obj)), obj)
     }
 
-    fun saveOnShutdown() {
-        if (!isSaveOnShutdown) {
+    private var saveOnShutdownMap = mutableMapOf<Any, Boolean>()
+
+    fun saveOnShutdown(obj: Any) {
+        if (saveOnShutdownMap[obj] != true) {
             Runtime.getRuntime().addShutdownHook(Thread {
-                mapper.writerWithDefaultPrettyPrinter().writeValue(File(settingsFileName), AppSettings)
+                mapper.writerWithDefaultPrettyPrinter().writeValue(File(getFileName(obj)), obj)
             })
-
-            isSaveOnShutdown = true
+            saveOnShutdownMap[obj] = true
+        } else {
+            println("${getFileName(obj)} is already set to save on shutdown.")
         }
     }
 }
-
-//val AppSettings = mutableMapOf<Any, Any>(
-//        "watchlists" to mutableMapOf<WatchlistName, Watchlist>()
-//)
 
 object AppSettings {
     var watchlists = mutableMapOf<WatchlistName, Watchlist>()
