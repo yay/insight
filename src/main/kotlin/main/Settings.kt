@@ -12,22 +12,22 @@ object Settings {
 
     private fun getFileName(obj: Any): String = "${obj::class.java.name.split(".").last()}.json"
 
-    fun load(obj: Any) {
-        mapper.readValue(File(getFileName(obj)), obj::class.java)
+    fun load(obj: Any, name: String = getFileName(obj)) {
+        mapper.readValue(File(name), obj::class.java)
     }
 
-    fun save(obj: Any) {
-        mapper.writerWithDefaultPrettyPrinter().writeValue(File(getFileName(obj)), obj)
+    fun save(obj: Any, name: String = getFileName(obj)) {
+        mapper.writerWithDefaultPrettyPrinter().writeValue(File(name), obj)
     }
 
-    private var saveOnShutdownMap = mutableMapOf<Any, Boolean>()
+    private var saveOnShutdownMap = mutableMapOf<String, Boolean>()
 
-    fun saveOnShutdown(obj: Any) {
-        if (saveOnShutdownMap[obj] != true) {
+    fun saveOnShutdown(obj: Any, name: String = getFileName(obj)) {
+        if (saveOnShutdownMap[name] != true) {
             Runtime.getRuntime().addShutdownHook(Thread {
-                mapper.writerWithDefaultPrettyPrinter().writeValue(File(getFileName(obj)), obj)
+                mapper.writerWithDefaultPrettyPrinter().writeValue(File(name), obj)
             })
-            saveOnShutdownMap[obj] = true
+            saveOnShutdownMap[name] = true
         } else {
             println("${getFileName(obj)} is already set to save on shutdown.")
         }
