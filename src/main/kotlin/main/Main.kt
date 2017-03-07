@@ -20,11 +20,11 @@ class InsightApp : App(SymbolTableView::class) {
 
 }
 
-fun main(args: Array<String>) = runBlocking {
+fun main(args: Array<String>) {
 //    val db = DBI("jdbc:postgresql://localhost:5432/postgres")
 //    val runner = MigrationRunner(db)
 
-//    println(IntradayData("AAPL").execute().data())
+//    println(GoogleIntradayData("AAPL").execute().data())
 
 //    async(CommonPool) {
 //        var map = mutableMapOf<String, MutableMap<String, String>>()
@@ -40,10 +40,15 @@ fun main(args: Array<String>) = runBlocking {
 //    Settings.saveOnShutdown(AppSettings)
 //    Application.launch(InsightApp::class.java, *args)
 
-//    val asyncTime = measureTimeMillis {
+//    val asyncSummaryTime = measureTimeMillis {
 //        USCompanies.asyncFetchSummary()
 //    }
-//    println("Asynchronous version completed in $asyncTime ms.")
+//    println("Asynchronous summary fetching completed in $asyncSummaryTime ms.")
+
+    val asyncIntradayTime = measureTimeMillis {
+        USCompanies.asyncFetchIntraday()
+    }
+    println("Asynchronous intraday data fetching completed in $asyncIntradayTime ms.")
 
 
 //    val syncTime = measureTimeMillis {
@@ -52,11 +57,11 @@ fun main(args: Array<String>) = runBlocking {
 //    // Synchronous version is about 7 times slower.
 //    println("Synchronous version completed in $syncTime ms.")
 
-    val syncTime = measureTimeMillis {
-        USCompanies.fetchIntraday()
-    }
-    // Synchronous version is about 7 times slower.
-    println("Synchronous version completed in $syncTime ms.")
+//    val syncTime = measureTimeMillis {
+//        USCompanies.fetchIntraday()
+//    }
+//    // Synchronous version is about 7 times slower.
+//    println("Synchronous version completed in $syncTime ms.")
 }
 
 fun fake_main(args: Array<String>) {

@@ -24,3 +24,15 @@ This returns "commented out" JSON, so don't forget to remove the comment before 
 
 Google's intraday prices API:
 https://www.google.com/finance/getprices?q=NVDA&x=NASD&i=120&p=25m&f=d,c,v,o,h,l&df=cpct&auto=1&ts=1488811864695&ei=7nW9WIiCNsGMUO-2htAE&authuser=0
+IMPORTANT: Google doesn't like when you download too much, especially when making a large number of concurrent/async requests.
+
+Yahoo intraday API:
+
+https://chartapi.finance.yahoo.com/instrument/1.0/GOOG/chartdata;type=quote;range=1d/csv
+https://chartapi.finance.yahoo.com/instrument/1.0/GOOG/chartdata;type=quote;range=1d/json
+https://chartapi.finance.yahoo.com/instrument/1.0/GOOG/chartdata;type=quote;range=1d/xml
+
+https://www.quantshare.com/sa-426-6-ways-to-download-free-intraday-and-tick-data-for-the-us-stock-market
+
+Query API:
+http://autoc.finance.yahoo.com/autoc?query=alphabet&region=EU&lang=en-GB
