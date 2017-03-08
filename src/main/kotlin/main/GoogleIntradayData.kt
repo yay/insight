@@ -8,8 +8,8 @@ import java.io.IOException
 // http://www.networkerror.org/component/content/article/1-technical-wootness/44-googles-undocumented-finance-api.html
 
 private object Params {
-    val symbol = "q"    // Stock symbol.
-    val exchange = "x"  // Stock exchange symbol on which stock is traded (ex: NASD)
+    val symbol = "q"    // Security symbol.
+    val exchange = "x"  // Security exchange symbol on which stock is traded (ex: NASD)
     val interval = "i"  // Interval size in seconds (86400 = 1 day intervals)
     val period = "p"    // Period. A number followed by a "d" or "Y", e.g. days or years. Ex: 40Y = 40 years.
     val format = "f"    // What data to fetch, comma separated, e.g.: d,c,v,o,h,l.

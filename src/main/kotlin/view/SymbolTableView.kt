@@ -14,7 +14,7 @@ import main.*
 import tornadofx.*
 import java.time.LocalDate
 
-class SymbolTableView : View("Stock Data") {
+class SymbolTableView : View("Security Data") {
 
     lateinit var symbolTable: TableView<StockSymbol>
 

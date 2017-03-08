@@ -28,7 +28,7 @@ fun main(args: Array<String>) {
 
 //    async(CommonPool) {
 //        var map = mutableMapOf<String, MutableMap<String, String>>()
-//        USCompanies.forAll { exchange, companies ->
+//        StockFetcherUS.forAll { exchange, companies ->
 //            val symbolNames = mutableMapOf<String, String>()
 //            companies.forEach { symbolNames[it.symbol] = it.name }
 //            map[exchange] = symbolNames
@@ -41,24 +41,34 @@ fun main(args: Array<String>) {
 //    Application.launch(InsightApp::class.java, *args)
 
 //    val asyncSummaryTime = measureTimeMillis {
-//        USCompanies.asyncFetchSummary()
+//        StockFetcherUS.asyncFetchSummary()
 //    }
 //    println("Asynchronous summary fetching completed in $asyncSummaryTime ms.")
 
-    val asyncIntradayTime = measureTimeMillis {
-        USCompanies.asyncFetchIntraday()
-    }
-    println("Asynchronous intraday data fetching completed in $asyncIntradayTime ms.")
+//    val asyncIntradayTime = measureTimeMillis {
+//        StockFetcherUS.asyncFetchIntraday()
+//    }
+//    println("Asynchronous intraday data fetching completed in $asyncIntradayTime ms.")
+
+
+//    runBlocking {
+//        exchangeMap["nasdaq"]?.asyncFetchIntradayData()
+//        exchangeMap["nyse"]?.asyncFetchIntradayData()
+//        exchangeMap["amex"]?.asyncFetchIntradayData()
+//    }
+
+//    fetchIntradayDataUsa()
+    fetchSummaryUsa()
 
 
 //    val syncTime = measureTimeMillis {
-//        USCompanies.fetchSummary()
+//        StockFetcherUS.fetchSummary()
 //    }
 //    // Synchronous version is about 7 times slower.
 //    println("Synchronous version completed in $syncTime ms.")
 
 //    val syncTime = measureTimeMillis {
-//        USCompanies.fetchIntraday()
+//        StockFetcherUS.fetchIntraday()
 //    }
 //    // Synchronous version is about 7 times slower.
 //    println("Synchronous version completed in $syncTime ms.")
@@ -70,10 +80,10 @@ fun fake_main(args: Array<String>) {
 //    Application.launch(InsightApp::class.java, *args)
 
 
-//    USCompanies.fetchData()
+//    StockFetcherUS.fetchData()
 
 //    val syncTime = measureTimeMillis {
-//        USCompanies.fetchSummary()
+//        StockFetcherUS.fetchSummary()
 //    }
 //    // Synchronous version is about 7 times slower.
 //    println("Synchronous version completed in $syncTime ms.")
@@ -83,12 +93,12 @@ fun fake_main(args: Array<String>) {
 
 
 //    val asyncTime = measureTimeMillis {
-//        USCompanies.asyncFetchSummary()
+//        StockFetcherUS.asyncFetchSummary()
 //    }
 //    println("Asynchronous version completed in $asyncTime ms.")
 
 //    val asyncNewsTime = measureTimeMillis {
-//        USCompanies.asyncFetchNews()
+//        StockFetcherUS.asyncFetchNews()
 //    }
 //    println("Asynchronous version completed in $asyncNewsTime ms.")
 

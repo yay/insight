@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat
 import style.Styles as styles
 
 
-class ChartView : View("Stock Chart") {
+class ChartView : View("Security Chart") {
 
     val symbolTableView = find(SymbolTableView::class)
     private lateinit var chart: LineChart<String, Number>

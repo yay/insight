@@ -7,15 +7,17 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 object HttpClients {
-    val main = OkHttpClient.Builder()
+    val main: OkHttpClient = OkHttpClient.Builder()
             .connectTimeout(10L, TimeUnit.SECONDS)
             .readTimeout(30L, TimeUnit.SECONDS)
             .build()
 }
 
-fun httpGet(url: String, params: Map<String, String>): String? {
-    var data: String? = null
+sealed class GetResult
+data class GetSuccess(val data: String) : GetResult()
+data class GetError(val code: Int, val message: String) : GetResult()
 
+fun httpGet(url: String, params: Map<String, String>): GetResult {
     val urlBuilder = HttpUrl.parse(url).newBuilder()
 
     for ((param, value) in params) {
@@ -29,14 +31,12 @@ fun httpGet(url: String, params: Map<String, String>): String? {
     response.use {
         if (it.isSuccessful) {
             try {
-                data = it.body().string()
+                return GetSuccess(it.body().string())
             } catch (e: IOException) {
-                println("111")
+                return GetError(it.code(), e.message?: "")
             }
         } else {
-            throw IOException( "Unexpected code: " + it )
+            return GetError(it.code(), it.message())
         }
     }
-
-    return data
 }
