@@ -38,19 +38,19 @@ object YahooFetcher {
 //            async(CommonPool) {
 //
 //            }.await()
-            val request = YahooSummary(symbol, HttpClients.main)
-                    .execute()
-                    .parse()
-
-            val tree = request.tree()
-            val mapper = ObjectMapper()
-            val prettyData = mapper.writerWithDefaultPrettyPrinter()
-                    .writeValueAsString(tree)
-
-
-            val file = File("$stockSummaryDir/$symbol.json")
-            file.parentFile.mkdirs();
-            file.writeText(prettyData)
+//            val request = YahooSummary(symbol, HttpClients.main)
+//                    .execute()
+//                    .parse()
+//
+//            val tree = request.tree()
+//            val mapper = ObjectMapper()
+//            val prettyData = mapper.writerWithDefaultPrettyPrinter()
+//                    .writeValueAsString(tree)
+//
+//
+//            val file = File("$stockSummaryDir/$symbol.json")
+//            file.parentFile.mkdirs();
+//            file.writeText(prettyData)
         }
     }
 

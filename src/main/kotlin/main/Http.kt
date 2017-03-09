@@ -15,7 +15,7 @@ object HttpClients {
 
 sealed class GetResult
 data class GetSuccess(val data: String) : GetResult()
-data class GetError(val code: Int, val message: String) : GetResult()
+data class GetError(val url: String, val code: Int, val message: String) : GetResult()
 
 fun httpGet(url: String, params: Map<String, String> = emptyMap()): GetResult {
     val urlBuilder = HttpUrl.parse(url).newBuilder()
@@ -33,10 +33,10 @@ fun httpGet(url: String, params: Map<String, String> = emptyMap()): GetResult {
             try {
                 return GetSuccess(it.body().string())
             } catch (e: IOException) {
-                return GetError(it.code(), e.message?: "")
+                return GetError(requestUrl, it.code(), e.message?: "")
             }
         } else {
-            return GetError(it.code(), it.message())
+            return GetError(requestUrl, it.code(), it.message())
         }
     }
 }

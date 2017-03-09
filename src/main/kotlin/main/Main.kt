@@ -4,6 +4,7 @@ package main
 // https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md
 // https://github.com/Kotlin/kotlinx.coroutines
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import style.Styles
 import tornadofx.App
 import tornadofx.importStylesheet
@@ -38,6 +39,7 @@ fun main(args: Array<String>) {
 //    Settings.saveOnShutdown(AppSettings)
 //    Application.launch(InsightApp::class.java, *args)
 
-    fetchIntradayDataUsa()
-//    fetchSummaryUsa()
+//    fetchIntradayDataUsa()
+    fetchSummaryUsa()
+
 }

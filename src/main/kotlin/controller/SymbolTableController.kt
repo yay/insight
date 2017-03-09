@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import javafx.scene.Node
 import javafx.scene.control.ComboBox
 import javafx.scene.control.DatePicker
-import main.*
+import main.DataFrequency
+import main.HttpClients
+import main.YahooData
 import tornadofx.Controller
 import tornadofx.observable
 import view.SymbolTableView
@@ -30,12 +32,12 @@ class SymbolTableController : Controller() {
     }
 
     fun fetchSummary(node: Node, symbol: String) {
-        val request = YahooSummary(symbol, HttpClients.main).execute().parse()
-        val tree = request.tree()
-        val mapper = ObjectMapper()
-        val pretty = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(tree)
-
-        view.symbolSummary.value = pretty
+//        val request = YahooSummary(symbol, HttpClients.main).execute().parse()
+//        val tree = request.tree()
+//        val mapper = ObjectMapper()
+//        val pretty = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(tree)
+//
+//        view.symbolSummary.value = pretty
     }
 
     fun fetch(node: Node, symbol: String) {

@@ -55,26 +55,26 @@ class SymbolTableView : View("Security Data") {
                     onKeyReleased = EventHandler { key ->
                         if (key.code == KeyCode.ENTER) {
 
-                            val frequency = DataFrequency.valueOf(period.value.toUpperCase())
-                            val dataRequest = YahooData(symbol.value, frequency)
-                            var summaryRequest = YahooSummary(symbol.value, HttpClients.main)
-
-                            runAsyncWithProgress {
-
-                                dataRequest
-                                        .startDate(startDate.value)
-                                        .endDate(endDate.value)
-                                        .execute()
-                                        .parse()
-
-                                summaryRequest
-                                        .execute()
-                                        .parse()
-                            } ui {
-                                symbolData.value = dataRequest.data()
-                                symbolTable.items = dataRequest.list().observable()
-                                symbolSummary.value = summaryRequest.prettyData()
-                            }
+//                            val frequency = DataFrequency.valueOf(period.value.toUpperCase())
+//                            val dataRequest = YahooData(symbol.value, frequency)
+//                            var summaryRequest = YahooSummary(symbol.value, HttpClients.main)
+//
+//                            runAsyncWithProgress {
+//
+//                                dataRequest
+//                                        .startDate(startDate.value)
+//                                        .endDate(endDate.value)
+//                                        .execute()
+//                                        .parse()
+//
+//                                summaryRequest
+//                                        .execute()
+//                                        .parse()
+//                            } ui {
+//                                symbolData.value = dataRequest.data()
+//                                symbolTable.items = dataRequest.list().observable()
+//                                symbolSummary.value = summaryRequest.prettyData()
+//                            }
                         }
                     }
                 }

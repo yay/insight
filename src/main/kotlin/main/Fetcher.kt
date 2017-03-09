@@ -132,11 +132,7 @@ suspend fun Exchange.asyncFetchSummary() {
 
     securities.map { (symbol) ->
         async(CommonPool) {
-            val data = YahooSummary(symbol)
-                    .execute()
-                    .parse()
-                    .prettyData()
-
+            val data = getYahooSummary(symbol).toJsonString()
             val file = File("${AppSettings.paths.summary}/$date/${exchange.code}/$symbol.json")
             file.parentFile.mkdirs()
             file.writeText(data)
