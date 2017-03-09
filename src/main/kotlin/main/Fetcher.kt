@@ -108,17 +108,19 @@ fun Exchange.getExchangeSecuritiesFromNasdaq(): List<Security> {
 }
 
 suspend fun Exchange.asyncFetchIntradayData() {
+    // Note: the data is most complete when fetched a few hours (3 hours or so) after the close.
     val exchange = this
     val date: String = LocalDate.now().toString()
     val securities = async(CommonPool) { exchange.getSecurities() }.await()
 
     securities.map { (symbol) ->
         async(CommonPool) {
-            val data = IntradayData(symbol).execute().data()
-
-            val file = File("${AppSettings.paths.intradayData}/$date/${exchange.code}/$symbol.json")
-            file.parentFile.mkdirs()
-            file.writeText(data)
+            val data = fetchIntradayData(symbol)
+            if (data.isNotBlank()) {
+                val file = File("${AppSettings.paths.intradayData}/$date/${exchange.code}/$symbol.json")
+                file.parentFile.mkdirs()
+                file.writeText(data)
+            }
         }
     }.forEach { it.await() }
 }

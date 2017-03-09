@@ -17,7 +17,7 @@ sealed class GetResult
 data class GetSuccess(val data: String) : GetResult()
 data class GetError(val code: Int, val message: String) : GetResult()
 
-fun httpGet(url: String, params: Map<String, String>): GetResult {
+fun httpGet(url: String, params: Map<String, String> = emptyMap()): GetResult {
     val urlBuilder = HttpUrl.parse(url).newBuilder()
 
     for ((param, value) in params) {

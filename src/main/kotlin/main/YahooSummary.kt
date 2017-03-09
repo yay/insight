@@ -41,7 +41,6 @@ class YahooSummary(val symbol: String, val client: OkHttpClient = HttpClients.ma
             "calendarEvents"
     )
     private val modulesParam = "modules"
-    private val moduleSeparator: String = "%2C"
 
     private val baseUrl: String = "https://query2.finance.yahoo.com/v$version/finance/quoteSummary/$symbol"
 //    private val urlParams = mapOf(
@@ -59,7 +58,7 @@ class YahooSummary(val symbol: String, val client: OkHttpClient = HttpClients.ma
 //            urlBuilder.addQueryParameter(key, value)
 //        }
         val urlBuilder = HttpUrl.parse(baseUrl).newBuilder()
-                .addEncodedQueryParameter(modulesParam, modules.joinToString(moduleSeparator))
+                .addQueryParameter(modulesParam, modules.joinToString(","))
 
         val url = urlBuilder.build()
 

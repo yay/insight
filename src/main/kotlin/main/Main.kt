@@ -38,6 +38,6 @@ fun main(args: Array<String>) {
 //    Settings.saveOnShutdown(AppSettings)
 //    Application.launch(InsightApp::class.java, *args)
 
-//    fetchIntradayDataUsa()
-    fetchSummaryUsa()
+    fetchIntradayDataUsa()
+//    fetchSummaryUsa()
 }
