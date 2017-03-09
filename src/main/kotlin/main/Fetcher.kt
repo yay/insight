@@ -64,24 +64,17 @@ fun fetchSummaryUsa() {
             exchangeMap["amex"]?.asyncFetchSummary()
         }
     }
-    println("Fetching stock summaries completed in $time ms.")
+    println("Fetching summaries completed in $time ms.")
 }
 
 
 // In the future we may find a better way to fetch the list of securities
 // (from exchanges directly?), where each exchange has it unique fetching logic.
-// For now, Nasdaq has a list of securities traded on Nasdaq, NYSE and AMEX, so we use that.
+// For now, Nasdaq has a list of securities traded on Nasdaq, NYSE and AMEX, so we use that:
+// http://www.nasdaq.com/screening/company-list.aspx
 fun Exchange.getExchangeSecuritiesFromNasdaq(): List<Security> {
 
-    // http://www.nasdaq.com/screening/company-list.aspx
-    // NASDAQ companies:
-    // http://www.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=nasdaq&render=download
-    // NYSE companies:
-    // http://www.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=nyse&render=download
-    // AMEX companies:
-    // http://www.nasdaq.com/screening/companies-by-name.aspx?letter=0&exchange=amex&render=download
-
-    val result = httpGet(StockFetcherUS.baseUrl, mapOf(
+    val result = httpGet("http://www.nasdaq.com/screening/companies-by-name.aspx", mapOf(
             "letter" to "0",
             "render" to "download",
             "exchange" to this.code

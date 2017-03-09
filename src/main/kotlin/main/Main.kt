@@ -4,7 +4,6 @@ package main
 // https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md
 // https://github.com/Kotlin/kotlinx.coroutines
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import style.Styles
 import tornadofx.App
 import tornadofx.importStylesheet
