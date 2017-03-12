@@ -3,7 +3,7 @@
         {
             "changeSet": {
                 "id": "initial",
-                "author": "vkrachenko",
+                "author": "vkravchenko",
                 "changes": [
                     {
                         "createTable": {
@@ -11,9 +11,8 @@
                             "columns": [
                                 {
                                     "column": {
-                                        "name": "id",
-                                        "type": "int",
-                                        "autoIncrement": true,
+                                        "name": "quote_date",
+                                        "type": "timestamp",
                                         "constraints": {
                                             "primaryKey": true,
                                             "nullable": false
@@ -22,9 +21,20 @@
                                 },
                                 {
                                     "column": {
-                                        "name": "datetime",
-                                        "type": "timestamp",
+                                        "name": "symbol",
+                                        "type": "varchar(6)",
                                         "constraints": {
+                                            "primaryKey": true,
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "market",
+                                        "type": "varchar(4)",
+                                        "constraints": {
+                                            "primaryKey": true,
                                             "nullable": false
                                         }
                                     }
@@ -32,7 +42,7 @@
                                 {
                                     "column": {
                                         "name": "open",
-                                        "type": "decimal(15,4)",
+                                        "type": "decimal(8,6)",
                                         "constraints": {
                                             "nullable": false
                                         }
@@ -41,7 +51,7 @@
                                 {
                                     "column": {
                                         "name": "high",
-                                        "type": "decimal(15,4)",
+                                        "type": "decimal(8,6)",
                                         "constraints": {
                                             "nullable": false
                                         }
@@ -50,7 +60,7 @@
                                 {
                                     "column": {
                                         "name": "low",
-                                        "type": "decimal(15,4)",
+                                        "type": "decimal(8,6)",
                                         "constraints": {
                                             "nullable": false
                                         }
@@ -59,7 +69,7 @@
                                 {
                                     "column": {
                                         "name": "close",
-                                        "type": "decimal(15,4)",
+                                        "type": "decimal(8,6)",
                                         "constraints": {
                                             "nullable": false
                                         }
@@ -68,7 +78,7 @@
                                 {
                                     "column": {
                                         "name": "adj_close",
-                                        "type": "decimal(15,4)",
+                                        "type": "decimal(8,6)",
                                         "constraints": {
                                             "nullable": false
                                         }
@@ -78,6 +88,97 @@
                                     "column": {
                                         "name": "volume",
                                         "type": "bigint",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "createTable": {
+                            "tableName": "intraday_quote",
+                            "columns": [
+                                {
+                                    "column": {
+                                        "name": "quote_time",
+                                        "type": "timestamp",
+                                        "constraints": {
+                                            "primaryKey": true,
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "symbol",
+                                        "type": "varchar(6)",
+                                        "constraints": {
+                                            "primaryKey": true,
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "market",
+                                        "type": "varchar(4)",
+                                        "constraints": {
+                                            "primaryKey": true,
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "open",
+                                        "type": "decimal(8,6)",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "high",
+                                        "type": "decimal(8,6)",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "low",
+                                        "type": "decimal(8,6)",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "close",
+                                        "type": "decimal(8,6)",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "adj_close",
+                                        "type": "decimal(8,6)",
+                                        "constraints": {
+                                            "nullable": false
+                                        }
+                                    }
+                                },
+                                {
+                                    "column": {
+                                        "name": "volume",
+                                        "type": "int",
                                         "constraints": {
                                             "nullable": false
                                         }

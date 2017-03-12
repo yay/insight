@@ -41,6 +41,18 @@
         </dependency>
 
         <dependency>
+            <groupId>org.jetbrains.exposed</groupId>
+            <artifactId>exposed</artifactId>
+            <version>0.7.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.0.0.jre7</version>
+        </dependency>
+
+        <dependency>
             <groupId>no.tornado</groupId>
             <artifactId>tornadofx</artifactId>
             <version>1.7.0</version>
@@ -142,31 +154,6 @@
             <version>3.5.3</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>42.0.0.jre7</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.reactivex.rxjava2</groupId>
-            <artifactId>rxjava</artifactId>
-            <version>2.0.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jdbi</groupId>
-            <artifactId>jdbi</artifactId>
-            <version>2.78</version>
-        </dependency>
-
-        <!--<dependency>-->
-            <!--&lt;!&ndash; https://groups.google.com/forum/#!topic/jdbi/mlpVIpQ3hNg &ndash;&gt;-->
-            <!--<groupId>com.github.mjdbc</groupId>-->
-            <!--<artifactId>mjdbc</artifactId>-->
-            <!--<version>1.2.1</version>-->
-        <!--</dependency>-->
-
     </dependencies>
 
     <repositories>
@@ -175,8 +162,22 @@
             <url>http://dl.bintray.com/kotlin/kotlin-eap-1.1</url>
         </repository>
         <repository>
+            <id>kotlin-exposed</id>
+            <url>https://dl.bintray.com/kotlin/exposed</url>
+        </repository>
+        <repository>
             <id>sonatype-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+        <repository>
+            <id>maven.oracle.com</id>
+            <name>oracle-maven-repo</name>
+            <url>https://maven.oracle.com</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
         </repository>
     </repositories>
 

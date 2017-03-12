@@ -4,6 +4,7 @@ package main
 // https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md
 // https://github.com/Kotlin/kotlinx.coroutines
 
+import org.jetbrains.exposed.sql.Database
 import style.Styles
 import tornadofx.App
 import tornadofx.importStylesheet
@@ -19,8 +20,10 @@ class InsightApp : App(SymbolTableView::class) {
 }
 
 fun main(args: Array<String>) {
-//    val db = DBI("jdbc:postgresql://localhost:5432/postgres")
-//    val runner = MigrationRunner(db)
+    val db = Database.connect("jdbc:postgresql://localhost:5432/insight",
+            driver = "org.postgresql.Driver", user = "vitalykravchenko")
+
+    val runner = MigrationRunner(db)
 
 //    println(GoogleIntradayData("AAPL").execute().data())
 
@@ -39,6 +42,6 @@ fun main(args: Array<String>) {
 //    Application.launch(InsightApp::class.java, *args)
 
 //    fetchIntradayDataUsa()
-    fetchSummaryUsa()
+//    fetchSummaryUsa()
 
 }
