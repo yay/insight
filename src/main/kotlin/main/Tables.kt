@@ -26,7 +26,10 @@ import org.jetbrains.exposed.sql.Table
 
 // TODO: check this out:  https://www.quandl.com/  http://eoddata.com/default.aspx
 
-// Considerations: http://wiki.c2.com/?TimeSeriesInSql
+// Considerations:
+// http://wiki.c2.com/?TimeSeriesInSql
+// http://jmoiron.net/blog/thoughts-on-timeseries-databases/
+// https://news.ycombinator.com/item?id=9805742
 
 object DailyQuotes : Table() {
     val quoteDate = datetime("quote_date").primaryKey()
