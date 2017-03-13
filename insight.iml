@@ -65,9 +65,9 @@
     <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-reflect:1.1.1-eap-26" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jetbrains.kotlin:kotlin-test:1.1.1-eap-26" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains.exposed:exposed:0.7.6" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: joda-time:joda-time:2.5" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.12" level="project" />
     <orderEntry type="library" name="Maven: org.postgresql:postgresql:42.0.0.jre7" level="project" />
+    <orderEntry type="library" name="Maven: joda-time:joda-time:2.9.7" level="project" />
     <orderEntry type="library" name="Maven: no.tornado:tornadofx:1.7.0" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish:javax.json:1.0.4" level="project" />
     <orderEntry type="library" name="Maven: com.squareup.okhttp3:okhttp:3.6.0" level="project" />

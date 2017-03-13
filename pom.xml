@@ -53,6 +53,12 @@
         </dependency>
 
         <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.9.7</version>
+        </dependency>
+
+        <dependency>
             <groupId>no.tornado</groupId>
             <artifactId>tornadofx</artifactId>
             <version>1.7.0</version>

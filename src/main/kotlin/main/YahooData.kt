@@ -16,7 +16,7 @@ enum class DataFrequency {
 }
 
 object YahooDataColumns {
-    val time     = "Date"
+    val date     = "Date"
     val open     = "Open"
     val high     = "High"
     val low      = "Low"
@@ -31,7 +31,7 @@ object YahooDataColumns {
 // members of real objects.
 //val main.getYahooDataHeader: Array<String> = arrayOf("Date", "Open", "High", "Low", "Close", "Volume", "Adj Close")
 val YahooDataHeader: Array<String> = arrayOf(
-        YahooDataColumns.time,
+        YahooDataColumns.date,
         YahooDataColumns.open,
         YahooDataColumns.high,
         YahooDataColumns.low,
@@ -163,7 +163,7 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
         val dateFormat = SimpleDateFormat("yyyy-MM-dd")
 
         return records.map { it -> OHLC(
-                dateFormat.parse(it.get(YahooDataColumns.time)).toInstant().toEpochMilli(),
+                dateFormat.parse(it.get(YahooDataColumns.date)).toInstant().toEpochMilli(),
                 it.get(YahooDataColumns.open).toDouble(),
                 it.get(YahooDataColumns.high).toDouble(),
                 it.get(YahooDataColumns.low).toDouble(),
