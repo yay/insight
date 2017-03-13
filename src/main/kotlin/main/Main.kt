@@ -6,7 +6,6 @@ package main
 
 import org.apache.commons.csv.CSVFormat
 import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SchemaUtils.create
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.joda.time.DateTime
@@ -27,6 +26,9 @@ class InsightApp : App(SymbolTableView::class) {
 }
 
 fun dailyQuotes_fromDiskToDb(db: Database) {
+
+    // TODO: https://www.google.nl/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#newwindow=1&q=ERROR:+numeric+field+overflow&*
+
     val exchangeToMarketMap = mapOf(
             "nasdaq" to "XNAS",
             "nyse" to "XNYS",
@@ -34,12 +36,9 @@ fun dailyQuotes_fromDiskToDb(db: Database) {
     )
     val basePath = "${AppSettings.paths.storage}/data/24-02-2017/"
 
-    // This call is needed to register a relation (even if the table already exists).
-    transaction {
-        create(DailyQuotes)
-    }
-
-    // TODO: https://www.google.nl/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#newwindow=1&q=ERROR:+numeric+field+overflow&*
+//    transaction {  // will create a table "dailyquotes"
+//        create(DailyQuotes)
+//    }
 
     for ((exchange, _market) in exchangeToMarketMap) {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd")
@@ -76,18 +75,10 @@ fun dailyQuotes_fromDiskToDb(db: Database) {
                         }
                     }
                 }
-
-//                transaction {
-//                    DailyQuotes.insert {
-//                        it[quoteDate] = DateTime(dateFormat.parse(""))
-//                        it[symbol] = _symbol
-//                        it[market] = exchangeToMarketMap[exchange]
-//                    }
-//                }
-
                 break
             }
         }
+        break
     }
 }
 
@@ -95,9 +86,9 @@ fun main(args: Array<String>) {
     val db = Database.connect("jdbc:postgresql://localhost:5432/insight",
             driver = "org.postgresql.Driver", user = "vitalykravchenko")
 
-    dailyQuotes_fromDiskToDb(db)
-
     val runner = MigrationRunner(db)
+
+    dailyQuotes_fromDiskToDb(db)
 
 
 //    println(BigDecimal("234.345678"))

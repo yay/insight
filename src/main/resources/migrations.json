@@ -7,7 +7,7 @@
                 "changes": [
                     {
                         "createTable": {
-                            "tableName": "daily_quote",
+                            "tableName": "dailyquotes",
                             "columns": [
                                 {
                                     "column": {
@@ -42,7 +42,7 @@
                                 {
                                     "column": {
                                         "name": "open",
-                                        "type": "decimal(8,6)",
+                                        "type": "decimal(14,6)",
                                         "constraints": {
                                             "nullable": false
                                         }
@@ -51,7 +51,7 @@
                                 {
                                     "column": {
                                         "name": "high",
-                                        "type": "decimal(8,6)",
+                                        "type": "decimal(14,6)",
                                         "constraints": {
                                             "nullable": false
                                         }
@@ -60,7 +60,7 @@
                                 {
                                     "column": {
                                         "name": "low",
-                                        "type": "decimal(8,6)",
+                                        "type": "decimal(14,6)",
                                         "constraints": {
                                             "nullable": false
                                         }
@@ -69,7 +69,7 @@
                                 {
                                     "column": {
                                         "name": "close",
-                                        "type": "decimal(8,6)",
+                                        "type": "decimal(14,6)",
                                         "constraints": {
                                             "nullable": false
                                         }
@@ -78,7 +78,7 @@
                                 {
                                     "column": {
                                         "name": "adj_close",
-                                        "type": "decimal(8,6)",
+                                        "type": "decimal(14,6)",
                                         "constraints": {
                                             "nullable": false
                                         }
@@ -98,7 +98,7 @@
                     },
                     {
                         "createTable": {
-                            "tableName": "intraday_quote",
+                            "tableName": "intradayquotes",
                             "columns": [
                                 {
                                     "column": {
@@ -133,7 +133,7 @@
                                 {
                                     "column": {
                                         "name": "open",
-                                        "type": "decimal(8,6)",
+                                        "type": "decimal(14,6)",
                                         "constraints": {
                                             "nullable": false
                                         }
@@ -142,7 +142,7 @@
                                 {
                                     "column": {
                                         "name": "high",
-                                        "type": "decimal(8,6)",
+                                        "type": "decimal(14,6)",
                                         "constraints": {
                                             "nullable": false
                                         }
@@ -151,7 +151,7 @@
                                 {
                                     "column": {
                                         "name": "low",
-                                        "type": "decimal(8,6)",
+                                        "type": "decimal(14,6)",
                                         "constraints": {
                                             "nullable": false
                                         }
@@ -160,7 +160,7 @@
                                 {
                                     "column": {
                                         "name": "close",
-                                        "type": "decimal(8,6)",
+                                        "type": "decimal(14,6)",
                                         "constraints": {
                                             "nullable": false
                                         }
@@ -169,7 +169,7 @@
                                 {
                                     "column": {
                                         "name": "adj_close",
-                                        "type": "decimal(8,6)",
+                                        "type": "decimal(14,6)",
                                         "constraints": {
                                             "nullable": false
                                         }
