@@ -9,6 +9,7 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.joda.time.DateTime
+import org.skife.jdbi.v2.DBI
 import style.Styles
 import tornadofx.App
 import tornadofx.importStylesheet
@@ -25,7 +26,7 @@ class InsightApp : App(SymbolTableView::class) {
 
 }
 
-fun dailyQuotes_fromDiskToDb(db: Database) {
+fun dailyQuotes_fromDiskToDb(db: DBI) {
 
     // TODO: https://www.google.nl/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#newwindow=1&q=ERROR:+numeric+field+overflow&*
 
@@ -40,52 +41,68 @@ fun dailyQuotes_fromDiskToDb(db: Database) {
 //        create(DailyQuotes)
 //    }
 
-    for ((exchange, _market) in exchangeToMarketMap) {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-        val path = basePath + exchange
-        val walker = File(path).walk().maxDepth(1)
+    fun isGoodDecimal(d: BigDecimal): Boolean = d.precision() <= 14 && d.scale() <= 6
 
-        for (file in walker) {
-            val _symbol = file.nameWithoutExtension.trim()
-            if (_symbol != exchange) {
+    transaction {
+
+        // IMPORTANT:
+        // https://www.postgresql.org/docs/9.1/static/populate.html
+
+        for ((exchange, _market) in exchangeToMarketMap) {
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+            val path = basePath + exchange
+            val walker = File(path).walk().maxDepth(1)
+
+            for (file in walker) {
+                val _symbol = file.nameWithoutExtension.trim()
+                if (_symbol != exchange) {
 //                println("$value:${file.nameWithoutExtension.trim()}")
-                val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(file.reader())
+                    val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(file.reader())
 
-                records.forEach {
-//                    val _date = dateFormat.parse(it.get(YahooDataColumns.date)).toInstant().toEpochMilli()
-                    val _date = DateTime(dateFormat.parse(it.get(YahooDataColumns.date)))
-                    val _open = BigDecimal(it.get(YahooDataColumns.open))
-                    val _high = BigDecimal(it.get(YahooDataColumns.high))
-                    val _low = BigDecimal(it.get(YahooDataColumns.low))
-                    val _close = BigDecimal(it.get(YahooDataColumns.close))
-                    val _adjClose = BigDecimal(it.get(YahooDataColumns.adjClose))
-                    val _volume = it.get(YahooDataColumns.volume).toLong()
+                    records.forEach {
+                        val rec = it
+                        val date = DateTime(dateFormat.parse(rec.get(YahooDataColumns.date)))
+                        val _open = BigDecimal(rec.get(YahooDataColumns.open))
+                        val _high = BigDecimal(rec.get(YahooDataColumns.high))
+                        val _low = BigDecimal(rec.get(YahooDataColumns.low))
+                        val _close = BigDecimal(rec.get(YahooDataColumns.close))
+                        val _adjClose = BigDecimal(rec.get(YahooDataColumns.adjClose))
+                        val _volume = rec.get(YahooDataColumns.volume).toLong()
 
-                    transaction {
-                        DailyQuotes.insert {
-                            it[quoteDate] = _date
-                            it[symbol] = _symbol
-                            it[market] = _market
-                            it[open] = _open
-                            it[high] = _high
-                            it[low] = _low
-                            it[close] = _close
-                            it[adjClose] = _adjClose
-                            it[volume] = _volume
+                        if (isGoodDecimal(_adjClose) &&
+                            isGoodDecimal(_open) &&
+                            isGoodDecimal(_high) &&
+                            isGoodDecimal(_low) &&
+                            isGoodDecimal(_close) &&
+                            _symbol.length <= 6 &&
+                            _market.length <= 4) {
+
+                            try {
+                                DailyQuotes.insert {
+                                    it[quoteDate] = date
+                                    it[symbol] = _symbol
+                                    it[market] = _market
+                                    it[open] = _open
+                                    it[high] = _high
+                                    it[low] = _low
+                                    it[close] = _close
+                                    it[adjClose] = _adjClose
+                                    it[volume] = _volume
+                                }
+                            } catch (e: Exception) {
+                                println("Exception on ($date, $_symbol, $_market): $e")
+                            }
+
                         }
                     }
                 }
-                break
             }
         }
-        break
     }
 }
 
 fun main(args: Array<String>) {
-    val db = Database.connect("jdbc:postgresql://localhost:5432/insight",
-            driver = "org.postgresql.Driver", user = "vitalykravchenko")
-
+    val db = DBI("jdbc:postgresql://localhost:5432/insight")
     val runner = MigrationRunner(db)
 
     dailyQuotes_fromDiskToDb(db)

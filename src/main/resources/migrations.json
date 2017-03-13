@@ -21,8 +21,8 @@
                                 },
                                 {
                                     "column": {
-                                        "name": "symbol",
-                                        "type": "varchar(6)",
+                                        "name": "market",
+                                        "type": "varchar(4)",
                                         "constraints": {
                                             "primaryKey": true,
                                             "nullable": false
@@ -31,8 +31,8 @@
                                 },
                                 {
                                     "column": {
-                                        "name": "market",
-                                        "type": "varchar(4)",
+                                        "name": "symbol",
+                                        "type": "varchar(6)",
                                         "constraints": {
                                             "primaryKey": true,
                                             "nullable": false
@@ -112,8 +112,8 @@
                                 },
                                 {
                                     "column": {
-                                        "name": "symbol",
-                                        "type": "varchar(6)",
+                                        "name": "market",
+                                        "type": "varchar(4)",
                                         "constraints": {
                                             "primaryKey": true,
                                             "nullable": false
@@ -122,8 +122,8 @@
                                 },
                                 {
                                     "column": {
-                                        "name": "market",
-                                        "type": "varchar(4)",
+                                        "name": "symbol",
+                                        "type": "varchar(6)",
                                         "constraints": {
                                             "primaryKey": true,
                                             "nullable": false

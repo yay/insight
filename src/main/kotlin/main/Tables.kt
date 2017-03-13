@@ -33,8 +33,8 @@ import org.jetbrains.exposed.sql.Table
 
 object DailyQuotes : Table() {
     val quoteDate = datetime("quote_date").primaryKey()
-    val symbol = varchar("symbol", 6).primaryKey()
     val market = varchar("market", 4).primaryKey()
+    val symbol = varchar("symbol", 6).primaryKey()
     val open = decimal("open", 14, 6)
     val high = decimal("high", 14, 6)
     val low = decimal("low", 14, 6)
@@ -45,8 +45,8 @@ object DailyQuotes : Table() {
 
 object IntradayQuotes : Table() {
     val quoteTime = datetime("quote_time").primaryKey()
-    val symbol = varchar("symbol", 6).primaryKey()
     val market = varchar("market", 4).primaryKey()
+    val symbol = varchar("symbol", 6).primaryKey()
     val open = decimal("open", 14, 6)
     val high = decimal("high", 14, 6)
     val low = decimal("low", 14, 6)

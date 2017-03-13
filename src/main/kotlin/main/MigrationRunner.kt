@@ -4,8 +4,7 @@ import liquibase.Liquibase
 import liquibase.database.DatabaseFactory
 import liquibase.database.jvm.JdbcConnection
 import liquibase.resource.ClassLoaderResourceAccessor
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.transactions.transaction
+import org.skife.jdbi.v2.DBI
 
 // BAC (Bank of America) appears to have the highest volume stock
 // and had over 1 billion shares traded for 3 days in 2009,
@@ -14,11 +13,11 @@ import org.jetbrains.exposed.sql.transactions.transaction
 // For intraday volume `int` is plenty, while for daily volume `bigint` is prudent,
 // and for weekly/monthly it's absolutely necessary.
 
-class MigrationRunner(db: Database) {
+class MigrationRunner(dbi: DBI) {
     init {
-        transaction {
-            val connection = JdbcConnection(db.connector())
-            val database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(connection)
+        dbi.useHandle {
+            val jdbcConnection = JdbcConnection(it.connection)
+            val database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(jdbcConnection)
             val liquibase = Liquibase("migrations.json", ClassLoaderResourceAccessor(), database)
             liquibase.update("staging")
         }
