@@ -37,7 +37,9 @@ fun csvDailyQuotesToDb(db: DBI) {
     )
     val basePath = "${AppSettings.paths.storage}/data/24-02-2017/"
 
-    fun isGoodDecimal(d: BigDecimal): Boolean = d.precision() <= 8 && d.scale() <= 6
+    fun BigDecimal.isValidPrice(): Boolean = this.precision() <= 8 && this.scale() <= 6
+    fun String.isValidSymbol(): Boolean = this.length <= 6
+    fun String.isValidMarket(): Boolean = this.length <= 4
 
     fun writeRecords(handle: Handle, records: CSVParser,
                      market: String, symbol: String, dateFormat: SimpleDateFormat): Boolean {
@@ -51,13 +53,13 @@ fun csvDailyQuotesToDb(db: DBI) {
             val adjClose = BigDecimal(rec.get(YahooDataColumns.adjClose))
             val volume = rec.get(YahooDataColumns.volume).toLong()
 
-            if (isGoodDecimal(adjClose) &&
-                isGoodDecimal(open) &&
-                isGoodDecimal(high) &&
-                isGoodDecimal(low) &&
-                isGoodDecimal(close) &&
-                symbol.length <= 6 &&
-                market.length <= 4) {
+            if (adjClose.isValidPrice() && // adjClose check is most likely to fail
+                open.isValidPrice() &&
+                high.isValidPrice() &&
+                low.isValidPrice() &&
+                close.isValidPrice() &&
+                symbol.isValidSymbol() &&
+                market.isValidMarket()) {
 
                 try {
                     handle.createStatement("insert into dailyquotes (quote_date, symbol, market, \"open\", high, low, \"close\", adj_close, volume) values (:quote_date, :symbol, :market, :open, :high, :low, :close, :adj_close, :volume)")
