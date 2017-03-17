@@ -100,7 +100,7 @@ fun csvDailyQuotesToDb(db: DBI) {
             val path = basePath + exchange
             val walker = File(path).walk().maxDepth(1)
 
-            loop@ for (file in walker) {
+            for (file in walker) {
                 val symbol = file.nameWithoutExtension.trim()
                 if (symbol != exchange) {
                     println("${index++} - $market:$symbol")
