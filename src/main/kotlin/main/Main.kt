@@ -4,6 +4,8 @@ package main
 // https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md
 // https://github.com/Kotlin/kotlinx.coroutines
 
+import dv.LinearScale
+import javafx.application.Application
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
 import org.joda.time.DateTime
@@ -134,9 +136,18 @@ fun createTableIndex(db: DBI) {
 
 fun main(args: Array<String>) {
 
-    val db = DBI("jdbc:postgresql://localhost:5432/insight")
+//    val db = DBI("jdbc:postgresql://localhost:5432/insight")
 
-//    println(GoogleIntradayData("AAPL").execute().data())
+    val scale = LinearScale()
+
+    println(scale.toRange(0.0))
+    println(scale.toRange(1.0))
+
+    scale.range = 20.0 to 40.0
+    println(scale.toRange(0.5))
+    println(scale.toDomain(30.0))
+    println(scale.toDomain(25.0))
+    println(scale.toDomain(35.0))
 
 //    async(CommonPool) {
 //        var map = mutableMapOf<String, MutableMap<String, String>>()
