@@ -1,17 +1,5 @@
 package dv
 
-typealias Interval = Pair<Double, Double>
-
-fun Interval.toInterpolator(): (t: Double) -> Double = { t -> this.first * (1 - t) + this.second * t }
-fun Interval.toDeinterpolator(): (x: Double) -> Double = { x -> (x - this.first) / (this.second - this.first) }
-
-infix fun Interval.to(that: Interval): (x: Double) -> Double {
-    val deinterpolator = this.toDeinterpolator()
-    val interpolator = that.toInterpolator()
-
-    return { x -> interpolator(deinterpolator(x)) }
-}
-
 class LinearScale {
     var domain: Interval = 0.0 to 1.0
         set(value) {

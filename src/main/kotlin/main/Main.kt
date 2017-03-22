@@ -5,10 +5,12 @@ package main
 // https://github.com/Kotlin/kotlinx.coroutines
 
 import dv.LinearScale
+import dv.LogScale
 import javafx.application.Application
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
 import org.joda.time.DateTime
+import org.nd4j.linalg.factory.Nd4j
 import org.skife.jdbi.v2.DBI
 import org.skife.jdbi.v2.Handle
 import style.Styles
@@ -19,6 +21,10 @@ import java.io.File
 import java.math.BigDecimal
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+import org.knowm.xchart.SwingWrapper
+import org.knowm.xchart.QuickChart
+
+
 
 class InsightApp : App(SymbolTableView::class) {
 
@@ -138,17 +144,34 @@ fun main(args: Array<String>) {
 
 //    val db = DBI("jdbc:postgresql://localhost:5432/insight")
 
-    val scale = LinearScale()
+//    val linearScale = LinearScale()
+//
+//    println(linearScale.toRange(0.0))
+//    println(linearScale.toRange(1.0))
+//
+//    linearScale.range = 20.0 to 40.0
+//    println(linearScale.toRange(0.5))
+//    println(linearScale.toDomain(30.0))
+//    println(linearScale.toDomain(25.0))
+//    println(linearScale.toDomain(35.0))
 
-    println(scale.toRange(0.0))
-    println(scale.toRange(1.0))
+    val logScale = LogScale().apply {
+        base = 10.0
+        domain = 1.0 to 1000_000.0
+        range = 100.0 to 200.0
+    }
 
-    scale.range = 20.0 to 40.0
-    println(scale.toRange(0.5))
-    println(scale.toDomain(30.0))
-    println(scale.toDomain(25.0))
-    println(scale.toDomain(35.0))
+    println(logScale.toRange(1.0))
+    println(logScale.toRange(1000.0))
+    println(logScale.toRange(1000_000.0))
 
+    println("")
+
+    println(logScale.toDomain(100.0))
+    println(logScale.toDomain(200.0))
+    println(logScale.toDomain(125.0))
+    println(logScale.toDomain(150.0))
+    println(logScale.toDomain(175.0))
 //    async(CommonPool) {
 //        var map = mutableMapOf<String, MutableMap<String, String>>()
 //        StockFetcherUS.forAll { exchange, companies ->
@@ -165,5 +188,18 @@ fun main(args: Array<String>) {
 
 //    fetchIntradayDataUsa()
 //    fetchSummaryUsa()
+
+//    val ySteps = Nd4j.linspace(-100_000, 100_100, 101)
+
+//    println(ySteps)
+
+//    val xData = doubleArrayOf(0.0, 1.0, 2.0, 3.0, 4.0, 5.0)
+//    val yData = doubleArrayOf(0.0, 10.0, 100.0, 1000.0, 10_000.0, 100_000.0)
+//
+//    // Create Chart
+//    val chart = QuickChart.getChart("Sample Chart", "X", "Y", "y(x)", xData, yData)
+//
+//    // Show it
+//    SwingWrapper(chart).displayChart()
 
 }
