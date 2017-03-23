@@ -155,23 +155,47 @@ fun main(args: Array<String>) {
 //    println(linearScale.toDomain(25.0))
 //    println(linearScale.toDomain(35.0))
 
-    val logScale = LogScale().apply {
+//    val logScale1 = LogScale().apply {
+//        base = 10.0
+//        domain = 1.0 to 1000_000.0
+//        range = 100.0 to 200.0
+//    }
+//
+//    println(logScale1.toRange(1.0))
+//    println(logScale1.toRange(1000.0))
+//    println(logScale1.toRange(1000_000.0))
+//
+//    println("")
+//
+//    println(logScale1.toDomain(100.0))
+//    println(logScale1.toDomain(200.0))
+//    println(logScale1.toDomain(125.0))
+//    println(logScale1.toDomain(150.0))
+//    println(logScale1.toDomain(175.0))
+
+    val logScale2 = LogScale().apply {
         base = 10.0
-        domain = 1.0 to 1000_000.0
+        domain = -1000.0 to -1.0
         range = 100.0 to 200.0
     }
 
-    println(logScale.toRange(1.0))
-    println(logScale.toRange(1000.0))
-    println(logScale.toRange(1000_000.0))
+    println(logScale2.toRange(-1000.0))
+    println(logScale2.toRange(-100.0))
+    println(logScale2.toRange(-10.0))
+    println(logScale2.toRange(-1.0))
 
     println("")
 
-    println(logScale.toDomain(100.0))
-    println(logScale.toDomain(200.0))
-    println(logScale.toDomain(125.0))
-    println(logScale.toDomain(150.0))
-    println(logScale.toDomain(175.0))
+    println(logScale2.toDomain(100.0))
+    println(logScale2.toDomain(200.0))
+    println(logScale2.toDomain(125.0))
+    println(logScale2.toDomain(175.0))
+
+//    println(logScale2.toDomain(100.0))
+//    println(logScale2.toDomain(200.0))
+//    println(logScale2.toDomain(125.0))
+//    println(logScale2.toDomain(150.0))
+//    println(logScale2.toDomain(175.0))
 //    async(CommonPool) {
 //        var map = mutableMapOf<String, MutableMap<String, String>>()
 //        StockFetcherUS.forAll { exchange, companies ->
