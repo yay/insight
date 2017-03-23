@@ -9,12 +9,7 @@ fun log(x: Double, base: Double): Double {
 }
 
 /**
- * Returns a function that goes from a value in the [0, 1] interval to a value in the
- * given interval.
- *
- * The log of the given interval is taken first to produce the interval for the exponent,
- * which is the interval that actually gets interpolated. The `base` is then raised to
- * the power of the resulting exponent.
+ * Returns a function that goes from a value in [0, 1] to a value in [x, y] (given).
  */
 fun Interval.toLogInterpolator(base: Double): (t: Double) -> Double {
     val sign = Math.signum(this.first)
@@ -33,11 +28,7 @@ fun Interval.toLogInterpolator(base: Double): (t: Double) -> Double {
 }
 
 /**
- * Returns a function that goes from a value `x` in the given interval to a value
- * in the [0, 1] interval.
- *
- * The log of the given interval and value `x` is taken first to produce the interval
- * for the exponent, which is the interval that actually gets deinterpolated.
+ * Returns a function that goes from a value in [x, y] (given) to a value in [0, 1].
  */
 fun Interval.toLogDeinterpolator(base: Double): (t: Double) -> Double {
     val sign = Math.signum(this.first)
