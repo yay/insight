@@ -7,6 +7,18 @@ package main
 import dv.LinearScale
 import dv.LogScale
 import javafx.application.Application
+import javafx.beans.property.SimpleStringProperty
+import javafx.collections.FXCollections
+import javafx.event.EventHandler
+import javafx.geometry.Insets
+import javafx.geometry.Pos
+import javafx.scene.control.TabPane
+import javafx.scene.control.TableView
+import javafx.scene.input.KeyCode
+import javafx.scene.layout.Priority
+import javafx.scene.paint.Color
+import javafx.scene.text.Font
+import misc.TestApp
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
 import org.joda.time.DateTime
@@ -14,8 +26,6 @@ import org.nd4j.linalg.factory.Nd4j
 import org.skife.jdbi.v2.DBI
 import org.skife.jdbi.v2.Handle
 import style.Styles
-import tornadofx.App
-import tornadofx.importStylesheet
 import view.SymbolTableView
 import java.io.File
 import java.math.BigDecimal
@@ -23,7 +33,11 @@ import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import org.knowm.xchart.SwingWrapper
 import org.knowm.xchart.QuickChart
-
+import tornadofx.*
+import view.ChartView
+import view.DataFetcherView
+import view.NewsView
+import java.time.LocalDate
 
 
 class InsightApp : App(SymbolTableView::class) {
@@ -144,58 +158,6 @@ fun main(args: Array<String>) {
 
 //    val db = DBI("jdbc:postgresql://localhost:5432/insight")
 
-//    val linearScale = LinearScale()
-//
-//    println(linearScale.toRange(0.0))
-//    println(linearScale.toRange(1.0))
-//
-//    linearScale.range = 20.0 to 40.0
-//    println(linearScale.toRange(0.5))
-//    println(linearScale.toDomain(30.0))
-//    println(linearScale.toDomain(25.0))
-//    println(linearScale.toDomain(35.0))
-
-//    val logScale1 = LogScale().apply {
-//        base = 10.0
-//        domain = 1.0 to 1000_000.0
-//        range = 100.0 to 200.0
-//    }
-//
-//    println(logScale1.toRange(1.0))
-//    println(logScale1.toRange(1000.0))
-//    println(logScale1.toRange(1000_000.0))
-//
-//    println("")
-//
-//    println(logScale1.toDomain(100.0))
-//    println(logScale1.toDomain(200.0))
-//    println(logScale1.toDomain(125.0))
-//    println(logScale1.toDomain(150.0))
-//    println(logScale1.toDomain(175.0))
-
-    val logScale2 = LogScale().apply {
-        base = 10.0
-        domain = -1000.0 to -1.0
-        range = 100.0 to 200.0
-    }
-
-    println(logScale2.toRange(-1000.0))
-    println(logScale2.toRange(-100.0))
-    println(logScale2.toRange(-10.0))
-    println(logScale2.toRange(-1.0))
-
-    println("")
-
-    println(logScale2.toDomain(100.0))
-    println(logScale2.toDomain(200.0))
-    println(logScale2.toDomain(125.0))
-    println(logScale2.toDomain(175.0))
-
-//    println(logScale2.toDomain(100.0))
-//    println(logScale2.toDomain(200.0))
-//    println(logScale2.toDomain(125.0))
-//    println(logScale2.toDomain(150.0))
-//    println(logScale2.toDomain(175.0))
 //    async(CommonPool) {
 //        var map = mutableMapOf<String, MutableMap<String, String>>()
 //        StockFetcherUS.forAll { exchange, companies ->
@@ -208,7 +170,7 @@ fun main(args: Array<String>) {
 
 //    Settings.load(AppSettings)
 //    Settings.saveOnShutdown(AppSettings)
-//    Application.launch(InsightApp::class.java, *args)
+    Application.launch(TestApp::class.java, *args)
 
 //    fetchIntradayDataUsa()
 //    fetchSummaryUsa()
