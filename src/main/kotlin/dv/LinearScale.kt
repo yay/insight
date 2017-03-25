@@ -13,12 +13,12 @@ class LinearScale {
             rescale()
         }
 
-    private var domainToRange = domain to range
-    private var rangeToDomain = range to domain
+    private var domainToRange = interpolator(domain, range)
+    private var rangeToDomain = interpolator(range, domain)
 
     fun rescale() {
-        domainToRange = domain to range
-        rangeToDomain = range to domain
+        domainToRange = interpolator(domain, range)
+        rangeToDomain = interpolator(range, domain)
     }
 
     fun toRange(value: Double) = domainToRange(value)

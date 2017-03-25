@@ -19,15 +19,15 @@ class LogScale {
             rescale()
         }
 
-    // TODO: logInterpolate and logDeinterpolate are probably called too many times
+    // TODO: logInterpolator and logDeinterpolator are probably called too many times
     // during initialization
     // https://kotlinlang.org/docs/reference/classes.html
-    private var domainToRange = logInterpolate(domain, range, base)
-    private var rangeToDomain = logDeinterpolate(range, domain, base)
+    private var domainToRange = logInterpolator(domain, range, base)
+    private var rangeToDomain = logDeinterpolator(range, domain, base)
 
     fun rescale() {
-        domainToRange = logInterpolate(domain, range, base)
-        rangeToDomain = logDeinterpolate(range, domain, base)
+        domainToRange = logInterpolator(domain, range, base)
+        rangeToDomain = logDeinterpolator(range, domain, base)
     }
 
     fun toRange(value: Double) = domainToRange(value)

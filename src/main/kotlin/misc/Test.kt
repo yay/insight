@@ -3,10 +3,7 @@ package misc
 import dv.LinearScale
 import dv.LogScale
 import javafx.scene.paint.Color
-import tornadofx.App
-import tornadofx.View
-import tornadofx.canvas
-import tornadofx.vbox
+import tornadofx.*
 
 class TestView : View("Interpolation") {
 
@@ -28,22 +25,26 @@ class TestView : View("Interpolation") {
                 dataY.add(y)
             }
 
-            val minX = dataX.min()
-            val maxX = dataX.max()
-            val minY = dataY.min()
-            val maxY = dataY.max()
+            val minX = dataX.min() ?: 0.0
+            val maxX = dataX.max() ?: 1.0
+            val minY = dataY.min() ?: 0.0
+            val maxY = dataY.max() ?: 1.0
 
             val scaleX = LinearScale().apply {
-                domain = minX!! to maxX!!
+                domain = minX to maxX
                 range = 0.0 to primaryStage.minWidth
             }
 
             val scaleY = LogScale().apply {
-                domain = minY!! to maxY!!
+                domain = minY to maxY
                 range = 0.0 to primaryStage.minHeight
             }
 
             val count = dataX.count()
+
+            rectangle {
+
+            }
 
             canvas {
                 width = primaryStage.minWidth
@@ -54,6 +55,7 @@ class TestView : View("Interpolation") {
                 ctx.scale(1.0, -1.0)
 
                 ctx.stroke = Color.BLACK
+                ctx.fill = Color.RED
                 ctx.lineWidth = 3.0
 
                 ctx.beginPath()
@@ -66,6 +68,7 @@ class TestView : View("Interpolation") {
                     if (i == 0) {
                         ctx.moveTo(x0, y0)
                     }
+                    ctx.fillOval(x1 - 4.0, y1 - 4.0, 8.0, 8.0)
                     ctx.lineTo(x1, y1)
                 }
 

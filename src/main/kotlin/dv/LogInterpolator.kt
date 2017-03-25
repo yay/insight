@@ -44,14 +44,14 @@ fun Interval.toLogDeinterpolator(base: Double): (t: Double) -> Double {
     return { x -> (log(x * sign, base) - log0) / (log1 - log0) }
 }
 
-fun logInterpolate(domain: Interval, range: Interval, base: Double): (x: Double) -> Double {
+fun logInterpolator(domain: Interval, range: Interval, base: Double): (x: Double) -> Double {
     val logDeinterpolator = domain.toLogDeinterpolator(base)
     val interpolator = range.toInterpolator()
 
     return { x -> interpolator(logDeinterpolator(x)) }
 }
 
-fun logDeinterpolate(range: Interval, domain: Interval, base: Double): (x: Double) -> Double {
+fun logDeinterpolator(range: Interval, domain: Interval, base: Double): (x: Double) -> Double {
     val deinterpolator = range.toDeinterpolator()
     val logInterpolator = domain.toLogInterpolator(base)
 

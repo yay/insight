@@ -4,40 +4,19 @@ package main
 // https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md
 // https://github.com/Kotlin/kotlinx.coroutines
 
-import dv.LinearScale
-import dv.LogScale
-import javafx.application.Application
-import javafx.beans.property.SimpleStringProperty
-import javafx.collections.FXCollections
-import javafx.event.EventHandler
-import javafx.geometry.Insets
-import javafx.geometry.Pos
-import javafx.scene.control.TabPane
-import javafx.scene.control.TableView
-import javafx.scene.input.KeyCode
-import javafx.scene.layout.Priority
-import javafx.scene.paint.Color
-import javafx.scene.text.Font
-import misc.TestApp
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
 import org.joda.time.DateTime
-import org.nd4j.linalg.factory.Nd4j
 import org.skife.jdbi.v2.DBI
 import org.skife.jdbi.v2.Handle
 import style.Styles
+import tornadofx.App
+import tornadofx.importStylesheet
 import view.SymbolTableView
 import java.io.File
 import java.math.BigDecimal
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
-import org.knowm.xchart.SwingWrapper
-import org.knowm.xchart.QuickChart
-import tornadofx.*
-import view.ChartView
-import view.DataFetcherView
-import view.NewsView
-import java.time.LocalDate
 
 
 class InsightApp : App(SymbolTableView::class) {
@@ -170,10 +149,10 @@ fun main(args: Array<String>) {
 
 //    Settings.load(AppSettings)
 //    Settings.saveOnShutdown(AppSettings)
-    Application.launch(TestApp::class.java, *args)
+//    Application.launch(TestApp::class.java, *args)
 
-//    fetchIntradayDataUsa()
-//    fetchSummaryUsa()
+    fetchIntradayDataUsa()
+    fetchSummaryUsa()
 
 //    val ySteps = Nd4j.linspace(-100_000, 100_100, 101)
 

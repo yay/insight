@@ -1,7 +1,5 @@
 package main
 
-import org.jetbrains.exposed.sql.Table
-
 // https://scs.fidelity.com/help/mmnet/help_personal_about_tickers.shtml
 // Tickers are mostly (up to) 5-character alpha codes, but Shenzhen Stock Exchange,
 // for example, has 6-character numerical codes.
@@ -30,27 +28,3 @@ import org.jetbrains.exposed.sql.Table
 // http://wiki.c2.com/?TimeSeriesInSql
 // http://jmoiron.net/blog/thoughts-on-timeseries-databases/
 // https://news.ycombinator.com/item?id=9805742
-
-object DailyQuotes : Table() {
-    val quoteDate = datetime("quote_date").primaryKey()
-    val market = varchar("market", 4).primaryKey()
-    val symbol = varchar("symbol", 6).primaryKey()
-    val open = decimal("open", 14, 6)
-    val high = decimal("high", 14, 6)
-    val low = decimal("low", 14, 6)
-    val close = decimal("close", 14, 6)
-    val adjClose = decimal("adj_close", 14, 6)
-    val volume = long("volume")
-}
-
-object IntradayQuotes : Table() {
-    val quoteTime = datetime("quote_time").primaryKey()
-    val market = varchar("market", 4).primaryKey()
-    val symbol = varchar("symbol", 6).primaryKey()
-    val open = decimal("open", 14, 6)
-    val high = decimal("high", 14, 6)
-    val low = decimal("low", 14, 6)
-    val close = decimal("close", 14, 6)
-    val adjClose = decimal("adj_close", 14, 6)
-    val volume = integer("volume")
-}
