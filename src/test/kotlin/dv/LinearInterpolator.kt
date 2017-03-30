@@ -1,28 +1,7 @@
 package dv
 
-import org.jetbrains.spek.api.Spek
-import org.jetbrains.spek.api.dsl.describe
-import org.jetbrains.spek.api.dsl.it
 import org.junit.Test
-import org.junit.platform.runner.JUnitPlatform
-import org.junit.runner.RunWith
 import kotlin.test.assertEquals
-
-//@RunWith(JUnitPlatform::class)
-//class LinearInterpolatorSpek : Spek({
-//    describe("Interval.toInterpolator") {
-//        it("should work") {
-//            val interval = 100.0 to 200.0
-//            val i1 = interval.toInterpolator()
-//
-//            assertEquals(100.0, i1(0.0))
-//            assertEquals(150.0, i1(0.5))
-//            assertEquals(200.0, i1(1.0))
-//            assertEquals(50.0, i1(-0.5))
-//            assertEquals(250.0, i1(1.5))
-//        }
-//    }
-//})
 
 class LinearInterpolatorTest {
 
