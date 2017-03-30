@@ -36,7 +36,7 @@ fun csvDailyQuotesToDb(db: DBI) {
             "nyse" to "XNYS",
             "amex" to "XASE"
     )
-    val basePath = "${AppSettings.paths.storage}/data/24-02-2017/"
+    val basePath = "${AppSettings.paths.storage}/${AppSettings.paths.dailyData}/24-02-2017/"
 
     fun BigDecimal.isValidPrice(): Boolean = this.precision() <= 8 && this.scale() <= 6
     fun String.isValidSymbol(): Boolean = this.length <= 6

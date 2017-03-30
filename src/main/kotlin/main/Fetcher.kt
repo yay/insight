@@ -182,7 +182,7 @@ object StockFetcherUS {
     fun fetchData() {
         forAll { exchange, companies ->
             for ((symbol) in companies) {
-                val file = File("${AppSettings.paths.data}/$exchange/$symbol.csv")
+                val file = File("${AppSettings.paths.dailyData}/$exchange/$symbol.csv")
                 file.parentFile.mkdirs()
                 val data = YahooData(symbol)
                         .startDate(LocalDate.now().minusYears(70))
