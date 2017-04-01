@@ -10,7 +10,7 @@ fun fetchIntradayData(symbol: String): String {
             data = result.data
         }
         is GetError -> {
-            println("$symbol request status code ${result.code}: ${result.message}")
+            getAppLogger().error("$symbol request status code ${result.code}: ${result.message}")
         }
     }
 

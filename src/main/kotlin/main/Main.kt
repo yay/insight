@@ -9,6 +9,7 @@ import org.apache.commons.csv.CSVParser
 import org.joda.time.DateTime
 import org.skife.jdbi.v2.DBI
 import org.skife.jdbi.v2.Handle
+import org.slf4j.LoggerFactory
 import style.Styles
 import tornadofx.App
 import tornadofx.importStylesheet
@@ -75,8 +76,9 @@ fun csvDailyQuotesToDb(db: DBI) {
                             .bind("volume", volume)
                             .execute()
                 } catch (e: Exception) {
-                    println("Exception on ($date, $symbol, $market): $e")
-                    println("$symbol data will not be added to the database.")
+                    val logger = getAppLogger()
+                    logger.error("Exception on ($date, $symbol, $market): $e\n" +
+                            "$symbol data will not be added to the database.")
                     handle.execute("rollback")
                     return false
                 }
@@ -104,7 +106,7 @@ fun csvDailyQuotesToDb(db: DBI) {
             for (file in walker) {
                 val symbol = file.nameWithoutExtension.trim()
                 if (symbol != exchange) {
-                    println("${index++} - $market:$symbol")
+                    getAppLogger().debug("${index++} - $market:$symbol")
                     val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(file.reader())
 
                     handle.execute("begin")

@@ -5,6 +5,8 @@ import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
 import org.apache.commons.csv.CSVFormat
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.StringReader
 import java.time.LocalDate
@@ -26,7 +28,9 @@ class Exchange(
         val founded: Int = 0,
         val url: String = "",
         val getSecurities: Exchange.() -> List<Security> = Exchange::noSecurities
-)
+) {
+    val logger: Logger by lazy { LoggerFactory.getLogger(this::class.java.name) }
+}
 
 private val exchanges = listOf(
         Exchange("nasdaq", "NASDAQ", "New York City", 1971, "http://www.nasdaq.com/",
@@ -44,7 +48,9 @@ private val exchanges = listOf(
 // http://stackoverflow.com/questions/32935470/how-to-convert-list-to-map-in-kotlin
 val exchangeMap = exchanges.map { it.code to it }.toMap()
 
-
+/**
+ * Fetches last day's intraday data for major exchanges.
+ */
 fun fetchIntradayDataUsa() {
     val time = measureTimeMillis {
         runBlocking {
@@ -53,9 +59,12 @@ fun fetchIntradayDataUsa() {
             exchangeMap["amex"]?.asyncFetchIntradayData()
         }
     }
-    println("Fetching intraday data completed in $time ms.")
+    getAppLogger().debug("Fetching intraday data completed in $time ms.")
 }
 
+/**
+ * Fetches last day's summary data for major exchanges.
+ */
 fun fetchSummaryUsa() {
     val time = measureTimeMillis {
         runBlocking {
@@ -64,7 +73,7 @@ fun fetchSummaryUsa() {
             exchangeMap["amex"]?.asyncFetchSummary()
         }
     }
-    println("Fetching summaries completed in $time ms.")
+    getAppLogger().debug("Fetching summaries completed in $time ms.")
 }
 
 
@@ -93,7 +102,7 @@ fun Exchange.getExchangeSecuritiesFromNasdaq(): List<Security> {
 
         }
         is GetError -> {
-            println(result.message)
+            logger.error(result.message)
         }
     }
 
@@ -138,6 +147,8 @@ object StockFetcherUS {
 
     val exchanges = listOf("nasdaq", "nyse", "amex")
 
+    val logger: Logger by lazy { LoggerFactory.getLogger(this::class.java.name) }
+
     fun getStocks(exchange: String): List<Security>? {
         var list: List<Security>? = null
 
@@ -162,7 +173,7 @@ object StockFetcherUS {
 
                 }
                 is GetError -> {
-                    println(result.message)
+                    logger.error(result.message)
                 }
             }
         }

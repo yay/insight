@@ -31,7 +31,7 @@ fun getYahooSummary(symbol: String): YahooSummaryData {
             data = result.data
         }
         is GetError -> {
-            println("$symbol request status code ${result.code}: ${result.message}\n${result.url}")
+            getAppLogger().error("$symbol request status code ${result.code}: ${result.message}\n${result.url}")
         }
     }
 
