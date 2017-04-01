@@ -67,6 +67,8 @@
     <orderEntry type="library" name="Maven: org.jdbi:jdbi:2.78" level="project" />
     <orderEntry type="library" name="Maven: org.postgresql:postgresql:42.0.0.jre7" level="project" />
     <orderEntry type="library" name="Maven: joda-time:joda-time:2.9.7" level="project" />
+    <orderEntry type="library" name="Maven: javax.mail:mail:1.4.7" level="project" />
+    <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
     <orderEntry type="library" name="Maven: no.tornado:tornadofx:1.7.0" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish:javax.json:1.0.4" level="project" />
     <orderEntry type="library" name="Maven: com.squareup.okhttp3:okhttp:3.6.0" level="project" />

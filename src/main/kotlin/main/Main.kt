@@ -137,6 +137,15 @@ fun createTableIndex(db: DBI) {
 
 fun main(args: Array<String>) {
 
+    try {
+        throw Error("Shit is real!")
+    } catch (e: Error) {
+        for (i in 1..20) {
+            getAppLogger().error("Error occurred: ${e.message}")
+        }
+
+    }
+
 //    val db = DBI("jdbc:postgresql://localhost:5432/insight")
 
 //    async(CommonPool) {
@@ -153,8 +162,8 @@ fun main(args: Array<String>) {
 //    Settings.saveOnShutdown(AppSettings)
 //    Application.launch(TestApp::class.java, *args)
 
-    fetchIntradayDataUsa()
-    fetchSummaryUsa()
+//    fetchIntradayDataUsa()
+//    fetchSummaryUsa()
 
 //    val ySteps = Nd4j.linspace(-100_000, 100_100, 101)
 

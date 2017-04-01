@@ -1,15 +1,35 @@
 <configuration>
 
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <!-- encoders are  by default assigned the type
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are by default assigned the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <root>
-        <appender-ref ref="STDOUT" />
+    <appender name="Mail" class="ch.qos.logback.classic.net.SMTPAppender" bufferSize="10">
+        <smtpHost>127.0.0.1</smtpHost>
+        <from>insight@vitalyk.com</from>
+        <to>vitalyx@gmail.com</to>
+        <subject>Insight: Error Log</subject>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%date %-5level %logger{39} [%file:%line] - %msg%n%ex{full}</pattern>
+        </layout>
+        <!--Thanks to ThresholdFilter with level set to ERROR we are sure that-->
+        <!--even if root level will be changed – only error mails will be sent.-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <asynchronousSending>false</asynchronousSending>
+    </appender>
+
+    <root level="DEBUG">
+        <appender-ref ref="Console" />
+    </root>
+
+    <root level="ERROR">
+        <appender-ref ref="Mail" />
     </root>
 
 </configuration>
