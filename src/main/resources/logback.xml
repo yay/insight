@@ -8,8 +8,13 @@
         </encoder>
     </appender>
 
-    <appender name="Mail" class="ch.qos.logback.classic.net.SMTPAppender" bufferSize="10">
-        <smtpHost>127.0.0.1</smtpHost>
+    <appender name="Mail" class="ch.qos.logback.classic.net.SMTPAppender">
+        <asynchronousSending>false</asynchronousSending>
+        <smtpHost>smtp.gmail.com</smtpHost>
+        <smtpPort>465</smtpPort>
+        <username>vitalyx@gmail.com</username>
+        <password>kcoomuicctzglszn</password>
+        <SSL>true</SSL>
         <from>insight@vitalyk.com</from>
         <to>vitalyx@gmail.com</to>
         <subject>Insight: Error Log</subject>
@@ -21,7 +26,10 @@
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>ERROR</level>
         </filter>
-        <asynchronousSending>false</asynchronousSending>
+        <cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTracker">
+            <!-- send just one log entry per email -->
+            <bufferSize>1</bufferSize>
+        </cyclicBufferTracker>
     </appender>
 
     <root level="DEBUG">
