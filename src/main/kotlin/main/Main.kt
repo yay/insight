@@ -7,9 +7,9 @@ package main
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
 import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import org.skife.jdbi.v2.DBI
 import org.skife.jdbi.v2.Handle
-import org.slf4j.LoggerFactory
 import style.Styles
 import tornadofx.App
 import tornadofx.importStylesheet
@@ -18,6 +18,19 @@ import java.io.File
 import java.math.BigDecimal
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+
+import org.quartz.JobBuilder.*
+import org.quartz.SimpleScheduleBuilder.*
+import org.quartz.DateBuilder.*
+import org.quartz.CronScheduleBuilder.*
+import org.quartz.CalendarIntervalScheduleBuilder.*
+import org.quartz.Job
+import org.quartz.JobExecutionContext
+import org.quartz.TriggerBuilder.*
+import org.quartz.impl.StdSchedulerFactory
+import org.slf4j.LoggerFactory
+import org.slf4j.MarkerFactory
+import java.time.LocalDate
 
 
 class InsightApp : App(SymbolTableView::class) {
@@ -135,7 +148,37 @@ fun createTableIndex(db: DBI) {
     }
 }
 
+class IntradayFetcher : Job {
+    override fun execute(context: JobExecutionContext?) {
+        println("Hi there!")
+    }
+}
+
+fun function() {
+    val schedulerFactory = StdSchedulerFactory()
+    val scheduler = schedulerFactory.getScheduler()
+    scheduler.start()
+
+    val job = newJob(IntradayFetcher::class.java)
+            .withIdentity("myJob", "group1")
+            .build()
+
+    val trigger = newTrigger()
+            .withIdentity("myTrigger", "group1")
+            .startNow()
+            .withSchedule(simpleSchedule()
+                    .withIntervalInSeconds(10)
+                    .repeatForever())
+            .build()
+
+    scheduler.scheduleJob(job, trigger)
+
+    scheduler.shutdown()
+}
+
 fun main(args: Array<String>) {
+
+//    function()
 //    val db = DBI("jdbc:postgresql://localhost:5432/insight")
 
 //    async(CommonPool) {
@@ -154,6 +197,9 @@ fun main(args: Array<String>) {
 
     fetchIntradayDataUsa()
     fetchSummaryUsa()
+
+    // http://mailman.qos.ch/pipermail/logback-user/2007-June/000247.html
+//    MarkerFactory.getMarker("flush_mail")
 
 //    val ySteps = Nd4j.linspace(-100_000, 100_100, 101)
 

@@ -9,7 +9,7 @@
     </appender>
 
     <appender name="Mail" class="ch.qos.logback.classic.net.SMTPAppender">
-        <asynchronousSending>false</asynchronousSending>
+        <asynchronousSending>true</asynchronousSending>
         <smtpHost>smtp.gmail.com</smtpHost>
         <smtpPort>465</smtpPort>
         <username>vitalyx@gmail.com</username>
@@ -28,7 +28,7 @@
         </filter>
         <cyclicBufferTracker class="ch.qos.logback.core.spi.CyclicBufferTracker">
             <!-- send just one log entry per email -->
-            <bufferSize>1</bufferSize>
+            <bufferSize>20</bufferSize>
         </cyclicBufferTracker>
     </appender>
 

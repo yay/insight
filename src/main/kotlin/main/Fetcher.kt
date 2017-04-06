@@ -5,6 +5,8 @@ import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
 import org.apache.commons.csv.CSVFormat
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -112,14 +114,16 @@ fun Exchange.getExchangeSecuritiesFromNasdaq(): List<Security> {
 suspend fun Exchange.asyncFetchIntradayData() {
     // Note: the data is most complete when fetched a few hours (3 hours or so) after the close.
     val exchange = this
-    val date: String = LocalDate.now().toString()
+    // No matter what time and date it is locally, we are interested in what date it is in New York.
+    val dateTime = DateTime().withZone(DateTimeZone.forID("America/New_York"))
+    val dateString: String = dateTime.toString("yyyy-MM-dd")
     val securities = async(CommonPool) { exchange.getSecurities() }.await()
 
     securities.map { (symbol) ->
         async(CommonPool) {
             val data = fetchIntradayData(symbol)
             if (data.isNotBlank()) {
-                val file = File("${AppSettings.paths.intradayData}/$date/${exchange.code}/$symbol.json")
+                val file = File("${AppSettings.paths.intradayData}/$dateString/${exchange.code}/$symbol.json")
                 file.parentFile.mkdirs()
                 file.writeText(data)
             }
@@ -129,13 +133,15 @@ suspend fun Exchange.asyncFetchIntradayData() {
 
 suspend fun Exchange.asyncFetchSummary() {
     val exchange = this
-    val date: String = LocalDate.now().toString()
+    // No matter what time and date it is locally, we are interested in what date it is in New York.
+    val dateTime = DateTime().withZone(DateTimeZone.forID("America/New_York"))
+    val dateString: String = dateTime.toString("yyyy-MM-dd")
     val securities = async(CommonPool) { exchange.getSecurities() }.await()
 
     securities.map { (symbol) ->
         async(CommonPool) {
             val data = getYahooSummary(symbol).toJsonString()
-            val file = File("${AppSettings.paths.summary}/$date/${exchange.code}/$symbol.json")
+            val file = File("${AppSettings.paths.summary}/$dateString/${exchange.code}/$symbol.json")
             file.parentFile.mkdirs()
             file.writeText(data)
         }
