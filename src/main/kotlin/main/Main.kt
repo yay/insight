@@ -89,8 +89,7 @@ fun csvDailyQuotesToDb(db: DBI) {
                             .bind("volume", volume)
                             .execute()
                 } catch (e: Exception) {
-                    val logger = getAppLogger()
-                    logger.error("Exception on ($date, $symbol, $market): $e\n" +
+                    getAppLogger().error("Exception on ($date, $symbol, $market): $e\n" +
                             "$symbol data will not be added to the database.")
                     handle.execute("rollback")
                     return false
@@ -149,8 +148,12 @@ fun createTableIndex(db: DBI) {
 }
 
 class IntradayFetcher : Job {
+
+    var greeting: String = ""
+    var age: Int = 0
+
     override fun execute(context: JobExecutionContext?) {
-        println("Hi there!")
+        println("$greeting $age")
     }
 }
 
@@ -159,24 +162,39 @@ fun function() {
     val scheduler = schedulerFactory.getScheduler()
     scheduler.start()
 
-    val job = newJob(IntradayFetcher::class.java)
+    val job1 = newJob(IntradayFetcher::class.java)
             .withIdentity("myJob", "group1")
+            .usingJobData("greeting", "Vitaly Kravchenko")
+            .usingJobData("age", 30)
+            .build()
+
+    val job2 = newJob(IntradayFetcher::class.java)
+            .withIdentity("myOtherJob", "group2")
+            .usingJobData("greeting", "Bob Marley")
+            .usingJobData("age", 52)
             .build()
 
     val trigger = newTrigger()
-            .withIdentity("myTrigger", "group1")
+//            .withIdentity("myTrigger", "group1")
+//            .withIdentity("myTrigger")
             .startNow()
             .withSchedule(simpleSchedule()
                     .withIntervalInSeconds(10)
                     .repeatForever())
             .build()
 
-    scheduler.scheduleJob(job, trigger)
+    scheduler.scheduleJob(job1, trigger)
+//    scheduler.scheduleJob(job2, trigger)
 
-    scheduler.shutdown()
+//    scheduler.shutdown()
 }
 
 fun main(args: Array<String>) {
+
+//    val file = File("${AppSettings.paths.intradayData}/2014-23-3/NASDAQ/AAPL.json")
+//    println(file.absolutePath)
+//    println(file.path)
+//    println(file.canonicalPath)
 
 //    function()
 //    val db = DBI("jdbc:postgresql://localhost:5432/insight")
