@@ -10,6 +10,7 @@ import org.joda.time.DateTimeZone
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
+import java.io.IOException
 import java.io.StringReader
 import java.time.LocalDate
 import kotlin.system.measureTimeMillis
@@ -122,10 +123,12 @@ suspend fun Exchange.asyncFetchIntradayData() {
     securities.map { (symbol) ->
         async(CommonPool) {
             val data = fetchIntradayData(symbol)
-            if (data.isNotBlank()) {
-                val file = File("${AppSettings.paths.intradayData}/$dateString/${exchange.code}/$symbol.json")
-                file.parentFile.mkdirs()
-                file.writeText(data)
+            if (data != null) {
+                try {
+                    data.writeToFile("${AppSettings.paths.intradayData}/$dateString/${exchange.code}/$symbol.json")
+                } catch (e: Error) {
+                    exchange.logger.error(e.message)
+                }
             }
         }
     }.forEach { it.await() }
@@ -140,10 +143,15 @@ suspend fun Exchange.asyncFetchSummary() {
 
     securities.map { (symbol) ->
         async(CommonPool) {
-            val data = getYahooSummary(symbol).toJsonString()
-            val file = File("${AppSettings.paths.summary}/$dateString/${exchange.code}/$symbol.json")
-            file.parentFile.mkdirs()
-            file.writeText(data)
+            val data = getYahooSummary(symbol)
+            if (data != null) {
+                try {
+                    val path = "${AppSettings.paths.summary}/$dateString/${exchange.code}/$symbol.json"
+                    data.toPrettyJson().writeToFile(path)
+                } catch (e: Error) {
+                    exchange.logger.error(e.message)
+                }
+            }
         }
     }.forEach { it.await() }
 }
