@@ -10,7 +10,6 @@ import org.joda.time.DateTimeZone
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
-import java.io.IOException
 import java.io.StringReader
 import java.time.LocalDate
 import kotlin.system.measureTimeMillis
@@ -28,7 +27,6 @@ class Exchange(
         val code: String,
         val name: String,
         val location: String,
-        val founded: Int = 0,
         val url: String = "",
         val getSecurities: Exchange.() -> List<Security> = Exchange::noSecurities
 ) {
@@ -36,13 +34,13 @@ class Exchange(
 }
 
 private val exchanges = listOf(
-        Exchange("nasdaq", "NASDAQ", "New York City", 1971, "http://www.nasdaq.com/",
+        Exchange("nasdaq", "NASDAQ", "New York City", "http://www.nasdaq.com/", // founded 1971
                 Exchange::getExchangeSecuritiesFromNasdaq
         ),
-        Exchange("nyse", "New York Security Exchange", "New York City", 1817, "https://www.nyse.com/index",
+        Exchange("nyse", "New York Security Exchange", "New York City", "https://www.nyse.com/index", // founded 1817
                 Exchange::getExchangeSecuritiesFromNasdaq
         ),
-        Exchange("amex", "NYSE MKT", "New York City", 1908, "https://www.nyse.com/markets/nyse-mkt",
+        Exchange("amex", "NYSE MKT", "New York City", "https://www.nyse.com/markets/nyse-mkt", // founded 1908
                 Exchange::getExchangeSecuritiesFromNasdaq
         )
 
@@ -54,7 +52,7 @@ val exchangeMap = exchanges.map { it.code to it }.toMap()
 /**
  * Fetches last day's intraday data for major exchanges.
  */
-fun fetchIntradayDataUsa() {
+fun fetchIntradayData() {
     val time = measureTimeMillis {
         runBlocking {
             exchangeMap["nasdaq"]?.asyncFetchIntradayData()
@@ -68,7 +66,7 @@ fun fetchIntradayDataUsa() {
 /**
  * Fetches last day's summary data for major exchanges.
  */
-fun fetchSummaryUsa() {
+fun fetchSummary() {
     val time = measureTimeMillis {
         runBlocking {
             exchangeMap["nasdaq"]?.asyncFetchSummary()

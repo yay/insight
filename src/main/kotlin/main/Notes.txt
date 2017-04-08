@@ -36,3 +36,23 @@ https://www.quantshare.com/sa-426-6-ways-to-download-free-intraday-and-tick-data
 
 Query API:
 http://autoc.finance.yahoo.com/autoc?query=alphabet&region=EU&lang=en-GB
+
+
+
+Pre-market trading occurs from 4:00 a.m. to 9:30 a.m. ET,
+although the majority of the volume and liquidity come to the pre-market at 8:00AM ET.
+After-hours trading on a day with a normal session occurs from 4:00 p.m. to 8:00 p.m. ET.
+
+
+
+Schwab's Extended Hours Trading:
+
+Pre-Market Session:
+Orders can be entered from 8:05 p.m. on the previous trading day to 9:25 a.m. ET,
+but trades are not eligible for execution until the session officially opens
+for trading at 8:00 a.m. ET.
+
+After-Hours Session:
+Orders can be entered from 4:05 p.m. to 8:00 p.m. ET,
+but trades are not eligible for execution until the session officially opens
+for trading at 4:15 p.m. ET.
