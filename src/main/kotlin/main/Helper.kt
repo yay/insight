@@ -15,24 +15,18 @@ fun Long.toReadableNumber(): String {
     return DecimalFormat("#,##0.#").format(this / Math.pow(1000.0, digitGroups.toDouble())) + units[digitGroups]
 }
 
-fun String.writeToFile(filePath: String): Boolean {
-    val file = File(filePath)
-    var error: String? = null
+/**
+ * Writes the string to a file with the specified `pathname`, creating all parent
+ * directories in the process.
+ * @param  pathname  A pathname string
+ * @throws  SecurityException
+ * @throws  IOException
+ */
+fun String.writeToFile(pathname: String) {
+    val file = File(pathname)
 
-    try {
-        file.parentFile.mkdirs()
-        file.writeText(this)
-    } catch (e: SecurityException) { // mkdirs
-        error = "Creating parent directories for ${file.canonicalPath} failed.\n${e.message}"
-    } catch (e: IOException) { // writeText
-        error = "Writing to ${file.canonicalPath} failed.\n${e.message}"
-    }
-
-    if (error != null) {
-        throw Error(error)
-    }
-
-    return error == null
+    file.parentFile.mkdirs()
+    file.writeText(this)
 }
 
 fun String.toJsonNode(): JsonNode {
