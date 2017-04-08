@@ -1,0 +1,3 @@
+https://github.com/Kotlin/kotlinx.coroutines/blob/master/coroutines-guide.md
+https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md
+https://github.com/Kotlin/kotlinx.coroutines

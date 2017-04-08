@@ -30,7 +30,11 @@ class EndOfDayFetcher : Job {
     }
 }
 
+// http://www.quartz-scheduler.org/documentation/quartz-2.x/tutorials/tutorial-lesson-06.html
 fun setupEndOfDayFetcher() {
+
+    // TODO: don't fetch on market holidays, or stop fetching if the data is the same
+    // TODO: as for the previous weekday.
 
     //    Field Name	 	Allowed Values	 	Allowed Special Characters
     //    Seconds           0-59                , - * /
