@@ -2,7 +2,7 @@ package sandbox
 
 import javafx.application.Application
 import kotlinx.coroutines.experimental.runBlocking
-import main.InsightApp
+import view.InsightApp
 
 fun Mmain(args: Array<String>) = runBlocking<Unit> {
     //    val tree = insight.main.YahooSummary("MSFT").execute().parse().tree()
