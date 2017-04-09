@@ -1,11 +1,9 @@
 package controller
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import javafx.scene.Node
 import javafx.scene.control.ComboBox
 import javafx.scene.control.DatePicker
 import main.DataFrequency
-import main.HttpClients
 import main.YahooData
 import tornadofx.Controller
 import tornadofx.observable

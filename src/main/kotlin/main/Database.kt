@@ -13,17 +13,17 @@ import java.text.SimpleDateFormat
 
 object DB {
 
-    var connected = false
-
     lateinit var insight: DBI
 
-    fun connect() {
+    fun connect(): Boolean {
         try {
             insight = DBI("jdbc:postgresql://localhost:5432/insight")
-            connected = true
         } catch (e: SQLException) {
             getAppLogger().error(e.message)
+            return false
         }
+
+        return true
     }
 }
 
@@ -42,6 +42,18 @@ fun createTableIndex(db: DBI) {
 private fun BigDecimal.isValidPrice(): Boolean = this.precision() <= 8 && this.scale() <= 6
 private fun String.isValidSymbol(): Boolean = this.length <= 6
 private fun String.isValidMarket(): Boolean = this.length <= 4
+
+data class Quote(
+        val date: DateTime,
+        val market: String,
+        val symbol: String,
+        val open: BigDecimal,
+        val high: BigDecimal,
+        val low: BigDecimal,
+        val close: BigDecimal,
+        val adjClose: BigDecimal,
+        val volume: Long
+)
 
 /**
  * @param  handle  Database connection
@@ -73,11 +85,11 @@ fun csvTickerDailyQuotesToDb(handle: Handle, records: CSVParser,
 
             try {
                 handle.createStatement("insert into dailyquotes" +
-                        " (quote_date, symbol, market, \"open\", high, low, \"close\", adj_close, volume)" +
-                        " values (:quote_date, :symbol, :market, :open, :high, :low, :close, :adj_close, :volume)")
+                        " (quote_date, market, symbol, \"open\", high, low, \"close\", adj_close, volume)" +
+                        " values (:quote_date, :market, :symbol, :open, :high, :low, :close, :adj_close, :volume)")
                         .bind("quote_date", Timestamp(date.millis))
-                        .bind("symbol", symbol)
                         .bind("market", market)
+                        .bind("symbol", symbol)
                         .bind("open", open)
                         .bind("high", high)
                         .bind("low", low)
