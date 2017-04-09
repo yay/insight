@@ -23,7 +23,7 @@ fun getYahooSummary(symbol: String): String? {
             return result.data // this JSON string is not "pretty"
         }
         is GetError -> {
-            getAppLogger().error("$symbol request status code ${result.code}: ${result.message}\n${result.url}")
+            getAppLogger().warn("$symbol request status code ${result.code}: ${result.message}\n${result.url}")
         }
     }
 

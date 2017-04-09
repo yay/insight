@@ -154,6 +154,19 @@ suspend fun Exchange.asyncFetchSummary() {
     }.forEach { it.await() }
 }
 
+// Creates a map of ticker symbols to company names for all exchanges.
+fun createTickerToNameJson() {
+    async(CommonPool) {
+        var map = mutableMapOf<String, MutableMap<String, String>>()
+        StockFetcherUS.forAll { exchange, companies ->
+            val symbolNames = mutableMapOf<String, String>()
+            companies.forEach { symbolNames[it.symbol] = it.name }
+            map[exchange] = symbolNames
+        }
+        Settings.save(map, "exchanges.json")
+    }
+}
+
 object StockFetcherUS {
     val baseUrl = "http://www.nasdaq.com/screening/companies-by-name.aspx"
 

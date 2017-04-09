@@ -7,8 +7,25 @@ import org.skife.jdbi.v2.DBI
 import org.skife.jdbi.v2.Handle
 import java.io.File
 import java.math.BigDecimal
+import java.sql.SQLException
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+
+object DB {
+
+    var connected = false
+
+    lateinit var insight: DBI
+
+    fun connect() {
+        try {
+            insight = DBI("jdbc:postgresql://localhost:5432/insight")
+            connected = true
+        } catch (e: SQLException) {
+            getAppLogger().error(e.message)
+        }
+    }
+}
 
 fun runDbMigration(db: DBI) {
     val runner = MigrationRunner(db)
@@ -22,64 +39,75 @@ fun createTableIndex(db: DBI) {
     }
 }
 
-fun csvDailyQuotesToDb(db: DBI) {
+private fun BigDecimal.isValidPrice(): Boolean = this.precision() <= 8 && this.scale() <= 6
+private fun String.isValidSymbol(): Boolean = this.length <= 6
+private fun String.isValidMarket(): Boolean = this.length <= 4
 
-    val exchangeToMarketMap = mapOf(
-            "nasdaq" to "XNAS",
-            "nyse" to "XNYS",
-            "amex" to "XASE"
-    )
-    val basePath = "${AppSettings.paths.storage}/${AppSettings.paths.dailyData}/24-02-2017/"
+/**
+ * @param  handle  Database connection
+ * @param  records  A parser over a stream of records (Iterable)
+ * @param  market  Exchange code
+ * @param  symbol  Ticker symbol
+ * @param  dateFormat  Date format to use for parsing date column values
+ */
+fun csvTickerDailyQuotesToDb(handle: Handle, records: CSVParser,
+                 market: String, symbol: String, dateFormat: SimpleDateFormat): Boolean {
 
-    fun BigDecimal.isValidPrice(): Boolean = this.precision() <= 8 && this.scale() <= 6
-    fun String.isValidSymbol(): Boolean = this.length <= 6
-    fun String.isValidMarket(): Boolean = this.length <= 4
+    records.forEach {
+        val rec = it
+        val date = DateTime(dateFormat.parse(rec.get(YahooDataColumns.date)))
+        val open = BigDecimal(rec.get(YahooDataColumns.open))
+        val high = BigDecimal(rec.get(YahooDataColumns.high))
+        val low = BigDecimal(rec.get(YahooDataColumns.low))
+        val close = BigDecimal(rec.get(YahooDataColumns.close))
+        val adjClose = BigDecimal(rec.get(YahooDataColumns.adjClose))
+        val volume = rec.get(YahooDataColumns.volume).toLong()
 
-    fun writeRecords(handle: Handle, records: CSVParser,
-                     market: String, symbol: String, dateFormat: SimpleDateFormat): Boolean {
-        records.forEach {
-            val rec = it
-            val date = DateTime(dateFormat.parse(rec.get(YahooDataColumns.date)))
-            val open = BigDecimal(rec.get(YahooDataColumns.open))
-            val high = BigDecimal(rec.get(YahooDataColumns.high))
-            val low = BigDecimal(rec.get(YahooDataColumns.low))
-            val close = BigDecimal(rec.get(YahooDataColumns.close))
-            val adjClose = BigDecimal(rec.get(YahooDataColumns.adjClose))
-            val volume = rec.get(YahooDataColumns.volume).toLong()
+        if (adjClose.isValidPrice() && // adjClose check is most likely to fail so it goes first
+                open.isValidPrice() &&
+                high.isValidPrice() &&
+                low.isValidPrice() &&
+                close.isValidPrice() &&
+                symbol.isValidSymbol() &&
+                market.isValidMarket()) {
 
-            if (adjClose.isValidPrice() && // adjClose check is most likely to fail
-                    open.isValidPrice() &&
-                    high.isValidPrice() &&
-                    low.isValidPrice() &&
-                    close.isValidPrice() &&
-                    symbol.isValidSymbol() &&
-                    market.isValidMarket()) {
-
-                try {
-                    handle.createStatement("insert into dailyquotes (quote_date, symbol, market, \"open\", high, low, \"close\", adj_close, volume) values (:quote_date, :symbol, :market, :open, :high, :low, :close, :adj_close, :volume)")
-                            .bind("quote_date", Timestamp(date.millis))
-                            .bind("symbol", symbol)
-                            .bind("market", market)
-                            .bind("open", open)
-                            .bind("high", high)
-                            .bind("low", low)
-                            .bind("close", close)
-                            .bind("adj_close", adjClose)
-                            .bind("volume", volume)
-                            .execute()
-                } catch (e: Exception) {
-                    getAppLogger().error("Exception on ($date, $symbol, $market): $e\n" +
-                            "$symbol data will not be added to the database.")
-                    handle.execute("rollback")
-                    return false
-                }
-
+            try {
+                handle.createStatement("insert into dailyquotes" +
+                        " (quote_date, symbol, market, \"open\", high, low, \"close\", adj_close, volume)" +
+                        " values (:quote_date, :symbol, :market, :open, :high, :low, :close, :adj_close, :volume)")
+                        .bind("quote_date", Timestamp(date.millis))
+                        .bind("symbol", symbol)
+                        .bind("market", market)
+                        .bind("open", open)
+                        .bind("high", high)
+                        .bind("low", low)
+                        .bind("close", close)
+                        .bind("adj_close", adjClose)
+                        .bind("volume", volume)
+                        .execute()
+            } catch (e: Exception) {
+                getAppLogger().error("Exception on ($date, $symbol, $market): $e\n" +
+                        "$symbol data will not be added to the database.")
+                handle.execute("rollback")
+                return false
             }
 
         }
 
-        return true
     }
+
+    return true
+}
+
+private val exchangeToMarketMap = mapOf(
+        "nasdaq" to "XNAS",
+        "nyse" to "XNYS",
+        "amex" to "XASE"
+)
+
+fun csvAllDailyQuotesToDb(db: DBI) {
+
+    val basePath = "${AppSettings.paths.storage}/${AppSettings.paths.dailyData}/24-02-2017/"
 
     db.useHandle {
 
@@ -102,7 +130,7 @@ fun csvDailyQuotesToDb(db: DBI) {
 
                     handle.execute("begin")
 
-                    if (writeRecords(handle, records, market, symbol, dateFormat)) {
+                    if (csvTickerDailyQuotesToDb(handle, records, market, symbol, dateFormat)) {
                         handle.execute("commit")
                     } else {
                         handle.execute("rollback")

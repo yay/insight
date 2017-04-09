@@ -9,11 +9,11 @@ import java.util.*
 @DisallowConcurrentExecution
 class EndOfDayFetcher : Job {
     override fun execute(context: JobExecutionContext?) {
-        if (context != null) {
-            // TODO: log job key.
-            // TODO: should a log message contain logger ID to understand context better?
-            context.jobDetail.key
-        }
+//        if (context != null) {
+//            // TODO: log job key.
+//            // TODO: should a log message contain logger ID to understand context better?
+//            context.jobDetail.key
+//        }
         // The only type of exception (including RuntimeExceptions) that you are allowed
         // to throw from the execute method is the JobExecutionException.
         // Because of this, you should generally wrap the entire contents
