@@ -1,12 +1,17 @@
 package main
 
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+
 fun main(args: Array<String>) {
 
-    Settings.load(AppSettings)
-    Settings.saveOnShutdown(AppSettings)
+//    fetchDailyData()
 
-    // The app won't exit while the scheduler is running.
-    appScheduler.start()
-
-    setupEndOfDayFetcher()
+//    Settings.load(AppSettings)
+//    Settings.saveOnShutdown(AppSettings)
+//
+//    // The app won't exit while the scheduler is running.
+//    appScheduler.start()
+//
+//    setupEndOfDayFetcher()
 }

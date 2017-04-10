@@ -69,7 +69,7 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
 
     private var data: String = ""
     private lateinit var records: Iterable<CSVRecord>
-    private val log by lazy { Logger.getLogger(this::class.java.name) }
+    private val logger by lazy { Logger.getLogger(this::class.java.name) }
 
     private val symbolParam = "s"
 
@@ -129,7 +129,7 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
 
         val url = urlBuilder.build().toString()
 
-        log.info { "Sending historical data request for $symbol:\n$url" }
+        logger.info { "Sending historical data request for $symbol:\n$url" }
 
         val request = Request.Builder().url(url).build()
         val response = client.newCall(request).execute()

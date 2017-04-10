@@ -49,6 +49,17 @@ private val exchanges = listOf(
 // http://stackoverflow.com/questions/32935470/how-to-convert-list-to-map-in-kotlin
 val exchangeMap = exchanges.map { it.code to it }.toMap()
 
+fun fetchDailyData() {
+    val time = measureTimeMillis {
+        runBlocking {
+            exchangeMap["nasdaq"]?.asyncFetchDailyData()
+            exchangeMap["nyse"]?.asyncFetchDailyData()
+            exchangeMap["amex"]?.asyncFetchDailyData()
+        }
+    }
+    getAppLogger().debug("Fetching intraday data completed in $time ms.")
+}
+
 /**
  * Fetches last day's intraday data for major exchanges.
  */
@@ -110,8 +121,61 @@ fun Exchange.getExchangeSecuritiesFromNasdaq(): List<Security> {
     return emptyList<Security>()
 }
 
+suspend fun Exchange.asyncFetchDailyData() {
+    val exchange = this
+    // No matter what time and date it is locally, we are interested in what date it is in New York.
+    val now = DateTime().withZone(DateTimeZone.forID("America/New_York"))
+    val start = now.minusYears(1)
+
+    val baseUrl = "http://chart.finance.yahoo.com/table.csv"
+    val params = "&a=${start.monthOfYear}&b=${start.dayOfMonth}&c=${start.year}" +
+                 "&d=${now.monthOfYear}&e=${now.dayOfMonth}&f=${now.year}" +
+                 "&g=d" +
+                 "&ignore=.csv"
+
+    val securities = async(CommonPool) { exchange.getSecurities() }.await()
+
+    securities.map { (symbol) ->
+        async(CommonPool) {
+            val result = httpGet("$baseUrl?s=$symbol$params")
+
+            when (result) {
+                is GetSuccess -> {
+                    val filename = "${AppSettings.paths.dailyData}/${exchange.code}/$symbol.csv"
+                    val file = File(filename)
+
+                    if (file.exists()) {
+                        try {
+                            val existingData = file.readText()
+                            val existingRecords = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(existingData.reader())
+                            val lastExistingRecord = existingRecords.first()
+
+                            println(lastExistingRecord.get(0))
+
+                            val fetchedRecords = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(result.data.reader())
+                            val lastFetchedRecord = fetchedRecords.first()
+                            println(lastFetchedRecord.get(0))
+                        } catch (e: Error) {
+                            exchange.logger.error(e.message)
+                        }
+                    } else {
+                        try {
+                            file.parentFile.mkdirs()
+                            file.writeText(result.data)
+                        } catch (e: Error) {
+                            exchange.logger.error(e.message)
+                        }
+                    }
+                }
+                is GetError -> {
+                    getAppLogger().error("$symbol daily data request status code ${result.code}: ${result.message}")
+                }
+            }
+        }
+    }.forEach { it.await() }
+}
+
 suspend fun Exchange.asyncFetchIntradayData() {
-    // Note: the data is most complete when fetched a few hours (3 hours or so) after the close.
     val exchange = this
     // No matter what time and date it is locally, we are interested in what date it is in New York.
     val dateTime = DateTime().withZone(DateTimeZone.forID("America/New_York"))
