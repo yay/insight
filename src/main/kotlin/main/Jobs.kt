@@ -22,6 +22,7 @@ class EndOfDayFetcher : Job {
         // as your job can use it to provide the scheduler various directives
         // as to how you want the exception to be handled.
         try {
+            fetchDailyData()
             fetchIntradayData()
             fetchSummary()
         } catch (e: Exception) {
@@ -60,11 +61,12 @@ fun setupEndOfDayFetcher() {
             .build()
 
     // Yahoo's intraday data starts at market open and ends at market close sharp,
-    // without going into the extended hours territory, so we can safely fetch
+    // without going into the extended hours territory, so we can safely fetch that
     // soon after the market close.
+    // However, this day's close is not in the daily data until several hours later.
 
-    // 10 minutes after 4pm ET on weekdays.
-    val endOfDaySchedule = CronScheduleBuilder.cronSchedule("0 10 4pm ? * MON-FRI")
+    // 9pm ET on weekdays.
+    val endOfDaySchedule = CronScheduleBuilder.cronSchedule("0 0 9pm ? * MON-FRI")
             .inTimeZone(TimeZone.getTimeZone("America/New_York"))
 
     val endOfDayTrigger: CronTrigger = TriggerBuilder.newTrigger()
