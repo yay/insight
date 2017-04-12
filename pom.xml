@@ -15,7 +15,7 @@
         <jackson.version>2.8.7</jackson.version>
         <nd4j.version>0.8.0</nd4j.version>
         <junit.platform.version>1.0.0-M3</junit.platform.version>
-        <main.class>main</main.class>
+        <main.class>com.vitalyk.yay.main.MainKt</main.class>
     </properties>
 
     <dependencies>
@@ -226,7 +226,6 @@
 
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
@@ -292,7 +291,6 @@
                     </dependency>
                 </dependencies>
             </plugin>
-
         </plugins>
     </build>
 
