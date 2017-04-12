@@ -5,14 +5,16 @@ import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
 import org.apache.commons.csv.CSVFormat
+import org.apache.commons.csv.CSVPrinter
+import org.apache.commons.csv.CSVRecord
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.io.File
-import java.io.StringReader
+import java.io.*
 import java.time.LocalDate
 import kotlin.system.measureTimeMillis
+
 
 data class Security(
         val symbol: String,
@@ -50,6 +52,7 @@ private val exchanges = listOf(
 val exchangeMap = exchanges.map { it.code to it }.toMap()
 
 fun fetchDailyData() {
+    getAppLogger().debug("Fetching daily data ...")
     val time = measureTimeMillis {
         runBlocking {
             exchangeMap["nasdaq"]?.asyncFetchDailyData()
@@ -57,13 +60,14 @@ fun fetchDailyData() {
             exchangeMap["amex"]?.asyncFetchDailyData()
         }
     }
-    getAppLogger().debug("Fetching intraday data completed in $time ms.")
+    getAppLogger().debug("Fetching daily data completed in $time ms.")
 }
 
 /**
  * Fetches last day's intraday data for major exchanges.
  */
 fun fetchIntradayData() {
+    getAppLogger().debug("Fetching intraday data ...")
     val time = measureTimeMillis {
         runBlocking {
             exchangeMap["nasdaq"]?.asyncFetchIntradayData()
@@ -78,6 +82,7 @@ fun fetchIntradayData() {
  * Fetches last day's summary data for major exchanges.
  */
 fun fetchSummary() {
+    getAppLogger().debug("Fetching summary data ...")
     val time = measureTimeMillis {
         runBlocking {
             exchangeMap["nasdaq"]?.asyncFetchSummary()
@@ -121,54 +126,109 @@ fun Exchange.getExchangeSecuritiesFromNasdaq(): List<Security> {
     return emptyList<Security>()
 }
 
+/**
+ * There is quite a delay between the market close and the time that day's EOD data becomes available
+ * (more then 3 hours).
+ */
 suspend fun Exchange.asyncFetchDailyData() {
     val exchange = this
     // No matter what time and date it is locally, we are interested in what date it is in New York.
     val now = DateTime().withZone(DateTimeZone.forID("America/New_York"))
-    val start = now.minusYears(1)
+    var then = now.minusYears(1)
 
     val baseUrl = "http://chart.finance.yahoo.com/table.csv"
-    val params = "&a=${start.monthOfYear}&b=${start.dayOfMonth}&c=${start.year}" +
-                 "&d=${now.monthOfYear}&e=${now.dayOfMonth}&f=${now.year}" +
-                 "&g=d" +
-                 "&ignore=.csv"
 
     val securities = async(CommonPool) { exchange.getSecurities() }.await()
 
     securities.map { (symbol) ->
         async(CommonPool) {
-            val result = httpGet("$baseUrl?s=$symbol$params")
+            val filename = "${AppSettings.paths.dailyData}/${exchange.code}/$symbol.csv"
+            val file = File(filename)
+            val fileExists = file.exists()
+
+            var existingRecords: MutableList<CSVRecord> = mutableListOf()
+
+            if (fileExists) {
+                val existingData = file.readText()
+                val existingRecordsParser = CSVFormat.DEFAULT.parse(existingData.reader())
+                existingRecords = existingRecordsParser.records
+            }
+
+            val newDataOnly = existingRecords.size < 2 // no existing records or just a header
+
+            // Quotes for a new listing won't go back 70 years,
+            // but an old company might change its ticker.
+            if (newDataOnly) {
+                then = now.minusYears(70)
+            }
+
+            val params = "&a=${then.monthOfYear}&b=${then.dayOfMonth}&c=${then.year}" +
+                    "&d=${now.monthOfYear}&e=${now.dayOfMonth}&f=${now.year}" +
+                    "&g=d" +
+                    "&ignore=.csv"
+
+            val requestUrl = "$baseUrl?s=$symbol$params"
+            val result = httpGet(requestUrl)
 
             when (result) {
                 is GetSuccess -> {
-                    val filename = "${AppSettings.paths.dailyData}/${exchange.code}/$symbol.csv"
-                    val file = File(filename)
-
-                    if (file.exists()) {
+                    if (!newDataOnly) {
                         try {
-                            val existingData = file.readText()
-                            val existingRecords = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(existingData.reader())
-                            val lastExistingRecord = existingRecords.first()
+                            val fetchedRecordsParser = CSVFormat.DEFAULT.parse(result.data.reader())
+                            val fetchedRecords = fetchedRecordsParser.records
 
-                            println(lastExistingRecord.get(0))
+                            // if headers match
+                            if (existingRecords.first().toList() == fetchedRecords.first().toList()) {
 
-                            val fetchedRecords = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(result.data.reader())
-                            val lastFetchedRecord = fetchedRecords.first()
-                            println(lastFetchedRecord.get(0))
+                                val fileWriter = FileWriter(file, false)
+                                val csvPrinter = CSVPrinter(fileWriter, CSVFormat.DEFAULT)
+
+                                // Sample CSV file:
+
+                                // Date,Open,High,Low,Close,Volume,Adj Close
+                                //
+                                // --- NEW RECORDS GO HERE ---
+                                //
+                                // 2017-02-24,135.910004,136.660004,135.279999,136.660004,21690900,136.660004
+                                // 2017-02-23,137.380005,137.479996,136.300003,136.529999,20704100,136.529999
+                                // ...
+
+                                val lastFetchedDate = existingRecords[1].get(0)
+
+                                // write new records, starting with header
+                                csvPrinter.printRecord(fetchedRecords[0])
+                                var i = 1
+                                while (i < fetchedRecords.size && fetchedRecords[i].get(0) != lastFetchedDate) {
+                                    csvPrinter.printRecord(fetchedRecords[i])
+                                    i++
+                                }
+
+                                // write existing records, skip header
+                                i = 1
+                                while (i < existingRecords.size) {
+                                    csvPrinter.printRecord(existingRecords[i])
+                                    i++
+                                }
+
+                                csvPrinter.flush()
+                                csvPrinter.close()
+                            } else {
+                                exchange.logger.error("$symbol: CSV headers don't match.\nRequest URL: $requestUrl")
+                            }
                         } catch (e: Error) {
-                            exchange.logger.error(e.message)
+                            exchange.logger.error("Updating existing symbol ($symbol) data failed: ${e.message}")
                         }
                     } else {
                         try {
                             file.parentFile.mkdirs()
                             file.writeText(result.data)
                         } catch (e: Error) {
-                            exchange.logger.error(e.message)
+                            exchange.logger.error("Writing new symbol ($symbol) date failed: ${e.message}")
                         }
                     }
                 }
                 is GetError -> {
-                    getAppLogger().error("$symbol daily data request status code ${result.code}: ${result.message}")
+                    getAppLogger().warn("Daily data request: $requestUrl - ${result.code} - ${result.message}")
                 }
             }
         }
