@@ -63,7 +63,7 @@ fun setupEndOfDayFetcher() {
     // Yahoo's intraday data starts at market open and ends at market close sharp,
     // without going into the extended hours territory, so we can safely fetch that
     // soon after the market close.
-    // However, this day's close is not in the daily data until several hours later.
+    // However, this day's close is not in the daily data until around four hours later.
 
     // 9pm ET on weekdays.
     val endOfDaySchedule = CronScheduleBuilder.cronSchedule("0 0 9pm ? * MON-FRI")
