@@ -1,5 +1,7 @@
 package main
 
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.async
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
 import org.joda.time.DateTime
@@ -56,6 +58,36 @@ fun loadAllDailyQuotes(exchanges: List<String>): Map<ExchangeName, Map<Ticker, L
                     tickerMap[symbol] = loadDailyQuotesForTicker(records, dateFormat)
                 }
             }
+        }
+    }
+
+    return exchangeMap
+}
+
+suspend fun asyncLoadAllDailyQuotes(exchanges: List<String>): Map<ExchangeName, Map<Ticker, List<Quote>>> {
+
+    val basePath = "${AppSettings.paths.storage}/${AppSettings.paths.dailyData}/"
+    val exchangeMap = mutableMapOf<ExchangeName, Map<Ticker, List<Quote>>>()
+
+    for (exchange in exchanges) {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val path = basePath + exchange
+        val walker = File(path).walk().maxDepth(1)
+        val tickerMap = mutableMapOf<Ticker, List<Quote>>()
+
+        exchangeMap[exchange] = tickerMap
+
+        for (file in walker) {
+            async(CommonPool) {
+                if (file.isFile()) {
+                    val symbol = file.nameWithoutExtension.trim()
+                    if (symbol != exchange) {
+                        val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(file.reader())
+
+                        tickerMap[symbol] = loadDailyQuotesForTicker(records, dateFormat)
+                    }
+                }
+            }.await()
         }
     }
 
