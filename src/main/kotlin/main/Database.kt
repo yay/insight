@@ -43,18 +43,6 @@ private fun BigDecimal.isValidPrice(): Boolean = this.precision() <= 8 && this.s
 private fun String.isValidSymbol(): Boolean = this.length <= 6
 private fun String.isValidMarket(): Boolean = this.length <= 4
 
-data class Quote(
-        val date: DateTime,
-        val market: String,
-        val symbol: String,
-        val open: BigDecimal,
-        val high: BigDecimal,
-        val low: BigDecimal,
-        val close: BigDecimal,
-        val adjClose: BigDecimal,
-        val volume: Long
-)
-
 /**
  * @param  handle  Database connection
  * @param  records  A parser over a stream of records (Iterable)
@@ -111,7 +99,7 @@ fun csvTickerDailyQuotesToDb(handle: Handle, records: CSVParser,
     return true
 }
 
-private val exchangeToMarketMap = mapOf(
+val exchangeToMarketMap = mapOf(
         "nasdaq" to "XNAS",
         "nyse" to "XNYS",
         "amex" to "XASE"
