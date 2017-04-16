@@ -5,27 +5,60 @@ import kotlin.system.measureTimeMillis
 
 fun main(args: Array<String>) {
 
+    Settings.load(AppSettings)
+    Settings.saveOnShutdown(AppSettings)
+
+    // The app won't exit while the scheduler is running.
+    appScheduler.start()
+
+    setupEndOfDayFetcher()
+
+}
+
+fun test1() {
     val map = loadAllDailyQuotes(listOf("nasdaq"))
-    val appleQuotes = map["nasdaq"]?.get("AAPL")
-    if (appleQuotes != null) {
-        doesNewHighMakesNewHigh(appleQuotes)
+
+    var count = 0
+    var upSum = 0.0
+    var downSum = 0.0
+    val counted = mutableListOf<Pair<ExchangeName, Ticker>>()
+
+    for ((exchangeName, exchangeMap) in map) {
+        for ((ticker, quotes) in exchangeMap) {
+            val values = doesNewHighMakeNewHigh(quotes, 125)
+
+            if (!values.first.isNaN() && !values.second.isNaN()) {
+                upSum += values.first
+                downSum += values.second
+                count++
+                counted.add(exchangeName to ticker)
+            }
+        }
     }
 
-//    Settings.load(AppSettings)
-//    Settings.saveOnShutdown(AppSettings)
-//
-//    // The app won't exit while the scheduler is running.
-//    appScheduler.start()
-//
-//    setupEndOfDayFetcher()
+    val upAverage = upSum / count.toDouble()
+    val downAverage = downSum / count.toDouble()
 
+    println("$count: $upAverage / $downAverage")
+    for (item in counted) {
+        println(item)
+    }
+
+//    val appleQuotes = map["nasdaq"]?.get("MSFT")
+//    if (appleQuotes != null) {
+//        doesNewHighMakeNewHigh(appleQuotes, 1, true)
+//    }
 }
 
 /**
  * How likely it is that a stock that makes a new high today goes up tomorrow?
  * How likely it is that a stock that makes a new low today goes down tomorrow?
+ * `tomorrow` is the default, use the `lookAheadDays` param to tweak this.
+ * Note: for `lookAheadDays` ever 5 market days mean 1 regular week.
+ * E.g. to look two quarters ahead, use 125.
+ * Returns a pair of doubles, first value is for the up percentage, second for down.
  */
-fun doesNewHighMakesNewHigh(quotes: List<Quote>) {
+fun doesNewHighMakeNewHigh(quotes: List<Quote>, lookAheadDays: Int = 1, debug: Boolean = false): Pair<Double, Double> {
     // The first quote is for the most recent day, but we want to start from the past.
     val list = quotes.asReversed()
     val n = list.count()
@@ -33,19 +66,16 @@ fun doesNewHighMakesNewHigh(quotes: List<Quote>) {
     val newHighs = mutableListOf<Quote>()
     val newLows = mutableListOf<Quote>()
 
-    var countNewHigh = 0
-    var countNewLow = 0
-
     var countNextIsNewHigh = 0
     var countNextIsNewLow = 0
 
-    if (n > 2) {
+    if (n > lookAheadDays + 1) {
         var max = list.first().close
         var min = max
-        for (i in 1..n-2) {
+        for (i in 1..n-1-lookAheadDays) {
             val current = list[i]
             val currentClose = current.close
-            val nextClose = list[i+1].close
+            val nextClose = list[i+lookAheadDays].close
 
             if (currentClose > max) { // new high
                 newHighs.add(current)
@@ -64,20 +94,29 @@ fun doesNewHighMakesNewHigh(quotes: List<Quote>) {
         }
     }
 
-    println("A new high today is likely to make a new high tomorrow" +
-            "${countNextIsNewHigh.toDouble() / newHighs.count().toDouble() * 100}% of the time.")
-    println("A new low today is likely to make a new low tomorrow" +
-            "${countNextIsNewLow.toDouble() / newLows.count().toDouble() * 100}% of the time.")
-    println("This stock had a total of ${newHighs.count()} new highs and ${newLows.count()} new lows.")
+    val upRatio = countNextIsNewHigh.toDouble() / newHighs.count().toDouble()
+    val downRatio = countNextIsNewLow.toDouble() / newLows.count().toDouble()
+    val percentUp = "%.2f%%".format(upRatio * 100)
+    val percentDown = "%.2f%%".format(downRatio * 100)
 
-    println("\nList of new highs:")
-    for (item in newHighs) {
-        println("${item.date} @ ${item.close}")
+    if (debug) {
+        println("A stock making a new high today is likely to worth more " +
+                "$lookAheadDays day(s) from now $percentUp of the time.")
+        println("A stock making a new low today is likely to worth less " +
+                "$lookAheadDays day(s) from now $percentDown of the time.")
+        println("This stock had a total of ${newHighs.count()} new highs and ${newLows.count()} new lows.")
+
+        println("\nList of new highs:")
+        for (item in newHighs) {
+            println("${item.date} @ ${item.close}")
+        }
+        println("\nList of new lows:")
+        for (item in newLows) {
+            println("${item.date} @ ${item.close}")
+        }
     }
-    println("\nList of new lows:")
-    for (item in newLows) {
-        println("${item.date} @ ${item.close}")
-    }
+
+    return upRatio to downRatio
 }
 
 fun test() {
