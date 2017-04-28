@@ -48,6 +48,12 @@ private val exchanges = listOf(
 
 )
 
+fun fetchEndOfDayData() {
+    fetchDailyData()
+    asyncFetchAllIntradayData()
+    fetchSummary()
+}
+
 // http://stackoverflow.com/questions/32935470/how-to-convert-list-to-map-in-kotlin
 val exchangeMap = exchanges.map { it.code to it }.toMap()
 
@@ -66,8 +72,9 @@ fun fetchDailyData() {
 /**
  * Fetches last day's intraday data for major exchanges.
  */
-fun fetchIntradayData() {
-    getAppLogger().debug("Fetching intraday data ...")
+fun asyncFetchAllIntradayData() {
+    val name = "Fetch intraday data for all exchanges"
+    getAppLogger().debug("'$name' started.")
     val time = measureTimeMillis {
         runBlocking {
             exchangeMap["nasdaq"]?.asyncFetchIntradayData()
@@ -75,7 +82,18 @@ fun fetchIntradayData() {
             exchangeMap["amex"]?.asyncFetchIntradayData()
         }
     }
-    getAppLogger().debug("Fetching intraday data completed in $time ms.")
+    getAppLogger().debug("'$name' completed in $time ms.")
+}
+
+fun syncFetchAllIntradayData() {
+    val name = "Fetch intraday data for all exchanges"
+    getAppLogger().debug("'$name' started.")
+    val time = measureTimeMillis {
+        exchangeMap["nasdaq"]?.syncFetchIntradayData()
+        exchangeMap["nyse"]?.syncFetchIntradayData()
+        exchangeMap["amex"]?.syncFetchIntradayData()
+    }
+    getAppLogger().debug("'$name' completed in $time ms.")
 }
 
 /**
@@ -254,6 +272,36 @@ suspend fun Exchange.asyncFetchIntradayData() {
             }
         }
     }.forEach { it.await() }
+}
+
+fun Exchange.syncFetchIntradayData() {
+    val exchange = this
+    // No matter what time and date it is locally, we are interested in what date it is in New York.
+    val dateTime = DateTime().withZone(DateTimeZone.forID("America/New_York"))
+    val dateString: String = dateTime.toString("yyyy-MM-dd")
+    val securities = exchange.getSecurities()
+    val maxRequestAttempts = 10
+
+    securities.map { (symbol) ->
+        var count = 0
+        var data: String?
+
+        do {
+            count++
+            data = fetchIntradayData(symbol)
+            if (data != null) {
+                try {
+                    data.writeToFile("${AppSettings.paths.intradayData}/$dateString/${exchange.code}/$symbol.json")
+                } catch (e: Error) {
+                    exchange.logger.error(e.message)
+                }
+            }
+        } while (data == null && count < maxRequestAttempts)
+
+        if (data == null) {
+            println("Failed fetching $symbol after $maxRequestAttempts attempts.")
+        }
+    }
 }
 
 suspend fun Exchange.asyncFetchSummary() {

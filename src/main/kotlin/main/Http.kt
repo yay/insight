@@ -1,8 +1,7 @@
 package main
 
-import okhttp3.HttpUrl
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import com.google.common.base.Preconditions
+import okhttp3.*
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
@@ -17,6 +16,28 @@ sealed class GetResult
 data class GetSuccess(val data: String) : GetResult()
 data class GetError(val url: String, val code: Int, val message: String) : GetResult()
 
+class UserAgentInterceptor(private val userAgent: String) : Interceptor {
+    // E.g. client.networkInterceptors().add(UserAgentInterceptor("user-agent-string"))
+    @Throws(IOException::class)
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val originalRequest = chain.request()
+        val requestWithUserAgent = originalRequest.newBuilder()
+                .removeHeader(USER_AGENT_HEADER_NAME)
+                .addHeader(USER_AGENT_HEADER_NAME, userAgent)
+                .build()
+        return chain.proceed(requestWithUserAgent)
+    }
+
+    companion object {
+        private val USER_AGENT_HEADER_NAME = "User-Agent"
+    }
+}
+
+private val chromeUserAgent =
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) " +
+        "AppleWebKit/537.36 (KHTML, like Gecko) " +
+        "Chrome/57.0.2987.133 Safari/537.36"
+
 fun httpGet(url: String, params: Map<String, String> = emptyMap()): GetResult {
     val urlBuilder = HttpUrl.parse(url).newBuilder()
 
@@ -25,7 +46,10 @@ fun httpGet(url: String, params: Map<String, String> = emptyMap()): GetResult {
     }
 
     val requestUrl = urlBuilder.build().toString()
-    val request = Request.Builder().url(requestUrl).build()
+    val request = Request.Builder()
+            .addHeader("User-Agent", chromeUserAgent)
+            .url(requestUrl)
+            .build()
     val response = HttpClients.main.newCall(request).execute()
 
     response.use {

@@ -1,18 +1,23 @@
 package main
 
 import kotlinx.coroutines.experimental.runBlocking
+import org.quartz.impl.StdSchedulerFactory
 import kotlin.system.measureTimeMillis
 
 fun main(args: Array<String>) {
+
+//    fetchEndOfDayData()
 
     Settings.load(AppSettings)
     Settings.saveOnShutdown(AppSettings)
 
     // The app won't exit while the scheduler is running.
+    val appSchedulerFactory = StdSchedulerFactory()
+    val appScheduler = appSchedulerFactory.getScheduler()
+
     appScheduler.start()
 
-    setupEndOfDayFetcher()
-
+    scheduleEndOfDayFetcher(appScheduler)
 }
 
 fun test1() {

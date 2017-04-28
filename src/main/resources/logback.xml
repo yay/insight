@@ -4,7 +4,7 @@
         <!-- encoders are by default assigned the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%date %-5level %logger{39} [%thread] [%file:%line] - %msg%n%ex{full}</pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>DEBUG</level>
@@ -22,7 +22,7 @@
         <to>vitalyx@gmail.com</to>
         <subject>Insight: Error Log</subject>
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%date %-5level %logger{39} [%file:%line] - %msg%n%ex{full}</pattern>
+            <pattern>%date %-5level %logger{39} [%thread] [%file:%line] - %msg%n%ex{full}</pattern>
         </layout>
         <!--Thanks to ThresholdFilter with level set to ERROR we are sure that-->
         <!--even if root level will be changed – only error mails will be sent.-->

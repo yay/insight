@@ -1,6 +1,9 @@
 package main
 
 import org.quartz.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import java.io.File
 import java.util.*
 
 // The `DisallowConcurrentExecution` constraint is based upon an instance definition
@@ -8,6 +11,9 @@ import java.util.*
 // http://www.quartz-scheduler.org/documentation/quartz-2.x/tutorials/tutorial-lesson-03.html
 @DisallowConcurrentExecution
 class EndOfDayFetcher : Job {
+
+    val logger: Logger by lazy { LoggerFactory.getLogger(this::class.java.name) }
+
     override fun execute(context: JobExecutionContext?) {
 //        if (context != null) {
 //            // TODO: log job key.
@@ -22,17 +28,15 @@ class EndOfDayFetcher : Job {
         // as your job can use it to provide the scheduler various directives
         // as to how you want the exception to be handled.
         try {
-            fetchDailyData()
-            fetchIntradayData()
-            fetchSummary()
+            fetchEndOfDayData()
         } catch (e: Exception) {
-
+            logger.error(e.message)
         }
     }
 }
 
 // http://www.quartz-scheduler.org/documentation/quartz-2.x/tutorials/tutorial-lesson-06.html
-fun setupEndOfDayFetcher() {
+fun scheduleEndOfDayFetcher(scheduler: Scheduler) {
 
     // TODO: don't fetch on market holidays, or stop fetching if the data is the same
     // TODO: as for the previous weekday.
@@ -65,8 +69,8 @@ fun setupEndOfDayFetcher() {
     // soon after the market close.
     // However, this day's close is not in the daily data until around four hours later.
 
-    // 9pm ET on weekdays.
-    val endOfDaySchedule = CronScheduleBuilder.cronSchedule("0 0 9pm ? * MON-FRI")
+    // 21:05 ET on weekdays.
+    val endOfDaySchedule = CronScheduleBuilder.cronSchedule("0 5 21 ? * MON-FRI")
             .inTimeZone(TimeZone.getTimeZone("America/New_York"))
 
     val endOfDayTrigger: CronTrigger = TriggerBuilder.newTrigger()
@@ -74,5 +78,5 @@ fun setupEndOfDayFetcher() {
             .withSchedule(endOfDaySchedule)
             .build()
 
-    appScheduler.scheduleJob(endOfDayFetcher, endOfDayTrigger)
+    scheduler.scheduleJob(endOfDayFetcher, endOfDayTrigger)
 }
