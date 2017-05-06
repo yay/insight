@@ -13,13 +13,13 @@ data class IntradayQuote(
 )
 
 data class Quote(
-        val date: DateTime,
-        val open: BigDecimal,
-        val high: BigDecimal,
-        val low: BigDecimal,
-        val close: BigDecimal,
-        val adjClose: BigDecimal,
-        val volume: Long
+    val date: DateTime,
+    val open: BigDecimal,
+    val high: BigDecimal,
+    val low: BigDecimal,
+    val close: BigDecimal,
+    val adjClose: BigDecimal,
+    val volume: Long
 )
 
 //data class DailyQuotes(

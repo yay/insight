@@ -128,6 +128,7 @@ fun Exchange.getExchangeSecuritiesFromNasdaq(): List<Security> {
         is GetSuccess -> {
             val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(StringReader(result.data))
 
+            // Convert CSVRecord's to instances of the Security data class.
             return records.map { it -> Security(
                     it.get("Symbol"),
                     it.get("Name"),
@@ -146,7 +147,7 @@ fun Exchange.getExchangeSecuritiesFromNasdaq(): List<Security> {
 
 /**
  * There is quite a delay between the market close and the time that day's EOD data becomes available
- * (more then 3 hours).
+ * (more than 3 hours).
  */
 suspend fun Exchange.asyncFetchDailyData() {
     val exchange = this

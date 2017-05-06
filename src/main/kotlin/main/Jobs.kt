@@ -3,7 +3,6 @@ package main
 import org.quartz.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.io.File
 import java.util.*
 
 // The `DisallowConcurrentExecution` constraint is based upon an instance definition
@@ -69,8 +68,8 @@ fun scheduleEndOfDayFetcher(scheduler: Scheduler) {
     // soon after the market close.
     // However, this day's close is not in the daily data until around four hours later.
 
-    // 21:05 ET on weekdays.
-    val endOfDaySchedule = CronScheduleBuilder.cronSchedule("0 5 21 ? * MON-FRI")
+    // 21:30 ET on weekdays.
+    val endOfDaySchedule = CronScheduleBuilder.cronSchedule("0 30 21 ? * MON-FRI")
             .inTimeZone(TimeZone.getTimeZone("America/New_York"))
 
     val endOfDayTrigger: CronTrigger = TriggerBuilder.newTrigger()
