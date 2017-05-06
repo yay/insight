@@ -14,4 +14,5 @@ fun main(args: Array<String>) {
     appScheduler.start()
 
     scheduleEndOfDayFetcher(appScheduler)
+
 }

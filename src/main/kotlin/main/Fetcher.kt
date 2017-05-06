@@ -143,7 +143,7 @@ fun Exchange.getExchangeSecuritiesFromNasdaq(): List<Security> {
             // Convert CSVRecord's to instances of the Security data class.
             return records.map { it ->
                 Security(
-                    it.get("Symbol"),
+                    it.get("Symbol").trim(),
                     it.get("Name"),
                     it.get("Sector"),
                     it.get("industry")
