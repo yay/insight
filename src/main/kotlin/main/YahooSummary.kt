@@ -41,8 +41,22 @@ package main
 
 */
 
-fun getYahooSummary(symbol: String): String? {
-    val params = mapOf("modules" to "defaultKeyStatistics,financialData,earnings,calendarEvents,recommendationTrend,upgradeDowngradeHistory,summaryProfile")
+private val summaryModules = listOf<String>(
+    "defaultKeyStatistics",
+    "financialData",
+    "earnings",
+    "calendarEvents",
+    "recommendationTrend",
+    "upgradeDowngradeHistory",
+    "incomeStatementHistory",
+    "cashflowStatementHistory",
+    "balanceSheetHistory",
+    "assetProfile"  // there is also "summaryProfile" which is the same, but less comprehensive
+)
+
+private val defaultSummaryParams = mapOf("modules" to summaryModules.joinToString(","))
+
+fun getYahooSummary(symbol: String, params: Map<String, String> = defaultSummaryParams): String? {
     val result = httpGet("https://query2.finance.yahoo.com/v10/finance/quoteSummary/$symbol", params)
 
     when (result) {

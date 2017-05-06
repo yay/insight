@@ -68,8 +68,8 @@ fun scheduleEndOfDayFetcher(scheduler: Scheduler) {
     // soon after the market close.
     // However, this day's close is not in the daily data until around four hours later.
 
-    // 21:30 ET on weekdays.
-    val endOfDaySchedule = CronScheduleBuilder.cronSchedule("0 30 21 ? * MON-FRI")
+    // 22:00 Eastern Time on weekdays.
+    val endOfDaySchedule = CronScheduleBuilder.cronSchedule("0 0 22 ? * MON-FRI")
         .inTimeZone(TimeZone.getTimeZone("America/New_York"))
 
     val endOfDayTrigger: CronTrigger = TriggerBuilder.newTrigger()
