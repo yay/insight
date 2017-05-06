@@ -18,9 +18,9 @@ object YahooFetcher {
 //        }.await()
         for (symbol in symbols) {
             val request = YahooData(symbol, DataFrequency.DAY)
-                    .startDate(then)
-                    .endDate(now)
-                    .execute()
+                .startDate(then)
+                .endDate(now)
+                .execute()
 //                .parse()
 
             request.data()

@@ -51,7 +51,7 @@ private fun String.isValidMarket(): Boolean = this.length <= 4
  * @param  dateFormat  Date format to use for parsing date column values
  */
 fun csvTickerDailyQuotesToDb(handle: Handle, records: CSVParser,
-                 market: String, symbol: String, dateFormat: SimpleDateFormat): Boolean {
+                             market: String, symbol: String, dateFormat: SimpleDateFormat): Boolean {
 
     records.forEach {
         val rec = it
@@ -64,30 +64,30 @@ fun csvTickerDailyQuotesToDb(handle: Handle, records: CSVParser,
         val volume = rec.get(YahooDataColumns.volume).toLong()
 
         if (adjClose.isValidPrice() && // adjClose check is most likely to fail so it goes first
-                open.isValidPrice() &&
-                high.isValidPrice() &&
-                low.isValidPrice() &&
-                close.isValidPrice() &&
-                symbol.isValidSymbol() &&
-                market.isValidMarket()) {
+            open.isValidPrice() &&
+            high.isValidPrice() &&
+            low.isValidPrice() &&
+            close.isValidPrice() &&
+            symbol.isValidSymbol() &&
+            market.isValidMarket()) {
 
             try {
                 handle.createStatement("insert into dailyquotes" +
-                        " (quote_date, market, symbol, \"open\", high, low, \"close\", adj_close, volume)" +
-                        " values (:quote_date, :market, :symbol, :open, :high, :low, :close, :adj_close, :volume)")
-                        .bind("quote_date", Timestamp(date.millis))
-                        .bind("market", market)
-                        .bind("symbol", symbol)
-                        .bind("open", open)
-                        .bind("high", high)
-                        .bind("low", low)
-                        .bind("close", close)
-                        .bind("adj_close", adjClose)
-                        .bind("volume", volume)
-                        .execute()
+                    " (quote_date, market, symbol, \"open\", high, low, \"close\", adj_close, volume)" +
+                    " values (:quote_date, :market, :symbol, :open, :high, :low, :close, :adj_close, :volume)")
+                    .bind("quote_date", Timestamp(date.millis))
+                    .bind("market", market)
+                    .bind("symbol", symbol)
+                    .bind("open", open)
+                    .bind("high", high)
+                    .bind("low", low)
+                    .bind("close", close)
+                    .bind("adj_close", adjClose)
+                    .bind("volume", volume)
+                    .execute()
             } catch (e: Exception) {
                 getAppLogger().error("Exception on ($date, $symbol, $market): $e\n" +
-                        "$symbol data will not be added to the database.")
+                    "$symbol data will not be added to the database.")
                 handle.execute("rollback")
                 return false
             }
@@ -100,9 +100,9 @@ fun csvTickerDailyQuotesToDb(handle: Handle, records: CSVParser,
 }
 
 val exchangeToMarketMap = mapOf(
-        "nasdaq" to "XNAS",
-        "nyse" to "XNYS",
-        "amex" to "XASE"
+    "nasdaq" to "XNAS",
+    "nyse" to "XNYS",
+    "amex" to "XASE"
 )
 
 fun csvAllDailyQuotesToDb(db: DBI) {

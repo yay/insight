@@ -17,34 +17,46 @@ import kotlin.system.measureTimeMillis
 
 
 data class Security(
-        val symbol: String,
-        val name: String,
-        val sector: String = "",
-        val industry: String = ""
+    val symbol: String,
+    val name: String,
+    val sector: String = "",
+    val industry: String = ""
 )
 
 private fun Exchange.noSecurities() = emptyList<Security>()
 
 class Exchange(
-        val code: String,
-        val name: String,
-        val location: String,
-        val url: String = "",
-        val getSecurities: Exchange.() -> List<Security> = Exchange::noSecurities
+    val code: String,
+    val name: String,
+    val location: String,
+    val url: String = "",
+    val getSecurities: Exchange.() -> List<Security> = Exchange::noSecurities
 ) {
     val logger: Logger by lazy { LoggerFactory.getLogger(this::class.java.name) }
 }
 
 private val exchanges = listOf(
-        Exchange("nasdaq", "NASDAQ", "New York City", "http://www.nasdaq.com/", // founded 1971
-                Exchange::getExchangeSecuritiesFromNasdaq
-        ),
-        Exchange("nyse", "New York Security Exchange", "New York City", "https://www.nyse.com/index", // founded 1817
-                Exchange::getExchangeSecuritiesFromNasdaq
-        ),
-        Exchange("amex", "NYSE MKT", "New York City", "https://www.nyse.com/markets/nyse-mkt", // founded 1908
-                Exchange::getExchangeSecuritiesFromNasdaq
-        )
+    Exchange(
+        "nasdaq",
+        "NASDAQ",
+        "New York City",
+        "http://www.nasdaq.com/",
+        Exchange::getExchangeSecuritiesFromNasdaq
+    ),
+    Exchange(
+        "nyse",
+        "New York Security Exchange",
+        "New York City",
+        "https://www.nyse.com/index",
+        Exchange::getExchangeSecuritiesFromNasdaq
+    ),
+    Exchange(
+        "amex",
+        "NYSE MKT",
+        "New York City",
+        "https://www.nyse.com/markets/nyse-mkt",
+        Exchange::getExchangeSecuritiesFromNasdaq
+    )
 
 )
 
@@ -119,9 +131,9 @@ fun fetchSummary() {
 fun Exchange.getExchangeSecuritiesFromNasdaq(): List<Security> {
 
     val result = httpGet("http://www.nasdaq.com/screening/companies-by-name.aspx", mapOf(
-            "letter" to "0",
-            "render" to "download",
-            "exchange" to this.code
+        "letter" to "0",
+        "render" to "download",
+        "exchange" to this.code
     ))
 
     when (result) {
@@ -129,12 +141,14 @@ fun Exchange.getExchangeSecuritiesFromNasdaq(): List<Security> {
             val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(StringReader(result.data))
 
             // Convert CSVRecord's to instances of the Security data class.
-            return records.map { it -> Security(
+            return records.map { it ->
+                Security(
                     it.get("Symbol"),
                     it.get("Name"),
                     it.get("Sector"),
                     it.get("industry")
-            ) }
+                )
+            }
 
         }
         is GetError -> {
@@ -182,9 +196,9 @@ suspend fun Exchange.asyncFetchDailyData() {
             }
 
             val params = "&a=${then.monthOfYear}&b=${then.dayOfMonth}&c=${then.year}" +
-                    "&d=${now.monthOfYear}&e=${now.dayOfMonth}&f=${now.year}" +
-                    "&g=d" +
-                    "&ignore=.csv"
+                "&d=${now.monthOfYear}&e=${now.dayOfMonth}&f=${now.year}" +
+                "&g=d" +
+                "&ignore=.csv"
 
             val requestUrl = "$baseUrl?s=$symbol$params"
             val result = httpGet(requestUrl)
@@ -351,9 +365,9 @@ object StockFetcherUS {
         var list: List<Security>? = null
 
         val params = mapOf(
-                "letter" to "0",
-                "render" to "download",
-                "exchange" to exchange
+            "letter" to "0",
+            "render" to "download",
+            "exchange" to exchange
         )
         if (exchange in exchanges) {
             val result = httpGet(baseUrl, params)
@@ -362,12 +376,14 @@ object StockFetcherUS {
                 is GetSuccess -> {
                     val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(StringReader(result.data))
 
-                    list = records.map { it -> Security(
+                    list = records.map { it ->
+                        Security(
                             it.get("Symbol"),
                             it.get("Name"),
                             it.get("Sector"),
                             it.get("industry")
-                    ) }
+                        )
+                    }
 
                 }
                 is GetError -> {
@@ -394,9 +410,9 @@ object StockFetcherUS {
                 val file = File("${AppSettings.paths.dailyData}/$exchange/$symbol.csv")
                 file.parentFile.mkdirs()
                 val data = YahooData(symbol)
-                        .startDate(LocalDate.now().minusYears(70))
-                        .execute()
-                        .data()
+                    .startDate(LocalDate.now().minusYears(70))
+                    .execute()
+                    .data()
 
                 file.writeText(data)
             }
@@ -413,8 +429,8 @@ object StockFetcherUS {
             companies?.map { (symbol) ->
                 async(CommonPool) {
                     val data = YahooCompanyNews(symbol)
-                            .fetch()
-                            .json()
+                        .fetch()
+                        .json()
 
                     val file = File("${AppSettings.paths.news}/$date/$exchange/$symbol.json")
                     file.parentFile.mkdirs()

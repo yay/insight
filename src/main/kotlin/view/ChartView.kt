@@ -55,7 +55,7 @@ class ChartView : View("Security Chart") {
     override val root = vbox()
 
     init {
-        with (root) {
+        with(root) {
             addClass(styles.wrapper)
 
             hbox {
@@ -65,7 +65,7 @@ class ChartView : View("Security Chart") {
                     maxWidth = Double.MAX_VALUE
                     setOnAction {
                         replaceWith(
-                                SymbolTableView::class
+                            SymbolTableView::class
 //                                ViewTransition.Slide(
 //                                        0.3.seconds,
 //                                        ViewTransition.Direction.RIGHT

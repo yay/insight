@@ -5,13 +5,13 @@ import tornadofx.property
 import java.util.*
 
 data class OHLC(
-        val time: Long,  // UTC timestamp
-        val open: Double,
-        var high: Double,
-        var low: Double,
-        var close: Double,
-        var adjClose: Double,
-        var volume: Long
+    val time: Long, // UTC timestamp
+    val open: Double,
+    var high: Double,
+    var low: Double,
+    var close: Double,
+    var adjClose: Double,
+    var volume: Long
 )
 
 open class StockSymbol(date: Date, open: Float, high: Float, low: Float, close: Float, volume: Int, adjClose: Float) {

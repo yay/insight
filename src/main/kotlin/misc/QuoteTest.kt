@@ -61,10 +61,10 @@ fun doesNewHighMakeNewHigh(quotes: List<Quote>, lookAheadDays: Int = 1, debug: B
     if (n > lookAheadDays + 1) {
         var max = list.first().close
         var min = max
-        for (i in 1..n-1-lookAheadDays) {
+        for (i in 1..n - 1 - lookAheadDays) {
             val current = list[i]
             val currentClose = current.close
-            val nextClose = list[i+lookAheadDays].close
+            val nextClose = list[i + lookAheadDays].close
 
             if (currentClose > max) { // new high
                 newHighs.add(current)
@@ -90,9 +90,9 @@ fun doesNewHighMakeNewHigh(quotes: List<Quote>, lookAheadDays: Int = 1, debug: B
 
     if (debug) {
         println("A stock making a new high today is likely to worth more " +
-                "$lookAheadDays day(s) from now $percentUp of the time.")
+            "$lookAheadDays day(s) from now $percentUp of the time.")
         println("A stock making a new low today is likely to worth less " +
-                "$lookAheadDays day(s) from now $percentDown of the time.")
+            "$lookAheadDays day(s) from now $percentDown of the time.")
         println("This stock had a total of ${newHighs.count()} new highs and ${newLows.count()} new lows.")
 
         println("\nList of new highs:")

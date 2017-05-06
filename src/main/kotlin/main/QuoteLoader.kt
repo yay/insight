@@ -17,13 +17,13 @@ fun loadDailyQuotesForTicker(records: CSVParser, dateFormat: SimpleDateFormat): 
 
     records.forEach {
         val quote = Quote(
-                DateTime(dateFormat.parse(it.get(YahooDataColumns.date))),
-                BigDecimal(it.get(YahooDataColumns.open)),
-                BigDecimal(it.get(YahooDataColumns.high)),
-                BigDecimal(it.get(YahooDataColumns.low)),
-                BigDecimal(it.get(YahooDataColumns.close)),
-                BigDecimal(it.get(YahooDataColumns.adjClose)),
-                it.get(YahooDataColumns.volume).toLong()
+            DateTime(dateFormat.parse(it.get(YahooDataColumns.date))),
+            BigDecimal(it.get(YahooDataColumns.open)),
+            BigDecimal(it.get(YahooDataColumns.high)),
+            BigDecimal(it.get(YahooDataColumns.low)),
+            BigDecimal(it.get(YahooDataColumns.close)),
+            BigDecimal(it.get(YahooDataColumns.adjClose)),
+            it.get(YahooDataColumns.volume).toLong()
         )
         result.add(quote)
     }

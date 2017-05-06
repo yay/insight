@@ -7,9 +7,9 @@ import java.util.concurrent.TimeUnit
 
 object HttpClients {
     val main: OkHttpClient = OkHttpClient.Builder()
-            .connectTimeout(10L, TimeUnit.SECONDS)
-            .readTimeout(30L, TimeUnit.SECONDS)
-            .build()
+        .connectTimeout(10L, TimeUnit.SECONDS)
+        .readTimeout(30L, TimeUnit.SECONDS)
+        .build()
 }
 
 sealed class GetResult
@@ -22,9 +22,9 @@ class UserAgentInterceptor(private val userAgent: String) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
         val requestWithUserAgent = originalRequest.newBuilder()
-                .removeHeader(USER_AGENT_HEADER_NAME)
-                .addHeader(USER_AGENT_HEADER_NAME, userAgent)
-                .build()
+            .removeHeader(USER_AGENT_HEADER_NAME)
+            .addHeader(USER_AGENT_HEADER_NAME, userAgent)
+            .build()
         return chain.proceed(requestWithUserAgent)
     }
 
@@ -34,7 +34,7 @@ class UserAgentInterceptor(private val userAgent: String) : Interceptor {
 }
 
 private val chromeUserAgent =
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) " +
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) " +
         "AppleWebKit/537.36 (KHTML, like Gecko) " +
         "Chrome/57.0.2987.133 Safari/537.36"
 
@@ -47,9 +47,9 @@ fun httpGet(url: String, params: Map<String, String> = emptyMap()): GetResult {
 
     val requestUrl = urlBuilder.build().toString()
     val request = Request.Builder()
-            .addHeader("User-Agent", chromeUserAgent)
-            .url(requestUrl)
-            .build()
+        .addHeader("User-Agent", chromeUserAgent)
+        .url(requestUrl)
+        .build()
     val response = HttpClients.main.newCall(request).execute()
 
     response.use {
@@ -57,7 +57,7 @@ fun httpGet(url: String, params: Map<String, String> = emptyMap()): GetResult {
             try {
                 return GetSuccess(it.body().string())
             } catch (e: IOException) {
-                return GetError(requestUrl, it.code(), e.message?: "")
+                return GetError(requestUrl, it.code(), e.message ?: "")
             }
         } else {
             return GetError(requestUrl, it.code(), it.message())

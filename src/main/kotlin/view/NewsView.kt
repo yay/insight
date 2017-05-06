@@ -45,7 +45,7 @@ class NewsView : View() {
     override val root = vbox()
 
     init {
-        with (root) {
+        with(root) {
 
             hbox {
                 spacing = 10.0
@@ -92,8 +92,8 @@ class NewsView : View() {
                                                     href = baseUrl + href
                                                 }
                                                 val newsItem = NewsItem(
-                                                        headline = a.text(),
-                                                        url = href
+                                                    headline = a.text(),
+                                                    url = href
 //                                                        cite = cite
                                                 )
                                                 list.add(newsItem)
@@ -104,7 +104,7 @@ class NewsView : View() {
                                         if (code != 200) {
                                             // http://code.makery.ch/blog/javafx-dialogs-official/
                                             alert(Alert.AlertType.INFORMATION, "Request error",
-                                                    "Request status code: " + code)
+                                                "Request status code: " + code)
                                         }
                                         isDisable = false
                                     }
@@ -139,8 +139,8 @@ class NewsView : View() {
                                                     val link = item.select("link")
                                                     val pubDate = item.select("pubDate")
                                                     val newsItem = NewsItem(
-                                                            headline = title.text(),
-                                                            url = link.text()
+                                                        headline = title.text(),
+                                                        url = link.text()
 //                                                            cite = pubDate.text()
                                                     )
                                                     list.add(newsItem)

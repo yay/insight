@@ -60,8 +60,8 @@ fun scheduleEndOfDayFetcher(scheduler: Scheduler) {
     // See CronExpression class docs for a full description.
 
     val endOfDayFetcher: JobDetail = JobBuilder.newJob(EndOfDayFetcher::class.java)
-            .withIdentity("endOfDayFetcher")
-            .build()
+        .withIdentity("endOfDayFetcher")
+        .build()
 
     // Yahoo's intraday data starts at market open and ends at market close sharp,
     // without going into the extended hours territory, so we can safely fetch that
@@ -70,12 +70,12 @@ fun scheduleEndOfDayFetcher(scheduler: Scheduler) {
 
     // 21:30 ET on weekdays.
     val endOfDaySchedule = CronScheduleBuilder.cronSchedule("0 30 21 ? * MON-FRI")
-            .inTimeZone(TimeZone.getTimeZone("America/New_York"))
+        .inTimeZone(TimeZone.getTimeZone("America/New_York"))
 
     val endOfDayTrigger: CronTrigger = TriggerBuilder.newTrigger()
-            .withIdentity("endOfDayTrigger")
-            .withSchedule(endOfDaySchedule)
-            .build()
+        .withIdentity("endOfDayTrigger")
+        .withSchedule(endOfDaySchedule)
+        .build()
 
     scheduler.scheduleJob(endOfDayFetcher, endOfDayTrigger)
 }

@@ -16,14 +16,15 @@ enum class DataFrequency {
 }
 
 object YahooDataColumns {
-    val date     = "Date"
-    val open     = "Open"
-    val high     = "High"
-    val low      = "Low"
-    val close    = "Close"
+    val date = "Date"
+    val open = "Open"
+    val high = "High"
+    val low = "Low"
+    val close = "Close"
     val adjClose = "Adj Close"
-    val volume   = "Volume"
+    val volume = "Volume"
 }
+
 // In Kotlin, unlike Java or C#, classes do not have static methods.
 // In most cases, it's recommended to simply use package-level functions instead.
 // Or a companion object. Note that, even though the members of companion objects
@@ -31,13 +32,13 @@ object YahooDataColumns {
 // members of real objects.
 //val main.getYahooDataHeader: Array<String> = arrayOf("Date", "Open", "High", "Low", "Close", "Volume", "Adj Close")
 val YahooDataHeader: Array<String> = arrayOf(
-        YahooDataColumns.date,
-        YahooDataColumns.open,
-        YahooDataColumns.high,
-        YahooDataColumns.low,
-        YahooDataColumns.close,
-        YahooDataColumns.volume,
-        YahooDataColumns.adjClose
+    YahooDataColumns.date,
+    YahooDataColumns.open,
+    YahooDataColumns.high,
+    YahooDataColumns.low,
+    YahooDataColumns.close,
+    YahooDataColumns.volume,
+    YahooDataColumns.adjClose
 )
 
 class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency.DAY) {
@@ -62,9 +63,9 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
 
     private val client by lazy {
         OkHttpClient.Builder()
-                .connectTimeout(connectTimeout, TimeUnit.SECONDS)
-                .readTimeout(readTimeout, TimeUnit.SECONDS)
-                .build()
+            .connectTimeout(connectTimeout, TimeUnit.SECONDS)
+            .readTimeout(readTimeout, TimeUnit.SECONDS)
+            .build()
     }
 
     private var data: String = ""
@@ -90,9 +91,9 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
 
     private val frequencyParam = "g"
     private val frequencyMap = mapOf<DataFrequency, String>(
-            DataFrequency.DAY to "d",
-            DataFrequency.WEEK to "w",
-            DataFrequency.MONTH to "m"
+        DataFrequency.DAY to "d",
+        DataFrequency.WEEK to "w",
+        DataFrequency.MONTH to "m"
     )
 
     init {
@@ -101,18 +102,18 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
 
     fun startDate(date: LocalDate): YahooData {
         urlBuilder
-                .addQueryParameter(startYearParam, date.year.toString())
-                .addQueryParameter(startMonthParam, date.monthValue.toString())
-                .addQueryParameter(startDateParam, date.dayOfMonth.toString())
+            .addQueryParameter(startYearParam, date.year.toString())
+            .addQueryParameter(startMonthParam, date.monthValue.toString())
+            .addQueryParameter(startDateParam, date.dayOfMonth.toString())
 
         return this
     }
 
     fun endDate(date: LocalDate): YahooData {
         urlBuilder
-                .addQueryParameter(endYearParam, date.year.toString())
-                .addQueryParameter(endMonthParam, date.monthValue.toString())
-                .addQueryParameter(endDateParam, date.dayOfMonth.toString())
+            .addQueryParameter(endYearParam, date.year.toString())
+            .addQueryParameter(endMonthParam, date.monthValue.toString())
+            .addQueryParameter(endDateParam, date.dayOfMonth.toString())
 
         return this
     }
@@ -124,8 +125,8 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
         endDate(endDate)
 
         urlBuilder
-                .addQueryParameter(frequencyParam, frequencyMap[frequency])
-                .addQueryParameter(formatParam, format)
+            .addQueryParameter(frequencyParam, frequencyMap[frequency])
+            .addQueryParameter(formatParam, format)
 
         val url = urlBuilder.build().toString()
 
@@ -155,14 +156,19 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
         return this
     }
 
-    fun data(): String { return data }
+    fun data(): String {
+        return data
+    }
 
-    fun records(): Iterable<CSVRecord> { return records }
+    fun records(): Iterable<CSVRecord> {
+        return records
+    }
 
     fun ohlc(): List<OHLC> {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd")
 
-        return records.map { it -> OHLC(
+        return records.map { it ->
+            OHLC(
                 dateFormat.parse(it.get(YahooDataColumns.date)).toInstant().toEpochMilli(),
                 it.get(YahooDataColumns.open).toDouble(),
                 it.get(YahooDataColumns.high).toDouble(),
@@ -170,14 +176,16 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
                 it.get(YahooDataColumns.close).toDouble(),
                 it.get(YahooDataColumns.adjClose).toDouble(),
                 it.get(YahooDataColumns.volume).toLong()
-        ) }
+            )
+        }
     }
 
     fun list(): List<StockSymbol> {
         val header = YahooDataHeader
         val dateFormat = SimpleDateFormat("yyyy-MM-dd")
 
-        return records.map { it -> StockSymbol(
+        return records.map { it ->
+            StockSymbol(
                 dateFormat.parse(it.get(header[0])),
                 it.get(header[1]).toFloat(),
                 it.get(header[2]).toFloat(),
@@ -185,7 +193,8 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
                 it.get(header[4]).toFloat(),
                 it.get(header[5]).toInt(),
                 it.get(header[6]).toFloat()
-        ) }
+            )
+        }
     }
 
     fun call(f: YahooData.() -> Unit): YahooData {

@@ -20,10 +20,10 @@ class SymbolTableController : Controller() {
         val period = node.lookup("#period") as ComboBox<String>
 
         val request = YahooData(symbol, DataFrequency.valueOf(period.value.toUpperCase()))
-                .startDate(startDate.value)
-                .endDate(endDate.value)
-                .execute()
-                .parse()
+            .startDate(startDate.value)
+            .endDate(endDate.value)
+            .execute()
+            .parse()
 
         view.symbolData.value = request.data()
         view.symbolTable.items = request.list().observable()

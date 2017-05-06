@@ -18,7 +18,7 @@ fun douglasPeucker(points: List<Point2D>, epsilon: Double): List<Point2D> {
     val size = points.size
     val result: List<Point2D>
 
-    for (i in 1 .. size - 2) {
+    for (i in 1..size - 2) {
         val d = points[i].lineDistance(points[0], points[size - 1])
         if (d > dmax) {
             index = i
@@ -27,9 +27,9 @@ fun douglasPeucker(points: List<Point2D>, epsilon: Double): List<Point2D> {
     }
     // If the point is too far, recursively simplify.
     if (dmax > epsilon) {
-        val result1 = douglasPeucker(points.slice(0 .. index), epsilon)
-        val result2 = douglasPeucker(points.slice(index .. size - 1), epsilon)
-        result = result1.slice(0 .. result1.size - 2) + result2
+        val result1 = douglasPeucker(points.slice(0..index), epsilon)
+        val result2 = douglasPeucker(points.slice(index..size - 1), epsilon)
+        result = result1.slice(0..result1.size - 2) + result2
     } else {
         // Furthest point is close enough for the whole sequence
         // to be represented by a line.
@@ -43,7 +43,7 @@ fun douglasPeuckerRange(points: List<Point2D>, range: IntRange, epsilon: Double)
     var index = range.start
     val result: List<Int>
 
-    for (i in range.start + 1 .. range.endInclusive - 1) {
+    for (i in range.start + 1..range.endInclusive - 1) {
         val d = points[i].lineDistance(points[range.start], points[range.endInclusive])
         if (d > dmax) {
             index = i
@@ -51,8 +51,8 @@ fun douglasPeuckerRange(points: List<Point2D>, range: IntRange, epsilon: Double)
         }
     }
     if (dmax > epsilon) {
-        val result1 = douglasPeuckerRange(points, range.start .. index, epsilon)
-        val result2 = douglasPeuckerRange(points, index .. range.endInclusive, epsilon)
+        val result1 = douglasPeuckerRange(points, range.start..index, epsilon)
+        val result2 = douglasPeuckerRange(points, index..range.endInclusive, epsilon)
         result = result1.take(result1.size - 1) + result2
     } else {
         result = listOf(0, points.size - 1)

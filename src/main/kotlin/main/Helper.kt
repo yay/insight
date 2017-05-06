@@ -40,4 +40,4 @@ fun String.toJsonNode(): JsonNode {
 }
 
 fun String.toPrettyJson(): String =
-        ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this.toJsonNode())
+    ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this.toJsonNode())

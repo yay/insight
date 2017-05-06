@@ -9,9 +9,9 @@ import java.util.*
 import java.util.logging.Logger
 
 class NewsItem(
-        val headline: String,
-        val url: String,
-        val date: Date = Date()
+    val headline: String,
+    val url: String,
+    val date: Date = Date()
 //        val story: String = ""
 )
 
@@ -74,8 +74,8 @@ class YahooIpoNews : YahooNews() {
                 href = baseUrl + href
             }
             val newsItem = NewsItem(
-                    headline = a.text(),
-                    url = href
+                headline = a.text(),
+                url = href
             )
             items.add(newsItem)
         }
@@ -92,8 +92,8 @@ class YahooCompanyNews(symbol: String) : YahooNews() {
             val link = domItem.select("link")
             val pubDate = domItem.select("pubDate")
             val newsItem = NewsItem(
-                    headline = title.text(),
-                    url = link.text()
+                headline = title.text(),
+                url = link.text()
 //                    date = rssPubDateParser.parse(pubDate.text())
 //                    date = LocalDateTime.ofInstant(rssPubDateParser.parse(pubDate.text()).toInstant(), ZoneId.systemDefault())
             )

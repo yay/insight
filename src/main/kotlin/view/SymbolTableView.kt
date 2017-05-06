@@ -38,7 +38,7 @@ class SymbolTableView : View("Security Data") {
         primaryStage.minHeight = 600.0
 
 
-        with (root) {
+        with(root) {
             hbox {
                 spacing = 10.0
                 padding = Insets(10.0)
@@ -112,7 +112,7 @@ class SymbolTableView : View("Security Data") {
                 button("Chart") {
                     setOnAction {
                         replaceWith(
-                                ChartView::class
+                            ChartView::class
 //                            ViewTransition.Slide(
 //                                    0.3.seconds,
 //                                    ViewTransition.Direction.LEFT

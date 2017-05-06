@@ -11,7 +11,7 @@ class Styles : Stylesheet() {
 
     init {
         s(wrapper) {
-//            s(chartHorizontalGridLines) {
+            //            s(chartHorizontalGridLines) {
 //                visibility = FXVisibility.HIDDEN
 //            }
         }
