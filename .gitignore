@@ -1,6 +1,8 @@
 *~
 .DS_Store
 /.idea/
+META-INF
+*.iml
 .vscode
 target
 out
