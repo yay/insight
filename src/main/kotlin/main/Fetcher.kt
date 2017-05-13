@@ -61,15 +61,15 @@ private val exchanges = listOf(
 )
 
 fun fetchEndOfDayData() {
-    fetchDailyData()
-    asyncFetchAllIntradayData()
-    fetchSummary()
+    asyncMassFetchDailyData()
+    asyncMassFetchIntradayData()
+    asyncMassFetchSummary()
 }
 
 // http://stackoverflow.com/questions/32935470/how-to-convert-list-to-map-in-kotlin
 val exchangeMap = exchanges.map { it.code to it }.toMap()
 
-fun fetchDailyData() {
+fun asyncMassFetchDailyData() {
     getAppLogger().debug("Fetching daily data ...")
     val time = measureTimeMillis {
         runBlocking {
@@ -84,7 +84,7 @@ fun fetchDailyData() {
 /**
  * Fetches last day's intraday data for major exchanges.
  */
-fun asyncFetchAllIntradayData() {
+fun asyncMassFetchIntradayData() {
     val name = "Fetch intraday data for all exchanges"
     getAppLogger().debug("'$name' started.")
     val time = measureTimeMillis {
@@ -111,7 +111,7 @@ fun syncFetchAllIntradayData() {
 /**
  * Fetches last day's summary data for major exchanges.
  */
-fun fetchSummary() {
+fun asyncMassFetchSummary() {
     getAppLogger().debug("Fetching summary data ...")
     val time = measureTimeMillis {
         runBlocking {
