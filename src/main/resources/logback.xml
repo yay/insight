@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
@@ -7,8 +8,27 @@
             <pattern>%date %-5level %logger{39} [%thread] [%file:%line] - %msg%n%ex{full}</pattern>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>DEBUG</level>
+            <level>INFO</level>
         </filter>
+    </appender>
+
+    <!-- Create a new log file at each new application launch. -->
+    <timestamp key="startTimestamp" datePattern="yyyy-MM-dd-(HH-mm-ss.SSS)"/>
+    <appender name="File"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg \(%file:%line\)%n</Pattern>
+        </layout>
+
+        <file>logs/insight-${startTimestamp}.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>insight-${startTimestamp}-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <maxFileSize>5MB</maxFileSize>
+            <!-- keep 7 days' worth of history -->
+            <maxHistory>7</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
     </appender>
 
     <appender name="Mail" class="ch.qos.logback.classic.net.SMTPAppender">
@@ -37,6 +57,7 @@
 
     <root level="INFO">
         <appender-ref ref="Console" />
+        <appender-ref ref="File" />
         <appender-ref ref="Mail" />
     </root>
 
