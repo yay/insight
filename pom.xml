@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.vitalyk.yay</groupId>
-    <artifactId>yay</artifactId>
+    <groupId>com.vitalyk.insight</groupId>
+    <artifactId>insight</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -15,7 +15,7 @@
         <jackson.version>2.8.7</jackson.version>
         <nd4j.version>0.8.0</nd4j.version>
         <junit.platform.version>1.0.0-M3</junit.platform.version>
-        <main.class>com.vitalyk.yay.main.MainKt</main.class>
+        <main.class>com.vitalyk.insight.main.MainKt</main.class>
     </properties>
 
     <dependencies>
