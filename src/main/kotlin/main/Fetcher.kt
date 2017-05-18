@@ -239,8 +239,11 @@ suspend fun Exchange.asyncFetchDailyData() {
                             val fetchedRecordsParser = CSVFormat.DEFAULT.parse(result.data.reader())
                             val fetchedRecords = fetchedRecordsParser.records
 
+                            if (fetchedRecords.size == 0) {
+                                exchange.logger.warn("${exchange.code}:$symbol data is empty. Probably no longer traded.")
+                            }
                             // if headers match
-                            if (existingRecords.first().toList() == fetchedRecords.first().toList()) {
+                            else if (existingRecords.first().toList() == fetchedRecords.first().toList()) {
 
                                 val fileWriter = FileWriter(file, false)
                                 val csvPrinter = CSVPrinter(fileWriter, CSVFormat.DEFAULT)
