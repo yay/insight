@@ -5,11 +5,43 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVRecord
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import java.io.StringReader
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
+
+fun fetchDailyData(symbol: String): String? {
+    /**
+    https://query1.finance.yahoo.com/v7/finance/download/NVDA
+        ?period1=1492418370
+        &period2=1495010370
+        &interval=1d
+        &events=history
+        &crumb=6NDOC..cxYc  <-- required along with cookies, changes with every login to Yahoo Finance
+     */
+
+    val now = DateTime().withZone(DateTimeZone.forID("America/New_York"))
+    val then = now.minusYears(1)
+    val crumb = "CzO2KguaMc4"
+    val params = "?period1=${then.millis / 1000}&period2=${now.millis / 1000}&interval=1d&events=history&crumb=$crumb"
+    val url = "https://query1.finance.yahoo.com/v7/finance/download/$symbol$params"
+
+    val result = httpGet(url)
+
+    when (result) {
+        is GetSuccess -> {
+            return result.data
+        }
+        is GetError -> {
+            getAppLogger().error("$url ${result.code}: ${result.message}")
+        }
+    }
+
+    return null
+}
 
 enum class DataFrequency {
     DAY, WEEK, MONTH
@@ -56,7 +88,7 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
     */
 
     private val baseUrl: String = "http://chart.finance.yahoo.com/table.csv"
-    private val urlBuilder = HttpUrl.parse(baseUrl).newBuilder()
+    private val urlBuilder: HttpUrl.Builder
 
     val connectTimeout: Long = 10
     val readTimeout: Long = 30
@@ -97,7 +129,13 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
     )
 
     init {
-        endDate.year
+        val httpUrl = HttpUrl.parse(baseUrl)
+
+        if (httpUrl != null) {
+            urlBuilder = httpUrl.newBuilder()
+        } else {
+            throw Error("Bad URL.")
+        }
     }
 
     fun startDate(date: LocalDate): YahooData {
@@ -137,7 +175,11 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
 
         response.use {
             if (it.code() == 200) {
-                data = it.body().string()
+                val body = it.body()
+
+                if (body != null) {
+                    data = body.string()
+                }
             }
         }
 

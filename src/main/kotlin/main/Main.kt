@@ -4,15 +4,17 @@ import org.quartz.impl.StdSchedulerFactory
 
 fun main(args: Array<String>) {
 
-    Settings.load(AppSettings)
-    Settings.saveOnShutdown(AppSettings)
+    fetchEndOfDayData()
 
-    // The app won't exit while the scheduler is running.
-    val appSchedulerFactory = StdSchedulerFactory()
-    val appScheduler = appSchedulerFactory.getScheduler()
-
-    appScheduler.start()
-
-    scheduleEndOfDayFetcher(appScheduler)
+//    Settings.load(AppSettings)
+//    Settings.saveOnShutdown(AppSettings)
+//
+//    // The app won't exit while the scheduler is running.
+//    val appSchedulerFactory = StdSchedulerFactory()
+//    val appScheduler = appSchedulerFactory.getScheduler()
+//
+//    appScheduler.start()
+//
+//    scheduleEndOfDayFetcher(appScheduler)
 
 }

@@ -9,6 +9,14 @@ object HttpClients {
     val main: OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(10L, TimeUnit.SECONDS)
         .readTimeout(30L, TimeUnit.SECONDS)
+        .addInterceptor { chain ->
+            val original = chain.request()
+            val authorized = original.newBuilder()
+                .addHeader("Cookie", "B=abhu36lchrts9&b=3&s=l1")
+                .build()
+
+            chain.proceed(authorized)
+        }
         .build()
 }
 
@@ -39,7 +47,13 @@ private val chromeUserAgent =
         "Chrome/57.0.2987.133 Safari/537.36"
 
 fun httpGet(url: String, params: Map<String, String> = emptyMap()): GetResult {
-    val urlBuilder = HttpUrl.parse(url).newBuilder()
+    val httpUrl = HttpUrl.parse(url)
+
+    if (httpUrl == null) {
+        throw Error("Invalid HttpUrl.")
+    }
+
+    val urlBuilder = httpUrl.newBuilder()
 
     for ((param, value) in params) {
         urlBuilder.addQueryParameter(param, value)
@@ -55,7 +69,13 @@ fun httpGet(url: String, params: Map<String, String> = emptyMap()): GetResult {
     response.use {
         if (it.isSuccessful) {
             try {
-                return GetSuccess(it.body().string())
+                val body = it.body()
+
+                if (body == null) {
+                    return GetError(requestUrl, it.code(), "Empty response body.")
+                } else {
+                    return GetSuccess(body.string())
+                }
             } catch (e: IOException) {
                 return GetError(requestUrl, it.code(), e.message ?: "")
             }

@@ -70,7 +70,7 @@ fun fetchEndOfDayData() {
 val exchangeMap = exchanges.map { it.code to it }.toMap()
 
 fun asyncMassFetchDailyData() {
-    getAppLogger().debug("Fetching daily data ...")
+    getAppLogger().info("Fetching daily data ...")
     val time = measureTimeMillis {
         runBlocking {
             exchangeMap["nasdaq"]?.asyncFetchDailyData()
@@ -78,7 +78,7 @@ fun asyncMassFetchDailyData() {
             exchangeMap["amex"]?.asyncFetchDailyData()
         }
     }
-    getAppLogger().debug("Fetching daily data completed in $time ms.")
+    getAppLogger().info("Fetching daily data completed in $time ms.")
 }
 
 /**
@@ -86,7 +86,7 @@ fun asyncMassFetchDailyData() {
  */
 fun asyncMassFetchIntradayData() {
     val name = "Fetch intraday data for all exchanges"
-    getAppLogger().debug("'$name' started.")
+    getAppLogger().info("'$name' started.")
     val time = measureTimeMillis {
         runBlocking {
             exchangeMap["nasdaq"]?.asyncFetchIntradayData()
@@ -94,25 +94,25 @@ fun asyncMassFetchIntradayData() {
             exchangeMap["amex"]?.asyncFetchIntradayData()
         }
     }
-    getAppLogger().debug("'$name' completed in $time ms.")
+    getAppLogger().info("'$name' completed in $time ms.")
 }
 
 fun syncFetchAllIntradayData() {
     val name = "Fetch intraday data for all exchanges"
-    getAppLogger().debug("'$name' started.")
+    getAppLogger().info("'$name' started.")
     val time = measureTimeMillis {
         exchangeMap["nasdaq"]?.syncFetchIntradayData()
         exchangeMap["nyse"]?.syncFetchIntradayData()
         exchangeMap["amex"]?.syncFetchIntradayData()
     }
-    getAppLogger().debug("'$name' completed in $time ms.")
+    getAppLogger().info("'$name' completed in $time ms.")
 }
 
 /**
  * Fetches last day's summary data for major exchanges.
  */
 fun asyncMassFetchSummary() {
-    getAppLogger().debug("Fetching summary data ...")
+    getAppLogger().info("Fetching summary data ...")
     val time = measureTimeMillis {
         runBlocking {
             exchangeMap["nasdaq"]?.asyncFetchSummary()
@@ -120,7 +120,37 @@ fun asyncMassFetchSummary() {
             exchangeMap["amex"]?.asyncFetchSummary()
         }
     }
-    getAppLogger().debug("Fetching summaries completed in $time ms.")
+    getAppLogger().info("Fetching summaries completed in $time ms.")
+}
+
+fun massFetchSummary() {
+    getAppLogger().info("Fetching summary data (sync) ...")
+    val time = measureTimeMillis {
+        exchangeMap["nasdaq"]?.fetchSummary()
+        exchangeMap["nyse"]?.fetchSummary()
+        exchangeMap["amex"]?.fetchSummary()
+    }
+    getAppLogger().info("Fetching summaries completed in $time ms.")
+}
+
+fun Exchange.fetchSummary() {
+    val exchange = this
+    // No matter what time and date it is locally, we are interested in what date it is in New York.
+    val dateTime = DateTime().withZone(DateTimeZone.forID("America/New_York"))
+    val dateString: String = dateTime.toString("yyyy-MM-dd")
+    val securities = exchange.getSecurities()
+
+    securities.map { (symbol) ->
+        val data = getYahooSummary(symbol)
+        if (data != null) {
+            try {
+                val path = "${AppSettings.paths.summary}/$dateString/${exchange.code}/$symbol.json"
+                data.toPrettyJson().writeToFile(path)
+            } catch (e: Error) {
+                exchange.logger.error(e.message)
+            }
+        }
+    }
 }
 
 
@@ -169,7 +199,8 @@ suspend fun Exchange.asyncFetchDailyData() {
     val now = DateTime().withZone(DateTimeZone.forID("America/New_York"))
     var then = now.minusYears(1)
 
-    val baseUrl = "http://chart.finance.yahoo.com/table.csv"
+    val baseUrl = "https://query1.finance.yahoo.com/v7/finance/download"
+    val crumb = "CzO2KguaMc4"
 
     val securities = async(CommonPool) { exchange.getSecurities() }.await()
 
@@ -195,12 +226,10 @@ suspend fun Exchange.asyncFetchDailyData() {
                 then = now.minusYears(70)
             }
 
-            val params = "&a=${then.monthOfYear}&b=${then.dayOfMonth}&c=${then.year}" +
-                "&d=${now.monthOfYear}&e=${now.dayOfMonth}&f=${now.year}" +
-                "&g=d" +
-                "&ignore=.csv"
+            // The periods are the number of seconds between epoch and the start of the day in UTC.
+            val params = "?period1=${then.millis / 1000}&period2=${now.millis / 1000}&interval=1d&events=history&crumb=$crumb"
 
-            val requestUrl = "$baseUrl?s=$symbol$params"
+            val requestUrl = "$baseUrl/$symbol$params"
             val result = httpGet(requestUrl)
 
             when (result) {
@@ -246,7 +275,8 @@ suspend fun Exchange.asyncFetchDailyData() {
                                 csvPrinter.flush()
                                 csvPrinter.close()
                             } else {
-                                exchange.logger.error("$symbol: CSV headers don't match.\nRequest URL: $requestUrl")
+                                exchange.logger.error("$symbol: CSV headers don't match.\nRequest URL: $requestUrl\n" +
+                                    "Expected '${fetchedRecords.first().toList()}' to be '${existingRecords.first().toList()}'")
                             }
                         } catch (e: Error) {
                             exchange.logger.error("Updating existing symbol ($symbol) data failed: ${e.message}")

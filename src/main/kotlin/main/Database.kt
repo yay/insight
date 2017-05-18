@@ -125,7 +125,7 @@ fun csvAllDailyQuotesToDb(db: DBI) {
             for (file in walker) {
                 val symbol = file.nameWithoutExtension.trim()
                 if (symbol != exchange) {
-                    getAppLogger().debug("${index++} - $market:$symbol")
+                    getAppLogger().info("${index++} - $market:$symbol")
                     val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(file.reader())
 
                     handle.execute("begin")
