@@ -60,10 +60,19 @@ private val exchanges = listOf(
 
 )
 
+private var isFetchingEndOfDayData = false
+
 fun fetchEndOfDayData() {
-    asyncMassFetchDailyData()
-    asyncMassFetchIntradayData()
-    asyncMassFetchSummary()
+    if (!isFetchingEndOfDayData) {
+        isFetchingEndOfDayData = true
+
+        asyncMassFetchDailyData()
+        asyncMassFetchSummary()
+
+        isFetchingEndOfDayData = false
+    } else {
+        getAppLogger().warn("The end of day data fetching is already in progress.")
+    }
 }
 
 // http://stackoverflow.com/questions/32935470/how-to-convert-list-to-map-in-kotlin
@@ -228,7 +237,6 @@ suspend fun Exchange.asyncFetchDailyData() {
 
             // The periods are the number of seconds between epoch and the start of the day in UTC.
             val params = "?period1=${then.millis / 1000}&period2=${now.millis / 1000}&interval=1d&events=history&crumb=$crumb"
-
             val requestUrl = "$baseUrl/$symbol$params"
             val result = httpGet(requestUrl)
 
@@ -239,12 +247,19 @@ suspend fun Exchange.asyncFetchDailyData() {
                             val fetchedRecordsParser = CSVFormat.DEFAULT.parse(result.data.reader())
                             val fetchedRecords = fetchedRecordsParser.records
 
-                            if (fetchedRecords.size == 0) {
-                                exchange.logger.warn("${exchange.code}:$symbol data is empty. Probably no longer traded.")
+                            if (fetchedRecords.size <= 1) {
+                                exchange.logger.warn("${exchange.code}:$symbol - no data or header only." +
+                                    " Probably no longer traded.")
                             }
                             // if headers match
                             else if (existingRecords.first().toList() == fetchedRecords.first().toList()) {
-
+                                // Note: the data we get will have the CSV header as the first line
+                                // 'Date,Open,High,Low,Close,Adj Close,Volume', and the subsequent lines will
+                                // represent each day's data in chronological order. Previous Yahoo Finance API version
+                                // returned the data in reverse order, which we'll continue to use here, as it is handy
+                                // to fetch the first n records, knowing they'll represent n most recent trading days
+                                // (except for stocks that are no longer trading).
+                                val headlessRecords = fetchedRecords.subList(1, fetchedRecords.size).asReversed()
                                 val fileWriter = FileWriter(file, false)
                                 val csvPrinter = CSVPrinter(fileWriter, CSVFormat.DEFAULT)
 
@@ -262,9 +277,9 @@ suspend fun Exchange.asyncFetchDailyData() {
 
                                 // write new records, starting with header
                                 csvPrinter.printRecord(fetchedRecords[0])
-                                var i = 1
-                                while (i < fetchedRecords.size && fetchedRecords[i].get(0) != lastFetchedDate) {
-                                    csvPrinter.printRecord(fetchedRecords[i])
+                                var i = 0
+                                while (i < headlessRecords.size && headlessRecords[i].get(0) != lastFetchedDate) {
+                                    csvPrinter.printRecord(headlessRecords[i])
                                     i++
                                 }
 
@@ -357,6 +372,13 @@ suspend fun Exchange.asyncFetchSummary() {
     // No matter what time and date it is locally, we are interested in what date it is in New York.
     val dateTime = DateTime().withZone(DateTimeZone.forID("America/New_York"))
     val dateString: String = dateTime.toString("yyyy-MM-dd")
+    val path = "${AppSettings.paths.summary}/$dateString/${exchange.code}"
+
+    if (File(path).exists()) {
+        exchange.logger.warn("'$path' already exists. The data won't be fetched.")
+        return
+    }
+
     val securities = async(CommonPool) { exchange.getSecurities() }.await()
 
     securities.map { (symbol) ->
@@ -364,8 +386,8 @@ suspend fun Exchange.asyncFetchSummary() {
             val data = getYahooSummary(symbol)
             if (data != null) {
                 try {
-                    val path = "${AppSettings.paths.summary}/$dateString/${exchange.code}/$symbol.json"
-                    data.toPrettyJson().writeToFile(path)
+                    val filePath = "$path/$symbol.json"
+                    data.toPrettyJson().writeToFile(filePath)
                 } catch (e: Error) {
                     exchange.logger.error(e.message)
                 }

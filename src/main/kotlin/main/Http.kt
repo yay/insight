@@ -15,6 +15,8 @@ object HttpClients {
                 .addHeader("Cookie", "B=abhu36lchrts9&b=3&s=l1")
                 .build()
 
+            // http://stackoverflow.com/questions/44030983/yahoo-finance-url-not-working
+
             chain.proceed(authorized)
         }
         .build()

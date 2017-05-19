@@ -4,17 +4,17 @@ import main.AppSettings
 import java.io.File
 
 fun swapVolumeAndAdjCloseColumnsInDailyData() {
-    val basePath = "${AppSettings.paths.dailyData}/"
+    val inBasePath = "${AppSettings.paths.storage}/old_stock_daily"
     val outBasePath = "${AppSettings.paths.storage}/new_stock_daily"
 
     val exchanges = listOf("amex", "nasdaq", "nyse")
 
     for (exchange in exchanges) {
-        val path = basePath + exchange
+        val path = "$inBasePath/$exchange"
         val walker = File(path).walk().maxDepth(1)
 
         for (file in walker) {
-            if (file.isFile()) {
+            if (file.isFile) {
                 val symbol = file.nameWithoutExtension.trim()
                 if (symbol != exchange) {
                     val lines = file.readLines()

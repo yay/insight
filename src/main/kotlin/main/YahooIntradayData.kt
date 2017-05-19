@@ -1,5 +1,8 @@
 package main
 
+/**
+ * This API has been discontinued on May 17, 2017.
+ */
 fun fetchIntradayData(symbol: String): String? {
     val url = "https://chartapi.finance.yahoo.com/instrument/1.0/$symbol/chartdata;type=quote;range=1d/json"
     val result = httpGet(url)
