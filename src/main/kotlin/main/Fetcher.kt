@@ -27,8 +27,6 @@ private fun Exchange.noSecurities() = emptyList<Security>()
 
 class Exchange(
     val code: String,
-    val name: String,
-    val location: String,
     val url: String = "",
     val getSecurities: Exchange.() -> List<Security> = Exchange::noSecurities
 ) {
@@ -38,22 +36,16 @@ class Exchange(
 private val exchanges = listOf(
     Exchange(
         "nasdaq",
-        "NASDAQ",
-        "New York City",
         "http://www.nasdaq.com/",
         Exchange::getExchangeSecuritiesFromNasdaq
     ),
     Exchange(
         "nyse",
-        "New York Security Exchange",
-        "New York City",
         "https://www.nyse.com/index",
         Exchange::getExchangeSecuritiesFromNasdaq
     ),
     Exchange(
         "amex",
-        "NYSE MKT",
-        "New York City",
         "https://www.nyse.com/markets/nyse-mkt",
         Exchange::getExchangeSecuritiesFromNasdaq
     )
