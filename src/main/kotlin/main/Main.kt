@@ -9,7 +9,7 @@ fun main(args: Array<String>) {
 
     // The app won't exit while the scheduler is running.
     val appSchedulerFactory = StdSchedulerFactory()
-    val appScheduler = appSchedulerFactory.getScheduler()
+    val appScheduler = appSchedulerFactory.scheduler
 
     appScheduler.start()
 
