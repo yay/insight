@@ -30,57 +30,48 @@ class SymbolTableView : View("Security Data") {
     var symbolData = SimpleStringProperty("")
     var symbolSummary = SimpleStringProperty("")
 
-    override val root = vbox()
+    override val root = vbox {
+        hbox {
+            spacing = 10.0
+            padding = Insets(10.0)
+            alignment = Pos.CENTER_LEFT
 
-    init {
-
-        primaryStage.minWidth = 900.0
-        primaryStage.minHeight = 600.0
-
-
-        with(root) {
-            hbox {
-                spacing = 10.0
-                padding = Insets(10.0)
-                alignment = Pos.CENTER_LEFT
-
-                label("Symbol:")
-                textfield(symbol) {
-                    tooltip("Fetches symbol data and summary") {
-                        font = Font.font("Verdana")
-                    }
-                    textProperty().onChange { value ->
-                        this.text = value?.toUpperCase()
-                    }
-                    onKeyReleased = EventHandler { key ->
-                        if (key.code == KeyCode.ENTER) {
-
-//                            val frequency = DataFrequency.valueOf(period.value.toUpperCase())
-//                            val dataRequest = YahooData(symbol.value, frequency)
+            label("Symbol:")
+            textfield(symbol) {
+                tooltip("Fetches symbol data and summary") {
+                    font = Font.font("Verdana")
+                }
+                textProperty().onChange { value ->
+                    this.text = value?.toUpperCase()
+                }
+                onKeyReleased = EventHandler { key ->
+                    if (key.code == KeyCode.ENTER) {
+                            val frequency = DataFrequency.valueOf(period.value.toUpperCase())
+                            val dataRequest = YahooData(symbol.value, frequency)
 //                            var summaryRequest = YahooSummary(symbol.value, HttpClients.main)
-//
-//                            runAsyncWithProgress {
-//
-//                                dataRequest
-//                                        .startDate(startDate.value)
-//                                        .endDate(endDate.value)
-//                                        .execute()
-//                                        .parse()
-//
+
+                            runAsyncWithProgress {
+
+                                dataRequest
+                                        .startDate(startDate.value)
+                                        .endDate(endDate.value)
+                                        .execute()
+                                        .parse()
+
 //                                summaryRequest
 //                                        .execute()
 //                                        .parse()
-//                            } ui {
-//                                symbolData.value = dataRequest.data()
-//                                symbolTable.items = dataRequest.list().observable()
+                            } ui {
+                                symbolData.value = dataRequest.data()
+                                symbolTable.items = dataRequest.list().observable()
 //                                symbolSummary.value = summaryRequest.prettyData()
-//                            }
-                        }
+                            }
                     }
                 }
+            }
 
-                label("Period:")
-                combobox(period, FXCollections.observableArrayList(periodValues))
+            label("Period:")
+            combobox(period, FXCollections.observableArrayList(periodValues))
 
 //                button {
 //
@@ -109,44 +100,44 @@ class SymbolTableView : View("Security Data") {
 //                    }
 //                }
 
-                button("Chart") {
-                    setOnAction {
-                        replaceWith(
-                            ChartView::class
+            button("Chart") {
+                setOnAction {
+                    replaceWith(
+                        ChartView::class
 //                            ViewTransition.Slide(
 //                                    0.3.seconds,
 //                                    ViewTransition.Direction.LEFT
 //                            )
-                        )
-                    }
-                }
-
-                button("main.News") {
-                    setOnAction {
-                        replaceWith(NewsView::class)
-                    }
+                    )
                 }
             }
 
-            hbox {
-                spacing = 10.0
-                padding = Insets(10.0)
-                alignment = Pos.CENTER_LEFT
+            button("main.News") {
+                setOnAction {
+                    replaceWith(NewsView::class)
+                }
+            }
+        }
 
-                label("Start date: ")
-                this += startDate
+        hbox {
+            spacing = 10.0
+            padding = Insets(10.0)
+            alignment = Pos.CENTER_LEFT
 
-                label("End date: ")
-                this += endDate
+            label("Start date: ")
+            this += startDate
 
-                button("Data Fetcher") {
-                    setOnAction {
-                        replaceWith(DataFetcherView::class)
+            label("End date: ")
+            this += endDate
+
+            button("Data Fetcher") {
+                setOnAction {
+                    replaceWith(DataFetcherView::class)
 //                        var hs = HostServices(insight.main.InsightApp::class.objectInstance)
 //                        getHostServices().showDocument("http://www.yahoo.com");
-                    }
                 }
             }
+        }
 
 //            class MyFragment : Fragment() {
 //                override val root = label("This is a popup!")
@@ -158,42 +149,44 @@ class SymbolTableView : View("Security Data") {
 ////                find(MyFragment::class).openModal(stageStyle = StageStyle.UTILITY)
 //            }
 //        }
-            tabpane {
+        tabpane {
 
-                tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
-                vgrow = Priority.ALWAYS
+            tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
+            vgrow = Priority.ALWAYS
 
-                tab("Data") {
-                    symbolTable = tableview(listOf<StockSymbol>().observable()) {
-                        column("Date", StockSymbol::dateProperty).minWidth(250)
-                        column("Open", StockSymbol::openProperty)
-                        column("High", StockSymbol::highProperty)
-                        column("Low", StockSymbol::lowProperty)
-                        column("Close", StockSymbol::closeProperty)
-                        column("Volume", StockSymbol::volumeProperty)
-                        column("Adj Close", StockSymbol::adjCloseProperty).minWidth(150)
+            tab("Data") {
+                symbolTable = tableview(listOf<StockSymbol>().observable()) {
+                    column("Date", StockSymbol::dateProperty).minWidth(250)
+                    column("Open", StockSymbol::openProperty)
+                    column("High", StockSymbol::highProperty)
+                    column("Low", StockSymbol::lowProperty)
+                    column("Close", StockSymbol::closeProperty)
+                    column("Volume", StockSymbol::volumeProperty)
+                    column("Adj Close", StockSymbol::adjCloseProperty).minWidth(150)
 
-                        vgrow = Priority.ALWAYS
+                    vgrow = Priority.ALWAYS
 //                        columnResizePolicy = SmartResize.POLICY
-                    }
                 }
-
-                tab("Raw Data") {
-                    textarea(symbolData) {
-                        vgrow = Priority.ALWAYS
-                    }
-                }
-
-                tab("Raw Summary") {
-                    textarea(symbolSummary) {
-                        vgrow = Priority.ALWAYS
-                    }
-                }
-
             }
 
+            tab("Raw Data") {
+                textarea(symbolData) {
+                    vgrow = Priority.ALWAYS
+                }
+            }
+
+            tab("Raw Summary") {
+                textarea(symbolSummary) {
+                    vgrow = Priority.ALWAYS
+                }
+            }
 
         }
+    }
+
+    init {
+        primaryStage.minWidth = 900.0
+        primaryStage.minHeight = 600.0
     }
 
 }

@@ -9,8 +9,9 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <kotlin.version>1.1.4-3</kotlin.version>
-        <kotlin.coroutines.version>0.18</kotlin.coroutines.version>
+        <kotlin.version>1.2.0</kotlin.version>
+        <kotlin.coroutines.version>0.19.3</kotlin.coroutines.version>
+        <junit.version>4.12</junit.version>
         <jdbi.version>2.78</jdbi.version>
         <grpc.version>1.1.2</grpc.version>
         <jackson.version>2.8.9</jackson.version>
@@ -25,23 +26,25 @@
             <artifactId>kotlinx-coroutines-core</artifactId>
             <version>${kotlin.coroutines.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.jetbrains.kotlinx</groupId>
             <artifactId>kotlinx-coroutines-javafx</artifactId>
             <version>${kotlin.coroutines.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
             <version>${kotlin.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test-junit</artifactId>
+            <artifactId>kotlin-reflect</artifactId>
             <version>${kotlin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -73,7 +76,7 @@
         <dependency>
             <groupId>no.tornado</groupId>
             <artifactId>tornadofx</artifactId>
-            <version>1.7.8</version>
+            <version>1.7.12</version>
         </dependency>
 
         <dependency>
@@ -199,8 +202,8 @@
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
         <repository>
-            <id>kotlin-eap</id>
-            <url>https://dl.bintray.com/kotlin/kotlin-eap-1.1</url>
+            <id>kotlin-eap-1.2</id>
+            <url>http://dl.bintray.com/kotlin/kotlin-eap-1.2</url>
         </repository>
         <repository>
             <id>maven.oracle.com</id>

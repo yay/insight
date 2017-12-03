@@ -23,6 +23,10 @@ fun fetchDailyData(symbol: String): String? {
         &crumb=6NDOC..cxYc  <-- required along with cookies, changes with every login to Yahoo Finance
      */
 
+    // See below for the 'crumb':
+    // http://blog.bradlucas.com/posts/2017-06-02-new-yahoo-finance-quote-download-url/
+    // https://github.com/dennislwy/YahooFinanceAPI
+
     val now = DateTime().withZone(DateTimeZone.forID("America/New_York"))
     val then = now.minusYears(1)
     val crumb = "CzO2KguaMc4"

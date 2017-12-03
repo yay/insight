@@ -203,10 +203,10 @@ suspend fun Exchange.asyncFetchDailyData() {
     val baseUrl = "https://query1.finance.yahoo.com/v7/finance/download"
     val crumb = "CzO2KguaMc4"
 
-    val securities = async(CommonPool) { exchange.getSecurities() }.await()
+    val securities = async { exchange.getSecurities() }.await()
 
     securities.map { (symbol) ->
-        async(CommonPool) {
+        async {
             val filename = "${AppSettings.paths.dailyData}/${exchange.code}/$symbol.csv"
             val file = File(filename)
             val fileExists = file.exists()
@@ -313,10 +313,10 @@ suspend fun Exchange.asyncFetchIntradayData() {
     // No matter what time and date it is locally, we are interested in what date it is in New York.
     val dateTime = DateTime().withZone(DateTimeZone.forID("America/New_York"))
     val dateString: String = dateTime.toString("yyyy-MM-dd")
-    val securities = async(CommonPool) { exchange.getSecurities() }.await()
+    val securities = async { exchange.getSecurities() }.await()
 
     securities.map { (symbol) ->
-        async(CommonPool) {
+        async {
             val data = fetchIntradayData(symbol)
             if (data != null) {
                 try {
@@ -371,10 +371,10 @@ suspend fun Exchange.asyncFetchSummary() {
         return
     }
 
-    val securities = async(CommonPool) { exchange.getSecurities() }.await()
+    val securities = async { exchange.getSecurities() }.await()
 
     securities.map { (symbol) ->
-        async(CommonPool) {
+        async {
             val data = getYahooSummary(symbol)
             if (data != null) {
                 try {
@@ -390,7 +390,7 @@ suspend fun Exchange.asyncFetchSummary() {
 
 // Creates a map of ticker symbols to company names for all exchanges.
 fun createTickerToNameJson() {
-    async(CommonPool) {
+    async {
         var map = mutableMapOf<String, MutableMap<String, String>>()
         StockFetcherUS.forAll { exchange, companies ->
             val symbolNames = mutableMapOf<String, String>()
@@ -474,7 +474,7 @@ object StockFetcherUS {
             val companies = getStocks(exchange)
 
             companies?.map { (symbol) ->
-                async(CommonPool) {
+                async {
                     val data = YahooCompanyNews(symbol)
                         .fetch()
                         .json()

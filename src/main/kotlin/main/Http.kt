@@ -49,11 +49,7 @@ private val chromeUserAgent =
         "Chrome/57.0.2987.133 Safari/537.36"
 
 fun httpGet(url: String, params: Map<String, String> = emptyMap()): GetResult {
-    val httpUrl = HttpUrl.parse(url)
-
-    if (httpUrl == null) {
-        throw Error("Invalid HttpUrl.")
-    }
+    val httpUrl = HttpUrl.parse(url) ?: throw Error("Invalid HttpUrl.")
 
     val urlBuilder = httpUrl.newBuilder()
 
@@ -69,20 +65,20 @@ fun httpGet(url: String, params: Map<String, String> = emptyMap()): GetResult {
     val response = HttpClients.main.newCall(request).execute()
 
     response.use {
-        if (it.isSuccessful) {
+        return if (it.isSuccessful) {
             try {
                 val body = it.body()
 
                 if (body == null) {
-                    return GetError(requestUrl, it.code(), "Empty response body.")
+                    GetError(requestUrl, it.code(), "Empty response body.")
                 } else {
-                    return GetSuccess(body.string())
+                    GetSuccess(body.string())
                 }
             } catch (e: IOException) {
-                return GetError(requestUrl, it.code(), e.message ?: "")
+                GetError(requestUrl, it.code(), e.message ?: "")
             }
         } else {
-            return GetError(requestUrl, it.code(), it.message())
+            GetError(requestUrl, it.code(), it.message())
         }
     }
 }
