@@ -21,10 +21,6 @@ object HttpClients {
         .build()
 }
 
-sealed class GetResult
-data class GetSuccess(val data: String) : GetResult()
-data class GetError(val url: String, val code: Int, val message: String) : GetResult()
-
 class UserAgentInterceptor(private val userAgent: String) : Interceptor {
     // E.g. client.networkInterceptors().add(UserAgentInterceptor("user-agent-string"))
     @Throws(IOException::class)
@@ -46,6 +42,10 @@ private val chromeUserAgent =
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) " +
         "AppleWebKit/537.36 (KHTML, like Gecko) " +
         "Chrome/57.0.2987.133 Safari/537.36"
+
+sealed class GetResult
+data class GetSuccess(val data: String) : GetResult()
+data class GetError(val url: String, val code: Int, val message: String) : GetResult()
 
 fun httpGet(url: String, params: Map<String, String> = emptyMap()): GetResult {
     val httpUrl = HttpUrl.parse(url) ?: throw Error("Invalid HttpUrl.")

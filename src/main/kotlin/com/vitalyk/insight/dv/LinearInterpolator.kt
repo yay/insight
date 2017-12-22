@@ -1,16 +1,14 @@
 package com.vitalyk.insight.dv
 
-fun Interval.toInterpolator(): (t: Double) -> Double = {
-    t ->
+fun Interval.toInterpolator(): (t: Double) -> Double = { t ->
     this.first * (1 - t) + this.second * t
 }
 
-fun Interval.toDeinterpolator(): (x: Double) -> Double = {
-    x ->
+fun Interval.toDeinterpolator(): (x: Double) -> Double = { x ->
     (x - this.first) / (this.second - this.first)
 }
 
-fun interpolator(from: Interval, to: Interval): (x: Double) -> Double {
+fun linearInterpolator(from: Interval, to: Interval): (x: Double) -> Double {
     val deinterpolator = from.toDeinterpolator()
     val interpolator = to.toInterpolator()
 

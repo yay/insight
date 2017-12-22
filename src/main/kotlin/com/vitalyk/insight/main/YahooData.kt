@@ -31,8 +31,13 @@ fun fetchDailyData(symbol: String): String? {
 
     val now = DateTime().withZone(DateTimeZone.forID("America/New_York"))
     val then = now.minusYears(1)
-    val crumb = "CzO2KguaMc4"
-    val params = "?period1=${then.millis / 1000}&period2=${now.millis / 1000}&interval=1d&events=history&crumb=$crumb"
+    val crumb = "Al6fqK3.l4h"
+    val params =
+        "?period1=${then.millis / 1000}" +
+        "&period2=${now.millis / 1000}" +
+        "&interval=1d" +
+        "&events=history" +
+        "&crumb=$crumb"
     val url = "https://query1.finance.yahoo.com/v7/finance/download/$symbol$params"
 
     val result = httpGet(url)

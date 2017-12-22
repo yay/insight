@@ -1,6 +1,5 @@
 package com.vitalyk.insight.main
 
-import com.vitalyk.insight.main.main.fetchEndOfDayData
 import org.quartz.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

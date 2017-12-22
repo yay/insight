@@ -1,4 +1,4 @@
-package com.vitalyk.insight.main.main
+package com.vitalyk.insight.main
 
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.async

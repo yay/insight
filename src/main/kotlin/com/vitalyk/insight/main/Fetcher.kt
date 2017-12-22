@@ -1,4 +1,4 @@
-package com.vitalyk.insight.main.main
+package com.vitalyk.insight.main
 
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
@@ -203,7 +203,7 @@ suspend fun Exchange.asyncFetchDailyData() {
     var then = now.minusYears(1)
 
     val baseUrl = "https://query1.finance.yahoo.com/v7/finance/download"
-    val crumb = "CzO2KguaMc4"
+    val crumb = "Al6fqK3.l4h"
 
     val securities = async { exchange.getSecurities() }.await()
 

@@ -1,6 +1,8 @@
 package com.vitalyk.insight.main
 
 import com.vitalyk.insight.main.fetchDailyData
+import com.vitalyk.insight.view.InsightApp
+import javafx.application.Application
 
 fun main(args: Array<String>) {
 
@@ -15,8 +17,8 @@ fun main(args: Array<String>) {
 //
 //    scheduleEndOfDayFetcher(appScheduler)
 
-//    Application.launch(InsightApp::class.java, *args)
+    Application.launch(InsightApp::class.java, *args)
 
-    println(fetchDailyData("NVDA"))
+//    println(fetchDailyData("NVDA"))
 
 }
