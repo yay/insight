@@ -1,16 +1,17 @@
 import com.vitalyk.insight.dv.Interval
 import com.vitalyk.insight.dv.linearInterpolator
-import com.vitalyk.insight.dv.toDeinterpolator
-import com.vitalyk.insight.dv.toInterpolator
-import org.junit.jupiter.api.Assertions.assertEquals
+import com.vitalyk.insight.dv.toLinearDeinterpolator
+import com.vitalyk.insight.dv.toLinearInterpolator
+
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.assertEquals
 
 class LinearInterpolatorTest {
 
     @Test
     fun toInterpolatorTest() {
         val interval: Interval = 100.0 to 200.0
-        val interpolator = interval.toInterpolator()
+        val interpolator = interval.toLinearInterpolator()
 
         assertEquals(50.0, interpolator(-0.5))
         assertEquals(100.0, interpolator(0.0))
@@ -22,7 +23,7 @@ class LinearInterpolatorTest {
     @Test
     fun toDeinterpolatorTest() {
         val interval: Interval = 100.0 to 200.0
-        val deinterpolator = interval.toDeinterpolator()
+        val deinterpolator = interval.toLinearDeinterpolator()
 
         assertEquals(-0.5, deinterpolator(50.0))
         assertEquals(0.0, deinterpolator(100.0))

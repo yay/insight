@@ -9,7 +9,8 @@ fun log(x: Double, base: Double): Double {
 }
 
 /**
- * Returns a function that goes from a value in [0, 1] to a value in [x, y] (given).
+ * Returns a function that goes from a value in [0, 1]
+ * to a value in the given interval [first, second].
  */
 fun Interval.toLogInterpolator(base: Double): (t: Double) -> Double {
     val sign = Math.signum(this.first)
@@ -22,15 +23,16 @@ fun Interval.toLogInterpolator(base: Double): (t: Double) -> Double {
     val log0 = log(this.first * sign, base)
     val log1 = log(this.second * sign, base)
 
-    val interpolator = (log0 to log1).toInterpolator()
+    val interpolator = (log0 to log1).toLinearInterpolator()
 
     return { t -> Math.pow(base, interpolator(t)) * sign }
 }
 
 /**
- * Returns a function that goes from a value in [x, y] (given) to a value in [0, 1].
+ * Returns a function that goes from a value in the given interval [first, second]
+ * to a value in [0, 1].
  */
-fun Interval.toLogDeinterpolator(base: Double): (t: Double) -> Double {
+fun Interval.toLogDeinterpolator(base: Double): (x: Double) -> Double {
     val sign = Math.signum(this.first)
     val otherSign = Math.signum(this.second)
 
@@ -46,13 +48,13 @@ fun Interval.toLogDeinterpolator(base: Double): (t: Double) -> Double {
 
 fun logInterpolator(domain: Interval, range: Interval, base: Double): (x: Double) -> Double {
     val logDeinterpolator = domain.toLogDeinterpolator(base)
-    val interpolator = range.toInterpolator()
+    val interpolator = range.toLinearInterpolator()
 
     return { x -> interpolator(logDeinterpolator(x)) }
 }
 
 fun logDeinterpolator(range: Interval, domain: Interval, base: Double): (x: Double) -> Double {
-    val deinterpolator = range.toDeinterpolator()
+    val deinterpolator = range.toLinearDeinterpolator()
     val logInterpolator = domain.toLogInterpolator(base)
 
     return { x -> logInterpolator(deinterpolator(x)) }
