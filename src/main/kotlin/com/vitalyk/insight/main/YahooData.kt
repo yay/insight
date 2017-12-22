@@ -1,7 +1,5 @@
 package com.vitalyk.insight.main
 
-import com.vitalyk.insight.main.OHLC
-import com.vitalyk.insight.main.StockSymbol
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -14,6 +12,40 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
+
+data class CookieCrumb(
+    val cookie: String,
+    val crumb: String
+)
+
+fun getYFinanceAuth(symbol: String = "AAPL"): CookieCrumb? {
+    val url = "https://uk.finance.yahoo.com/quote/$symbol/history"
+    val httpUrl = HttpUrl.parse(url) ?: throw Error("Invalid HttpUrl.")
+    val urlBuilder = httpUrl.newBuilder()
+    val requestUrl = urlBuilder.build().toString()
+    val request = Request.Builder()
+        .addHeader("User-Agent", chromeUserAgent)
+        .url(requestUrl)
+        .build()
+    val response = HttpClients.main.newCall(request).execute()
+    val body = response.body()
+
+    val cookie = response.headers("set-cookie").first().split(";").first()
+    // Example: "CrumbStore":{"crumb":"l45fI\u002FklCHs"}
+//    val crumbRegEx = Regex(""".*"CrumbStore":\{"crumb":"([^"]+)"}""", RegexOption.MULTILINE)
+//    val crumb = crumbRegEx.find("body.string()")?.groupValues?.get(1) // takes ages
+
+    if (body != null) {
+        val text = body.string()
+        val keyword = "CrumbStore\":{\"crumb\":\""
+        val start = text.indexOf(keyword)
+        val end = text.indexOf("\"}", start)
+        val crumb = text.substring(start + keyword.length until end)
+        return if (crumb.isNotBlank()) CookieCrumb(cookie, crumb) else null
+    }
+
+    return null
+}
 
 fun fetchDailyData(symbol: String): String? {
     /**
@@ -31,11 +63,11 @@ fun fetchDailyData(symbol: String): String? {
 
     val now = DateTime().withZone(DateTimeZone.forID("America/New_York"))
     val then = now.minusYears(1)
-    val crumb = "Al6fqK3.l4h"
+    val crumb = "vjMESKwkGZA"
     val params =
         "?period1=${then.millis / 1000}" +
         "&period2=${now.millis / 1000}" +
-        "&interval=1d" +
+        "&interval=1d" + // [1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo]
         "&events=history" +
         "&crumb=$crumb"
     val url = "https://query1.finance.yahoo.com/v7/finance/download/$symbol$params"
@@ -47,7 +79,7 @@ fun fetchDailyData(symbol: String): String? {
             return result.data
         }
         is GetError -> {
-            getAppLogger().error("$url ${result.code}: ${result.message}")
+            getAppLogger().error("Code: ${result.code}, Message: ${result.message}\n$url")
         }
     }
 

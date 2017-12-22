@@ -50,7 +50,7 @@ dependencies {
     compile 'org.postgresql:postgresql:42.0.0.jre7'
     compile 'joda-time:joda-time:2.9.9'
     compile 'javax.mail:mail:1.4.7'
-    compile 'no.tornado:tornadofx:1.7.12'
+    compile 'no.tornado:tornadofx:1.7.14'
     compile 'com.squareup.okhttp3:okhttp:3.9.1'
     compile 'org.apache.commons:commons-csv:1.5'
     compile 'io.grpc:grpc-netty:1.1.2'
@@ -60,7 +60,7 @@ dependencies {
     compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.8.9'
     compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.8.9'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.8.9'
-    compile 'org.jsoup:jsoup:1.11.2'
+    compile 'org.jsoup:jsoup:1.11.2' // HTML parser
     compile 'org.quartz-scheduler:quartz:2.3.0'
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.google.inject:guice:4.1.0'
