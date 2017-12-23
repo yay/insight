@@ -13,18 +13,18 @@ import java.time.LocalDate
 import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 
-data class CookieCrumb(
+data class YFinanceAuth(
     val cookie: String,
     val crumb: String
 )
 
-fun getYFinanceAuth(symbol: String = "AAPL"): CookieCrumb? {
+fun getYFinanceAuth(symbol: String = "AAPL"): YFinanceAuth? {
     val url = "https://uk.finance.yahoo.com/quote/$symbol/history"
     val httpUrl = HttpUrl.parse(url) ?: throw Error("Invalid HttpUrl.")
     val urlBuilder = httpUrl.newBuilder()
     val requestUrl = urlBuilder.build().toString()
     val request = Request.Builder()
-        .addHeader("User-Agent", chromeUserAgent)
+        .addHeader("User-Agent", UserAgents.chrome)
         .url(requestUrl)
         .build()
     val response = HttpClients.main.newCall(request).execute()
@@ -32,8 +32,8 @@ fun getYFinanceAuth(symbol: String = "AAPL"): CookieCrumb? {
 
     val cookie = response.headers("set-cookie").first().split(";").first()
     // Example: "CrumbStore":{"crumb":"l45fI\u002FklCHs"}
-//    val crumbRegEx = Regex(""".*"CrumbStore":\{"crumb":"([^"]+)"}""", RegexOption.MULTILINE)
-//    val crumb = crumbRegEx.find("body.string()")?.groupValues?.get(1) // takes ages
+    // val crumbRegEx = Regex(""".*"CrumbStore":\{"crumb":"([^"]+)"}""", RegexOption.MULTILINE)
+    // val crumb = crumbRegEx.find("body.string()")?.groupValues?.get(1) // takes ages
 
     if (body != null) {
         val text = body.string()
@@ -41,50 +41,65 @@ fun getYFinanceAuth(symbol: String = "AAPL"): CookieCrumb? {
         val start = text.indexOf(keyword)
         val end = text.indexOf("\"}", start)
         val crumb = text.substring(start + keyword.length until end)
-        return if (crumb.isNotBlank()) CookieCrumb(cookie, crumb) else null
+        return if (crumb.isNotBlank()) YFinanceAuth(cookie, crumb) else null
     }
 
     return null
 }
 
-fun fetchDailyData(symbol: String): String? {
-    /**
-    https://query1.finance.yahoo.com/v7/finance/download/NVDA
-        ?period1=1492418370
-        &period2=1495010370
-        &interval=1d
-        &events=history
-        &crumb=6NDOC..cxYc  <-- required along with cookies, changes with every login to Yahoo Finance
-     */
+private val financeDownloadUrl = "https://query1.finance.yahoo.com/v7/finance/download/"
 
+fun fetchDailyData(symbol: String, years: Int = 1): String {
     // See below for the 'crumb':
     // http://blog.bradlucas.com/posts/2017-06-02-new-yahoo-finance-quote-download-url/
     // https://github.com/dennislwy/YahooFinanceAPI
 
     val now = DateTime().withZone(DateTimeZone.forID("America/New_York"))
-    val then = now.minusYears(1)
+    val then = now.minusYears(years)
     val crumb = "vjMESKwkGZA"
     val params =
         "?period1=${then.millis / 1000}" +
         "&period2=${now.millis / 1000}" +
         "&interval=1d" + // [1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo]
         "&events=history" +
-        "&crumb=$crumb"
-    val url = "https://query1.finance.yahoo.com/v7/finance/download/$symbol$params"
+        "&crumb=$crumb"  // required along with a cookie, changes with every login to Yahoo Finance
+    val url = "$financeDownloadUrl$symbol$params"
 
     val result = httpGet(url)
-
     when (result) {
-        is GetSuccess -> {
+        is HttpGetSuccess -> {
             return result.data
         }
-        is GetError -> {
+        is HttpGetError -> {
             getAppLogger().error("Code: ${result.code}, Message: ${result.message}\n$url")
         }
     }
 
-    return null
+    return ""
 }
+
+fun String.parseYahooCSV(): Iterable<CSVRecord> =
+    CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(StringReader(this))
+
+fun Iterable<CSVRecord>.toStockList(): List<StockSymbol> {
+    val header = yahooDataHeader
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+
+    return this.map { it ->
+        StockSymbol(
+            dateFormat.parse(it.get(header[0])),
+            it.get(header[1]).toFloat(),
+            it.get(header[2]).toFloat(),
+            it.get(header[3]).toFloat(),
+            it.get(header[4]).toFloat(),
+            it.get(header[5]).toInt(),
+            it.get(header[6]).toFloat()
+        )
+    }
+}
+
+
+
 
 enum class DataFrequency {
     DAY, WEEK, MONTH
@@ -106,7 +121,7 @@ object YahooDataColumns {
 // look like static members in other languages, at runtime those are still instance
 // members of real objects.
 //val main.getYahooDataHeader: Array<String> = arrayOf("Date", "Open", "High", "Low", "Close", "Volume", "Adj Close")
-val YahooDataHeader: Array<String> = arrayOf(
+val yahooDataHeader: Array<String> = arrayOf(
     YahooDataColumns.date,
     YahooDataColumns.open,
     YahooDataColumns.high,
@@ -165,7 +180,7 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
     var startDate: LocalDate = endDate.minusYears(1)
 
     private val frequencyParam = "g"
-    private val frequencyMap = mapOf<DataFrequency, String>(
+    private val frequencyMap = mapOf(
         DataFrequency.DAY to "d",
         DataFrequency.WEEK to "w",
         DataFrequency.MONTH to "m"
@@ -266,7 +281,7 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
     }
 
     fun list(): List<StockSymbol> {
-        val header = YahooDataHeader
+        val header = yahooDataHeader
         val dateFormat = SimpleDateFormat("yyyy-MM-dd")
 
         return records.map { it ->

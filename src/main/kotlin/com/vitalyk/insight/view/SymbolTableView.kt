@@ -1,5 +1,6 @@
 package com.vitalyk.insight.view
 
+import com.vitalyk.insight.main.*
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
 import javafx.event.EventHandler
@@ -10,9 +11,6 @@ import javafx.scene.control.TableView
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
 import javafx.scene.text.Font
-import com.vitalyk.insight.main.DataFrequency
-import com.vitalyk.insight.main.StockSymbol
-import com.vitalyk.insight.main.YahooData
 import tornadofx.*
 import java.time.LocalDate
 
@@ -52,20 +50,25 @@ class SymbolTableView : View("Security Data") {
                             val dataRequest = YahooData(symbol.value, frequency)
 //                            var summaryRequest = YahooSummary(symbol.value, HttpClients.main)
 
+                            lateinit var data: String
+
                             runAsyncWithProgress {
 
-                                dataRequest
-                                        .startDate(startDate.value)
-                                        .endDate(endDate.value)
-                                        .execute()
-                                        .parse()
+                                data = fetchDailyData(symbol.value)
+//                                dataRequest
+//                                        .startDate(startDate.value)
+//                                        .endDate(endDate.value)
+//                                        .execute()
+//                                        .parse()
 
 //                                summaryRequest
 //                                        .execute()
 //                                        .parse()
                             } ui {
-                                symbolData.value = dataRequest.data()
-                                symbolTable.items = dataRequest.list().observable()
+                                symbolTable.items = data.parseYahooCSV().toStockList().observable()
+                                symbolData.value = data
+//                                symbolData.value = dataRequest.data()
+//                                symbolTable.items = dataRequest.list().observable()
 //                                symbolSummary.value = summaryRequest.prettyData()
                             }
                     }

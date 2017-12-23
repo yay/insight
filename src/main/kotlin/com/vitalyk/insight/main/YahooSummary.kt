@@ -60,10 +60,10 @@ fun getYahooSummary(symbol: String, params: Map<String, String> = defaultSummary
     val result = httpGet("https://query2.finance.yahoo.com/v10/finance/quoteSummary/$symbol", params)
 
     when (result) {
-        is GetSuccess -> {
+        is HttpGetSuccess -> {
             return result.data // this JSON string is not "pretty"
         }
-        is GetError -> {
+        is HttpGetError -> {
             getAppLogger().warn("$symbol request status code ${result.code}: ${result.message}\n${result.url}")
         }
     }

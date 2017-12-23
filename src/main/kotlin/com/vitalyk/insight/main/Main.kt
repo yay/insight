@@ -20,9 +20,9 @@ fun main(args: Array<String>) {
 //
 //    scheduleEndOfDayFetcher(appScheduler)
 
-//    Application.launch(InsightApp::class.java, *args)
+    Application.launch(InsightApp::class.java, *args)
 
 //    println(getYFinanceAuth())
-    println(fetchDailyData("GOOG"))
+//    println(fetchDailyData("GOOG"))
 
 }

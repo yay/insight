@@ -8,10 +8,10 @@ fun fetchIntradayData(symbol: String): String? {
     val result = httpGet(url)
 
     when (result) {
-        is GetSuccess -> {
+        is HttpGetSuccess -> {
             return result.data
         }
-        is GetError -> {
+        is HttpGetError -> {
             getAppLogger().error("$url ${result.code}: ${result.message}")
         }
     }

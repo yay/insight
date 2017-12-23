@@ -16,11 +16,21 @@ val httpStatusCodes = mapOf(
     504 to "Gateway Timeout"
 )
 
+object UserAgents {
+    val chrome =
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) " +
+            "AppleWebKit/537.36 (KHTML, like Gecko) " +
+            "Chrome/57.0.2987.133 Safari/537.36"
+}
+
 object HttpClients {
     val main: OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(10L, TimeUnit.SECONDS)
         .readTimeout(30L, TimeUnit.SECONDS)
         // Yahoo Finance now requires a cookie to fetch historical and other data.
+        // addInterceptor takes an Interceptor, which is an interface with a single
+        // method that takes a Chain and returns a Response,
+        // so we can just pass the implementation of that method.
         .addInterceptor { chain ->
             val original = chain.request()
             val authorized = original.newBuilder()
@@ -51,18 +61,12 @@ class UserAgentInterceptor(private val userAgent: String) : Interceptor {
     }
 }
 
-val chromeUserAgent =
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) " +
-        "AppleWebKit/537.36 (KHTML, like Gecko) " +
-        "Chrome/57.0.2987.133 Safari/537.36"
+sealed class HttpGetResult
+data class HttpGetSuccess(val data: String) : HttpGetResult()
+data class HttpGetError(val url: String, val code: Int, val message: String) : HttpGetResult()
 
-sealed class GetResult
-data class GetSuccess(val data: String) : GetResult()
-data class GetError(val url: String, val code: Int, val message: String) : GetResult()
-
-fun httpGet(url: String, params: Map<String, String> = emptyMap()): GetResult {
+fun httpGet(url: String, params: Map<String, String> = emptyMap()): HttpGetResult {
     val httpUrl = HttpUrl.parse(url) ?: throw Error("Invalid HttpUrl.")
-
     val urlBuilder = httpUrl.newBuilder()
 
     for ((param, value) in params) {
@@ -71,7 +75,7 @@ fun httpGet(url: String, params: Map<String, String> = emptyMap()): GetResult {
 
     val requestUrl = urlBuilder.build().toString()
     val request = Request.Builder()
-        .addHeader("User-Agent", chromeUserAgent)
+        .addHeader("User-Agent", UserAgents.chrome)
         .url(requestUrl)
         .build()
     val response = HttpClients.main.newCall(request).execute()
@@ -82,15 +86,15 @@ fun httpGet(url: String, params: Map<String, String> = emptyMap()): GetResult {
                 val body = it.body()
 
                 if (body == null) {
-                    GetError(requestUrl, it.code(), "Empty response body.")
+                    HttpGetError(requestUrl, it.code(), "Empty response body.")
                 } else {
-                    GetSuccess(body.string())
+                    HttpGetSuccess(body.string())
                 }
             } catch (e: IOException) {
-                GetError(requestUrl, it.code(), e.message ?: "")
+                HttpGetError(requestUrl, it.code(), e.message ?: "")
             }
         } else {
-            GetError(requestUrl, it.code(), it.message())
+            HttpGetError(requestUrl, it.code(), it.message())
         }
     }
 }

@@ -6,6 +6,7 @@ import javafx.scene.chart.LineChart
 import javafx.scene.chart.NumberAxis
 import javafx.scene.layout.Priority
 import tornadofx.*
+import java.text.SimpleDateFormat
 import com.vitalyk.insight.style.Styles as styles
 
 /*
@@ -27,16 +28,16 @@ class ChartView : View("Security Chart") {
     private lateinit var volumeChart: BarChart<String, Number>
 
     override fun onDock() {
-//        chart.title = symbolTableView.symbol.value
-//        val showGridLines = symbolTableView.symbolTable.items.count() < 100
-//        chart.isHorizontalGridLinesVisible = showGridLines
-//        chart.verticalGridLinesVisible = showGridLines
-//        chart.series(symbolTableView.symbol.value) {
-//            val dateFormat = SimpleDateFormat("d MMM, yyyy")
-//            for (item in symbolTableView.symbolTable.items.reversed()) {
-//                data(dateFormat.format(item.date), item.adjClose)
-//            }
-//        }
+        chart.title = symbolTableView.symbol.value
+        val showGridLines = symbolTableView.symbolTable.items.count() < 100
+        chart.isHorizontalGridLinesVisible = showGridLines
+        chart.verticalGridLinesVisible = showGridLines
+        chart.series(symbolTableView.symbol.value) {
+            val dateFormat = SimpleDateFormat("d MMM, yyyy")
+            for (item in symbolTableView.symbolTable.items) {
+                data(dateFormat.format(item.date), item.adjClose)
+            }
+        }
 
 //        volumeChart.series("Volume") {
 //            val dateFormat = SimpleDateFormat("d MMM, yyyy")

@@ -3,7 +3,6 @@ package com.vitalyk.insight.main
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
-import com.vitalyk.insight.main.*
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVPrinter
 import org.apache.commons.csv.CSVRecord
@@ -170,7 +169,7 @@ fun Exchange.getExchangeSecuritiesFromNasdaq(): List<Security> {
     ))
 
     when (result) {
-        is GetSuccess -> {
+        is HttpGetSuccess -> {
             val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(StringReader(result.data))
 
             // Convert CSVRecord's to instances of the Security data class.
@@ -184,7 +183,7 @@ fun Exchange.getExchangeSecuritiesFromNasdaq(): List<Security> {
             }
 
         }
-        is GetError -> {
+        is HttpGetError -> {
             logger.error(result.message)
         }
     }
@@ -235,7 +234,7 @@ suspend fun Exchange.asyncFetchDailyData() {
             val result = httpGet(requestUrl)
 
             when (result) {
-                is GetSuccess -> {
+                is HttpGetSuccess -> {
                     if (!newDataOnly) {
                         try {
                             val fetchedRecordsParser = CSVFormat.DEFAULT.parse(result.data.reader())
@@ -302,7 +301,7 @@ suspend fun Exchange.asyncFetchDailyData() {
                         }
                     }
                 }
-                is GetError -> {
+                is HttpGetError -> {
                     getAppLogger().warn("Daily data request: $requestUrl - ${result.code} - ${result.message}")
                 }
             }
@@ -422,7 +421,7 @@ object StockFetcherUS {
             val result = httpGet(baseUrl, params)
 
             when (result) {
-                is GetSuccess -> {
+                is HttpGetSuccess -> {
                     val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(StringReader(result.data))
 
                     list = records.map { it ->
@@ -435,7 +434,7 @@ object StockFetcherUS {
                     }
 
                 }
-                is GetError -> {
+                is HttpGetError -> {
                     logger.error(result.message)
                 }
             }
