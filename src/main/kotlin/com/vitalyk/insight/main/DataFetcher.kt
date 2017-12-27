@@ -39,7 +39,7 @@ object YahooFetcher {
 //            async(CommonPool) {
 //
 //            }.await()
-//            val request = YahooSummary(symbol, HttpClients.main)
+//            val request = YahooSummary(symbol, HttpClients.yahoo)
 //                    .execute()
 //                    .parse()
 //

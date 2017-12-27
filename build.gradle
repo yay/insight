@@ -42,29 +42,31 @@ repositories {
 }
 
 dependencies {
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.19.3'
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-javafx:0.19.3'
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.20'
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-javafx:0.20'
     compile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.10'
     compile 'org.jetbrains.kotlin:kotlin-reflect:1.2.10'
-    compile 'org.jdbi:jdbi:2.78'
-    compile 'org.postgresql:postgresql:42.0.0.jre7'
-    compile 'joda-time:joda-time:2.9.9'
-    compile 'javax.mail:mail:1.4.7'
-    compile 'no.tornado:tornadofx:1.7.14'
+
     compile 'com.squareup.okhttp3:okhttp:3.9.1'
+    compile 'no.tornado:tornadofx:1.7.14'
+    compile 'joda-time:joda-time:2.9.9'
     compile 'org.apache.commons:commons-csv:1.5'
-    compile 'io.grpc:grpc-netty:1.1.2'
-    compile 'io.grpc:grpc-protobuf:1.1.2'
-    compile 'io.grpc:grpc-stub:1.1.2'
+    compile 'org.jsoup:jsoup:1.11.2' // HTML parser
     compile 'com.fasterxml.jackson.core:jackson-core:2.8.9'
     compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.8.9'
     compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.8.9'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.8.9'
-    compile 'org.jsoup:jsoup:1.11.2' // HTML parser
+    compile 'ch.qos.logback:logback-classic:1.2.3'
     compile 'org.quartz-scheduler:quartz:2.3.0'
+    compile 'javax.mail:mail:1.4.7'
+
+    compile 'org.jdbi:jdbi:2.78'
+    compile 'org.postgresql:postgresql:42.0.0.jre7'
+    compile 'io.grpc:grpc-netty:1.1.2'
+    compile 'io.grpc:grpc-protobuf:1.1.2'
+    compile 'io.grpc:grpc-stub:1.1.2'
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.google.inject:guice:4.1.0'
-    compile 'ch.qos.logback:logback-classic:1.2.3'
     compile 'org.liquibase:liquibase-core:3.5.3'
 
     testCompile(

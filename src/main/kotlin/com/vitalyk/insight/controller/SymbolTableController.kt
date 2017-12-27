@@ -29,7 +29,7 @@ class SymbolTableController : Controller() {
     }
 
     fun fetchSummary(node: Node, symbol: String) {
-//        val request = YahooSummary(symbol, HttpClients.main).execute().parse()
+//        val request = YahooSummary(symbol, HttpClients.yahoo).execute().parse()
 //        val tree = request.tree()
 //        val mapper = ObjectMapper()
 //        val pretty = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(tree)

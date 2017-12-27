@@ -21,7 +21,7 @@ SwingWrapper(chart).displayChart()
  */
 
 
-class ChartView : View("Security Chart") {
+class ChartView : View("Chart") {
 
     val symbolTableView = find(SymbolTableView::class)
     private lateinit var chart: LineChart<String, Number>

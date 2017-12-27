@@ -8,10 +8,13 @@ import org.apache.commons.csv.CSVRecord
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import java.io.StringReader
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
+
+private val financeDownloadUrl = "https://query1.finance.yahoo.com/v7/finance/download/"
 
 data class YFinanceAuth(
     val cookie: String,
@@ -27,7 +30,7 @@ fun getYFinanceAuth(symbol: String = "AAPL"): YFinanceAuth? {
         .addHeader("User-Agent", UserAgents.chrome)
         .url(requestUrl)
         .build()
-    val response = HttpClients.main.newCall(request).execute()
+    val response = HttpClients.yahoo.newCall(request).execute()
     val body = response.body()
 
     val cookie = response.headers("set-cookie").first().split(";").first()
@@ -46,8 +49,6 @@ fun getYFinanceAuth(symbol: String = "AAPL"): YFinanceAuth? {
 
     return null
 }
-
-private val financeDownloadUrl = "https://query1.finance.yahoo.com/v7/finance/download/"
 
 fun fetchDailyData(symbol: String, years: Int = 1): String {
     // See below for the 'crumb':
@@ -86,15 +87,42 @@ fun Iterable<CSVRecord>.toStockList(): List<StockSymbol> {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd")
 
     return this.map { it ->
-        StockSymbol(
-            dateFormat.parse(it.get(header[0])),
-            it.get(header[1]).toFloat(),
-            it.get(header[2]).toFloat(),
-            it.get(header[3]).toFloat(),
-            it.get(header[4]).toFloat(),
-            it.get(header[5]).toInt(),
-            it.get(header[6]).toFloat()
-        )
+        val date = try {
+            dateFormat.parse(it.get(YahooDataColumns.date))
+        } catch (e: ParseException) {
+            YahooDataColumns.date
+        }
+        try {
+            StockSymbol(
+                dateFormat.parse(it.get(header[0])),
+                it.get(header[1]).toFloat(),
+                it.get(header[2]).toFloat(),
+                it.get(header[3]).toFloat(),
+                it.get(header[4]).toFloat(),
+                it.get(header[5]).toInt(),
+                it.get(header[6]).toFloat()
+            )
+        } catch (e: ParseException) {
+            StockSymbol(
+                dateFormat.parse(it.get(header[0])),
+                0.0f,
+                0.0f,
+                0.0f,
+                0.0f,
+                0,
+                0.0f
+            )
+        } catch (e: NumberFormatException) {
+            StockSymbol(
+                dateFormat.parse(it.get(header[0])),
+                0.0f,
+                0.0f,
+                0.0f,
+                0.0f,
+                0,
+                0.0f
+            )
+        }
     }
 }
 
@@ -120,7 +148,7 @@ object YahooDataColumns {
 // Or a companion object. Note that, even though the members of companion objects
 // look like static members in other languages, at runtime those are still instance
 // members of real objects.
-//val main.getYahooDataHeader: Array<String> = arrayOf("Date", "Open", "High", "Low", "Close", "Volume", "Adj Close")
+//val yahoo.getYahooDataHeader: Array<String> = arrayOf("Date", "Open", "High", "Low", "Close", "Volume", "Adj Close")
 val yahooDataHeader: Array<String> = arrayOf(
     YahooDataColumns.date,
     YahooDataColumns.open,
@@ -245,7 +273,7 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
     }
 
     fun parse(): YahooData {
-//        CSVFormat.DEFAULT.withHeader(*main.getYahooDataHeader).parse(StringReader(data))
+//        CSVFormat.DEFAULT.withHeader(*yahoo.getYahooDataHeader).parse(StringReader(data))
         records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(StringReader(data))
 
         return this

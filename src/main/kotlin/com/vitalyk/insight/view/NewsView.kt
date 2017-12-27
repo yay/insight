@@ -64,7 +64,7 @@ class NewsView : View() {
                 tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
                 vgrow = Priority.ALWAYS
 
-                tab("main.News") {
+                tab("yahoo.News") {
                     vbox {
                         hbox {
                             spacing = 10.0

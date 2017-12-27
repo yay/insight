@@ -48,13 +48,14 @@ class SymbolTableView : View("Security Data") {
                     if (key.code == KeyCode.ENTER) {
                             val frequency = DataFrequency.valueOf(period.value.toUpperCase())
                             val dataRequest = YahooData(symbol.value, frequency)
-//                            var summaryRequest = YahooSummary(symbol.value, HttpClients.main)
+//                            var summaryRequest = YahooSummary(symbol.value, HttpClients.yahoo)
 
                             lateinit var data: String
 
                             runAsyncWithProgress {
 
-                                data = fetchDailyData(symbol.value)
+                                data = fetchDailyData(symbol.value, 50)
+//                                println(data)
 //                                dataRequest
 //                                        .startDate(startDate.value)
 //                                        .endDate(endDate.value)
@@ -117,7 +118,7 @@ class SymbolTableView : View("Security Data") {
                 }
             }
 
-            button("main.News") {
+            button("yahoo.News") {
                 setOnAction {
                     replaceWith(NewsView::class)
                 }
@@ -138,7 +139,7 @@ class SymbolTableView : View("Security Data") {
             button("Data Fetcher") {
                 setOnAction {
                     replaceWith(DataFetcherView::class)
-//                        var hs = HostServices(insight.main.InsightApp::class.objectInstance)
+//                        var hs = HostServices(insight.yahoo.InsightApp::class.objectInstance)
 //                        getHostServices().showDocument("http://www.yahoo.com");
                 }
             }

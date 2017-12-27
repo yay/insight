@@ -24,7 +24,7 @@ object UserAgents {
 }
 
 object HttpClients {
-    val main: OkHttpClient = OkHttpClient.Builder()
+    val yahoo: OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(10L, TimeUnit.SECONDS)
         .readTimeout(30L, TimeUnit.SECONDS)
         // Yahoo Finance now requires a cookie to fetch historical and other data.
@@ -78,7 +78,7 @@ fun httpGet(url: String, params: Map<String, String> = emptyMap()): HttpGetResul
         .addHeader("User-Agent", UserAgents.chrome)
         .url(requestUrl)
         .build()
-    val response = HttpClients.main.newCall(request).execute()
+    val response = HttpClients.yahoo.newCall(request).execute()
 
     response.use {
         return if (it.isSuccessful) {
