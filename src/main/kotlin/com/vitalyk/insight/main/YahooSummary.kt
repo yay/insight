@@ -41,7 +41,7 @@ package com.vitalyk.insight.main
 
 */
 
-private val summaryModules = listOf<String>(
+private val summaryModules = listOf(
     "defaultKeyStatistics",
     "financialData",
     "earnings",
@@ -54,16 +54,16 @@ private val summaryModules = listOf<String>(
     "assetProfile"  // there is also "summaryProfile" which is the same, but less comprehensive
 )
 
-private val defaultSummaryParams = mapOf("modules" to summaryModules.joinToString(","))
+private val defaultSummaryParams = listOf("modules" to summaryModules.joinToString(","))
 
-fun getYahooSummary(symbol: String, params: Map<String, String> = defaultSummaryParams): String? {
-    val result = httpGet("https://query2.finance.yahoo.com/v10/finance/quoteSummary/$symbol", params)
+fun getYahooSummary(symbol: String, params: List<Pair<String, String>> = defaultSummaryParams): String? {
+    val result = yahooGet("https://query2.finance.yahoo.com/v10/finance/quoteSummary/$symbol", params)
 
     when (result) {
-        is HttpGetSuccess -> {
+        is YahooGetSuccess -> {
             return result.data // this JSON string is not "pretty"
         }
-        is HttpGetError -> {
+        is YahooGetFailure -> {
             getAppLogger().warn("$symbol request status code ${result.code}: ${result.message}\n${result.url}")
         }
     }

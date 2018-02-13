@@ -162,14 +162,14 @@ fun Exchange.fetchSummary() {
 // http://www.nasdaq.com/screening/company-list.aspx
 fun Exchange.getExchangeSecuritiesFromNasdaq(): List<Security> {
 
-    val result = httpGet("http://www.nasdaq.com/screening/companies-by-name.aspx", mapOf(
+    val result = yahooGet("http://www.nasdaq.com/screening/companies-by-name.aspx", listOf(
         "letter" to "0",
         "render" to "download",
         "exchange" to this.code
     ))
 
     when (result) {
-        is HttpGetSuccess -> {
+        is YahooGetSuccess -> {
             val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(StringReader(result.data))
 
             // Convert CSVRecord's to instances of the Security data class.
@@ -183,7 +183,7 @@ fun Exchange.getExchangeSecuritiesFromNasdaq(): List<Security> {
             }
 
         }
-        is HttpGetError -> {
+        is YahooGetFailure -> {
             logger.error(result.message)
         }
     }
@@ -206,107 +206,105 @@ suspend fun Exchange.asyncFetchDailyData() {
 
     val securities = async { exchange.getSecurities() }.await()
 
-    securities.map { (symbol) ->
-        async {
-            val filename = "${AppSettings.paths.dailyData}/${exchange.code}/$symbol.csv"
-            val file = File(filename)
-            val fileExists = file.exists()
+    securities.map { (symbol) -> async {
+        val filename = "${AppSettings.paths.dailyData}/${exchange.code}/$symbol.csv"
+        val file = File(filename)
+        val fileExists = file.exists()
 
-            var existingRecords: MutableList<CSVRecord> = mutableListOf()
+        var existingRecords: MutableList<CSVRecord> = mutableListOf()
 
-            if (fileExists) {
-                val existingData = file.readText()
-                val existingRecordsParser = CSVFormat.DEFAULT.parse(existingData.reader())
-                existingRecords = existingRecordsParser.records
-            }
+        if (fileExists) {
+            val existingData = file.readText()
+            val existingRecordsParser = CSVFormat.DEFAULT.parse(existingData.reader())
+            existingRecords = existingRecordsParser.records
+        }
 
-            val newDataOnly = existingRecords.size < 2 // no existing records or just a header
+        val newDataOnly = existingRecords.size < 2 // no existing records or just a header
 
-            // Quotes for a new listing won't go back 70 years,
-            // but an old company might change its ticker.
-            if (newDataOnly) {
-                then = now.minusYears(70)
-            }
+        // Quotes for a new listing won't go back 70 years,
+        // but an old company might change its ticker.
+        if (newDataOnly) {
+            then = now.minusYears(70)
+        }
 
-            // The periods are the number of seconds between epoch and the start of the day in UTC.
-            val params = "?period1=${then.millis / 1000}&period2=${now.millis / 1000}&interval=1d&events=history&crumb=$crumb"
-            val requestUrl = "$baseUrl/$symbol$params"
-            val result = httpGet(requestUrl)
+        // The periods are the number of seconds between epoch and the start of the day in UTC.
+        val params = "?period1=${then.millis / 1000}&period2=${now.millis / 1000}&interval=1d&events=history&crumb=$crumb"
+        val requestUrl = "$baseUrl/$symbol$params"
+        val result = yahooGet(requestUrl)
 
-            when (result) {
-                is HttpGetSuccess -> {
-                    if (!newDataOnly) {
-                        try {
-                            val fetchedRecordsParser = CSVFormat.DEFAULT.parse(result.data.reader())
-                            val fetchedRecords = fetchedRecordsParser.records
+        when (result) {
+            is YahooGetSuccess -> {
+                if (!newDataOnly) {
+                    try {
+                        val fetchedRecordsParser = CSVFormat.DEFAULT.parse(result.data.reader())
+                        val fetchedRecords = fetchedRecordsParser.records
 
-                            if (fetchedRecords.size <= 1) {
-                                exchange.logger.warn("${exchange.code}:$symbol - no data or header only." +
-                                    " Probably no longer traded.")
-                            }
-                            // if headers match
-                            else if (existingRecords.first().toList() == fetchedRecords.first().toList()) {
-                                // Note: the data we get will have the CSV header as the first line
-                                // 'Date,Open,High,Low,Close,Adj Close,Volume', and the subsequent lines will
-                                // represent each day's data in chronological order. Previous Yahoo Finance API version
-                                // returned the data in reverse order, which we'll continue to use here, as it is handy
-                                // to fetch the first n records, knowing they'll represent n most recent trading days
-                                // (except for stocks that are no longer trading).
-                                val headlessRecords = fetchedRecords.subList(1, fetchedRecords.size).asReversed()
-                                val fileWriter = FileWriter(file, false)
-                                val csvPrinter = CSVPrinter(fileWriter, CSVFormat.DEFAULT)
-
-                                // Sample CSV file:
-
-                                // Date,Open,High,Low,Close,Volume,Adj Close
-                                //
-                                // --- NEW RECORDS GO HERE ---
-                                //
-                                // 2017-02-24,135.910004,136.660004,135.279999,136.660004,21690900,136.660004
-                                // 2017-02-23,137.380005,137.479996,136.300003,136.529999,20704100,136.529999
-                                // ...
-
-                                val lastFetchedDate = existingRecords[1].get(0)
-
-                                // write new records, starting with header
-                                csvPrinter.printRecord(fetchedRecords[0])
-                                var i = 0
-                                while (i < headlessRecords.size && headlessRecords[i].get(0) != lastFetchedDate) {
-                                    csvPrinter.printRecord(headlessRecords[i])
-                                    i++
-                                }
-
-                                // write existing records, skip header
-                                i = 1
-                                while (i < existingRecords.size) {
-                                    csvPrinter.printRecord(existingRecords[i])
-                                    i++
-                                }
-
-                                csvPrinter.flush()
-                                csvPrinter.close()
-                            } else {
-                                exchange.logger.error("$symbol: CSV headers don't match.\nRequest URL: $requestUrl\n" +
-                                    "Expected '${fetchedRecords.first().toList()}' to be '${existingRecords.first().toList()}'")
-                            }
-                        } catch (e: Error) {
-                            exchange.logger.error("Updating existing symbol ($symbol) data failed: ${e.message}")
+                        if (fetchedRecords.size <= 1) {
+                            exchange.logger.warn("${exchange.code}:$symbol - no data or header only." +
+                                " Probably no longer traded.")
                         }
-                    } else {
-                        try {
-                            file.parentFile.mkdirs()
-                            file.writeText(result.data)
-                        } catch (e: Error) {
-                            exchange.logger.error("Writing new symbol ($symbol) date failed: ${e.message}")
+                        // if headers match
+                        else if (existingRecords.first().toList() == fetchedRecords.first().toList()) {
+                            // Note: the data we get will have the CSV header as the first line
+                            // 'Date,Open,High,Low,Close,Adj Close,Volume', and the subsequent lines will
+                            // represent each day's data in chronological order. Previous Yahoo Finance API version
+                            // returned the data in reverse order, which we'll continue to use here, as it is handy
+                            // to fetch the first n records, knowing they'll represent n most recent trading days
+                            // (except for stocks that are no longer trading).
+                            val headlessRecords = fetchedRecords.subList(1, fetchedRecords.size).asReversed()
+                            val fileWriter = FileWriter(file, false)
+                            val csvPrinter = CSVPrinter(fileWriter, CSVFormat.DEFAULT)
+
+                            // Sample CSV file:
+
+                            // Date,Open,High,Low,Close,Volume,Adj Close
+                            //
+                            // --- NEW RECORDS GO HERE ---
+                            //
+                            // 2017-02-24,135.910004,136.660004,135.279999,136.660004,21690900,136.660004
+                            // 2017-02-23,137.380005,137.479996,136.300003,136.529999,20704100,136.529999
+                            // ...
+
+                            val lastFetchedDate = existingRecords[1].get(0)
+
+                            // write new records, starting with header
+                            csvPrinter.printRecord(fetchedRecords[0])
+                            var i = 0
+                            while (i < headlessRecords.size && headlessRecords[i].get(0) != lastFetchedDate) {
+                                csvPrinter.printRecord(headlessRecords[i])
+                                i++
+                            }
+
+                            // write existing records, skip header
+                            i = 1
+                            while (i < existingRecords.size) {
+                                csvPrinter.printRecord(existingRecords[i])
+                                i++
+                            }
+
+                            csvPrinter.flush()
+                            csvPrinter.close()
+                        } else {
+                            exchange.logger.error("$symbol: CSV headers don't match.\nRequest URL: $requestUrl\n" +
+                                "Expected '${fetchedRecords.first().toList()}' to be '${existingRecords.first().toList()}'")
                         }
+                    } catch (e: Error) {
+                        exchange.logger.error("Updating existing symbol ($symbol) data failed: ${e.message}")
+                    }
+                } else {
+                    try {
+                        file.parentFile.mkdirs()
+                        file.writeText(result.data)
+                    } catch (e: Error) {
+                        exchange.logger.error("Writing new symbol ($symbol) date failed: ${e.message}")
                     }
                 }
-                is HttpGetError -> {
-                    getAppLogger().warn("Daily data request: $requestUrl - ${result.code} - ${result.message}")
-                }
+            }
+            is YahooGetFailure -> {
+                getAppLogger().warn("Daily data request: $requestUrl - ${result.code} - ${result.message}")
             }
         }
-    }.forEach { it.await() }
+    } }.forEach { it.await() }
 }
 
 suspend fun Exchange.asyncFetchIntradayData() {
@@ -412,16 +410,16 @@ object StockFetcherUS {
     fun getStocks(exchange: String): List<Security>? {
         var list: List<Security>? = null
 
-        val params = mapOf(
+        val params = listOf(
             "letter" to "0",
             "render" to "download",
             "exchange" to exchange
         )
         if (exchange in exchanges) {
-            val result = httpGet(baseUrl, params)
+            val result = yahooGet(baseUrl, params)
 
             when (result) {
-                is HttpGetSuccess -> {
+                is YahooGetSuccess -> {
                     val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(StringReader(result.data))
 
                     list = records.map { it ->
@@ -434,7 +432,7 @@ object StockFetcherUS {
                     }
 
                 }
-                is HttpGetError -> {
+                is YahooGetFailure -> {
                     logger.error(result.message)
                 }
             }

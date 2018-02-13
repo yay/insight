@@ -4,17 +4,19 @@ import okhttp3.*
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-val httpStatusCodes = mapOf(
-    200 to "OK",
-    400 to "Bad Request",
-    401 to "Unauthorized",
-    403 to "Forbidden",
-    404 to "Not Found",
-    500 to "Internal Server Error",
-    502 to "Bad Gateway",
-    503 to "Service Unavailable",
-    504 to "Gateway Timeout"
-)
+//val httpStatusCodes = mapOf(
+//    200 to "OK",
+//    400 to "Bad Request",
+//    401 to "Unauthorized",
+//    403 to "Forbidden",
+//    404 to "Not Found",
+//    500 to "Internal Server Error",
+//    502 to "Bad Gateway",
+//    503 to "Service Unavailable",
+//    504 to "Gateway Timeout"
+//)
+//
+//fun Int.toHttpStatusMessage() = httpStatusCodes[this]
 
 object UserAgents {
     val chrome =
@@ -24,6 +26,11 @@ object UserAgents {
 }
 
 object HttpClients {
+    val main: OkHttpClient = OkHttpClient.Builder()
+        .connectTimeout(10L, TimeUnit.SECONDS)
+        .readTimeout(30L, TimeUnit.SECONDS)
+        .build()
+
     val yahoo: OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(10L, TimeUnit.SECONDS)
         .readTimeout(30L, TimeUnit.SECONDS)
@@ -61,19 +68,20 @@ class UserAgentInterceptor(private val userAgent: String) : Interceptor {
     }
 }
 
-sealed class HttpGetResult
-data class HttpGetSuccess(val data: String) : HttpGetResult()
-data class HttpGetError(val url: String, val code: Int, val message: String) : HttpGetResult()
+sealed class YahooGetResult
+data class YahooGetSuccess(val data: String) : YahooGetResult()
+data class YahooGetFailure(val url: String, val code: Int, val message: String) : YahooGetResult()
 
-fun httpGet(url: String, params: Map<String, String> = emptyMap()): HttpGetResult {
-    val httpUrl = HttpUrl.parse(url) ?: throw Error("Invalid HttpUrl.")
+fun yahooGet(url: String, params: List<Pair<String, String>>? = null): YahooGetResult {
+    val httpUrl = HttpUrl.parse(url) ?: throw Error("Bad URL.")
     val urlBuilder = httpUrl.newBuilder()
-
-    for ((param, value) in params) {
-        urlBuilder.addQueryParameter(param, value)
+    if (params != null) {
+        for ((param, value) in params) {
+            urlBuilder.addQueryParameter(param, value)
+        }
     }
+    val requestUrl: String = urlBuilder.build().toString()
 
-    val requestUrl = urlBuilder.build().toString()
     val request = Request.Builder()
         .addHeader("User-Agent", UserAgents.chrome)
         .url(requestUrl)
@@ -83,18 +91,18 @@ fun httpGet(url: String, params: Map<String, String> = emptyMap()): HttpGetResul
     response.use {
         return if (it.isSuccessful) {
             try {
-                val body = it.body()
+                val body: ResponseBody? = it.body()
 
                 if (body == null) {
-                    HttpGetError(requestUrl, it.code(), "Empty response body.")
+                    YahooGetFailure(requestUrl, it.code(), "Empty response body.")
                 } else {
-                    HttpGetSuccess(body.string())
+                    YahooGetSuccess(body.string())
                 }
             } catch (e: IOException) {
-                HttpGetError(requestUrl, it.code(), e.message ?: "")
+                YahooGetFailure(requestUrl, it.code(), e.message ?: "")
             }
         } else {
-            HttpGetError(requestUrl, it.code(), it.message())
+            YahooGetFailure(requestUrl, it.code(), it.message())
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.vitalyk.insight.main
 
+import com.vitalyk.insight.dv.LinearScale
 import com.vitalyk.insight.view.InsightApp
 import javafx.application.Application
 
@@ -21,4 +22,11 @@ fun main(args: Array<String>) {
 //    println(getYFinanceAuth())
 //    println(fetchDailyData("GOOG"))
 
+//    val ran = 5.0..10.0
+//    println(ran.start)
+//    println(ran.endInclusive)
+//    val scale = LinearScale().apply {
+//        domain = 5.0 to 10.0
+//        range = 100.0 to 200.0
+//    }
 }

@@ -5,13 +5,13 @@ package com.vitalyk.insight.main
  */
 fun fetchIntradayData(symbol: String): String? {
     val url = "https://chartapi.finance.yahoo.com/instrument/1.0/$symbol/chartdata;type=quote;range=1d/json"
-    val result = httpGet(url)
+    val result = yahooGet(url)
 
     when (result) {
-        is HttpGetSuccess -> {
+        is YahooGetSuccess -> {
             return result.data
         }
-        is HttpGetError -> {
+        is YahooGetFailure -> {
             getAppLogger().error("$url ${result.code}: ${result.message}")
         }
     }
