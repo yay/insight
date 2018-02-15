@@ -21,6 +21,11 @@ jar {
     manifest {
         attributes 'Main-Class': 'com.vitalyk.insight.main.MainKt'
     }
+
+    // This line of code recursively collects and copies all of a project's files
+    // and adds them to the JAR itself. One can extend this task, to skip certain
+    // files or particular types at will.
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
 junitPlatform {
@@ -50,8 +55,8 @@ repositories {
 dependencies {
     compile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.21'
     compile 'org.jetbrains.kotlin:kotlin-reflect:1.2.21'
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.1'
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-javafx:0.22.1'
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.2'
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-javafx:0.22.2'
 
     compile 'com.squareup.okhttp3:okhttp:3.9.1'
     compile 'no.tornado:tornadofx:1.7.14'
@@ -86,6 +91,11 @@ dependencies {
             // This API is typically used by IDEs and build tools.
             'org.junit.platform:junit-platform-launcher:1.0.2'
     )
+}
+
+sourceSets {
+    main.java.srcDirs += 'src/main/kotlin/'
+    test.java.srcDirs += 'src/test/kotlin/'
 }
 
 kotlin {
