@@ -1,9 +1,5 @@
 package com.vitalyk.insight.main
 
-import com.vitalyk.insight.dv.LinearScale
-import com.vitalyk.insight.view.InsightApp
-import javafx.application.Application
-
 fun main(args: Array<String>) {
 
 //    Settings.load(AppSettings)
@@ -17,8 +13,8 @@ fun main(args: Array<String>) {
 //
 //    scheduleEndOfDayFetcher(appScheduler)
 
-    Application.launch(InsightApp::class.java, *args)
 
+//    Application.launch(InsightApp::class.java, *args)
 //    println(getYFinanceAuth())
 //    println(fetchDailyData("GOOG"))
 
