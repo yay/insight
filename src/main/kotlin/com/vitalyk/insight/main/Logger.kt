@@ -3,5 +3,5 @@ package com.vitalyk.insight.main
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-// TODO: Is this called from other threads? If so, what are the implications?
-fun getAppLogger(): Logger = LoggerFactory.getLogger(AppSettings.defaultLogger)
+// Loggers are thread safe so it is okay to make them static.
+fun getAppLogger(): Logger = LoggerFactory.getLogger("insight")

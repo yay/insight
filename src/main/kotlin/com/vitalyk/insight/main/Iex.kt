@@ -19,6 +19,43 @@ object IexApi1 {
         val time: Long
     )
 
+    // https://www.investopedia.com/terms/v/vwap.asp
+    data class ChartUnit(
+        val date: String,
+        val open: Double,
+        val high: Double,
+        val low: Double,
+        val close: Double,
+        val volume: Int,
+        val unadjustedVolume: Int,
+        val change: Double,
+        val changePercent: Double,
+        val vwap: Double, // volume weighted average price
+        val label: String,
+        val changeOverTime: Double // % change of each interval relative to first value,
+                                   // useful for comparing multiple stocks
+    )
+
+    data class DayChartUnit(
+        val date: String,
+        val minute: String,
+        val label: String,
+        val high: Double,
+        val low: Double,
+        val average: Double,
+        val volume: Int,
+        val notional: Double,
+        val numberOfTrades: Int,
+        val marketHigh: Double,
+        val marketLow: Double,
+        val marketAverage: Double,
+        val marketVolume: Int,
+        val marketNotional: Double,
+        val marketNumberOfTrades: Int,
+        val marketChangeOverTime: Double,
+        val changeOverTime: Double
+    )
+
     enum class Info(val value: String) {
         Quote("quote"),
         News("news"),
@@ -67,12 +104,29 @@ object IexApi1 {
         }
     }
 
-    fun getChart(symbol: String, range: Range = Range.Y): String? {
+    // For example:
+    // IexApi1.getChart("AAPL").joinToString("\n")
+    fun getChart(symbol: String, range: Range = Range.Y): List<ChartUnit> {
         val url = "$baseUrl/stock/$symbol/chart/${range.value}"
         val httpUrl = HttpUrl.parse(url) ?: throw Error("Bad URL.")
         val requestUrl = httpUrl.newBuilder().build().toString()
 
-        return getStringResponse(requestUrl)
+        return getStringResponse(requestUrl)?.toJsonNode()?.map {
+            ChartUnit(
+                it.get(ChartUnit::date.name).asText(),
+                it.get(ChartUnit::open.name).asDouble(),
+                it.get(ChartUnit::high.name).asDouble(),
+                it.get(ChartUnit::low.name).asDouble(),
+                it.get(ChartUnit::close.name).asDouble(),
+                it.get(ChartUnit::volume.name).asInt(),
+                it.get(ChartUnit::unadjustedVolume.name).asInt(),
+                it.get(ChartUnit::change.name).asDouble(),
+                it.get(ChartUnit::changePercent.name).asDouble(),
+                it.get(ChartUnit::vwap.name).asDouble(),
+                it.get(ChartUnit::label.name).asText(),
+                it.get(ChartUnit::changeOverTime.name).asDouble()
+            )
+        } ?: emptyList()
     }
 
     // For example: getDayChart("AAPL", "20180131")

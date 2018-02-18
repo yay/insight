@@ -6,8 +6,6 @@ typealias Watchlist = MutableList<String>
 object AppSettings {
     var watchlists = mutableMapOf<WatchlistName, Watchlist>()
 
-    var defaultLogger = "insight"
-
     object paths {
         var storage = "../insight_storage"
         var dailyData = "$storage/stock_daily"

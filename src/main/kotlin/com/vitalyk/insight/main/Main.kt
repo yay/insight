@@ -1,7 +1,5 @@
 package com.vitalyk.insight.main
 
-import java.util.*
-
 fun main(args: Array<String>) {
 
 //    Settings.load(AppSettings)
@@ -39,4 +37,16 @@ fun main(args: Array<String>) {
 //        domain = 5.0 to 10.0
 //        range = 100.0 to 200.0
 //    }
+    // date = "",
+//    open = 0.0f,
+//    high = 1.0f,
+//    low = -1.0f,
+//    close = 0.5f,
+//    volume = 100,
+//    unadjustedVolume = 99,
+//    change = 0.25f,
+//    changePercent = 25.0f,
+//    vwap = 0.1f,
+//    label = "hey",
+//    changeOverTime = 5
 }
