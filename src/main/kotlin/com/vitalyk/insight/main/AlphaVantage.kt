@@ -1,10 +1,8 @@
 package com.vitalyk.insight.main
 
-import jdk.incubator.http.HttpClient
-import jdk.incubator.http.HttpRequest
-import jdk.incubator.http.HttpResponse
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
+import okhttp3.HttpUrl
 import java.net.URI
 
 data class AlphaVantageQuote(
@@ -14,14 +12,14 @@ data class AlphaVantageQuote(
     val timestamp: String
 )
 
-object AlphaVantage {
-    private val client = HttpClient.newHttpClient()
-    private val baseUri = URI("https://www.alphavantage.co/query")
+object AlphaVantageApi {
+    private val baseUrl = "https://www.alphavantage.co/query"
 
     fun getQuotes(tickers: Array<String>): String {
-        val request = HttpRequest.newBuilder().uri(URI("https://www.google.com/")).GET().build()
-        val response = client.send(request, HttpResponse.BodyHandler.asString())
-        return response.body()
+//        val httpUrl = HttpUrl.parse(baseUrl) ?: throw Error("Bad URL.")
+//        val urlBuilder = httpUrl.newBuilder()
+//        urlBuilder.addQueryParameter(param, value)
+        return "lol"
     }
 
 //    fun getQuotesAsync(tickers: Array<String>): String = async {

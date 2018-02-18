@@ -42,8 +42,8 @@ version = '1.0-SNAPSHOT'
 
 description = """"""
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 9
+targetCompatibility = 9
 
 repositories {
      maven { url "http://jcenter.bintray.com" }

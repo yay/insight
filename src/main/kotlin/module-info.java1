@@ -1,0 +1,14 @@
+module com.vitalyk.insight {
+    requires kotlin.stdlib;
+
+    requires javafx.base;
+    requires javafx.graphics;
+    requires javafx.controls;
+    requires javafx.web;
+    requires java.logging;
+    requires java.desktop;
+
+    exports com.vitalyk.insight.view to javafx.graphics;
+
+    requires transitive jdk.incubator.httpclient;
+}

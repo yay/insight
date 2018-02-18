@@ -1,3 +1,5 @@
+package com.vitalyk.insight.main
+
 data class TaxBracket(
     val rate: Double,
     val range: IntRange

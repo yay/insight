@@ -4,19 +4,17 @@ import okhttp3.*
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-//val httpStatusCodes = mapOf(
-//    200 to "OK",
-//    400 to "Bad Request",
-//    401 to "Unauthorized",
-//    403 to "Forbidden",
-//    404 to "Not Found",
-//    500 to "Internal Server Error",
-//    502 to "Bad Gateway",
-//    503 to "Service Unavailable",
-//    504 to "Gateway Timeout"
-//)
+// Common HTTP Status Codes:
 //
-//fun Int.toHttpStatusMessage() = httpStatusCodes[this]
+//    200 - "OK",
+//    400 - "Bad Request",
+//    401 - "Unauthorized",
+//    403 - "Forbidden",
+//    404 - "Not Found",
+//    500 - "Internal Server Error",
+//    502 - "Bad Gateway",
+//    503 - "Service Unavailable",
+//    504 - "Gateway Timeout"
 
 object UserAgents {
     val chrome =
@@ -28,6 +26,8 @@ object UserAgents {
 object HttpClients {
     val main: OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(10L, TimeUnit.SECONDS)
+        // If the server fails to send a byte <timeout> seconds after the last byte,
+        // a read timeout error will be raised.
         .readTimeout(30L, TimeUnit.SECONDS)
         .build()
 
