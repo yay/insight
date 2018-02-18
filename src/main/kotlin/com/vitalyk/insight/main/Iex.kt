@@ -130,12 +130,32 @@ object IexApi1 {
     }
 
     // For example: getDayChart("AAPL", "20180131")
-    fun getDayChart(symbol: String, date: String? = null): String? {
+    fun getDayChart(symbol: String, date: String? = null): List<DayChartUnit> {
         val url = "$baseUrl/stock/$symbol/chart/date/$date"
         val httpUrl = HttpUrl.parse(url) ?: throw Error("Bad URL.")
         val requestUrl = httpUrl.newBuilder().build().toString()
 
-        return getStringResponse(requestUrl)
+        return getStringResponse(requestUrl)?.toJsonNode()?.map {
+            DayChartUnit(
+                it.get(DayChartUnit::date.name).asText(),
+                it.get(DayChartUnit::minute.name).asText(),
+                it.get(DayChartUnit::label.name).asText(),
+                it.get(DayChartUnit::high.name).asDouble(),
+                it.get(DayChartUnit::low.name).asDouble(),
+                it.get(DayChartUnit::average.name).asDouble(),
+                it.get(DayChartUnit::volume.name).asInt(),
+                it.get(DayChartUnit::notional.name).asDouble(),
+                it.get(DayChartUnit::numberOfTrades.name).asInt(),
+                it.get(DayChartUnit::marketHigh.name).asDouble(),
+                it.get(DayChartUnit::marketLow.name).asDouble(),
+                it.get(DayChartUnit::marketAverage.name).asDouble(),
+                it.get(DayChartUnit::marketVolume.name).asInt(),
+                it.get(DayChartUnit::marketNotional.name).asDouble(),
+                it.get(DayChartUnit::marketNumberOfTrades.name).asInt(),
+                it.get(DayChartUnit::marketChangeOverTime.name).asDouble(),
+                it.get(DayChartUnit::changeOverTime.name).asDouble()
+            )
+        } ?: emptyList()
     }
 
     fun getQuote(symbol: String, range: Range = Range.M, types: Set<Info> = allInfo): String? {
