@@ -6,14 +6,15 @@ import kotlinx.coroutines.experimental.runBlocking
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVPrinter
 import org.apache.commons.csv.CSVRecord
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.FileWriter
 import java.io.StringReader
 import java.time.LocalDate
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import kotlin.system.measureTimeMillis
 
 
@@ -138,15 +139,15 @@ fun massFetchSummary() {
 fun Exchange.fetchSummary() {
     val exchange = this
     // No matter what time and date it is locally, we are interested in what date it is in New York.
-    val dateTime = DateTime().withZone(DateTimeZone.forID("America/New_York"))
-    val dateString: String = dateTime.toString("yyyy-MM-dd")
+    val nyDateTime = ZonedDateTime.now(ZoneId.of("America/New_York"))
+    val nyIsoDate: String = nyDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE)
     val securities = exchange.getSecurities()
 
     securities.map { (symbol) ->
         val data = getYahooSummary(symbol)
         if (data != null) {
             try {
-                val path = "${AppSettings.paths.summary}/$dateString/${exchange.code}/$symbol.json"
+                val path = "${AppSettings.paths.summary}/$nyIsoDate/${exchange.code}/$symbol.json"
                 data.toPrettyJson().writeToFile(path)
             } catch (e: Error) {
                 exchange.logger.error(e.message)
@@ -198,7 +199,7 @@ fun Exchange.getExchangeSecuritiesFromNasdaq(): List<Security> {
 suspend fun Exchange.asyncFetchDailyData() {
     val exchange = this
     // No matter what time and date it is locally, we are interested in what date it is in New York.
-    val now = DateTime().withZone(DateTimeZone.forID("America/New_York"))
+    val now = ZonedDateTime.now(ZoneId.of("America/New_York"))
     var then = now.minusYears(1)
 
     val baseUrl = "https://query1.finance.yahoo.com/v7/finance/download"
@@ -228,7 +229,11 @@ suspend fun Exchange.asyncFetchDailyData() {
         }
 
         // The periods are the number of seconds between epoch and the start of the day in UTC.
-        val params = "?period1=${then.millis / 1000}&period2=${now.millis / 1000}&interval=1d&events=history&crumb=$crumb"
+        val params = "?period1=${then.toInstant().toEpochMilli() / 1000}" +
+            "&period2=${now.toInstant().toEpochMilli() / 1000}" +
+            "&interval=1d" +
+            "&events=history" +
+            "&crumb=$crumb"
         val requestUrl = "$baseUrl/$symbol$params"
         val result = yahooGet(requestUrl)
 
@@ -310,8 +315,8 @@ suspend fun Exchange.asyncFetchDailyData() {
 suspend fun Exchange.asyncFetchIntradayData() {
     val exchange = this
     // No matter what time and date it is locally, we are interested in what date it is in New York.
-    val dateTime = DateTime().withZone(DateTimeZone.forID("America/New_York"))
-    val dateString: String = dateTime.toString("yyyy-MM-dd")
+    val nyDateTime = ZonedDateTime.now(ZoneId.of("America/New_York"))
+    val nyIsoDate: String = nyDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE)
     val securities = async { exchange.getSecurities() }.await()
 
     securities.map { (symbol) ->
@@ -319,7 +324,7 @@ suspend fun Exchange.asyncFetchIntradayData() {
             val data = fetchIntradayData(symbol)
             if (data != null) {
                 try {
-                    data.writeToFile("${AppSettings.paths.intradayData}/$dateString/${exchange.code}/$symbol.json")
+                    data.writeToFile("${AppSettings.paths.intradayData}/$nyIsoDate/${exchange.code}/$symbol.json")
                 } catch (e: Error) {
                     exchange.logger.error(e.message)
                 }
@@ -331,8 +336,8 @@ suspend fun Exchange.asyncFetchIntradayData() {
 fun Exchange.syncFetchIntradayData() {
     val exchange = this
     // No matter what time and date it is locally, we are interested in what date it is in New York.
-    val dateTime = DateTime().withZone(DateTimeZone.forID("America/New_York"))
-    val dateString: String = dateTime.toString("yyyy-MM-dd")
+    val nyDateTime = ZonedDateTime.now(ZoneId.of("America/New_York"))
+    val nyIsoDate: String = nyDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE)
     val securities = exchange.getSecurities()
     val maxRequestAttempts = 10
 
@@ -345,7 +350,7 @@ fun Exchange.syncFetchIntradayData() {
             data = fetchIntradayData(symbol)
             if (data != null) {
                 try {
-                    data.writeToFile("${AppSettings.paths.intradayData}/$dateString/${exchange.code}/$symbol.json")
+                    data.writeToFile("${AppSettings.paths.intradayData}/$nyIsoDate/${exchange.code}/$symbol.json")
                 } catch (e: Error) {
                     exchange.logger.error(e.message)
                 }
@@ -361,9 +366,9 @@ fun Exchange.syncFetchIntradayData() {
 suspend fun Exchange.asyncFetchSummary() {
     val exchange = this
     // No matter what time and date it is locally, we are interested in what date it is in New York.
-    val dateTime = DateTime().withZone(DateTimeZone.forID("America/New_York"))
-    val dateString: String = dateTime.toString("yyyy-MM-dd")
-    val path = "${AppSettings.paths.summary}/$dateString/${exchange.code}"
+    val nyDateTime = ZonedDateTime.now(ZoneId.of("America/New_York"))
+    val nyIsoDate: String = nyDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE)
+    val path = "${AppSettings.paths.summary}/$nyIsoDate/${exchange.code}"
 
     if (File(path).exists()) {
         exchange.logger.warn("'$path' already exists. The data won't be fetched.")

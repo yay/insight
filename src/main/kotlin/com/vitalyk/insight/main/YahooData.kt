@@ -5,13 +5,13 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVRecord
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 import java.io.StringReader
 import java.net.MalformedURLException
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 
@@ -57,17 +57,17 @@ fun getYFinanceAuth(symbol: String = "AAPL"): YFinanceAuth? {
     return null
 }
 
-fun fetchDailyData(symbol: String, years: Int = 1): String {
+fun fetchDailyData(symbol: String, years: Long = 1): String {
     // See below for the 'crumb':
     // http://blog.bradlucas.com/posts/2017-06-02-new-yahoo-finance-quote-download-url/
     // https://github.com/dennislwy/YahooFinanceAPI
 
-    val now = DateTime().withZone(DateTimeZone.forID("America/New_York"))
+    val now = ZonedDateTime.now(ZoneId.of("America/New_York"))
     val then = now.minusYears(years)
     val crumb = "vjMESKwkGZA"
     val params =
-        "?period1=${then.millis / 1000}" +
-        "&period2=${now.millis / 1000}" +
+        "?period1=${then.toInstant().toEpochMilli() / 1000}" +
+        "&period2=${now.toInstant().toEpochMilli() / 1000}" +
         "&interval=1d" + // [1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo]
         "&events=history" +
         "&crumb=$crumb"  // required along with a cookie, changes with every login to Yahoo Finance

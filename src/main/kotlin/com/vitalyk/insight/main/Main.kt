@@ -49,4 +49,27 @@ fun main(args: Array<String>) {
 //    vwap = 0.1f,
 //    label = "hey",
 //    changeOverTime = 5
+
+//    val now = DateTime().withZone(DateTimeZone.forID("America/New_York"))
+//    val then = now.minusYears(1)
+//
+//    val etDateTime = ZonedDateTime.now(ZoneId.of("America/New_York"))
+//    val then2 = etDateTime.minusYears(1)
+//
+//    val m1 = then.millis
+//    val m2 = then2.toInstant().toEpochMilli()
+////    println(m1)
+////    println(m2)
+////    println(m2 - m1)
+//
+//    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+//    val parsed = dateFormat.parse("2018-01-31")
+//    println(parsed)
+//    println(LocalDate.parse("2018-01-31"))
+//    println(LocalDateTime.parse("2018-01-31", DateTimeFormatter.ISO_DATE))
+//    println(LocalDateTime.parse("1996-12-26"))
+//    println(etDateTime.toString())
+//    println(ZonedDateTime.now(ZoneId.of("America/New_York")).toString())
+//    println(then.toString())
+//    println(then2.toString())
 }

@@ -178,7 +178,10 @@ object IexApi1 {
         val requestUrl = httpUrl.newBuilder().apply {
             addQueryParameter("symbols", symbols.joinToString(","))
             addQueryParameter("types", types.joinToString(",") { it.value })
-            addQueryParameter("range", range.value) // used to specify a chart range if 'chart' is used in 'types' parameter
+            if (Info.Chart in types) {
+                // used to specify a chart range if 'chart' is used in 'types' parameter
+                addQueryParameter("range", range.value)
+            }
             addQueryParameter("last", "5")
         }.build().toString()
 

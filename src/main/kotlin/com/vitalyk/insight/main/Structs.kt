@@ -1,10 +1,10 @@
 package com.vitalyk.insight.main
 
-import org.joda.time.DateTime
 import java.math.BigDecimal
+import java.time.LocalDate
 
 data class IntradayQuote(
-    val time: DateTime,
+    val time: LocalDate,
     val open: BigDecimal,
     val high: BigDecimal,
     val low: BigDecimal,
@@ -13,7 +13,7 @@ data class IntradayQuote(
 )
 
 data class Quote(
-    val date: DateTime,
+    val date: LocalDate,
     val open: BigDecimal,
     val high: BigDecimal,
     val low: BigDecimal,

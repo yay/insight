@@ -4,10 +4,10 @@ import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.async
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
-import org.joda.time.DateTime
 import java.io.File
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 
 typealias ExchangeName = String
 typealias Ticker = String
@@ -17,7 +17,7 @@ fun loadDailyQuotesForTicker(records: CSVParser, dateFormat: SimpleDateFormat): 
 
     records.forEach {
         val quote = Quote(
-            DateTime(dateFormat.parse(it.get(YahooDataColumns.date))),
+            LocalDate.parse(it.get(YahooDataColumns.date)),
             BigDecimal(it.get(YahooDataColumns.open)),
             BigDecimal(it.get(YahooDataColumns.high)),
             BigDecimal(it.get(YahooDataColumns.low)),
