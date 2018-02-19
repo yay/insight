@@ -1,5 +1,8 @@
 package com.vitalyk.insight.main
 
+import com.vitalyk.insight.view.InsightApp
+import javafx.application.Application
+import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
 
 fun main(args: Array<String>) = runBlocking {
@@ -85,11 +88,22 @@ fun main(args: Array<String>) = runBlocking {
 //    println(IexApi1.getQuote("AAPL"))
 //    println(IexApi1.getQuote("AAPL", types = IexApi1.allTypes))
 //    println(IexApi1.getCompany("AAPL"))
-    println(IexApi1.getDividends("AAPL"))
+//    println(IexApi1.getDividends("AAPL"))
+//    println(IexApi1.getEarnings("AAPL"))
+//    println(IexApi1.getSpread("AAPL").joinToString("\n"))
+//    println(IexApi1.getFinancials("SQ"))
+//    println(IexApi1.getStats("SQ"))
+//    println(IexApi1.getMostActive().joinToString("\n"))
+//    println(IexApi1.getLogoData("MSFT"))
+//    println(IexApi1.getPeers("MSFT"))
+//    println(IexApi1.getSplits("AAPL"))
+//    println(IexApi1.getVolumeByVenue("AAPL").joinToString("\n"))
+    println(IexApi1.getSymbols().joinToString("\n"))
+
 //
 //    list.map {
 //        async {
-//            IexApi1.getDayChart(it, "20180131").joinToString("\n").writeToFile("./$it.txt")
+//            IexApi1.getFinancials("SQ").toString().writeToFile("./$it.txt")
 //        }
 //    }.forEach { it.join() }
 //    println(IexApi1.getDayChart("AAPL", "20180131").joinToString("\n"))
