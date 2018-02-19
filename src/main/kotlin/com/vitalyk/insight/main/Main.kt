@@ -1,6 +1,8 @@
 package com.vitalyk.insight.main
 
-fun main(args: Array<String>) {
+import kotlinx.coroutines.experimental.runBlocking
+
+fun main(args: Array<String>) = runBlocking {
 
 //    Settings.load(AppSettings)
 //    Settings.saveOnShutdown(AppSettings)
@@ -72,4 +74,23 @@ fun main(args: Array<String>) {
 //    println(ZonedDateTime.now(ZoneId.of("America/New_York")).toString())
 //    println(then.toString())
 //    println(then2.toString())
+
+//    println(IexApi1.getChart("AAPL").joinToString("\n"))
+
+//    val list = listOf("AAPL", "MSFT", "AVGO", "C", "BAC", "MU", "NVDA")
+//    println(IexApi1.getLast(list).joinToString("\n"))
+
+//    println(IexApi1.getDayStats())
+
+//    println(IexApi1.getQuote("AAPL"))
+//    println(IexApi1.getQuote("AAPL", types = IexApi1.allTypes))
+//    println(IexApi1.getCompany("AAPL"))
+    println(IexApi1.getDividends("AAPL"))
+//
+//    list.map {
+//        async {
+//            IexApi1.getDayChart(it, "20180131").joinToString("\n").writeToFile("./$it.txt")
+//        }
+//    }.forEach { it.join() }
+//    println(IexApi1.getDayChart("AAPL", "20180131").joinToString("\n"))
 }

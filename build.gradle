@@ -58,13 +58,15 @@ dependencies {
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.2'
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-javafx:0.22.2'
 
+    // Until Java 9 HTTP client: http://www.baeldung.com/java-9-http-client
     compile 'com.squareup.okhttp3:okhttp:3.9.1'
-    compile 'no.tornado:tornadofx:1.7.14'
-    compile 'org.apache.commons:commons-csv:1.5'
+    compile 'no.tornado:tornadofx:1.7.15'
+    compile 'org.apache.commons:commons-csv:1.5' // CSV parser
     compile 'org.jsoup:jsoup:1.11.2' // HTML parser
+    // JSON and XML parsers (until http://openjdk.java.net/jeps/198 maybe)
     compile 'com.fasterxml.jackson.core:jackson-core:2.8.9'
     compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.8.9'
-    compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.8.9'
+    compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.4.1'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.8.9'
     compile 'ch.qos.logback:logback-classic:1.2.3'
     compile 'org.quartz-scheduler:quartz:2.3.0'

@@ -4,18 +4,6 @@ import okhttp3.*
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-// Common HTTP Status Codes:
-//
-//    200 - "OK",
-//    400 - "Bad Request",
-//    401 - "Unauthorized",
-//    403 - "Forbidden",
-//    404 - "Not Found",
-//    500 - "Internal Server Error",
-//    502 - "Bad Gateway",
-//    503 - "Service Unavailable",
-//    504 - "Gateway Timeout"
-
 object UserAgents {
     val chrome =
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) " +
@@ -24,6 +12,8 @@ object UserAgents {
 }
 
 object HttpClients {
+    // OkHttp performs best when you create a single OkHttpClient instance and reuse it for
+    // all of your HTTP calls.
     val main: OkHttpClient = OkHttpClient.Builder()
         .connectTimeout(10L, TimeUnit.SECONDS)
         // If the server fails to send a byte <timeout> seconds after the last byte,
