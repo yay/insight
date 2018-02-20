@@ -1,8 +1,12 @@
 package com.vitalyk.insight.main
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import okhttp3.HttpUrl
@@ -25,6 +29,17 @@ object IexApi1 {
     private val mapper = jacksonObjectMapper().apply {
         enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE)
     }
+
+    private fun String.toJsonNode(): JsonNode? {
+        return try {
+            mapper.readTree(this)
+        } catch (e: JsonProcessingException) {
+            e.printStackTrace()
+            getAppLogger().error("JSON parsing failed: ${e.message}")
+            null
+        }
+    }
+
     // http://www.baeldung.com/jackson-collection-array
     private val listTypes = listOf(
         String::class.java,
@@ -225,6 +240,166 @@ object IexApi1 {
         val day30ChangePercent: Double
     )
 
+    data class Trade(
+        val price: Double,
+        val size: Int,
+        val tradeId: Int,
+        val isISO: Boolean,
+        val isOddLot: Boolean,
+        val isOutsideRegularHours: Boolean,
+        val isSinglePriceCross: Boolean,
+        val isTradeThroughExempt: Boolean,
+        val timestamp: Date
+    )
+
+    data class Deep(
+        val symbol: String,
+        val marketPercent: Double,
+        val volume: Long,
+        val lastSalePrice: Double,
+        val lastSaleSize: Int,
+        val lastSaleTime: Date,
+        val lastUpdated: Date,
+        val bids: List<BidAsk>,
+        val asks: List<BidAsk>,
+        val systemEvent: SystemEventData,
+        val tradingStatus: TradingStatusData,
+        val opHaltStatus: OpHaltStatus,
+        val ssrStatus: SsrStatus,
+        val securityEvent: SecurityEventData,
+        val trades: List<Trade>,
+        val tradeBreaks: List<Trade>,
+        @JsonIgnore
+        val auction: Auction? = null // only for IEX listed securities
+    )
+
+    data class BidAsk(
+        val price: Double,
+        val size: Int,
+        val timestamp: Date
+    )
+
+    data class Book(
+        val bids: List<BidAsk>,
+        val asks: List<BidAsk>
+    )
+
+    data class SsrStatus(
+        val isSSR: Boolean,
+        val detail: String,
+        val timestamp: Date
+    )
+
+    data class SystemEventData(
+        val systemEvent: SystemEvent,
+        val timestamp: Date
+    )
+
+    enum class SystemEvent {
+        @JsonProperty("O")
+        MESSAGES_START,
+        @JsonProperty("S")
+        SYSTEM_HOURS_START,
+        @JsonProperty("R")
+        MARKET_HOURS_START,
+        @JsonProperty("M")
+        MARKET_HOURS_END,
+        @JsonProperty("E")
+        SYSTEM_HOURS_END,
+        @JsonProperty("C")
+        MESSAGES_END
+    }
+
+    // https://iextrading.com/developer/docs/#trading-status
+    data class TradingStatusData(
+        val status: TradingStatus,
+        val reason: TradingHaltReason,
+        val timestamp: Date
+    )
+
+    enum class TradingStatus {
+        @JsonProperty("H")
+        HALTED,
+        @JsonProperty("O")
+        ORDER,
+        @JsonProperty("P")
+        PAUSED,
+        @JsonProperty("T")
+        TRADING
+    }
+
+    enum class TradingHaltReason {
+        // Trading Halt Reasons
+        @JsonProperty("T1")
+        HALT_NEWS_PENDING,
+        @JsonProperty("IPO1")
+        IPO_NOT_YET_TRADING,
+        @JsonProperty("IPOD")
+        IPO_DEFERRED,
+        @JsonProperty("MCB3")
+        CIRCUIT_BREAKER_L3,
+        @JsonEnumDefaultValue
+        @JsonProperty("NA")
+        NA,
+        // Order Acceptance Period Reasons
+        @JsonProperty("T2")
+        HALT_NEWS_DISSEMINATION,
+        @JsonProperty("IPO2")
+        IPO_ORDER_ACCEPTANCE_PERIOD,
+        @JsonProperty("IPO3")
+        IPO_PRE_LAUNCH_PERIOD,
+        @JsonProperty("MCB1")
+        CIRCUIT_BREAKER_L1,
+        @JsonProperty("MCB2")
+        CIRCUIT_BREAKER_L2
+    }
+
+    data class OpHaltStatus(
+        val isHalted: Boolean,
+        val timestamp: Date
+    )
+
+    data class SecurityEventData(
+        val securityEvent: SecurityEvent,
+        val timestamp: Date
+    )
+
+    enum class SecurityEvent {
+        @JsonProperty("MarketOpen")
+        MARKET_OPEN,
+        @JsonProperty("MarketClose")
+        MARKET_CLOSE
+    }
+
+    // https://iextrading.com/developer/docs/#auction
+    data class Auction(
+        val auctionType: AuctionType,
+        val pairedShares: Int,
+        val imbalanceShares: Int,
+        val referencePrice: Double,
+        val indicativePrice: Double,
+        val auctionBookPrice: Double,
+        val collarReferencePrice: Double,
+        val lowerCollarPrice: Double,
+        val upperCollarPrice: Double,
+        val extensionNumber: Int,
+        val startTime: String,
+        val lastUpdate: Date
+    )
+
+    enum class AuctionType {
+        @JsonProperty("Open")
+        OPEN,
+        @JsonProperty("Close")
+        CLOSE,
+        @JsonProperty("Halt")
+        HALT,
+        @JsonProperty("Volatility")
+        VOLATILITY,
+        @JsonProperty("IPO")
+        IPO
+    }
+
     data class Spread(
         // Eligible shares used for calculating effectiveSpread and priceImprovement
         val volume: Long,
@@ -255,18 +430,44 @@ object IexApi1 {
         val forFactor: Double
     )
 
+    data class LastPrice(
+        val price: Double,
+        val time: Date
+    )
+
+    data class OHLC(
+        val open: LastPrice,
+        val close: LastPrice,
+        val high: Double,
+        val low: Double
+    )
+
     // http://www.baeldung.com/jackson-serialize-dates
-    data class LastValue<out T>(
+    data class IntradayStat<out T>(
         val value: T,
         val lastUpdated: Date
     )
 
-    data class DayStats(
-        val volume: LastValue<Long>,
-        val symbolsTraded: LastValue<Long>,
-        val routedVolume: LastValue<Long>,
-        val notional: LastValue<Long>,
-        val marketShare: LastValue<Double>
+    data class IntradayStats(
+        val volume: IntradayStat<Long>,
+        val symbolsTraded: IntradayStat<Long>,
+        val routedVolume: IntradayStat<Long>,
+        val notional: IntradayStat<Long>,
+        val marketShare: IntradayStat<Double>
+    )
+
+    data class RecordsStat(
+        val recordValue: Double,
+        val recordDate: Date,
+        val previousDayValue: Double,
+        val avg30Value: Double
+    )
+
+    data class RecordsStats(
+        val volume: RecordsStat,
+        val symbolsTraded: RecordsStat,
+        val routedVolume: RecordsStat,
+        val notional: RecordsStat
     )
 
     data class LastTrade(
@@ -293,7 +494,6 @@ object IexApi1 {
                                    // useful for comparing multiple stocks
     )
 
-    // TODO: check types
     data class DayChartDataPoint(
         val date: String,
         val minute: String,
@@ -486,7 +686,7 @@ object IexApi1 {
         return mapper.readValue(getStringResponse(requestUrl), listTypes[ChartDataPoint::class.java])
     }
 
-    // For example: getDayChart("AAPL", "20180131")
+    // For example: getDayChart("AAPL", "20180129")
     fun getDayChart(symbol: String, date: String): List<DayChartDataPoint> {
         val url = "$baseUrl/stock/$symbol/chart/date/$date"
         val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
@@ -550,6 +750,14 @@ object IexApi1 {
         val requestUrl = httpUrl.newBuilder().build().toString()
 
         return mapper.readValue(getStringResponse(requestUrl), listTypes[Spread::class.java])
+    }
+
+    fun getOHLC(symbol: String): OHLC {
+        val url = "$baseUrl/stock/$symbol/ohlc"
+        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
+        val requestUrl = httpUrl.newBuilder().build().toString()
+
+        return mapper.readValue(getStringResponse(requestUrl), OHLC::class.java)
     }
 
     fun getSplits(symbol: String, range: Range = Range.Y5): List<Split> {
@@ -620,23 +828,54 @@ object IexApi1 {
         return mapper.readValue(getStringResponse(requestUrl), listTypes[LastTrade::class.java])
     }
 
-    fun getDeep(symbol: String) {
-        // https://iextrading.com/developer/docs/#deep
+    // https://iextrading.com/developer/docs/#deep
+    fun getDeep(symbol: String): Deep {
+        val httpUrl = HttpUrl.parse("$baseUrl/deep") ?: throw Error(badUrlMsg)
+        val requestUrl = httpUrl.newBuilder().apply {
+            addQueryParameter("symbols", symbol)
+        }.build().toString()
+
+        return mapper.readValue(getStringResponse(requestUrl), Deep::class.java)
     }
 
-    fun getBook(symbol: String) {
-        // https://iextrading.com/developer/docs/#book51
+    // Shows IEX’s bids and asks for given symbols.
+    // https://iextrading.com/developer/docs/#book51
+    fun getBook(symbol: String): Book? {
+        val httpUrl = HttpUrl.parse("$baseUrl/deep/book") ?: throw Error(badUrlMsg)
+
+        val requestUrl = httpUrl.newBuilder().apply {
+            addQueryParameter("symbols", symbol)
+        }.build().toString()
+
+        return mapper.convertValue(getStringResponse(requestUrl)?.toJsonNode()?.get(symbol.toUpperCase()), Book::class.java)
     }
 
-    fun getTrades(symbol: String) {
-        // https://iextrading.com/developer/docs/#trades
+    // https://iextrading.com/developer/docs/#trades
+    fun getTrades(symbol: String, last: Int = 20): List<Trade> {
+        val httpUrl = HttpUrl.parse("$baseUrl/deep/trades") ?: throw Error(badUrlMsg)
+
+        val requestUrl = httpUrl.newBuilder().apply {
+            addQueryParameter("symbols", symbol)
+            addQueryParameter("last", last.toString())
+        }.build().toString()
+
+        return getStringResponse(requestUrl)?.toJsonNode()?.get(symbol.toUpperCase())?.map {
+            mapper.convertValue(it, Trade::class.java)
+        } ?: emptyList()
     }
 
     // https://iextrading.com/developer/docs/#intraday
-    fun getDayStats(): DayStats {
+    fun getIntradayStats(): IntradayStats {
         val httpUrl = HttpUrl.parse("$baseUrl/stats/intraday") ?: throw Error(badUrlMsg)
         val requestUrl = httpUrl.newBuilder().build().toString()
-        return mapper.readValue(getStringResponse(requestUrl), DayStats::class.java)
+        return mapper.readValue(getStringResponse(requestUrl), IntradayStats::class.java)
+    }
+
+    // https://iextrading.com/developer/docs/#records
+    fun getRecordsStats(): RecordsStats {
+        val httpUrl = HttpUrl.parse("$baseUrl/stats/records") ?: throw Error(badUrlMsg)
+        val requestUrl = httpUrl.newBuilder().build().toString()
+        return mapper.readValue(getStringResponse(requestUrl), RecordsStats::class.java)
     }
 
 }

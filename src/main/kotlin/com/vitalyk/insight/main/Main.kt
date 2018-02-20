@@ -4,6 +4,8 @@ import com.vitalyk.insight.view.InsightApp
 import javafx.application.Application
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
+import java.time.LocalDate
+import java.util.*
 
 fun main(args: Array<String>) = runBlocking {
 
@@ -99,7 +101,13 @@ fun main(args: Array<String>) = runBlocking {
 //    println(IexApi1.getSplits("AAPL"))
 //    println(IexApi1.getVolumeByVenue("AAPL").joinToString("\n"))
 //    println(IexApi1.getSymbols().joinToString("\n"))
-    println(IexApi1.getBatch(listOf("AAPL", "FB")).joinToString("\n"))
+//    println(IexApi1.getBatch(listOf("AAPL", "FB")).joinToString("\n"))
+//    println(IexApi1.getOHLC("AAPL"))
+//    println(IexApi1.getRecordsStats())
+//    println(IexApi1.getTrades("SNAP").joinToString("\n"))
+//    println(IexApi1.getDeep("ANET"))
+//    println(IexApi1.getBook("ANET"))
+    println(IexApi1.getDayChart("ANET", "20180220"))
 
 //
 //    list.map {
