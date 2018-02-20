@@ -12,6 +12,7 @@ import java.io.IOException
 import java.util.*
 
 // The IEX API is currently open and does not require authentication to access its data.
+// We throttle endpoints by IP, but you should be able to achieve over 100 requests per second.
 // https://iextrading.com/developer/docs/
 
 object IexApi1 {
@@ -29,14 +30,14 @@ object IexApi1 {
         String::class.java,
         Symbol::class.java,
         Quote::class.java,
-        FastQuote::class.java,
-        ChartUnit::class.java,
-        DayChartUnit::class.java,
+        LastTrade::class.java,
+        ChartDataPoint::class.java,
+        DayChartDataPoint::class.java,
         NewsStory::class.java,
         Dividend::class.java,
         Spread::class.java,
         Split::class.java,
-        VolumeData::class.java
+        VenueVolume::class.java
     ).map { it to it.toListType() }.toMap()
 
     private fun Class<*>.toListType(): CollectionType =
@@ -268,15 +269,15 @@ object IexApi1 {
         val marketShare: LastValue<Double>
     )
 
-    data class FastQuote(
+    data class LastTrade(
         val symbol: String,
         val price: Double,
         val size: Int,
-        val time: Long
+        val time: Date
     )
 
     // https://www.investopedia.com/terms/v/vwap.asp
-    data class ChartUnit(
+    data class ChartDataPoint(
         val date: Date,
         val open: Double,
         val high: Double,
@@ -293,7 +294,7 @@ object IexApi1 {
     )
 
     // TODO: check types
-    data class DayChartUnit(
+    data class DayChartDataPoint(
         val date: String,
         val minute: String,
         val label: String,
@@ -313,10 +314,10 @@ object IexApi1 {
         val changeOverTime: Double
     )
 
-    data class StockBatch(
+    data class Batch(
         val quote: Quote?,
         val news: List<NewsStory>?,
-        val chart: List<ChartUnit>?
+        val chart: List<ChartDataPoint>?
     )
 
     enum class CalculationPrice {
@@ -378,6 +379,7 @@ object IexApi1 {
         val related: String
     )
 
+    // The names should match the individual endpoint names. Limited to 10 types.
     enum class Type(val value: String) {
         Quote("quote"),
         News("news"),
@@ -399,7 +401,7 @@ object IexApi1 {
         val url: String
     )
 
-    data class VolumeData(
+    data class VenueVolume(
         val volume: Long,
         val venue: String,
         val venueName: String,
@@ -476,21 +478,21 @@ object IexApi1 {
 
     // https://iextrading.com/developer/docs/#chart
     // For example: IexApi1.getChart("AAPL").joinToString("\n")
-    fun getChart(symbol: String, range: Range = Range.Y): List<ChartUnit> {
+    fun getChart(symbol: String, range: Range = Range.Y): List<ChartDataPoint> {
         val url = "$baseUrl/stock/$symbol/chart/${range.value}"
         val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
         val requestUrl = httpUrl.newBuilder().build().toString()
 
-        return mapper.readValue(getStringResponse(requestUrl), listTypes[ChartUnit::class.java])
+        return mapper.readValue(getStringResponse(requestUrl), listTypes[ChartDataPoint::class.java])
     }
 
     // For example: getDayChart("AAPL", "20180131")
-    fun getDayChart(symbol: String, date: String): List<DayChartUnit> {
+    fun getDayChart(symbol: String, date: String): List<DayChartDataPoint> {
         val url = "$baseUrl/stock/$symbol/chart/date/$date"
         val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
         val requestUrl = httpUrl.newBuilder().build().toString()
 
-        return mapper.readValue(getStringResponse(requestUrl), listTypes[DayChartUnit::class.java])
+        return mapper.readValue(getStringResponse(requestUrl), listTypes[DayChartDataPoint::class.java])
     }
 
     fun getDividends(symbol: String, range: Range = Range.Y): List<Dividend> {
@@ -517,12 +519,12 @@ object IexApi1 {
         return mapper.readValue(getStringResponse(requestUrl), listTypes[String::class.java])
     }
 
-    fun getVolumeByVenue(symbol: String): List<VolumeData> {
+    fun getVolumeByVenue(symbol: String): List<VenueVolume> {
         val url = "$baseUrl/stock/$symbol/volume-by-venue"
         val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
         val requestUrl = httpUrl.newBuilder().build().toString()
 
-        return mapper.readValue(getStringResponse(requestUrl), listTypes[VolumeData::class.java])
+        return mapper.readValue(getStringResponse(requestUrl), listTypes[VenueVolume::class.java])
     }
 
     // This is a helper function, but the google APIs url is standardized.
@@ -533,11 +535,6 @@ object IexApi1 {
 
         return mapper.readValue(getStringResponse(requestUrl), LogoData::class.java)
     }
-
-//    fun getLogo(symbol: String): Image {
-//        val url = "https://storage.googleapis.com/iex/api/logos/$symbol.png"
-//        return Image(url)
-//    }
 
     fun getFinancials(symbol: String): RecentFinancials {
         val url = "$baseUrl/stock/$symbol/financials"
@@ -571,19 +568,24 @@ object IexApi1 {
         return mapper.readValue(getStringResponse(requestUrl), listTypes[Symbol::class.java])
     }
 
+    // 'range' refers to chart range, optional if chart is not in 'types'.
     // https://iextrading.com/developer/docs/#batch-requests
-    fun getQuote(symbol: String, range: Range = Range.M, types: Set<Type> = allTypes): StockBatch {
+    fun getBatch(symbol: String, types: Set<Type> = allTypes, range: Range = Range.M): Batch {
         val httpUrl = HttpUrl.parse("$baseUrl/stock/$symbol/batch") ?: throw Error(badUrlMsg)
         val requestUrl = httpUrl.newBuilder().apply {
             addQueryParameter("types", types.joinToString(",") { it.value })
             addQueryParameter("range", range.value)
+            // Parameters that are sent to individual endpoints can be specified in batch calls
+            // and will be applied to each supporting endpoint.
+            // For example, param below applies to news (only last 10 will be fetched).
             addQueryParameter("last", "10")
         }.build().toString()
 
-        return mapper.readValue(getStringResponse(requestUrl), StockBatch::class.java)
+        return mapper.readValue(getStringResponse(requestUrl), Batch::class.java)
     }
 
-    fun getQuotes(symbols: List<String>, range: Range = Range.M, types: Set<Type> = allTypes): String? {
+    // 'range' refers to chart range, optional if chart is not in 'types'.
+    fun getBatch(symbols: List<String>, types: Set<Type> = allTypes, range: Range = Range.M): List<Batch> {
         if (symbols.size > 100) {
             throw IllegalArgumentException("Up to 100 symbols allowed.")
         }
@@ -599,13 +601,14 @@ object IexApi1 {
             addQueryParameter("last", "5")
         }.build().toString()
 
-        return getStringResponse(requestUrl)
+        return getStringResponse(requestUrl)?.toJsonNode()?.map {
+            mapper.convertValue(it, Batch::class.java)
+        } ?: emptyList()
     }
 
-    // Last provides trade data for executions on IEX.
-    // It is a near real time, intraday API that provides IEX last sale price, size and time.
-    // If no symbols specified, will return all symbols (8K+).
-    fun getLast(symbols: List<String>? = null): List<FastQuote> {
+    // Near real time, intraday API that provides IEX last sale price, size and time.
+    // If no symbols are specified, will return all symbols (8K+).
+    fun getLastTrade(symbols: List<String>? = null): List<LastTrade> {
         val httpUrl = HttpUrl.parse("$baseUrl/tops/last") ?: throw Error(badUrlMsg)
 
         val requestUrl = httpUrl.newBuilder().apply {
@@ -614,7 +617,7 @@ object IexApi1 {
             }
         }.build().toString()
 
-        return mapper.readValue(getStringResponse(requestUrl), listTypes[FastQuote::class.java])
+        return mapper.readValue(getStringResponse(requestUrl), listTypes[LastTrade::class.java])
     }
 
     fun getDeep(symbol: String) {

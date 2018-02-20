@@ -98,7 +98,8 @@ fun main(args: Array<String>) = runBlocking {
 //    println(IexApi1.getPeers("MSFT"))
 //    println(IexApi1.getSplits("AAPL"))
 //    println(IexApi1.getVolumeByVenue("AAPL").joinToString("\n"))
-    println(IexApi1.getSymbols().joinToString("\n"))
+//    println(IexApi1.getSymbols().joinToString("\n"))
+    println(IexApi1.getBatch(listOf("AAPL", "FB")).joinToString("\n"))
 
 //
 //    list.map {
