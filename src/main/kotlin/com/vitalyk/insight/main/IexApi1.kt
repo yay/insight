@@ -767,6 +767,7 @@ object IexApi1 {
         return mapper.readValue(getStringResponse(requestUrl), listTypes[Split::class.java])
     }
 
+    // List of all supported symbols.
     fun getSymbols(): List<Symbol> {
         val url = "$baseUrl/ref-data/symbols"
         val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)

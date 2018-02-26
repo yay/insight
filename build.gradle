@@ -13,7 +13,26 @@ buildscript {
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.2'
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.0'
+    }
+}
+
+subprojects {
+    apply plugin: 'kotlin'
+
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
+
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+        compile "org.jetbrains.kotlin:kotlin-reflect"
     }
 }
 
@@ -42,8 +61,8 @@ version = '1.0-SNAPSHOT'
 
 description = """"""
 
-sourceCompatibility = 9
-targetCompatibility = 9
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
      maven { url "http://jcenter.bintray.com" }
@@ -57,6 +76,10 @@ dependencies {
     compile 'org.jetbrains.kotlin:kotlin-reflect:1.2.21'
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.2'
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-javafx:0.22.2'
+
+    compile project(':kubed-core')
+    compile project(':kubed-geo')
+    compile project(':kubed-demos')
 
     // Until Java 9 HTTP client: http://www.baeldung.com/java-9-http-client
     compile 'com.squareup.okhttp3:okhttp:3.9.1'

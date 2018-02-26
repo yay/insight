@@ -1,1 +1,9 @@
 rootProject.name = 'insight'
+
+include ':kubed-core',
+        ':kubed-geo',
+        ':kubed-demos'
+
+project(':kubed-core').projectDir = new File(settingsDir, '../kubed/kubed-core')
+project(':kubed-geo').projectDir = new File(settingsDir, '../kubed/kubed-geo')
+project(':kubed-demos').projectDir = new File(settingsDir, '../kubed/kubed-demos')
