@@ -56,7 +56,3 @@ fun trumpTaxBillDiff() {
         println("Delta: ${newTax.pct - oldTax.pct}\n")
     }
 }
-
-fun main(args: Array<String>) {
-    trumpTaxBillDiff()
-}

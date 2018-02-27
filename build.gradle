@@ -86,6 +86,9 @@ dependencies {
     compile 'no.tornado:tornadofx:1.7.15'
     compile 'org.apache.commons:commons-csv:1.5' // CSV parser
     compile 'org.jsoup:jsoup:1.11.2' // HTML parser
+
+    compile 'org.json:json:20180130'
+    compile 'io.socket:socket.io-client:1.0.0'
     // JSON and XML parsers (until http://openjdk.java.net/jeps/198 maybe)
     compile 'com.fasterxml.jackson.core:jackson-core:2.8.9'
     compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.8.9'

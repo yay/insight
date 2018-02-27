@@ -1,15 +1,9 @@
 package com.vitalyk.insight.main
 
-import com.vitalyk.insight.view.InsightApp
-import javafx.application.Application
-import javafx.scene.Group
-import javafx.scene.Scene
-import javafx.scene.paint.Color
-import javafx.stage.Stage
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.runBlocking
+import io.socket.client.IO
 
-fun main(args: Array<String>) = runBlocking {
+
+fun main(args: Array<String>) {
 
 //    Settings.load(AppSettings)
 //    Settings.saveOnShutdown(AppSettings)
@@ -32,5 +26,19 @@ fun main(args: Array<String>) = runBlocking {
 //            println(IexApi1.getFinancials("SQ").toString())
 //        }
 //    }.forEach { it.join() }
-    println(IexApi1.getSymbols().size)
+//    println(IexApi1.getTops("ANET", "NVDA").joinToString("\n"))
+//    println(IexApi1.getBatch(listOf("ANET", "NVDA"), setOf(IexApi1.BatchType.QUOTE)).joinToString("\n"))
+
+    val socket = IO.socket("https://ws-api.iextrading.com/1.0/tops")
+
+    socket
+        .on("connect", {
+            socket.emit("subscribe", "snap,fb,aig+")
+            socket.emit("unsubscribe", "aig+")
+    //        socket.disconnect()
+        })
+        .on("message", { params -> println(params[0] as String) })
+        .on("disconnect", { println("Disconnected.") })
+
+    socket.connect()
 }
