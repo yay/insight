@@ -74,8 +74,8 @@ repositories {
 dependencies {
     compile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.21'
     compile 'org.jetbrains.kotlin:kotlin-reflect:1.2.21'
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.2'
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-javafx:0.22.2'
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.3'
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-javafx:0.22.3'
 
     compile project(':kubed-core')
     compile project(':kubed-geo')
@@ -130,6 +130,7 @@ kotlin {
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     kotlinOptions {
+//        freeCompilerArgs = ['-Xno-param-assertions']
         jvmTarget = '1.8'
         apiVersion = '1.2'
         languageVersion = '1.2'
