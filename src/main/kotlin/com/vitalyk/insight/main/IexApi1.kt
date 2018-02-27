@@ -44,6 +44,7 @@ object IexApi1 {
         String::class.java,
         Symbol::class.java,
         Quote::class.java,
+        Tops::class.java,
         LastTrade::class.java,
         ChartDataPoint::class.java,
         DayChartDataPoint::class.java,
@@ -87,6 +88,22 @@ object IexApi1 {
         val CEO: String,
         val issueType: IssueType,
         val sector: String
+    )
+
+    data class Tops(
+        val symbol: String,
+        val marketPercent: Double,
+        val bidSize: Int,
+        val bidPrice: Double,
+        val askSize: Int,
+        val askPrice: Double,
+        val volume: Long,
+        val lastSalePrice: Double,
+        val lastSaleSize: Int,
+        val lastSaleTime: Date,
+        val lastUpdated: Date,
+        val sector: String,
+        val securityType: String
     )
 
     data class Dividend(
@@ -269,7 +286,9 @@ object IexApi1 {
         val trades: List<Trade>,
         val tradeBreaks: List<Trade>,
         @JsonIgnore
-        val auction: Auction? = null // only for IEX listed securities
+        val auction: Auction? = null,     // only for IEX listed securities
+        @JsonIgnore
+        val officialPrice: OfficialPrice? = null
     )
 
     data class BidAsk(
@@ -293,6 +312,19 @@ object IexApi1 {
         val systemEvent: SystemEvent,
         val timestamp: Date
     )
+
+    data class OfficialPrice(
+        val priceType: OfficialPriceType,
+        val price: Double,
+        val timestamp: Date
+    )
+
+    enum class OfficialPriceType {
+        @JsonProperty("Open")
+        OPEN,
+        @JsonProperty("Close")
+        CLOSE
+    }
 
     enum class SystemEvent {
         @JsonProperty("O")
@@ -579,12 +611,12 @@ object IexApi1 {
     )
 
     // The names should match the individual endpoint names. Limited to 10 types.
-    enum class Type(val value: String) {
-        Quote("quote"),
-        News("news"),
-        Chart("chart")
+    enum class BatchType(val value: String) {
+        QUOTE("quote"),
+        NEWS("news"),
+        CHART("chart")
     }
-    val allTypes = Type.values().toSet()
+    private val batchTypes = BatchType.values().toSet()
 
     enum class Range(val value: String) {
         Y5("5y"),
@@ -778,7 +810,7 @@ object IexApi1 {
 
     // 'range' refers to chart range, optional if chart is not in 'types'.
     // https://iextrading.com/developer/docs/#batch-requests
-    fun getBatch(symbol: String, types: Set<Type> = allTypes, range: Range = Range.M): Batch {
+    fun getBatch(symbol: String, types: Set<BatchType> = batchTypes, range: Range = Range.M): Batch {
         val httpUrl = HttpUrl.parse("$baseUrl/stock/$symbol/batch") ?: throw Error(badUrlMsg)
         val requestUrl = httpUrl.newBuilder().apply {
             addQueryParameter("types", types.joinToString(",") { it.value })
@@ -793,7 +825,7 @@ object IexApi1 {
     }
 
     // 'range' refers to chart range, optional if chart is not in 'types'.
-    fun getBatch(symbols: List<String>, types: Set<Type> = allTypes, range: Range = Range.M): List<Batch> {
+    fun getBatch(symbols: List<String>, types: Set<BatchType> = batchTypes, range: Range = Range.M): List<Batch> {
         if (symbols.size > 100) {
             throw IllegalArgumentException("Up to 100 symbols allowed.")
         }
@@ -802,7 +834,7 @@ object IexApi1 {
         val requestUrl = httpUrl.newBuilder().apply {
             addQueryParameter("symbols", symbols.joinToString(","))
             addQueryParameter("types", types.joinToString(",") { it.value })
-            if (Type.Chart in types) {
+            if (BatchType.CHART in types) {
                 // used to specify a chart range if 'chart' is used in 'types' parameter
                 addQueryParameter("range", range.value)
             }
@@ -828,6 +860,17 @@ object IexApi1 {
         return mapper.readValue(getStringResponse(requestUrl), listTypes[LastTrade::class.java])
     }
 
+    fun getTops(symbols: List<String>? = null): List<Tops> {
+        val httpUrl = HttpUrl.parse("$baseUrl/tops") ?: throw Error(badUrlMsg)
+        val requestUrl = httpUrl.newBuilder().apply {
+            if (symbols != null && symbols.isNotEmpty()) {
+                addQueryParameter("symbols", symbols.joinToString(","))
+            }
+        }.build().toString()
+
+        return mapper.readValue(getStringResponse(requestUrl), listTypes[Tops::class.java])
+    }
+
     // https://iextrading.com/developer/docs/#deep
     fun getDeep(symbol: String): Deep {
         val httpUrl = HttpUrl.parse("$baseUrl/deep") ?: throw Error(badUrlMsg)
@@ -847,7 +890,10 @@ object IexApi1 {
             addQueryParameter("symbols", symbol)
         }.build().toString()
 
-        return mapper.convertValue(getStringResponse(requestUrl)?.toJsonNode()?.get(symbol.toUpperCase()), Book::class.java)
+        return mapper.convertValue(
+            getStringResponse(requestUrl)?.toJsonNode()?.get(symbol.toUpperCase()),
+            Book::class.java
+        )
     }
 
     // https://iextrading.com/developer/docs/#trades
