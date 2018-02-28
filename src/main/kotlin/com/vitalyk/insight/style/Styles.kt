@@ -1,7 +1,7 @@
 package com.vitalyk.insight.style
 
-import tornadofx.Stylesheet
-import tornadofx.cssclass
+import javafx.scene.paint.Color
+import tornadofx.*
 
 class Styles : Stylesheet() {
 
@@ -14,6 +14,14 @@ class Styles : Stylesheet() {
             //            s(chartHorizontalGridLines) {
 //                visibility = FXVisibility.HIDDEN
 //            }
+        }
+
+        listCell {
+            and(selected) {
+                label {
+                    textFill = Color.WHITE
+                }
+            }
         }
     }
 

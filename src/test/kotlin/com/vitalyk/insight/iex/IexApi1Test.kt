@@ -1,4 +1,4 @@
-package com.vitalyk.insight.main
+package com.vitalyk.insight.iex
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
