@@ -1,9 +1,15 @@
 package com.vitalyk.insight.main
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.socket.client.IO
+import io.socket.client.Socket.EVENT_CONNECT
+import io.socket.client.Socket.EVENT_DISCONNECT
 
 
 fun main(args: Array<String>) {
+
+//    getTops()
+    getDeep()
 
 //    Settings.load(AppSettings)
 //    Settings.saveOnShutdown(AppSettings)
@@ -28,17 +34,43 @@ fun main(args: Array<String>) {
 //    }.forEach { it.join() }
 //    println(IexApi1.getTops("ANET", "NVDA").joinToString("\n"))
 //    println(IexApi1.getBatch(listOf("ANET", "NVDA"), setOf(IexApi1.BatchType.QUOTE)).joinToString("\n"))
+}
 
+fun getTops() {
     val socket = IO.socket("https://ws-api.iextrading.com/1.0/tops")
 
     socket
-        .on("connect", {
-            socket.emit("subscribe", "snap,fb,aig+")
-            socket.emit("unsubscribe", "aig+")
-    //        socket.disconnect()
+        .on(EVENT_CONNECT, {
+            socket.emit("subscribe", "firehose") // all symbols
+//            socket.emit("subscribe", "snap,fb,aig+")
+//            socket.emit("unsubscribe", "aig+")
+            //        socket.disconnect()
         })
-        .on("message", { params -> println(params[0] as String) })
-        .on("disconnect", { println("Disconnected.") })
+        .on("message", { params ->
+            println(IexApi1.parseTops(params.first() as String))
+        })
+        .on(EVENT_DISCONNECT, { println("Disconnected.") })
+
+    socket.connect()
+}
+
+fun getDeep() {
+    val socket = IO.socket("https://ws-api.iextrading.com/1.0/deep")
+
+    val mapper = jacksonObjectMapper()
+    val value = mapper.writeValueAsString(object {
+        val symbols = listOf("anet")
+        val channels = listOf("deep")
+    })
+
+    socket
+        .on(EVENT_CONNECT, {
+            socket.emit("subscribe", value)
+        })
+        .on("message", { params ->
+            println(params.first() as String)
+        })
+        .on(EVENT_DISCONNECT, { println("Disconnected.") })
 
     socket.connect()
 }

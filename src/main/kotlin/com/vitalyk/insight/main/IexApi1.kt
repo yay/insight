@@ -268,7 +268,7 @@ object IexApi1 {
         val timestamp: Date
     )
 
-    data class Deep(
+    data class Depth(
         val symbol: String,
         val marketPercent: Double,
         val volume: Long,
@@ -871,14 +871,16 @@ object IexApi1 {
         return mapper.readValue(getStringResponse(requestUrl), listTypes[Tops::class.java])
     }
 
+    fun parseTops(json: String): Tops = mapper.readValue(json, Tops::class.java)
+
     // https://iextrading.com/developer/docs/#deep
-    fun getDeep(symbol: String): Deep {
+    fun getDepth(symbol: String): Depth {
         val httpUrl = HttpUrl.parse("$baseUrl/deep") ?: throw Error(badUrlMsg)
         val requestUrl = httpUrl.newBuilder().apply {
             addQueryParameter("symbols", symbol)
         }.build().toString()
 
-        return mapper.readValue(getStringResponse(requestUrl), Deep::class.java)
+        return mapper.readValue(getStringResponse(requestUrl), Depth::class.java)
     }
 
     // Shows IEX’s bids and asks for given symbols.
