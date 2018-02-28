@@ -5,7 +5,6 @@ import io.socket.client.IO
 import io.socket.client.Socket.EVENT_CONNECT
 import io.socket.client.Socket.EVENT_DISCONNECT
 
-
 fun main(args: Array<String>) {
 
 //    getTops()

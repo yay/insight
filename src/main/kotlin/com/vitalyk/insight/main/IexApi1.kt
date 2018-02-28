@@ -1,6 +1,7 @@
 package com.vitalyk.insight.main
 
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
+import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.core.JsonProcessingException
@@ -214,6 +215,7 @@ object IexApi1 {
         val shortDate: Date,
         val dividendRate: Double,
         val dividendYield: Double,
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.S")
         val exDividendDate: Date,
         val latestEPS: Double,          // Most recent quarter (MRQ)
         val latestEPSDate: Date,
