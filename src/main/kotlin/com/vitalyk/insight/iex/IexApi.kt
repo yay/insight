@@ -21,7 +21,7 @@ import java.util.*
 // We throttle endpoints by IP, but you should be able to achieve over 100 requests per second.
 // https://iextrading.com/developer/docs/
 
-object IexApi1 {
+object IexApi {
     private val client = HttpClients.main
     private const val baseUrl = "https://api.iextrading.com/1.0"
     private const val badUrlMsg = "Bad URL."
@@ -712,7 +712,7 @@ object IexApi1 {
     fun getIexPercent() = getQuotes("/stock/market/list/iexpercent")
 
     // https://iextrading.com/developer/docs/#chart
-    // For example: IexApi1.getChart("AAPL").joinToString("\n")
+    // For example: IexApi.getChart("AAPL").joinToString("\n")
     fun getChart(symbol: String, range: Range = Range.Y): List<ChartDataPoint> {
         val url = "${baseUrl}/stock/$symbol/chart/${range.value}"
         val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)

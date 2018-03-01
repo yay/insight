@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 
-internal class IexApi1Test {
+internal class IexApiTest {
 
     val symbol1 = "AAPL"
     val symbol2 = "AMZN"
@@ -12,129 +12,129 @@ internal class IexApi1Test {
 
     @Test
     fun getCompany() {
-        val company = IexApi1.getCompany(symbol1)
+        val company = IexApi.getCompany(symbol1)
         assertEquals(company.symbol, symbol1, "Should fetch the right symbol.")
     }
 
     @Test
     fun getStats() {
-        val stats = IexApi1.getStats(symbol1)
+        val stats = IexApi.getStats(symbol1)
         assertEquals(stats.symbol, symbol1, "Should fetch the right symbol.")
     }
 
     @Test
     fun getMostActive() {
-        val mostActive = IexApi1.getMostActive()
+        val mostActive = IexApi.getMostActive()
 //        assertEquals(mostActive.isNotEmpty(), true, "Should return a non-empty list of quotes.")
     }
 
     @Test
     fun getGainers() {
-        val gainers = IexApi1.getGainers()
+        val gainers = IexApi.getGainers()
     }
 
     @Test
     fun getLosers() {
-        val losers = IexApi1.getLosers()
+        val losers = IexApi.getLosers()
     }
 
     @Test
     fun getIexVolume() {
-        val iexVolume = IexApi1.getIexVolume()
+        val iexVolume = IexApi.getIexVolume()
     }
 
     @Test
     fun getIexPercent() {
-        val iexPercent = IexApi1.getIexPercent()
+        val iexPercent = IexApi.getIexPercent()
     }
 
     @Test
     fun getChart() {
-        val chart = IexApi1.getChart(symbol2, IexApi1.Range.M)
+        val chart = IexApi.getChart(symbol2, IexApi.Range.M)
         assertEquals(chart.isNotEmpty(), true, "Should contain a few chart data points.")
     }
 
     @Test
     fun getDayChart() {
-        val dayChart = IexApi1.getDayChart(symbol1, "20180129")
+        val dayChart = IexApi.getDayChart(symbol1, "20180129")
         assertEquals(dayChart.isNotEmpty(), true, "Should contain a few chart data points.")
     }
 
     @Test
     fun getDividends() {
-        val dividends = IexApi1.getDividends(symbol1)
+        val dividends = IexApi.getDividends(symbol1)
     }
 
     @Test
     fun getEarnings() {
-        val earnings = IexApi1.getEarnings(symbol3)
+        val earnings = IexApi.getEarnings(symbol3)
     }
 
     @Test
     fun getPeers() {
-        val peers = IexApi1.getPeers(symbol3)
+        val peers = IexApi.getPeers(symbol3)
     }
 
     @Test
     fun getVolumeByVenue() {
-        val volumeByVenue = IexApi1.getVolumeByVenue(symbol2)
+        val volumeByVenue = IexApi.getVolumeByVenue(symbol2)
     }
 
     @Test
     fun getLogoData() {
-        val logoData = IexApi1.getLogoData(symbol3)
+        val logoData = IexApi.getLogoData(symbol3)
     }
 
     @Test
     fun getFinancials() {
-        val financials = IexApi1.getFinancials(symbol1)
+        val financials = IexApi.getFinancials(symbol1)
     }
 
     @Test
     fun getSpread() {
-        val spread = IexApi1.getSpread(symbol2)
+        val spread = IexApi.getSpread(symbol2)
     }
 
     @Test
     fun getOHLC() {
-        val ohlc = IexApi1.getOHLC(symbol3)
+        val ohlc = IexApi.getOHLC(symbol3)
     }
 
     @Test
     fun getSplits() {
-        val splits = IexApi1.getSplits(symbol1, IexApi1.Range.Y5)
+        val splits = IexApi.getSplits(symbol1, IexApi.Range.Y5)
     }
 
     @Test
     fun getSymbols() {
-        val symbols = IexApi1.getSymbols()
+        val symbols = IexApi.getSymbols()
     }
 
     @Test
     fun getBatchOne() {
-        val batch = IexApi1.getBatch(symbol1)
+        val batch = IexApi.getBatch(symbol1)
     }
 
     @Test
     fun getBatchMany() {
-        val batch = IexApi1.getBatch(listOf(symbol1, symbol2, symbol3))
+        val batch = IexApi.getBatch(listOf(symbol1, symbol2, symbol3))
     }
 
     @Test
     fun getLastTrade() {
-        val lastTrades = IexApi1.getLastTrade(listOf(symbol1, symbol2))
+        val lastTrades = IexApi.getLastTrade(listOf(symbol1, symbol2))
         assertEquals(lastTrades.size, 2, "Should return last trades for 2 symbols.")
 
-        val allLastTrades = IexApi1.getLastTrade()
+        val allLastTrades = IexApi.getLastTrade()
         assertEquals(allLastTrades.size > 8000, true, "Should return last trades for 8000+ symbols.")
     }
 
     @Test
     fun getTops() {
-        val tops = IexApi1.getTops(listOf(symbol1, symbol2))
+        val tops = IexApi.getTops(listOf(symbol1, symbol2))
         assertEquals(tops.size, 2, "Should return tops data for 2 symbols.")
 
-        val allTops = IexApi1.getTops()
+        val allTops = IexApi.getTops()
         assertEquals(allTops.size > 8000, true, "Should return tops data for 8000+ symbols.")
     }
 
@@ -157,32 +157,32 @@ internal class IexApi1Test {
                 "securityType": "commonstock"
             }
         """.trimIndent()
-        val tops = IexApi1.parseTops(data)
+        val tops = IexApi.parseTops(data)
     }
 
     @Test
     fun getDepth() {
-        val depth = IexApi1.getDepth(symbol3)
+        val depth = IexApi.getDepth(symbol3)
     }
 
     @Test
     fun getBook() {
-        val book = IexApi1.getBook(symbol1)
+        val book = IexApi.getBook(symbol1)
     }
 
     @Test
     fun getTrades() {
-        val trades = IexApi1.getTrades(symbol2, last = 10)
+        val trades = IexApi.getTrades(symbol2, last = 10)
         assertEquals(trades.size, 10, "Should return last 10 trades.")
     }
 
     @Test
     fun getIntradayStats() {
-        val intradayStats = IexApi1.getIntradayStats()
+        val intradayStats = IexApi.getIntradayStats()
     }
 
     @Test
     fun getRecordsStats() {
-        val recordsStats = IexApi1.getRecordsStats()
+        val recordsStats = IexApi.getRecordsStats()
     }
 }

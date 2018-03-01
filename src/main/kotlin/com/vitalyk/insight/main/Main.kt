@@ -1,7 +1,7 @@
 package com.vitalyk.insight.main
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.vitalyk.insight.iex.IexApi1
+import com.vitalyk.insight.iex.IexApi
 import com.vitalyk.insight.view.InsightApp
 import io.socket.client.IO
 import io.socket.client.Socket.EVENT_CONNECT
@@ -22,17 +22,6 @@ fun main(args: Array<String>) {
 //    scheduleEndOfDayFetcher(appScheduler)
 
     Application.launch(InsightApp::class.java, *args)
-
-
-//    val list = listOf("AAPL", "MSFT", "AVGO", "C", "BAC", "MU", "NVDA")
-//    list.map {
-//        async {
-////            IexApi1.getFinancials("SQ").toString().writeToFile("./$it.txt")
-//            println(IexApi1.getFinancials("SQ").toString())
-//        }
-//    }.forEach { it.join() }
-//    println(IexApi1.getTops("ANET", "NVDA").joinToString("\n"))
-//    println(IexApi1.getBatch(listOf("ANET", "NVDA"), setOf(IexApi1.BatchType.QUOTE)).joinToString("\n"))
 }
 
 fun getTops() {
@@ -46,7 +35,7 @@ fun getTops() {
             //        socket.disconnect()
         })
         .on("message", { params ->
-            println(IexApi1.parseTops(params.first() as String))
+            println(IexApi.parseTops(params.first() as String))
         })
         .on(EVENT_DISCONNECT, { println("Disconnected.") })
 
