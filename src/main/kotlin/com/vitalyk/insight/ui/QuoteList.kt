@@ -29,8 +29,6 @@ class QuoteList(title: String, private val getQuotes: () -> List<Quote>) : Fragm
     val listView = listview<Quote> {
         val labelFont = Font.font(15.0)
 
-        println(labelFont.family)
-
         vgrow = Priority.ALWAYS
 
         cellCache {
