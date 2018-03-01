@@ -7,6 +7,10 @@ import io.socket.client.IO
 import io.socket.client.Socket.EVENT_CONNECT
 import io.socket.client.Socket.EVENT_DISCONNECT
 import javafx.application.Application
+import javafx.application.Platform
+import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.experimental.launch
+import tornadofx.*
 
 fun main(args: Array<String>) {
 

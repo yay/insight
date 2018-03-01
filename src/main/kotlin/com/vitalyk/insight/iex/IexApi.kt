@@ -876,6 +876,7 @@ object IexApi {
     }
 
     fun parseTops(json: String): Tops = mapper.readValue(json, Tops::class.java)
+    fun parseQuote(json: String): Quote = mapper.readValue(json, Quote::class.java)
 
     // https://iextrading.com/developer/docs/#deep
     fun getDepth(symbol: String): Depth {
