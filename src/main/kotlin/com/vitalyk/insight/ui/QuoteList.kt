@@ -31,11 +31,12 @@ class QuoteList(title: String, private val getQuotes: () -> List<Quote>) : Fragm
 
         vgrow = Priority.ALWAYS
 
-        cellCache {
-            vbox {
+        cellFormat {
+            val change = it.change
+            graphic = vbox {
                 val changeColor = when {
-                    it.change > 0.0 -> Color.GREEN
-                    it.change < 0.0 -> Color.RED
+                    change > 0.0 -> Color.GREEN
+                    change < 0.0 -> Color.RED
                     else -> Color.GRAY
                 }
                 hbox {
@@ -44,7 +45,7 @@ class QuoteList(title: String, private val getQuotes: () -> List<Quote>) : Fragm
                         font = Font.font("Verdana", FontWeight.BOLD, 15.0)
                         minWidth = 80.0
                     }
-                    if (it.change == 0.0) {
+                    if (change == 0.0) {
                         circle {
                             radius = 6.0
                         }
@@ -52,7 +53,7 @@ class QuoteList(title: String, private val getQuotes: () -> List<Quote>) : Fragm
                         path {
                             moveTo(0.0, 0.0)
                             lineTo(12.0, 0.0)
-                            lineTo(6.0, 10.0 * if (it.change > 0) -1.0 else 1.0)
+                            lineTo(6.0, 10.0 * if (change > 0) -1.0 else 1.0)
                             closepath()
                         }
                     }.apply {
@@ -62,7 +63,7 @@ class QuoteList(title: String, private val getQuotes: () -> List<Quote>) : Fragm
                         stroke = Color.WHITE
                         strokeWidth = 1.0
                     }
-                    label("%.2f".format(it.change)) {
+                    label("%.2f".format(change)) {
                         textFill = changeColor
                         font = labelFont
                     }
@@ -83,6 +84,7 @@ class QuoteList(title: String, private val getQuotes: () -> List<Quote>) : Fragm
                     textFill = Color.GRAY
                 }
             }
+
         }
     }
 
