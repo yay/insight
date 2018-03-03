@@ -76,7 +76,7 @@ internal class HelpersTest {
     """.trimIndent()
 
     @Test
-    fun dataClassToFxBean() {
-        assertEquals(testClassString, dataClassToFxBean(TestClass::class))
+    fun getFxBeanDefinition() {
+        assertEquals(testClassString, getFxBeanDefinition(TestClass::class))
     }
 }

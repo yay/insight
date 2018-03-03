@@ -1,5 +1,8 @@
 package com.vitalyk.insight.view
 
+import com.vitalyk.insight.iex.DayChartPointBean
+import com.vitalyk.insight.iex.IexApi
+import com.vitalyk.insight.iex.toDayChartPointBean
 import com.vitalyk.insight.main.*
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
@@ -17,6 +20,7 @@ import java.time.LocalDate
 class SymbolTableView : View("Security Data") {
 
     lateinit var symbolTable: TableView<StockSymbol>
+    lateinit var iexSymbolTable: TableView<DayChartPointBean>
 
     var symbol = SimpleStringProperty("AAPL")
     val startDate = datepicker {
@@ -50,11 +54,10 @@ class SymbolTableView : View("Security Data") {
                             val dataRequest = YahooData(symbol.value, frequency)
 //                            var summaryRequest = YahooSummary(symbol.value, HttpClients.yahoo)
 
-                            lateinit var data: String
-
                             runAsyncWithProgress {
 
-                                data = fetchDailyData(symbol.value, 50)
+//                                fetchDailyData(symbol.value, 50)
+
 //                                println(data)
 //                                dataRequest
 //                                        .startDate(startDate.value)
@@ -65,9 +68,13 @@ class SymbolTableView : View("Security Data") {
 //                                summaryRequest
 //                                        .execute()
 //                                        .parse()
-                            } ui {
-                                symbolTable.items = data.parseYahooCSV().toStockList().observable()
-                                symbolData.value = data
+
+                                IexApi.getDayChart("AAPL").map { point -> point.toDayChartPointBean() }
+                            } ui { items ->
+                                iexSymbolTable.items = items.observable()
+//                                symbolTable.items = data.parseYahooCSV().toStockList().observable()
+//                                symbolData.value = data
+
 //                                symbolData.value = dataRequest.data()
 //                                symbolTable.items = dataRequest.list().observable()
 //                                symbolSummary.value = summaryRequest.prettyData()
@@ -161,17 +168,29 @@ class SymbolTableView : View("Security Data") {
             vgrow = Priority.ALWAYS
 
             tab("Data") {
-                symbolTable = tableview(listOf<StockSymbol>().observable()) {
-                    column("Date", StockSymbol::dateProperty).minWidth(250)
-                    column("Open", StockSymbol::openProperty)
-                    column("High", StockSymbol::highProperty)
-                    column("Low", StockSymbol::lowProperty)
-                    column("Close", StockSymbol::closeProperty)
-                    column("Volume", StockSymbol::volumeProperty)
-                    column("Adj Close", StockSymbol::adjCloseProperty).minWidth(150)
-
-                    vgrow = Priority.ALWAYS
-//                        columnResizePolicy = SmartResize.POLICY
+//                symbolTable = tableview(listOf<StockSymbol>().observable()) {
+//                    column("Date", StockSymbol::dateProperty).minWidth(250)
+//                    column("Open", StockSymbol::openProperty)
+//                    column("High", StockSymbol::highProperty)
+//                    column("Low", StockSymbol::lowProperty)
+//                    column("Close", StockSymbol::closeProperty)
+//                    column("Volume", StockSymbol::volumeProperty)
+//                    column("Adj Close", StockSymbol::adjCloseProperty).minWidth(150)
+//
+//                    vgrow = Priority.ALWAYS
+////                        columnResizePolicy = SmartResize.POLICY
+//                }
+                iexSymbolTable = tableview(listOf<DayChartPointBean>().observable()) {
+                    column("Date", DayChartPointBean::dateProperty)
+                    column("Open", DayChartPointBean::openProperty)
+                    column("High", DayChartPointBean::highProperty)
+                    column("Low", DayChartPointBean::lowProperty)
+                    column("Close", DayChartPointBean::closeProperty)
+                    column("Volume", DayChartPointBean::volumeProperty)
+                    column("Change", DayChartPointBean::changeProperty)
+                    column("ChangePercent", DayChartPointBean::changePercentProperty)
+                    column("ChangeOverTime", DayChartPointBean::changeOverTimeProperty)
+                    column("Label", DayChartPointBean::labelProperty)
                 }
             }
 

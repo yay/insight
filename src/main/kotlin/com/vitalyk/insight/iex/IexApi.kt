@@ -542,12 +542,12 @@ object IexApi {
         val close: Double,
         val volume: Long,
         val unadjustedVolume: Long,
-        val change: Double,
-        val changePercent: Double,
-        val vwap: Double, // volume weighted average price
+        val change: Double,         // compared to previous close
+        val changePercent: Double,  // compared to previous close
+        val vwap: Double,           // volume weighted average price
         val label: String,
-        val changeOverTime: Double // % change of each interval relative to first value,
-                                   // useful for comparing multiple stocks
+        val changeOverTime: Double  // % change of each interval relative to first value,
+                                    // useful for comparing multiple stocks
     )
 
     data class MinuteChartPoint(

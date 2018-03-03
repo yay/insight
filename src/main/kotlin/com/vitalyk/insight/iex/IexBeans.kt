@@ -1,8 +1,8 @@
 package com.vitalyk.insight.iex
 
-import com.vitalyk.insight.iex.IexApi.DayChartPoint
 import tornadofx.*
 import java.util.*
+import com.vitalyk.insight.iex.IexApi.DayChartPoint
 
 open class DayChartPointBean(
     change: Double,
@@ -54,3 +54,19 @@ open class DayChartPointBean(
     var vwap: Double by property(vwap)
     fun vwapProperty() = getProperty(DayChartPointBean::vwap)
 }
+
+fun DayChartPoint.toDayChartPointBean() =
+    DayChartPointBean(
+        change = this.change,
+        changeOverTime = this.changeOverTime,
+        changePercent = this.changePercent,
+        close = this.close,
+        date = this.date,
+        high = this.high,
+        label = this.label,
+        low = this.low,
+        open = this.open,
+        unadjustedVolume = this.unadjustedVolume,
+        volume = this.volume,
+        vwap = this.vwap
+    )

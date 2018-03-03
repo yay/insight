@@ -2,7 +2,7 @@ package com.vitalyk.insight.main
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.vitalyk.insight.iex.IexApi
-import com.vitalyk.insight.ui.dataClassToFxBean
+import com.vitalyk.insight.ui.getFxBeanDefinition
 import com.vitalyk.insight.view.InsightApp
 import io.socket.client.IO
 import io.socket.client.Socket.EVENT_CONNECT
@@ -25,8 +25,7 @@ fun main(args: Array<String>) {
 //
 //    scheduleEndOfDayFetcher(appScheduler)
 
-//    Application.launch(InsightApp::class.java, *args)
-    println(dataClassToFxBean(IexApi.DayChartPoint::class))
+    Application.launch(InsightApp::class.java, *args)
 
 //    val indent = " ".repeat(4)
 //    val klass = IexApi.DayChartPoint::class
@@ -43,6 +42,10 @@ fun main(args: Array<String>) {
 //        beanProps.joinToString("\n") + "}"
 //
 //    println(result)
+
+//    println(dataClassToTableView(IexApi.DayChartPoint::class))
+
+//    println(makeBeanMaker(IexApi.DayChartPoint::class))
 }
 
 fun getTops() {
