@@ -697,6 +697,7 @@ object IexApi {
         return mapper.readValue(getStringResponse(requestUrl), Stats::class.java)
     }
 
+    // Generic method for fetching gainers, losers, etc.
     private fun getQuotes(path: String): List<Quote> {
         val url = "${baseUrl}$path"
         val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)

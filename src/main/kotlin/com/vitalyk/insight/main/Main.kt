@@ -28,16 +28,18 @@ fun getTops() {
     val socket = IO.socket("https://ws-api.iextrading.com/1.0/tops")
 
     socket
-        .on(EVENT_CONNECT, {
+        .on(EVENT_CONNECT) {
             socket.emit("subscribe", "firehose") // all symbols
 //            socket.emit("subscribe", "snap,fb,aig+")
 //            socket.emit("unsubscribe", "aig+")
             //        socket.disconnect()
-        })
-        .on("message", { params ->
+        }
+        .on("message") { params ->
             println(IexApi.parseTops(params.first() as String))
-        })
-        .on(EVENT_DISCONNECT, { println("Disconnected.") })
+        }
+        .on(EVENT_DISCONNECT) {
+            println("Disconnected.")
+        }
 
     socket.connect()
 }
