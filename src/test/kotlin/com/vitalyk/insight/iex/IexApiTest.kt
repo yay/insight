@@ -13,19 +13,19 @@ internal class IexApiTest {
     @Test
     fun getCompany() {
         val company = IexApi.getCompany(symbol1)
-        assertEquals(company.symbol, symbol1, "Should fetch the right symbol.")
+        assertEquals(symbol1, company.symbol, "Should fetch the right symbol.")
     }
 
     @Test
     fun getStats() {
         val stats = IexApi.getStats(symbol1)
-        assertEquals(stats.symbol, symbol1, "Should fetch the right symbol.")
+        assertEquals(symbol1, stats.symbol, "Should fetch the right symbol.")
     }
 
     @Test
     fun getMostActive() {
         val mostActive = IexApi.getMostActive()
-//        assertEquals(mostActive.isNotEmpty(), true, "Should return a non-empty list of quotes.")
+//        assertEquals(true, mostActive.isNotEmpty(), "Should return a non-empty list of quotes.")
     }
 
     @Test
@@ -51,18 +51,18 @@ internal class IexApiTest {
     @Test
     fun getDayChart() {
         val chartPoints = IexApi.getDayChart(symbol2, IexApi.Range.M)
-        assertEquals(chartPoints.isNotEmpty(), true, "Should contain a few chart data points.")
+        assertEquals(true, chartPoints.isNotEmpty(), "Should contain a few chart data points.")
     }
 
     @Test
     fun getMinuteChart() {
         val chartPoints = IexApi.getMinuteChart(symbol1, "20180129")
-        assertEquals(chartPoints.isNotEmpty(), true, "Should contain a few chart data points.")
+        assertEquals(true, chartPoints.isNotEmpty(), "Should contain a few chart data points.")
 
         val date = chartPoints.first().date
-        assertEquals(date.year, 2018)
-        assertEquals(date.monthValue, 1)
-        assertEquals(date.dayOfMonth, 29)
+        assertEquals(2018, date.year)
+        assertEquals(1, date.monthValue)
+        assertEquals(29, date.dayOfMonth)
     }
 
     @Test
@@ -128,10 +128,10 @@ internal class IexApiTest {
     @Test
     fun getLastTrade() {
         val lastTrades = IexApi.getLastTrade(listOf(symbol1, symbol2))
-        assertEquals(lastTrades.size, 2, "Should return last trades for 2 symbols.")
+        assertEquals(2, lastTrades.size, "Should return last trades for 2 symbols.")
 
         val allLastTrades = IexApi.getLastTrade()
-        assertEquals(allLastTrades.size > 8000, true, "Should return last trades for 8000+ symbols.")
+        assertEquals(true, allLastTrades.size > 8000, "Should return last trades for 8000+ symbols.")
     }
 
     @Test
@@ -139,10 +139,10 @@ internal class IexApiTest {
         if (IexApi.isWeekend()) return
 
         val tops = IexApi.getTops(listOf(symbol1, symbol2))
-        assertEquals(tops.size, 2, "Should return tops data for 2 symbols.")
+        assertEquals(2, tops.size, "Should return tops data for 2 symbols.")
 
         val allTops = IexApi.getTops()
-        assertEquals(allTops.size > 8000, true, "Should return tops data for 8000+ symbols.")
+        assertEquals(true, allTops.size > 8000, "Should return tops data for 8000+ symbols.")
     }
 
     @Test
@@ -184,7 +184,7 @@ internal class IexApiTest {
         if (IexApi.isWeekend()) return
 
         val trades = IexApi.getTrades(symbol2, last = 10)
-        assertEquals(trades.size, 10, "Should return last 10 trades.")
+        assertEquals(10, trades.size, "Should return last 10 trades.")
     }
 
     @Test

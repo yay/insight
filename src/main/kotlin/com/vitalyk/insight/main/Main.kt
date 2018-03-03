@@ -2,11 +2,15 @@ package com.vitalyk.insight.main
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.vitalyk.insight.iex.IexApi
+import com.vitalyk.insight.ui.dataClassToFxBean
 import com.vitalyk.insight.view.InsightApp
 import io.socket.client.IO
 import io.socket.client.Socket.EVENT_CONNECT
 import io.socket.client.Socket.EVENT_DISCONNECT
 import javafx.application.Application
+import kotlin.reflect.KClass
+import kotlin.reflect.full.declaredMemberProperties
+import kotlin.reflect.full.memberProperties
 
 fun main(args: Array<String>) {
 
@@ -21,7 +25,24 @@ fun main(args: Array<String>) {
 //
 //    scheduleEndOfDayFetcher(appScheduler)
 
-    Application.launch(InsightApp::class.java, *args)
+//    Application.launch(InsightApp::class.java, *args)
+    println(dataClassToFxBean(IexApi.DayChartPoint::class))
+
+//    val indent = " ".repeat(4)
+//    val klass = IexApi.DayChartPoint::class
+//    val kclassProps = klass.declaredMemberProperties
+//    val beanConstructor = kclassProps.map { prop ->
+//        "$indent ${prop.name}: ${prop.returnType.toString().split(".")[1]}"
+//    }
+//    val beanProps = kclassProps.map { prop ->
+//        "$indent var ${prop.name}: ${prop.returnType.toString().split(".")[1]}\n" +
+//        "$indent fun ${prop.name}Property() = getProperty(${klass.simpleName}::${prop.name})\n"
+//    }
+//    val result = "open class ${klass.simpleName}(\n" +
+//        beanConstructor.joinToString("\n") + "\n) {\n" +
+//        beanProps.joinToString("\n") + "}"
+//
+//    println(result)
 }
 
 fun getTops() {
