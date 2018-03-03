@@ -1,5 +1,6 @@
 package com.vitalyk.insight.main
 
+import javafx.beans.property.SimpleObjectProperty
 import tornadofx.getProperty
 import tornadofx.property
 import java.util.*

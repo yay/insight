@@ -49,15 +49,20 @@ internal class IexApiTest {
     }
 
     @Test
-    fun getChart() {
-        val chart = IexApi.getChart(symbol2, IexApi.Range.M)
-        assertEquals(chart.isNotEmpty(), true, "Should contain a few chart data points.")
+    fun getDayChart() {
+        val chartPoints = IexApi.getDayChart(symbol2, IexApi.Range.M)
+        assertEquals(chartPoints.isNotEmpty(), true, "Should contain a few chart data points.")
     }
 
     @Test
-    fun getDayChart() {
-        val dayChart = IexApi.getDayChart(symbol1, "20180129")
-        assertEquals(dayChart.isNotEmpty(), true, "Should contain a few chart data points.")
+    fun getMinuteChart() {
+        val chartPoints = IexApi.getMinuteChart(symbol1, "20180129")
+        assertEquals(chartPoints.isNotEmpty(), true, "Should contain a few chart data points.")
+
+        val date = chartPoints.first().date
+        assertEquals(date.year, 2018)
+        assertEquals(date.monthValue, 1)
+        assertEquals(date.dayOfMonth, 29)
     }
 
     @Test
@@ -131,6 +136,8 @@ internal class IexApiTest {
 
     @Test
     fun getTops() {
+        if (IexApi.isWeekend()) return
+
         val tops = IexApi.getTops(listOf(symbol1, symbol2))
         assertEquals(tops.size, 2, "Should return tops data for 2 symbols.")
 
@@ -162,6 +169,8 @@ internal class IexApiTest {
 
     @Test
     fun getDepth() {
+        if (IexApi.isWeekend()) return
+
         val depth = IexApi.getDepth(symbol3)
     }
 
@@ -172,6 +181,8 @@ internal class IexApiTest {
 
     @Test
     fun getTrades() {
+        if (IexApi.isWeekend()) return
+
         val trades = IexApi.getTrades(symbol2, last = 10)
         assertEquals(trades.size, 10, "Should return last 10 trades.")
     }

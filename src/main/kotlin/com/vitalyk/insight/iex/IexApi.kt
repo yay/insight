@@ -4,9 +4,13 @@ import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonProcessingException
+import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.vitalyk.insight.main.HttpClients
@@ -15,7 +19,12 @@ import okhttp3.HttpUrl
 import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.*
+
 
 // The IEX API is currently open and does not require authentication to access its data.
 // We throttle endpoints by IP, but you should be able to achieve over 100 requests per second.
@@ -25,6 +34,18 @@ object IexApi {
     private val client = HttpClients.main
     private const val baseUrl = "https://api.iextrading.com/1.0"
     private const val badUrlMsg = "Bad URL."
+
+    private class LocalDateDeserializer : StdDeserializer<LocalDate>(LocalDate::class.java) {
+
+        override fun deserialize(parser: JsonParser, context: DeserializationContext): LocalDate {
+            return LocalDate.parse(parser.readValueAs(String::class.java), DateTimeFormatter.BASIC_ISO_DATE)
+        }
+    }
+
+    fun isWeekend(): Boolean {
+        val day = LocalDate.now(ZoneId.of("America/New_York")).dayOfWeek
+        return day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY
+    }
 
     // Mapper instances are fully thread-safe provided that ALL configuration of the
     // instance occurs before ANY read or write calls.
@@ -49,8 +70,8 @@ object IexApi {
         Quote::class.java,
         Tops::class.java,
         LastTrade::class.java,
-        ChartDataPoint::class.java,
-        DayChartDataPoint::class.java,
+        DayChartPoint::class.java,
+        MinuteChartPoint::class.java,
         NewsStory::class.java,
         Dividend::class.java,
         Spread::class.java,
@@ -513,7 +534,7 @@ object IexApi {
     )
 
     // https://www.investopedia.com/terms/v/vwap.asp
-    data class ChartDataPoint(
+    data class DayChartPoint(
         val date: Date,
         val open: Double,
         val high: Double,
@@ -529,8 +550,9 @@ object IexApi {
                                    // useful for comparing multiple stocks
     )
 
-    data class DayChartDataPoint(
-        val date: String,
+    data class MinuteChartPoint(
+        @JsonDeserialize(using = LocalDateDeserializer::class)
+        val date: LocalDate,
         val minute: String,
         val label: String,
         val high: Double,
@@ -552,7 +574,7 @@ object IexApi {
     data class Batch(
         val quote: Quote?,
         val news: List<NewsStory>?,
-        val chart: List<ChartDataPoint>?
+        val chart: List<DayChartPoint>?
     )
 
     enum class CalculationPrice {
@@ -713,22 +735,22 @@ object IexApi {
     fun getIexPercent() = getQuotes("/stock/market/list/iexpercent")
 
     // https://iextrading.com/developer/docs/#chart
-    // For example: IexApi.getChart("AAPL").joinToString("\n")
-    fun getChart(symbol: String, range: Range = Range.Y): List<ChartDataPoint> {
+    // For example: IexApi.getDayChart("AAPL").joinToString("\n")
+    fun getDayChart(symbol: String, range: Range = Range.Y): List<DayChartPoint> {
         val url = "${baseUrl}/stock/$symbol/chart/${range.value}"
         val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
         val requestUrl = httpUrl.newBuilder().build().toString()
 
-        return mapper.readValue(getStringResponse(requestUrl), listTypes[ChartDataPoint::class.java])
+        return mapper.readValue(getStringResponse(requestUrl), listTypes[DayChartPoint::class.java])
     }
 
-    // For example: getDayChart("AAPL", "20180129")
-    fun getDayChart(symbol: String, date: String): List<DayChartDataPoint> {
+    // For example: getMinuteChart("AAPL", "20180129")
+    fun getMinuteChart(symbol: String, date: String): List<MinuteChartPoint> {
         val url = "${baseUrl}/stock/$symbol/chart/date/$date"
         val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
         val requestUrl = httpUrl.newBuilder().build().toString()
 
-        return mapper.readValue(getStringResponse(requestUrl), listTypes[DayChartDataPoint::class.java])
+        return mapper.readValue(getStringResponse(requestUrl), listTypes[MinuteChartPoint::class.java])
     }
 
     fun getDividends(symbol: String, range: Range = Range.Y): List<Dividend> {
@@ -866,6 +888,8 @@ object IexApi {
     }
 
     fun getTops(symbols: List<String>? = null): List<Tops> {
+        if (isWeekend()) return emptyList()
+
         val httpUrl = HttpUrl.parse("${baseUrl}/tops") ?: throw Error(badUrlMsg)
         val requestUrl = httpUrl.newBuilder().apply {
             if (symbols != null && symbols.isNotEmpty()) {
@@ -906,6 +930,8 @@ object IexApi {
 
     // https://iextrading.com/developer/docs/#trades
     fun getTrades(symbol: String, last: Int = 20): List<Trade> {
+        if (isWeekend()) return emptyList()
+
         val httpUrl = HttpUrl.parse("${baseUrl}/deep/trades") ?: throw Error(badUrlMsg)
 
         val requestUrl = httpUrl.newBuilder().apply {

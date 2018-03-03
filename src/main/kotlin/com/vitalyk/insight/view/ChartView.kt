@@ -14,7 +14,7 @@ val xData = doubleArrayOf(0.0, 1.0, 2.0, 3.0, 4.0, 5.0)
 val yData = doubleArrayOf(0.0, 10.0, 100.0, 1000.0, 10_000.0, 100_000.0)
 
 // Create Chart
-val chart = QuickChart.getChart("Sample Chart", "X", "Y", "y(x)", xData, yData)
+val chart = QuickChart.getDayChart("Sample Chart", "X", "Y", "y(x)", xData, yData)
 
 // Show it
 SwingWrapper(chart).displayChart()
