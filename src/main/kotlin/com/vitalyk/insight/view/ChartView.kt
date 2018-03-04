@@ -35,7 +35,7 @@ class ChartView : View("Chart") {
         chart.series(symbolTableView.symbol.value) {
             val dateFormat = SimpleDateFormat("d MMM, yyyy")
             for (item in symbolTableView.symbolTable.items) {
-                data(dateFormat.format(item.date), item.adjClose)
+                data(dateFormat.format(item.date), item.close)
             }
         }
 

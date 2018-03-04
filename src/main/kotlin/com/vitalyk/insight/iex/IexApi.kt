@@ -644,15 +644,20 @@ object IexApi {
     }
     private val batchTypes = BatchType.values().toSet()
 
-    enum class Range(val value: String) {
-        Y5("5y"),
-        Y2("2y"),
-        Y("1y"),
-        YTD("ytd"),
-        M6("6m"),
-        M3("3m"),
-        M("1m")
+    enum class Range(val value: RangeValue) {
+        Y5(RangeValue("5y", "5 Years")),
+        Y2(RangeValue("2y", "2 Years")),
+        Y(RangeValue("1y", "1 Year")),
+        YTD(RangeValue("ytd", "YTD")),
+        M6(RangeValue("6m", "6 Months")),
+        M3(RangeValue("3m", "3 Months")),
+        M(RangeValue("1m", "1 Month"))
     }
+
+    data class RangeValue(
+        val code: String,
+        val name: String
+    )
 
     data class LogoData(
         val url: String
@@ -737,7 +742,7 @@ object IexApi {
     // https://iextrading.com/developer/docs/#chart
     // For example: IexApi.getDayChart("AAPL").joinToString("\n")
     fun getDayChart(symbol: String, range: Range = Range.Y): List<DayChartPoint> {
-        val url = "${baseUrl}/stock/$symbol/chart/${range.value}"
+        val url = "${baseUrl}/stock/$symbol/chart/${range.value.code}"
         val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
         val requestUrl = httpUrl.newBuilder().build().toString()
 
@@ -754,7 +759,7 @@ object IexApi {
     }
 
     fun getDividends(symbol: String, range: Range = Range.Y): List<Dividend> {
-        val url = "${baseUrl}/stock/$symbol/dividends/${range.value}"
+        val url = "${baseUrl}/stock/$symbol/dividends/${range.value.code}"
         val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
         val requestUrl = httpUrl.newBuilder().build().toString()
 
@@ -819,7 +824,7 @@ object IexApi {
     }
 
     fun getSplits(symbol: String, range: Range = Range.Y5): List<Split> {
-        val url = "${baseUrl}/stock/$symbol/splits/${range.value}"
+        val url = "${baseUrl}/stock/$symbol/splits/${range.value.code}"
         val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
         val requestUrl = httpUrl.newBuilder().build().toString()
 
@@ -841,7 +846,7 @@ object IexApi {
         val httpUrl = HttpUrl.parse("${baseUrl}/stock/$symbol/batch") ?: throw Error(badUrlMsg)
         val requestUrl = httpUrl.newBuilder().apply {
             addQueryParameter("types", types.joinToString(",") { it.value })
-            addQueryParameter("range", range.value)
+            addQueryParameter("range", range.value.code)
             // Parameters that are sent to individual endpoints can be specified in batch calls
             // and will be applied to each supporting endpoint.
             // For example, param below applies to news (only last 10 will be fetched).
@@ -863,7 +868,7 @@ object IexApi {
             addQueryParameter("types", types.joinToString(",") { it.value })
             if (BatchType.CHART in types) {
                 // used to specify a chart range if 'chart' is used in 'types' parameter
-                addQueryParameter("range", range.value)
+                addQueryParameter("range", range.value.code)
             }
             addQueryParameter("last", "5")
         }.build().toString()

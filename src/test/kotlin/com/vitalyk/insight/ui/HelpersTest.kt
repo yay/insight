@@ -22,7 +22,7 @@ internal class HelpersTest {
         val changeOverTime: Double
     )
 
-    val testClassString = """
+    val testBean = """
     open class TestClassBean(
         change: Double,
         changeOverTime: Double,
@@ -75,8 +75,33 @@ internal class HelpersTest {
     }
     """.trimIndent()
 
+    val instanceToBean =
+    """
+    fun TestClass.toTestClassBean() =
+        TestClassBean().let {
+            it.change = this.change
+            it.changeOverTime = this.changeOverTime
+            it.changePercent = this.changePercent
+            it.close = this.close
+            it.date = this.date
+            it.high = this.high
+            it.label = this.label
+            it.low = this.low
+            it.open = this.open
+            it.unadjustedVolume = this.unadjustedVolume
+            it.volume = this.volume
+            it.vwap = this.vwap
+            it
+        }
+    """.trimIndent()
+
     @Test
     fun getFxBeanDefinition() {
-        assertEquals(testClassString, getFxBeanDefinition(TestClass::class))
+        assertEquals(testBean, getFxBeanDefinition(TestClass::class))
+    }
+
+    @Test
+    fun getBeanMaker() {
+        assertEquals(instanceToBean, toBeanMaker(TestClass::class))
     }
 }

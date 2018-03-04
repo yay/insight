@@ -3,12 +3,12 @@ package com.vitalyk.insight.view
 import com.vitalyk.insight.iex.DayChartPointBean
 import com.vitalyk.insight.iex.IexApi
 import com.vitalyk.insight.iex.toDayChartPointBean
-import com.vitalyk.insight.main.*
+import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
-import javafx.collections.FXCollections
 import javafx.event.EventHandler
 import javafx.geometry.Insets
 import javafx.geometry.Pos
+import javafx.scene.control.ComboBox
 import javafx.scene.control.TabPane
 import javafx.scene.control.TableView
 import javafx.scene.input.KeyCode
@@ -19,9 +19,9 @@ import java.time.LocalDate
 
 class SymbolTableView : View("Security Data") {
 
-    lateinit var symbolTable: TableView<StockSymbol>
-    lateinit var iexSymbolTable: TableView<DayChartPointBean>
+    lateinit var symbolTable: TableView<DayChartPointBean>
 
+    lateinit var timeRangeCombo: ComboBox<IexApi.Range>
     var symbol = SimpleStringProperty("AAPL")
     val startDate = datepicker {
         value = LocalDate.now().minusYears(1)
@@ -29,8 +29,6 @@ class SymbolTableView : View("Security Data") {
     val endDate = datepicker {
         value = LocalDate.now()
     }
-    val period = SimpleStringProperty("Week")
-    val periodValues = DataFrequency.values().map { it -> it.toString().toLowerCase().capitalize() }
     var symbolData = SimpleStringProperty("")
     var symbolSummary = SimpleStringProperty("")
 
@@ -50,78 +48,28 @@ class SymbolTableView : View("Security Data") {
                 }
                 onKeyReleased = EventHandler { key ->
                     if (key.code == KeyCode.ENTER) {
-                            val frequency = DataFrequency.valueOf(period.value.toUpperCase())
-                            val dataRequest = YahooData(symbol.value, frequency)
-//                            var summaryRequest = YahooSummary(symbol.value, HttpClients.yahoo)
-
-                            runAsyncWithProgress {
-
-//                                fetchDailyData(symbol.value, 50)
-
-//                                println(data)
-//                                dataRequest
-//                                        .startDate(startDate.value)
-//                                        .endDate(endDate.value)
-//                                        .execute()
-//                                        .parse()
-
-//                                summaryRequest
-//                                        .execute()
-//                                        .parse()
-
-                                IexApi.getDayChart("AAPL").map { point -> point.toDayChartPointBean() }
-                            } ui { items ->
-                                iexSymbolTable.items = items.observable()
-//                                symbolTable.items = data.parseYahooCSV().toStockList().observable()
-//                                symbolData.value = data
-
-//                                symbolData.value = dataRequest.data()
-//                                symbolTable.items = dataRequest.list().observable()
-//                                symbolSummary.value = summaryRequest.prettyData()
-                            }
+                        val range = timeRangeCombo.selectedItem ?: IexApi.Range.Y
+                        runAsyncWithProgress {
+                            IexApi.getDayChart(symbol.value, range).map { point -> point.toDayChartPointBean() }
+                        } ui { items ->
+                            symbolTable.items = items.observable()
+                            symbolData.value = items.toString()
+                        }
                     }
                 }
             }
 
             label("Period:")
-            combobox(period, FXCollections.observableArrayList(periodValues))
-
-//                button {
-//
-//                    text = "Fetch Data"
-//
-//                    setOnAction {
-//                        isDisable = true
-//                        runAsyncWithProgress {
-//                            controller.fetchData(root, symbol.value)
-//                        } ui {
-//                            isDisable = false
-//                        }
-//                    }
-//                }
-//
-//                button {
-//                    text = "Fetch Summary"
-//
-//                    setOnAction {
-//                        isDisable = true
-//                        runAsyncWithProgress {
-//                            controller.fetchSummary(root, symbol.value)
-//                        } ui {
-//                            isDisable = false
-//                        }
-//                    }
-//                }
+            timeRangeCombo = combobox(
+                SimpleObjectProperty(IexApi.Range.Y),
+                IexApi.Range.values().toList().observable()
+            ) {
+//                selectionModel.select(0)
+            }
 
             button("Chart") {
                 setOnAction {
-                    replaceWith(
-                        ChartView::class
-//                            ViewTransition.Slide(
-//                                    0.3.seconds,
-//                                    ViewTransition.Direction.LEFT
-//                            )
-                    )
+                    replaceWith(ChartView::class)
                 }
             }
 
@@ -152,35 +100,13 @@ class SymbolTableView : View("Security Data") {
             }
         }
 
-//            class MyFragment : Fragment() {
-//                override val root = label("This is a popup!")
-//            }
-//        button {
-//            text = "Press me"
-//            setOnAction {
-//                openInternalWindow(MyFragment::class)
-////                find(MyFragment::class).openModal(stageStyle = StageStyle.UTILITY)
-//            }
-//        }
         tabpane {
 
             tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
             vgrow = Priority.ALWAYS
 
             tab("Data") {
-//                symbolTable = tableview(listOf<StockSymbol>().observable()) {
-//                    column("Date", StockSymbol::dateProperty).minWidth(250)
-//                    column("Open", StockSymbol::openProperty)
-//                    column("High", StockSymbol::highProperty)
-//                    column("Low", StockSymbol::lowProperty)
-//                    column("Close", StockSymbol::closeProperty)
-//                    column("Volume", StockSymbol::volumeProperty)
-//                    column("Adj Close", StockSymbol::adjCloseProperty).minWidth(150)
-//
-//                    vgrow = Priority.ALWAYS
-////                        columnResizePolicy = SmartResize.POLICY
-//                }
-                iexSymbolTable = tableview(listOf<DayChartPointBean>().observable()) {
+                symbolTable = tableview(listOf<DayChartPointBean>().observable()) {
                     column("Date", DayChartPointBean::dateProperty)
                     column("Open", DayChartPointBean::openProperty)
                     column("High", DayChartPointBean::highProperty)

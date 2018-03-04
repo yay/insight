@@ -3,70 +3,53 @@ package com.vitalyk.insight.iex
 import tornadofx.*
 import java.util.*
 import com.vitalyk.insight.iex.IexApi.DayChartPoint
+import javafx.beans.property.SimpleDoubleProperty
+import javafx.beans.property.SimpleLongProperty
+import javafx.beans.property.SimpleObjectProperty
+import javafx.beans.property.SimpleStringProperty
+import tornadofx.getValue
+import tornadofx.setValue
 
-open class DayChartPointBean(
-    change: Double,
-    changeOverTime: Double,
-    changePercent: Double,
-    close: Double,
-    date: Date,
-    high: Double,
-    label: String,
-    low: Double,
-    open: Double,
-    unadjustedVolume: Long,
-    volume: Long,
-    vwap: Double
-) {
-    var change: Double by property(change)
-    fun changeProperty() = getProperty(DayChartPointBean::change)
-
-    var changeOverTime: Double by property(changeOverTime)
-    fun changeOverTimeProperty() = getProperty(DayChartPointBean::changeOverTime)
-
-    var changePercent: Double by property(changePercent)
-    fun changePercentProperty() = getProperty(DayChartPointBean::changePercent)
-
-    var close: Double by property(close)
-    fun closeProperty() = getProperty(DayChartPointBean::close)
-
-    var date: Date by property(date)
-    fun dateProperty() = getProperty(DayChartPointBean::date)
-
-    var high: Double by property(high)
-    fun highProperty() = getProperty(DayChartPointBean::high)
-
-    var label: String by property(label)
-    fun labelProperty() = getProperty(DayChartPointBean::label)
-
-    var low: Double by property(low)
-    fun lowProperty() = getProperty(DayChartPointBean::low)
-
-    var open: Double by property(open)
-    fun openProperty() = getProperty(DayChartPointBean::open)
-
-    var unadjustedVolume: Long by property(unadjustedVolume)
-    fun unadjustedVolumeProperty() = getProperty(DayChartPointBean::unadjustedVolume)
-
-    var volume: Long by property(volume)
-    fun volumeProperty() = getProperty(DayChartPointBean::volume)
-
-    var vwap: Double by property(vwap)
-    fun vwapProperty() = getProperty(DayChartPointBean::vwap)
+class DayChartPointBean {
+    val changeOverTimeProperty = SimpleDoubleProperty()
+    var changeOverTime by changeOverTimeProperty
+    val labelProperty = SimpleStringProperty()
+    var label by labelProperty
+    val vwapProperty = SimpleDoubleProperty()
+    var vwap by vwapProperty
+    val changePercentProperty = SimpleDoubleProperty()
+    var changePercent by changePercentProperty
+    val changeProperty = SimpleDoubleProperty()
+    var change by changeProperty
+    val unadjustedVolumeProperty = SimpleLongProperty()
+    var unadjustedVolume by unadjustedVolumeProperty
+    val volumeProperty = SimpleLongProperty()
+    var volume by volumeProperty
+    val closeProperty = SimpleDoubleProperty()
+    var close by closeProperty
+    val lowProperty = SimpleDoubleProperty()
+    var low by lowProperty
+    val highProperty = SimpleDoubleProperty()
+    var high by highProperty
+    val openProperty = SimpleDoubleProperty()
+    var open by openProperty
+    val dateProperty = SimpleObjectProperty<Date>()
+    var date by dateProperty
 }
 
 fun DayChartPoint.toDayChartPointBean() =
-    DayChartPointBean(
-        change = this.change,
-        changeOverTime = this.changeOverTime,
-        changePercent = this.changePercent,
-        close = this.close,
-        date = this.date,
-        high = this.high,
-        label = this.label,
-        low = this.low,
-        open = this.open,
-        unadjustedVolume = this.unadjustedVolume,
-        volume = this.volume,
-        vwap = this.vwap
-    )
+    DayChartPointBean().let {
+        it.change = this.change
+        it.changeOverTime = this.changeOverTime
+        it.changePercent = this.changePercent
+        it.close = this.close
+        it.date = this.date
+        it.high = this.high
+        it.label = this.label
+        it.low = this.low
+        it.open = this.open
+        it.unadjustedVolume = this.unadjustedVolume
+        it.volume = this.volume
+        it.vwap = this.vwap
+        it
+    }
