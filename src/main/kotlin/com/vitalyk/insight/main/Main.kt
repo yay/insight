@@ -2,16 +2,11 @@ package com.vitalyk.insight.main
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.vitalyk.insight.iex.IexApi
-import com.vitalyk.insight.ui.getFxBeanDefinition
-import com.vitalyk.insight.ui.toBeanMaker
 import com.vitalyk.insight.view.InsightApp
 import io.socket.client.IO
 import io.socket.client.Socket.EVENT_CONNECT
 import io.socket.client.Socket.EVENT_DISCONNECT
 import javafx.application.Application
-import kotlin.reflect.KClass
-import kotlin.reflect.full.declaredMemberProperties
-import kotlin.reflect.full.memberProperties
 
 fun main(args: Array<String>) {
 

@@ -2,7 +2,6 @@ package com.vitalyk.insight.view
 
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.style.Styles
-import javafx.application.Platform
 import javafx.stage.Stage
 import tornadofx.*
 

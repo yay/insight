@@ -3,8 +3,6 @@ package com.vitalyk.insight.view
 import com.vitalyk.insight.iex.DayChartPointBean
 import com.vitalyk.insight.iex.IexApi
 import com.vitalyk.insight.iex.toDayChartPointBean
-import com.vitalyk.insight.main.HttpClients
-import com.vitalyk.insight.main.getAppLogger
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.event.EventHandler
@@ -15,13 +13,7 @@ import javafx.scene.control.ComboBox
 import javafx.scene.control.TableView
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
-import kotlinx.coroutines.experimental.javafx.JavaFx
-import kotlinx.coroutines.experimental.launch
-import okhttp3.HttpUrl
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import tornadofx.*
-import java.io.IOException
 import java.time.LocalDate
 
 class SymbolTableView : View("Instrument Data") {

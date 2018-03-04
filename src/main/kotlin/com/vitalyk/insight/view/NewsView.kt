@@ -1,18 +1,16 @@
 package com.vitalyk.insight.view
 
+import com.vitalyk.insight.yahoo.NewsItem
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
 import javafx.event.EventHandler
 import javafx.geometry.Insets
 import javafx.geometry.Pos
-import javafx.scene.control.Alert
 import javafx.scene.control.ListView
 import javafx.scene.control.Tab
 import javafx.scene.control.TabPane
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
-import javafx.scene.text.Font
-import com.vitalyk.insight.yahoo.NewsItem
 import org.jsoup.Jsoup
 import tornadofx.*
 import java.awt.Desktop
