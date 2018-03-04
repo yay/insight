@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.event.EventHandler
 import javafx.geometry.Insets
 import javafx.geometry.Pos
+import javafx.scene.Node
 import javafx.scene.control.ComboBox
 import javafx.scene.control.TableView
 import javafx.scene.input.KeyCode
@@ -18,15 +19,26 @@ import java.time.LocalDate
 class SymbolTableView : View("Instrument Data") {
 
     lateinit var symbolTable: TableView<DayChartPointBean>
+    lateinit var rangeCombo: ComboBox<IexApi.Range>
 
-    lateinit var timeRangeCombo: ComboBox<IexApi.Range>
     var symbol = SimpleStringProperty("AAPL")
+    var range = SimpleObjectProperty(IexApi.Range.Y)
 
     val startDate = datepicker {
         value = LocalDate.now().minusYears(1)
     }
     val endDate = datepicker {
         value = LocalDate.now()
+    }
+
+    fun Node.updateSymbolTable() {
+        runAsyncWithProgress {
+            IexApi.getDayChart(symbol.value, range.value)?.map { point ->
+                point.toDayChartPointBean()
+            } ?: emptyList()
+        } ui { items ->
+            symbolTable.items = items.observable()
+        }
     }
 
     override val root = vbox {
@@ -42,23 +54,17 @@ class SymbolTableView : View("Instrument Data") {
                 }
                 onKeyReleased = EventHandler { key ->
                     if (key.code == KeyCode.ENTER) {
-                        val range = timeRangeCombo.selectedItem ?: IexApi.Range.Y
-                        runAsyncWithProgress {
-                            IexApi.getDayChart(symbol.value, range)?.map { point ->
-                                point.toDayChartPointBean()
-                            } ?: emptyList()
-                        } ui { items ->
-                            symbolTable.items = items.observable()
-                        }
+                        updateSymbolTable()
                     }
                 }
             }
 
             label("Period:")
-            timeRangeCombo = combobox(
-                SimpleObjectProperty(IexApi.Range.Y),
-                IexApi.Range.values().toList().observable()
-            )
+            rangeCombo = combobox(range, IexApi.Range.values().toList().observable()) {
+                setOnAction {
+                    updateSymbolTable()
+                }
+            }
 
             button("Chart") {
                 setOnAction {

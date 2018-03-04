@@ -73,9 +73,6 @@ class NewsView : View() {
 
                             label("Symbol:")
                             textfield(symbol) {
-                                tooltip("Fetches symbol data and summary") {
-                                    font = Font.font("Verdana")
-                                }
                                 textProperty().onChange { value ->
                                     this.text = value?.toUpperCase()
                                 }
