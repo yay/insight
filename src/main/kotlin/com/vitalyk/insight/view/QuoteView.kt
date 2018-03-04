@@ -27,6 +27,12 @@ class QuoteView : View("Quotes") {
         quoteLists.forEach { it -> it.stopUpdating() }
     }
 
+//    override fun onDelete() {
+//        super.onDelete()
+//
+//        quoteLists.forEach { it -> it.stopUpdating() }
+//    }
+
     override val root = vbox {
         hbox {
             spacing = 10.0

@@ -27,25 +27,6 @@ fun main(args: Array<String>) {
 //    scheduleEndOfDayFetcher(appScheduler)
 
     Application.launch(InsightApp::class.java, *args)
-
-//    val indent = " ".repeat(4)
-//    val klass = IexApi.DayChartPoint::class
-//    val kclassProps = klass.declaredMemberProperties
-//    val beanConstructor = kclassProps.map { prop ->
-//        "$indent ${prop.name}: ${prop.returnType.toString().split(".")[1]}"
-//    }
-//    val beanProps = kclassProps.map { prop ->
-//        "$indent var ${prop.name}: ${prop.returnType.toString().split(".")[1]}\n" +
-//        "$indent fun ${prop.name}Property() = getProperty(${klass.simpleName}::${prop.name})\n"
-//    }
-//    val result = "open class ${klass.simpleName}(\n" +
-//        beanConstructor.joinToString("\n") + "\n) {\n" +
-//        beanProps.joinToString("\n") + "}"
-//
-//    println(result)
-
-//    println(dataClassToTableView(IexApi.DayChartPoint::class))
-
 }
 
 fun getTops() {
