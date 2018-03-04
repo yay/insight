@@ -26,12 +26,12 @@ class SymbolTableController : Controller() {
             .execute()
             .parse()
 
-        val points = IexApi.getDayChart("AAPL").map { point ->
-            point.toDayChartPointBean()
+        IexApi.getDayChart("AAPL")?.let {
+            val points = it.map { point ->
+                point.toDayChartPointBean()
+            }
+            view.symbolTable.items = points.observable()
         }
-
-//        view.symbolData.value = request.data()
-        view.symbolTable.items = points.observable()
     }
 
     fun fetchSummary(node: Node, symbol: String) {

@@ -15,7 +15,7 @@ import javafx.scene.layout.Priority
 import tornadofx.*
 import java.time.LocalDate
 
-class SymbolTableView : View("Security Data") {
+class SymbolTableView : View("Instrument Data") {
 
     lateinit var symbolTable: TableView<DayChartPointBean>
 
@@ -44,7 +44,9 @@ class SymbolTableView : View("Security Data") {
                     if (key.code == KeyCode.ENTER) {
                         val range = timeRangeCombo.selectedItem ?: IexApi.Range.Y
                         runAsyncWithProgress {
-                            IexApi.getDayChart(symbol.value, range).map { point -> point.toDayChartPointBean() }
+                            IexApi.getDayChart(symbol.value, range)?.map { point ->
+                                point.toDayChartPointBean()
+                            } ?: emptyList()
                         } ui { items ->
                             symbolTable.items = items.observable()
                         }

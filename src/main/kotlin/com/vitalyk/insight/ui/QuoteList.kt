@@ -14,7 +14,7 @@ import kotlinx.coroutines.experimental.javafx.JavaFx
 import kotlinx.coroutines.experimental.launch
 import tornadofx.*
 
-class QuoteList(title: String, private val getQuotes: () -> List<Quote>) : Fragment(title) {
+class QuoteList(title: String, private val getQuotes: () -> List<Quote>?) : Fragment(title) {
     private var updateJob: Job? = null
 
     val titleLabel = label(title) {
@@ -95,10 +95,12 @@ class QuoteList(title: String, private val getQuotes: () -> List<Quote>) : Fragm
         this += listView
     }
 
-    fun updateQuotes(quotes: List<Quote>) {
+    fun updateQuotes(quotes: List<Quote>?) {
         val selectedSymbol = listView.selectedItem?.symbol
 
-        listView.items.setAll(quotes)
+        quotes?.let {
+            listView.items.setAll(it)
+        }
 
         selectedSymbol?.let {
             val index = listView.items.indexOfFirst { item ->
