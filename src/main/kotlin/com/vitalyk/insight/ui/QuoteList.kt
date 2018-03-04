@@ -95,10 +95,6 @@ class QuoteList(title: String, private val getQuotes: () -> List<Quote>) : Fragm
         this += listView
     }
 
-    init {
-        startUpdating()
-    }
-
     fun updateQuotes(quotes: List<Quote>) {
         val selectedSymbol = listView.selectedItem?.symbol
 

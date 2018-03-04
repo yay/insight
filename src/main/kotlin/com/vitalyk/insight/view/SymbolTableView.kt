@@ -12,7 +12,6 @@ import javafx.scene.control.ComboBox
 import javafx.scene.control.TableView
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
-import javafx.scene.text.Font
 import tornadofx.*
 import java.time.LocalDate
 
@@ -22,6 +21,7 @@ class SymbolTableView : View("Security Data") {
 
     lateinit var timeRangeCombo: ComboBox<IexApi.Range>
     var symbol = SimpleStringProperty("AAPL")
+
     val startDate = datepicker {
         value = LocalDate.now().minusYears(1)
     }
@@ -56,9 +56,7 @@ class SymbolTableView : View("Security Data") {
             timeRangeCombo = combobox(
                 SimpleObjectProperty(IexApi.Range.Y),
                 IexApi.Range.values().toList().observable()
-            ) {
-//                selectionModel.select(0)
-            }
+            )
 
             button("Chart") {
                 setOnAction {
@@ -71,19 +69,25 @@ class SymbolTableView : View("Security Data") {
                     replaceWith(NewsView::class)
                 }
             }
+
+            button("Quotes") {
+                setOnAction {
+                    replaceWith(QuoteView::class)
+                }
+            }
         }
 
-        hbox {
-            spacing = 10.0
-            padding = Insets(10.0)
-            alignment = Pos.CENTER_LEFT
-
-            label("Start date: ")
-            this += startDate
-
-            label("End date: ")
-            this += endDate
-        }
+//        hbox {
+//            spacing = 10.0
+//            padding = Insets(10.0)
+//            alignment = Pos.CENTER_LEFT
+//
+//            label("Start date: ")
+//            this += startDate
+//
+//            label("End date: ")
+//            this += endDate
+//        }
 
         symbolTable = tableview(listOf<DayChartPointBean>().observable()) {
             column("Date", DayChartPointBean::dateProperty)
