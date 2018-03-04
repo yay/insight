@@ -1,4 +1,9 @@
-package com.vitalyk.insight.main
+package com.vitalyk.insight.yahoo
+
+import com.vitalyk.insight.main.YahooGetFailure
+import com.vitalyk.insight.main.YahooGetSuccess
+import com.vitalyk.insight.main.getAppLogger
+import com.vitalyk.insight.main.yahooGet
 
 /**
  * This API has been discontinued on May 17, 2017.

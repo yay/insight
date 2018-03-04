@@ -1,10 +1,12 @@
-package com.vitalyk.insight.main
+package com.vitalyk.insight.yahoo
 
+import com.vitalyk.insight.main.*
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVRecord
+import tornadofx.*
 import java.io.StringReader
 import java.net.MalformedURLException
 import java.text.ParseException
@@ -12,6 +14,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
+import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 
@@ -21,6 +24,39 @@ data class YFinanceAuth(
     val cookie: String,
     val crumb: String
 )
+
+data class OHLC(
+    val time: Long, // UTC timestamp
+    val open: Double,
+    var high: Double,
+    var low: Double,
+    var close: Double,
+    var adjClose: Double,
+    var volume: Long
+)
+
+open class StockSymbol(date: Date, open: Float, high: Float, low: Float, close: Float, volume: Int, adjClose: Float) {
+    var date: Date by property(date)
+    fun dateProperty() = getProperty(StockSymbol::date)
+
+    var open: Float by property(open)
+    fun openProperty() = getProperty(StockSymbol::open)
+
+    var high: Float by property(high)
+    fun highProperty() = getProperty(StockSymbol::high)
+
+    var low: Float by property(low)
+    fun lowProperty() = getProperty(StockSymbol::low)
+
+    var close: Float by property(close)
+    fun closeProperty() = getProperty(StockSymbol::close)
+
+    var volume: Int by property(volume)
+    fun volumeProperty() = getProperty(StockSymbol::volume)
+
+    var adjClose: Float by property(adjClose)
+    fun adjCloseProperty() = getProperty(StockSymbol::adjClose)
+}
 
 fun getYFinanceAuth(symbol: String = "AAPL"): YFinanceAuth? {
     val url = "https://uk.finance.yahoo.com/quote/$symbol/history"
@@ -71,7 +107,7 @@ fun fetchDailyData(symbol: String, years: Long = 1): String {
         "&interval=1d" + // [1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo]
         "&events=history" +
         "&crumb=$crumb"  // required along with a cookie, changes with every login to Yahoo Finance
-    val url = "$financeDownloadUrl$symbol$params"
+    val url = "${financeDownloadUrl}$symbol$params"
 
     val result = yahooGet(url)
     when (result) {

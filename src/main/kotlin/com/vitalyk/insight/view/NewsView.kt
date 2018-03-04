@@ -12,7 +12,7 @@ import javafx.scene.control.TabPane
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
 import javafx.scene.text.Font
-import com.vitalyk.insight.main.NewsItem
+import com.vitalyk.insight.yahoo.NewsItem
 import org.jsoup.Jsoup
 import tornadofx.*
 import java.awt.Desktop
@@ -71,47 +71,6 @@ class NewsView : View() {
                             padding = Insets(10.0)
                             alignment = Pos.CENTER_LEFT
 
-                            button("IPO") {
-                                setOnAction {
-                                    isDisable = true
-                                    listview.items.clear()
-                                    var code: Int = 0
-                                    val list = mutableListOf<NewsItem>()
-                                    val connection = Jsoup.connect(ipoUrl).timeout(timeout)
-//                                            .followRedirects(false)
-                                    runAsyncWithProgress {
-                                        val doc = connection.get()
-                                        code = connection.data().response().statusCode()
-                                        if (code == 200) {
-                                            val listItems = doc.select(".yom-top-story .yom-list li")
-                                            for (listItem in listItems) {
-                                                val a = listItem.select("a")
-                                                val cite = a.next().text()
-                                                var href = a.attr("href")
-                                                if (href.indexOf("http") != 0) {
-                                                    href = baseUrl + href
-                                                }
-                                                val newsItem = NewsItem(
-                                                    headline = a.text(),
-                                                    url = href
-//                                                        cite = cite
-                                                )
-                                                list.add(newsItem)
-                                            }
-                                        }
-                                    } ui {
-                                        listview.items = FXCollections.observableList(list)
-                                        if (code != 200) {
-                                            // http://code.makery.ch/blog/javafx-dialogs-official/
-                                            alert(Alert.AlertType.INFORMATION, "Request error",
-                                                "Request status code: " + code)
-                                        }
-                                        isDisable = false
-                                    }
-
-                                }
-                            }
-
                             label("Symbol:")
                             textfield(symbol) {
                                 tooltip("Fetches symbol data and summary") {
@@ -124,7 +83,7 @@ class NewsView : View() {
                                     if (key.code == KeyCode.ENTER) {
 
                                         listview.items.clear()
-                                        var code: Int = 0
+                                        var code = 0
                                         val list = mutableListOf<NewsItem>()
                                         val url = companyUrl + symbol.value
                                         val connection = Jsoup.connect(url).timeout(timeout)

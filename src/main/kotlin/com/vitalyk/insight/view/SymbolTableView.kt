@@ -9,7 +9,6 @@ import javafx.event.EventHandler
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.control.ComboBox
-import javafx.scene.control.TabPane
 import javafx.scene.control.TableView
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
@@ -29,8 +28,6 @@ class SymbolTableView : View("Security Data") {
     val endDate = datepicker {
         value = LocalDate.now()
     }
-    var symbolData = SimpleStringProperty("")
-    var symbolSummary = SimpleStringProperty("")
 
     override val root = vbox {
         hbox {
@@ -40,9 +37,6 @@ class SymbolTableView : View("Security Data") {
 
             label("Symbol:")
             textfield(symbol) {
-                tooltip("Fetches symbol data and summary") {
-                    font = Font.font("Verdana")
-                }
                 textProperty().onChange { value ->
                     this.text = value?.toUpperCase()
                 }
@@ -53,7 +47,6 @@ class SymbolTableView : View("Security Data") {
                             IexApi.getDayChart(symbol.value, range).map { point -> point.toDayChartPointBean() }
                         } ui { items ->
                             symbolTable.items = items.observable()
-                            symbolData.value = items.toString()
                         }
                     }
                 }
@@ -73,7 +66,7 @@ class SymbolTableView : View("Security Data") {
                 }
             }
 
-            button("yahoo.News") {
+            button("News") {
                 setOnAction {
                     replaceWith(NewsView::class)
                 }
@@ -90,49 +83,23 @@ class SymbolTableView : View("Security Data") {
 
             label("End date: ")
             this += endDate
-
-            button("Data Fetcher") {
-                setOnAction {
-                    replaceWith(DataFetcherView::class)
-//                        var hs = HostServices(insight.yahoo.InsightApp::class.objectInstance)
-//                        getHostServices().showDocument("http://www.yahoo.com");
-                }
-            }
         }
 
-        tabpane {
+        symbolTable = tableview(listOf<DayChartPointBean>().observable()) {
+            column("Date", DayChartPointBean::dateProperty)
+            column("Open", DayChartPointBean::openProperty)
+            column("High", DayChartPointBean::highProperty)
+            column("Low", DayChartPointBean::lowProperty)
+            column("Close", DayChartPointBean::closeProperty)
+            column("Volume", DayChartPointBean::volumeProperty)
+            column("Change", DayChartPointBean::changeProperty)
+            column("ChangePercent", DayChartPointBean::changePercentProperty)
+            column("ChangeOverTime", DayChartPointBean::changeOverTimeProperty)
+            column("Label", DayChartPointBean::labelProperty)
 
-            tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
             vgrow = Priority.ALWAYS
-
-            tab("Data") {
-                symbolTable = tableview(listOf<DayChartPointBean>().observable()) {
-                    column("Date", DayChartPointBean::dateProperty)
-                    column("Open", DayChartPointBean::openProperty)
-                    column("High", DayChartPointBean::highProperty)
-                    column("Low", DayChartPointBean::lowProperty)
-                    column("Close", DayChartPointBean::closeProperty)
-                    column("Volume", DayChartPointBean::volumeProperty)
-                    column("Change", DayChartPointBean::changeProperty)
-                    column("ChangePercent", DayChartPointBean::changePercentProperty)
-                    column("ChangeOverTime", DayChartPointBean::changeOverTimeProperty)
-                    column("Label", DayChartPointBean::labelProperty)
-                }
-            }
-
-            tab("Raw Data") {
-                textarea(symbolData) {
-                    vgrow = Priority.ALWAYS
-                }
-            }
-
-            tab("Raw Summary") {
-                textarea(symbolSummary) {
-                    vgrow = Priority.ALWAYS
-                }
-            }
-
         }
+        this += symbolTable
     }
 
     init {

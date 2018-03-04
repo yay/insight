@@ -5,8 +5,8 @@ import com.vitalyk.insight.iex.toDayChartPointBean
 import javafx.scene.Node
 import javafx.scene.control.ComboBox
 import javafx.scene.control.DatePicker
-import com.vitalyk.insight.main.DataFrequency
-import com.vitalyk.insight.main.YahooData
+import com.vitalyk.insight.yahoo.DataFrequency
+import com.vitalyk.insight.yahoo.YahooData
 import com.vitalyk.insight.view.SymbolTableView
 import tornadofx.*
 

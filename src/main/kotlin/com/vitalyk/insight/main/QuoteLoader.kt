@@ -1,5 +1,6 @@
 package com.vitalyk.insight.main
 
+import com.vitalyk.insight.yahoo.YahooDataColumns
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.async
 import org.apache.commons.csv.CSVFormat

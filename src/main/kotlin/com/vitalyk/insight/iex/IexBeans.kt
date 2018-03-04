@@ -1,14 +1,12 @@
 package com.vitalyk.insight.iex
 
-import tornadofx.*
-import java.util.*
 import com.vitalyk.insight.iex.IexApi.DayChartPoint
 import javafx.beans.property.SimpleDoubleProperty
 import javafx.beans.property.SimpleLongProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
-import tornadofx.getValue
-import tornadofx.setValue
+import tornadofx.*
+import java.util.*
 
 class DayChartPointBean {
     val changeOverTimeProperty = SimpleDoubleProperty()

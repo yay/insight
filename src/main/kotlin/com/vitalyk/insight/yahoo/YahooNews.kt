@@ -1,4 +1,4 @@
-package com.vitalyk.insight.main
+package com.vitalyk.insight.yahoo
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.jsoup.Jsoup
