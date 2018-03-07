@@ -14,6 +14,7 @@ class InsightApp : App(SymbolTableView::class, Styles::class) {
             // The app will keep running unless the executor service is shut down
             // and connection pool is cleared.
             // See: https://square.github.io/okhttp/3.x/okhttp/okhttp3/OkHttpClient.html
+            // and PlatformImpl.exit() docs.
             HttpClients.main.dispatcher().executorService().shutdown()
             HttpClients.main.connectionPool().evictAll()
         }

@@ -175,7 +175,7 @@ internal class IexApiTest {
 
     @Test
     fun getDepth() {
-        if (IexApi.isWeekend()) return
+        if (!IexApi.isMarketHours()) return
 
         val depth = IexApi.getDepth(symbol3)
     }

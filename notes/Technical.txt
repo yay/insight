@@ -5,3 +5,13 @@ https://github.com/Kotlin/kotlinx.coroutines
 A test of JSON parsers (gson 2.8.0, jackson 2.0.1, moshi 1.4.0, ason 1.1.0)
 showed that Jackson is fastest, triggers GC least, most customizable:
 https://medium.com/@IlyaEremin/android-json-parsers-comparison-2017-8b5221721e31
+
+Parallel test execution.
+See: https://github.com/junit-team/junit5/issues/964
+Add to build.gradle:
+test {
+    setMaxParallelForks(8)
+}
+
+Gradle wrapper:
+https://github.com/gradle/gradle/issues/4503

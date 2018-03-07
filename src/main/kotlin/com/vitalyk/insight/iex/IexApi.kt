@@ -20,6 +20,7 @@ import okhttp3.Request
 import java.io.IOException
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -44,6 +45,12 @@ object IexApi {
     fun isWeekend(): Boolean {
         val day = LocalDate.now(ZoneId.of("America/New_York")).dayOfWeek
         return day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY
+    }
+
+    fun isMarketHours(): Boolean {
+        val datetime = LocalDateTime.now(ZoneId.of("America/New_York"))
+        val day = datetime.dayOfWeek
+        return day != DayOfWeek.SATURDAY && day != DayOfWeek.SUNDAY && datetime.hour in 8..18
     }
 
     // Mapper instances are fully thread-safe provided that ALL configuration of the
