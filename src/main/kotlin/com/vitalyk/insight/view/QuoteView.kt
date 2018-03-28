@@ -1,7 +1,7 @@
 package com.vitalyk.insight.view
 
 import com.vitalyk.insight.iex.IexApi
-import com.vitalyk.insight.ui.QuoteList
+import com.vitalyk.insight.ui.PollingQuoteList
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.layout.Priority
@@ -10,9 +10,9 @@ import kotlinx.coroutines.experimental.javafx.JavaFx as UI
 
 class QuoteView : View("Quotes") {
     val quoteLists = listOf(
-        QuoteList("Most active", IexApi::getMostActive),
-        QuoteList("Gainers", IexApi::getGainers),
-        QuoteList("Losers", IexApi::getLosers)
+        PollingQuoteList("Most active", IexApi::getMostActive),
+        PollingQuoteList("Gainers", IexApi::getGainers),
+        PollingQuoteList("Losers", IexApi::getLosers)
     )
 
     override fun onDock() {

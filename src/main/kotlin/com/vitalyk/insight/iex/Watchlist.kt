@@ -1,0 +1,131 @@
+package com.vitalyk.insight.iex
+
+import io.socket.client.IO
+import io.socket.client.Socket
+import javafx.collections.FXCollections
+import javafx.collections.MapChangeListener
+import java.util.*
+import com.vitalyk.insight.iex.IexApi.Tops as Tops
+
+abstract class Alert<T> {
+    var isActive = true
+    abstract fun isTriggered(value: T): Boolean
+}
+
+class TopsAlert : Alert<Tops>() {
+
+    override fun isTriggered(value: Tops): Boolean {
+        return true
+    }
+}
+
+class Watchlist {
+
+    companion object {
+        val watchlists = Collections.newSetFromMap( WeakHashMap<Watchlist, Boolean>() )
+
+        private fun generateName(watchlist: Watchlist): String {
+            // There is a tiny chance that the user will set the name of one of the existing
+            // watchlists to the name we generate here for a new watchlist.
+            // So, if only in theory, the constructor might throw.
+            val name = "Watchlist ${watchlist.hashCode()}"
+            register(watchlist, name)
+            return name
+        }
+
+        private fun register(watchlist: Watchlist, name: String) {
+            watchlists.find { it.name == name }?.let {
+                throw IllegalArgumentException("A watchlist with this name already exists.")
+            }
+            watchlists.add(watchlist)
+        }
+    }
+
+    private val map = FXCollections.observableHashMap<String, Tops>()
+    val socket = IO.socket("https://ws-api.iextrading.com/1.0/tops")
+
+    var name: String = generateName(this)
+        @Throws(IllegalArgumentException::class)
+        set(value) { // Note: the setter is not triggered by the default (generated) value
+            if (name == value) return
+            register(this, value)
+            field = value
+        }
+
+    // This read-only property won't show the added symbols immediately,
+    // only after they've been successfully fetched.
+    val symbols: List<String>
+        get() = map.keys.toList()
+
+    constructor(symbols: List<String>) {
+        add(symbols)
+    }
+
+    constructor(vararg symbols: String) {
+        add(symbols.toList())
+    }
+
+    fun addListener(listener: MapChangeListener<String, Tops>) {
+        map.addListener(listener)
+    }
+
+    fun removeListener(listener: MapChangeListener<String, Tops>) {
+        map.removeListener(listener)
+    }
+
+    init {
+//        map.keys.remove("BAC")
+//        map.addListener(MapChangeListener { change ->
+//            println("added: ${change.valueAdded}")
+//            println("removed: ${change.valueRemoved}")
+//        })
+
+        socket
+            .on("message") { params ->
+                val tops = IexApi.parseTops(params.first() as String)
+                map[tops.symbol] = tops
+
+                println(tops)
+            }
+            .on(Socket.EVENT_DISCONNECT) {
+                println("Watchlist disconnected.")
+            }
+    }
+
+    operator fun contains(key: String) = key in map
+    operator fun get(key: String) = map[key]
+
+    fun add(symbols: List<String>) {
+        val new = symbols.filter { it !in map }
+        if (new.isEmpty()) return
+
+        println("Adding $new")
+
+        socket.connect()
+        socket.emit("subscribe", new.joinToString(","))
+    }
+
+    fun add(vararg symbols: String) {
+        add(symbols.toList())
+    }
+
+    fun remove(symbols: List<String>) {
+        val old = symbols.filter { it in map }
+        old.forEach { map.remove(it) }
+
+        if (map.keys.isEmpty()) {
+            // If no threads are running, this will result in program exit.
+            socket.disconnect()
+        }
+        socket.emit("unsubscribe", old.joinToString(","))
+    }
+
+    fun remove(vararg symbols: String) {
+        remove(symbols.toList())
+    }
+
+    fun clear() {
+        map.clear()
+        socket.disconnect()
+    }
+}

@@ -2,7 +2,7 @@ package com.vitalyk.insight.view
 
 import com.vitalyk.insight.iex.DayChartPointBean
 import com.vitalyk.insight.iex.IexApi
-import com.vitalyk.insight.iex.toDayChartPointBean
+import com.vitalyk.insight.iex.toBean
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.event.EventHandler
@@ -34,7 +34,7 @@ class SymbolTableView : View("Instrument Data") {
     private fun Node.updateSymbolTable() {
         runAsyncWithProgress {
             IexApi.getDayChart(symbol.value, range.value)?.map { point ->
-                point.toDayChartPointBean()
+                point.toBean()
             } ?: emptyList()
         } ui { items ->
             symbolTable.items = items.observable()

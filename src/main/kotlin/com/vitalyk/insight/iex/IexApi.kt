@@ -314,7 +314,9 @@ object IexApi {
         val opHaltStatus: OpHaltStatus,
         val ssrStatus: SsrStatus,
         val securityEvent: SecurityEventData,
+        // https://iextrading.com/developer/docs/#trades
         val trades: List<Trade>,
+        // https://iextrading.com/developer/docs/#trade-break
         val tradeBreaks: List<Trade>,
         @JsonIgnore
         val auction: Auction? = null,     // only for IEX listed securities
@@ -539,6 +541,21 @@ object IexApi {
         val time: Date
     )
 
+    // https://iextrading.com/developer/docs/#previous
+    data class PreviousDay(
+        val symbol: String,
+        val date: Date,
+        val open: Double,
+        val high: Double,
+        val low: Double,
+        val close: Double,
+        val volume: Long,
+        val unadjustedVolume: Long,
+        val change: Double,
+        val changePercent: Double,
+        val vwap: Double
+    )
+
     // https://www.investopedia.com/terms/v/vwap.asp
     data class DayChartPoint(
         val date: Date,
@@ -730,6 +747,16 @@ object IexApi {
         }
     }
 
+    fun getQuote(symbol: String): Quote? {
+        val url = "${baseUrl}/stock/$symbol/quote"
+        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
+        val requestUrl = httpUrl.newBuilder().build().toString()
+
+        return getResponse(requestUrl)?.let {
+            mapper.readValue(it, Quote::class.java)
+        }
+    }
+
     // Generic method for fetching gainers, losers, etc.
     private fun getQuotes(path: String): List<Quote>? {
         val url = "${baseUrl}$path"
@@ -746,6 +773,16 @@ object IexApi {
     fun getLosers() = getQuotes("/stock/market/list/losers")
     fun getIexVolume() = getQuotes("/stock/market/list/iexvolume")
     fun getIexPercent() = getQuotes("/stock/market/list/iexpercent")
+
+    fun getPreviousDay(symbol: String): PreviousDay? {
+        val url = "${baseUrl}/stock/$symbol/previous"
+        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
+        val requestUrl = httpUrl.newBuilder().build().toString()
+
+        return getResponse(requestUrl)?.let {
+            mapper.readValue(it, PreviousDay::class.java)
+        }
+    }
 
     // https://iextrading.com/developer/docs/#chart
     // For example: IexApi.getDayChart("AAPL").joinToString("\n")

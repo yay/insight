@@ -10,6 +10,9 @@ import javafx.scene.paint.Color
 import javafx.scene.shape.Circle
 import javafx.scene.shape.Path
 import javafx.util.Duration
+import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.experimental.javafx.JavaFx
+import kotlinx.coroutines.experimental.launch
 import tornadofx.*
 
 class CircleAddButton(tooltip: String? = null) : StackPane() {
@@ -69,14 +72,12 @@ class CircleAddButton(tooltip: String? = null) : StackPane() {
 
 class TestView : View("Test View") {
     override val root = CircleAddButton("Add Contact").apply {
-        circle.apply {
-            setOnMouseClicked {
-                alert(Alert.AlertType.INFORMATION, "Click", "You just clicked me!")
-            }
+        circle.setOnMouseClicked {
+            alert(Alert.AlertType.INFORMATION, "Click", "You just clicked me!")
         }
-//        launch(JavaFx) {
-//            delay(5000)
-//            circle.radiusProperty().animate(40.0, Duration(1000.0))
-//        }
+        launch(JavaFx) {
+            delay(5000)
+            circle.radiusProperty().animate(200.0, Duration(1000.0))
+        }
     }
 }

@@ -35,7 +35,7 @@ class DayChartPointBean {
     var date by dateProperty
 }
 
-fun DayChartPoint.toDayChartPointBean() =
+fun DayChartPoint.toBean() =
     DayChartPointBean().let {
         it.change = this.change
         it.changeOverTime = this.changeOverTime

@@ -3,12 +3,11 @@ package com.vitalyk.insight.ui
 import com.vitalyk.insight.iex.IexApi
 import javafx.application.Application
 import javafx.application.Platform
-import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import org.junit.jupiter.api.Test
 import tornadofx.*
 
-internal class QuoteListTest {
+internal class PollingQuoteListTest {
 
     @Test
     fun testLook() {
@@ -64,7 +63,7 @@ internal class QuoteListTest {
                 testQuote.copy(change = -1.0, changePercent = -0.01, latestPrice = 99.0)
             )
 
-            val quoteList = QuoteList("Most active") { testQuotes }
+            val quoteList = PollingQuoteList("Most active") { testQuotes }
 
             val hbox = hbox {
                 this += quoteList // += adds the quoteList.root

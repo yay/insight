@@ -1,7 +1,7 @@
 package com.vitalyk.insight.controller
 
 import com.vitalyk.insight.iex.IexApi
-import com.vitalyk.insight.iex.toDayChartPointBean
+import com.vitalyk.insight.iex.toBean
 import javafx.scene.Node
 import javafx.scene.control.ComboBox
 import javafx.scene.control.DatePicker
@@ -28,7 +28,7 @@ class SymbolTableController : Controller() {
 
         IexApi.getDayChart("AAPL")?.let {
             val points = it.map { point ->
-                point.toDayChartPointBean()
+                point.toBean()
             }
             view.symbolTable.items = points.observable()
         }

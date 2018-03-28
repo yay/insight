@@ -36,7 +36,7 @@ fun getFxBeanTableView(klass: KClass<*>): String {
 fun toBeanMaker(klass: KClass<*>): String {
     val indent = " ".repeat(4)
 
-    return "fun ${klass.simpleName}.to${klass.simpleName}Bean() =\n" +
+    return "fun ${klass.simpleName}.toBean() =\n" +
         "$indent${klass.simpleName}Bean().let {\n" +
         klass.declaredMemberProperties.map { prop ->
             "$indent${indent}it.${prop.name} = this.${prop.name}"
