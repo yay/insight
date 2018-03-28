@@ -5,7 +5,7 @@ import com.vitalyk.insight.style.Styles
 import javafx.stage.Stage
 import tornadofx.*
 
-class InsightApp : App(WatchlistView::class, Styles::class) {
+class InsightApp : App(BigPictureView::class, Styles::class) {
     override fun start(stage: Stage) {
         super.start(stage)
 

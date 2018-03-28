@@ -60,7 +60,6 @@ jar {
 }
 
 junitPlatform {
-    // platformVersion '1.0.2' // optional, defaults to plugin version
     logManager 'org.apache.logging.log4j.jul.LogManager'
     reportsDir file('build/test-results/junit-platform') // this is the default
     // enableStandardTestTask true
@@ -94,7 +93,7 @@ dependencies {
     compile project(':kubed-demos')
 
     // Until Java 9 HTTP client: http://www.baeldung.com/java-9-http-client
-    compile 'com.squareup.okhttp3:okhttp:3.9.1'
+    compile 'com.squareup.okhttp3:okhttp:3.10.0'
     compile 'no.tornado:tornadofx:1.7.15'
     compile 'org.apache.commons:commons-csv:1.5' // CSV parser
     compile 'org.jsoup:jsoup:1.11.2' // HTML parser
@@ -102,10 +101,12 @@ dependencies {
     compile 'org.json:json:20180130'
     compile 'io.socket:socket.io-client:1.0.0'
     // JSON and XML parsers (until http://openjdk.java.net/jeps/198 maybe)
-    compile 'com.fasterxml.jackson.core:jackson-core:2.8.9'
-    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.8.9'
-    compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.4.1'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.9'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.9.5'
+    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.5'
+    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.9.5'
+    compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.5'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.5'
+
     compile 'ch.qos.logback:logback-classic:1.2.3'
     compile 'org.quartz-scheduler:quartz:2.3.0'
     compile 'javax.mail:mail:1.4.7'

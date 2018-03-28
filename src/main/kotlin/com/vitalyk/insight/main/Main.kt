@@ -7,6 +7,7 @@ import com.vitalyk.insight.ui.getFxBeanDefinition
 import com.vitalyk.insight.ui.toBeanMaker
 import com.vitalyk.insight.iex.IexApi.Tops as Tops
 import com.vitalyk.insight.view.InsightApp
+import com.vitalyk.insight.yahoo.fetchDailyData
 import io.socket.client.IO
 import io.socket.client.Socket.EVENT_CONNECT
 import io.socket.client.Socket.EVENT_DISCONNECT
@@ -32,7 +33,7 @@ fun main(args: Array<String>) {
 //    scheduleEndOfDayFetcher(appScheduler)
 
 //    Application.launch(InsightApp::class.java, *args)
-    println(IexApi.getQuote("AAPL"))
+    fetchDailyData("^RUT")?.forEach { println(it) }
 //    println(toBeanMaker(IexApi.Tops::class))
 //    getTops()
 //    getLast()

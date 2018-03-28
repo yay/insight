@@ -1,6 +1,16 @@
 package com.vitalyk.insight.yahoo
 
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonPropertyOrder
+import com.fasterxml.jackson.databind.MappingIterator
+import com.fasterxml.jackson.dataformat.csv.CsvMapper
+import com.fasterxml.jackson.dataformat.csv.CsvSchema
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.univocity.parsers.csv.CsvParser
 import com.vitalyk.insight.main.*
+import javafx.beans.property.SimpleDoubleProperty
+import javafx.beans.property.SimpleLongProperty
+import javafx.beans.property.SimpleObjectProperty
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -33,6 +43,29 @@ data class OHLC(
     var close: Double,
     var adjClose: Double,
     var volume: Long
+)
+
+data class DayChartPoint(
+    @JsonProperty("Date")
+    val date: Date,
+
+    @JsonProperty("Open")
+    val open: Double,
+
+    @JsonProperty("High")
+    val high: Double,
+
+    @JsonProperty("Low")
+    val low: Double,
+
+    @JsonProperty("Close")
+    val close: Double,
+
+    @JsonProperty("Adj Close")
+    val adjClose: Double,
+
+    @JsonProperty("Volume")
+    val volume: Long
 )
 
 open class StockSymbol(date: Date, open: Float, high: Float, low: Float, close: Float, volume: Int, adjClose: Float) {
@@ -93,7 +126,7 @@ fun getYFinanceAuth(symbol: String = "AAPL"): YFinanceAuth? {
     return null
 }
 
-fun fetchDailyData(symbol: String, years: Long = 1): String {
+fun fetchDailyData(symbol: String, years: Long = 1): MutableList<DayChartPoint>? {
     // See below for the 'crumb':
     // http://blog.bradlucas.com/posts/2017-06-02-new-yahoo-finance-quote-download-url/
     // https://github.com/dennislwy/YahooFinanceAPI
@@ -107,19 +140,40 @@ fun fetchDailyData(symbol: String, years: Long = 1): String {
         "&interval=1d" + // [1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo]
         "&events=history" +
         "&crumb=$crumb"  // required along with a cookie, changes with every login to Yahoo Finance
+
+    // listOf(
+    //     "period1" to "${then.toInstant().toEpochMilli() / 1000}",
+    //     "period2" to "${now.toInstant().toEpochMilli() / 1000}",
+    //     "interval" to "1d", // [1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo]
+    //     "events" to "history",
+    //     "crumb" to crumb
+    // )
     val url = "${financeDownloadUrl}$symbol$params"
 
     val result = yahooGet(url)
     when (result) {
         is YahooGetSuccess -> {
-            return result.data
+            // https://github.com/FasterXML/jackson-dataformats-text/tree/master/csv
+            val mapper = CsvMapper()
+            val schema = CsvSchema.builder()
+                .addColumn("Date")
+                .addColumn("Open")
+                .addColumn("High")
+                .addColumn("Low")
+                .addColumn("Close")
+                .addColumn("Adj Close")
+                .addColumn("Volume")
+                .build().withHeader()
+            val reader = mapper.readerFor(DayChartPoint::class.java).with(schema)
+            val it: MappingIterator<DayChartPoint> = reader.readValues(result.data)
+            return it.readAll()
         }
         is YahooGetFailure -> {
             getAppLogger().error("Code: ${result.code}, Message: ${result.message}\n$url")
         }
     }
 
-    return ""
+    return null
 }
 
 fun String.parseYahooCSV(): Iterable<CSVRecord> =

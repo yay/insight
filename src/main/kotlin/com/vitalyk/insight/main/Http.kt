@@ -1,5 +1,7 @@
 package com.vitalyk.insight.main
 
+import com.fasterxml.jackson.dataformat.csv.CsvMapper
+import com.vitalyk.insight.yahoo.DayChartPointBean
 import okhttp3.*
 import java.io.IOException
 import java.util.concurrent.TimeUnit
