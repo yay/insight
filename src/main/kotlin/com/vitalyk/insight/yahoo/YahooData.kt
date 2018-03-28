@@ -1,16 +1,11 @@
 package com.vitalyk.insight.yahoo
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.annotation.JsonPropertyOrder
-import com.fasterxml.jackson.databind.MappingIterator
 import com.fasterxml.jackson.dataformat.csv.CsvMapper
 import com.fasterxml.jackson.dataformat.csv.CsvSchema
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.univocity.parsers.csv.CsvParser
-import com.vitalyk.insight.main.*
-import javafx.beans.property.SimpleDoubleProperty
-import javafx.beans.property.SimpleLongProperty
-import javafx.beans.property.SimpleObjectProperty
+import com.vitalyk.insight.main.HttpClients
+import com.vitalyk.insight.main.UserAgents
+import com.vitalyk.insight.main.yahooFetch
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -134,46 +129,33 @@ fun fetchDailyData(symbol: String, years: Long = 1): MutableList<DayChartPoint>?
     val now = ZonedDateTime.now(ZoneId.of("America/New_York"))
     val then = now.minusYears(years)
     val crumb = "vjMESKwkGZA"
-    val params =
-        "?period1=${then.toInstant().toEpochMilli() / 1000}" +
-        "&period2=${now.toInstant().toEpochMilli() / 1000}" +
-        "&interval=1d" + // [1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo]
-        "&events=history" +
-        "&crumb=$crumb"  // required along with a cookie, changes with every login to Yahoo Finance
+    val url = "${financeDownloadUrl}$symbol"
 
-    // listOf(
-    //     "period1" to "${then.toInstant().toEpochMilli() / 1000}",
-    //     "period2" to "${now.toInstant().toEpochMilli() / 1000}",
-    //     "interval" to "1d", // [1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo]
-    //     "events" to "history",
-    //     "crumb" to crumb
-    // )
-    val url = "${financeDownloadUrl}$symbol$params"
+    val response = yahooFetch(url, listOf(
+        "period1" to "${then.toInstant().toEpochMilli() / 1000}",
+        "period2" to "${now.toInstant().toEpochMilli() / 1000}",
+        "interval" to "1d", // [1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo]
+        "events" to "history",
+        "crumb" to crumb // required along with a cookie, changes with every login to Yahoo Finance
+    ))
 
-    val result = yahooGet(url)
-    when (result) {
-        is YahooGetSuccess -> {
-            // https://github.com/FasterXML/jackson-dataformats-text/tree/master/csv
-            val mapper = CsvMapper()
-            val schema = CsvSchema.builder()
-                .addColumn("Date")
-                .addColumn("Open")
-                .addColumn("High")
-                .addColumn("Low")
-                .addColumn("Close")
-                .addColumn("Adj Close")
-                .addColumn("Volume")
-                .build().withHeader()
-            val reader = mapper.readerFor(DayChartPoint::class.java).with(schema)
-            val it: MappingIterator<DayChartPoint> = reader.readValues(result.data)
-            return it.readAll()
-        }
-        is YahooGetFailure -> {
-            getAppLogger().error("Code: ${result.code}, Message: ${result.message}\n$url")
-        }
+    return response?.let {
+        val mapper = CsvMapper()
+
+        val schema = CsvSchema.builder()
+            .addColumn("Date")
+            .addColumn("Open")
+            .addColumn("High")
+            .addColumn("Low")
+            .addColumn("Close")
+            .addColumn("Adj Close")
+            .addColumn("Volume")
+            .build().withHeader()
+
+        val reader = mapper.readerFor(DayChartPoint::class.java).with(schema)
+
+        reader.readValues<DayChartPoint>(it).readAll()
     }
-
-    return null
 }
 
 fun String.parseYahooCSV(): Iterable<CSVRecord> =
