@@ -3,6 +3,7 @@ package com.vitalyk.insight.view
 import com.vitalyk.insight.iex.DayChartPointBean
 import com.vitalyk.insight.iex.IexApi
 import com.vitalyk.insight.iex.toBean
+import com.vitalyk.insight.ui.toolbox
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.event.EventHandler
@@ -14,7 +15,6 @@ import javafx.scene.control.TableView
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
 import tornadofx.*
-import java.time.LocalDate
 
 class SymbolTableView : View("Instrument Data") {
 
@@ -23,13 +23,6 @@ class SymbolTableView : View("Instrument Data") {
 
     var symbol = SimpleStringProperty("AAPL")
     var range = SimpleObjectProperty(IexApi.Range.Y)
-
-    val startDate = datepicker {
-        value = LocalDate.now().minusYears(1)
-    }
-    val endDate = datepicker {
-        value = LocalDate.now()
-    }
 
     private fun Node.updateSymbolTable() {
         runAsyncWithProgress {
@@ -42,11 +35,7 @@ class SymbolTableView : View("Instrument Data") {
     }
 
     override val root = vbox {
-        hbox {
-            spacing = 10.0
-            padding = Insets(10.0)
-            alignment = Pos.CENTER_LEFT
-
+        toolbox(border = false) {
             label("Symbol:")
             textfield(symbol) {
                 textProperty().onChange { value ->
@@ -83,19 +72,13 @@ class SymbolTableView : View("Instrument Data") {
                     replaceWith(QuoteView::class)
                 }
             }
-        }
 
-//        hbox {
-//            spacing = 10.0
-//            padding = Insets(10.0)
-//            alignment = Pos.CENTER_LEFT
-//
-//            label("Start date: ")
-//            this += startDate
-//
-//            label("End date: ")
-//            this += endDate
-//        }
+            button("Big Picture") {
+                setOnAction {
+                    replaceWith(BigPictureView::class)
+                }
+            }
+        }
 
         symbolTable = tableview(listOf<DayChartPointBean>().observable()) {
             column("Date", DayChartPointBean::dateProperty)
@@ -111,7 +94,6 @@ class SymbolTableView : View("Instrument Data") {
 
             vgrow = Priority.ALWAYS
         }
-        this += symbolTable
     }
 
     init {

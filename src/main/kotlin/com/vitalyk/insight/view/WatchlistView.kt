@@ -4,6 +4,7 @@ import com.vitalyk.insight.iex.DayChartPointBean
 import com.vitalyk.insight.iex.TopsBean
 import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.iex.toBean
+import com.vitalyk.insight.ui.toolbox
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.MapChangeListener
 import javafx.event.EventHandler
@@ -33,11 +34,7 @@ class WatchlistUI : Fragment() {
     override val root = vbox {
         vgrow = Priority.ALWAYS
 
-        hbox {
-            spacing = 10.0
-            padding = Insets(10.0)
-            alignment = Pos.CENTER_LEFT
-
+        toolbox {
             textfield(symbol) {
                 promptText = "Add Symbol(s)"
                 textProperty().onChange { value ->

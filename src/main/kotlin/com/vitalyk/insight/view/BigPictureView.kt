@@ -1,25 +1,25 @@
 package com.vitalyk.insight.view
 
+import com.vitalyk.insight.ui.toolbox
 import com.vitalyk.insight.yahoo.getDistributionDays
+import javafx.animation.FadeTransition
+import javafx.collections.ObservableList
+import javafx.event.ActionEvent
 import javafx.scene.Group
+import javafx.scene.Node
+import javafx.scene.chart.Axis
 import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.NumberAxis
 import javafx.scene.chart.XYChart
 import javafx.scene.layout.Priority
 import javafx.scene.layout.Region
 import javafx.scene.shape.Line
-import tornadofx.*
-import java.text.SimpleDateFormat
-import java.util.ArrayList
-import javafx.animation.FadeTransition
 import javafx.scene.shape.LineTo
 import javafx.scene.shape.MoveTo
-import javafx.collections.ObservableList
-import javafx.event.ActionEvent
-import javafx.scene.Node
-import javafx.scene.chart.Axis
 import javafx.scene.shape.Path
 import javafx.util.Duration
+import tornadofx.*
+import java.text.SimpleDateFormat
 
 
 class Candle internal constructor(private var seriesStyleClass: String?, private var dataStyleClass: String?) : Group() {
@@ -404,6 +404,13 @@ class DistributionChart(val symbol: String, title: String? = null) : Fragment(ti
 
 class BigPictureView : View("Big Picture") {
     override val root = vbox {
+        toolbox {
+            button("Back") {
+                setOnAction {
+                    replaceWith(SymbolTableView::class)
+                }
+            }
+        }
         hbox {
             vgrow = Priority.ALWAYS
             this += DistributionChart("^GSPC", "S&P 500")

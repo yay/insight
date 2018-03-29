@@ -1,5 +1,6 @@
 package com.vitalyk.insight.view
 
+import com.vitalyk.insight.ui.toolbox
 import com.vitalyk.insight.yahoo.NewsItem
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
@@ -45,11 +46,7 @@ class NewsView : View() {
     init {
         with(root) {
 
-            hbox {
-                spacing = 10.0
-                padding = Insets(10.0)
-                alignment = Pos.CENTER_LEFT
-
+            toolbox {
                 button("Back") {
                     setOnAction {
                         replaceWith(SymbolTableView::class)
@@ -64,11 +61,7 @@ class NewsView : View() {
 
                 tab("News") {
                     vbox {
-                        hbox {
-                            spacing = 10.0
-                            padding = Insets(10.0)
-                            alignment = Pos.CENTER_LEFT
-
+                        toolbox {
                             label("Symbol:")
                             textfield(symbol) {
                                 textProperty().onChange { value ->
@@ -115,66 +108,20 @@ class NewsView : View() {
                         listview = listview {
                             cellCache {
                                 val item = it
-//                                setOnMouseClicked {
-//                                    storyWebView.engine.load(item.url)
-//                                    // http://stackoverflow.com/questions/6902377/javafx-tabpane-how-to-set-the-selected-tab
-//                                    tabPane.selectionModel.select(browserTab)
-//                                }
                                 vbox {
                                     hyperlink(item.headline) {
                                         tooltip(item.url)
                                         setOnAction {
-                                            Desktop.getDesktop().browse(URI(item.url));
+                                            Desktop.getDesktop().browse(URI(item.url))
                                         }
                                     }
-//                                    label(item.cite)
                                 }
-//                    form {
-//                        fieldset {
-////                            field("Headline") {
-////                                label(it.headline)
-////                            }
-////                            field("URL") {
-////                                label(it.url)
-////                            }
-//                        }
-//
-//                    }
                             }
 
                             vgrow = Priority.ALWAYS
                         }
-
-//            piechart("Imported Fruits") {
-//                data("Grapefruit", 12.0)
-//                data("Oranges", 25.0)
-//                data("Plums", 10.0)
-//                data("Pears", 22.0)
-//                data("Apples", 30.0)
-//
-//                vgrow = Priority.ALWAYS
-//            }
                     }
                 }
-
-//                browserTab = tab("Browser") {
-//                    vbox {
-//                        hbox {
-//                            spacing = 10.0
-//                            padding = Insets(10.0)
-//                            alignment = Pos.CENTER_LEFT
-//
-//                            button("Back") {
-//                                setOnAction {
-//                                    storyWebView.engine.executeScript("history.back()")
-//                                }
-//                            }
-//                        }
-//
-//                        this += storyWebView
-//                    }
-//                }
-
             }
         }
     }

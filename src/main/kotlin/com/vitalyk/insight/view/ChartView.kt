@@ -1,5 +1,6 @@
 package com.vitalyk.insight.view
 
+import com.vitalyk.insight.ui.toolbox
 import javafx.scene.chart.BarChart
 import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.LineChart
@@ -58,9 +59,7 @@ class ChartView : View("Chart") {
         with(root) {
             addClass(styles.wrapper)
 
-            hbox {
-                paddingAll = 10.0
-
+            toolbox {
                 button("Back") {
                     maxWidth = Double.MAX_VALUE
                     setOnAction {

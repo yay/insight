@@ -2,6 +2,7 @@ package com.vitalyk.insight.view
 
 import com.vitalyk.insight.iex.IexApi
 import com.vitalyk.insight.ui.PollingQuoteList
+import com.vitalyk.insight.ui.toolbox
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.layout.Priority
@@ -34,11 +35,7 @@ class QuoteView : View("Quotes") {
 //    }
 
     override val root = vbox {
-        hbox {
-            spacing = 10.0
-            padding = Insets(10.0)
-            alignment = Pos.CENTER_LEFT
-
+        toolbox {
             button("Back") {
                 setOnAction {
                     replaceWith(SymbolTableView::class)
