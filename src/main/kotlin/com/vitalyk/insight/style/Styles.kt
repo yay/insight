@@ -10,6 +10,7 @@ class Styles : Stylesheet() {
     }
 
     init {
+        // use addClass(styles.wrapper) in target code
         s(wrapper) {
             //            s(chartHorizontalGridLines) {
 //                visibility = FXVisibility.HIDDEN
