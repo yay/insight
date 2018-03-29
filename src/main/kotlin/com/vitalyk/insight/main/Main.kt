@@ -2,22 +2,15 @@ package com.vitalyk.insight.main
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.vitalyk.insight.iex.IexApi
-import com.vitalyk.insight.iex.Watchlist
-import com.vitalyk.insight.ui.getFxBeanDefinition
-import com.vitalyk.insight.ui.toBeanMaker
+import com.vitalyk.insight.yahoo.ChartInterval
+import com.vitalyk.insight.yahoo.ChartPoint
 import com.vitalyk.insight.iex.IexApi.Tops as Tops
-import com.vitalyk.insight.view.InsightApp
-import com.vitalyk.insight.yahoo.fetchDailyData
+import com.vitalyk.insight.yahoo.getChartPoints
+import com.vitalyk.insight.yahoo.getDistributionDays
 import io.socket.client.IO
 import io.socket.client.Socket.EVENT_CONNECT
 import io.socket.client.Socket.EVENT_DISCONNECT
-import javafx.application.Application
-import javafx.collections.FXCollections
-import javafx.collections.MapChangeListener
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.javafx.JavaFx
-import kotlinx.coroutines.experimental.launch
-import tornadofx.*
+import java.time.temporal.ChronoUnit
 
 fun main(args: Array<String>) {
 
@@ -33,7 +26,20 @@ fun main(args: Array<String>) {
 //    scheduleEndOfDayFetcher(appScheduler)
 
 //    Application.launch(InsightApp::class.java, *args)
-    fetchDailyData("^RUT")?.forEach { println(it) }
+//    getChartPoints("^RUT", 5, ChronoUnit.WEEKS)?.forEach { println(it) }
+
+//    val distributionDays = mutableListOf<Int>()
+//    getChartPoints("^RUT", 5, ChronoUnit.WEEKS)?.reduceIndexed { index, prev, curr ->
+////        println("$index${Pair(prev, curr)}")
+//        if (isDistributionDay(prev, curr)) {
+//            distributionDays.add(index)
+//        }
+//        curr
+//    }
+//    println("${distributionDays.size} distribution days")
+
+    println(getDistributionDays("^RUT").second)
+
 //    println(toBeanMaker(IexApi.Tops::class))
 //    getTops()
 //    getLast()

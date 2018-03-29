@@ -1,11 +1,7 @@
 package com.vitalyk.insight.yahoo
 
-import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.dataformat.csv.CsvMapper
-import com.fasterxml.jackson.dataformat.csv.CsvSchema
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.main.UserAgents
-import com.vitalyk.insight.main.yahooFetch
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -17,74 +13,25 @@ import java.net.MalformedURLException
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.time.ZoneId
-import java.time.ZonedDateTime
 import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 
-private val financeDownloadUrl = "https://query1.finance.yahoo.com/v7/finance/download/"
+enum class ChartIntradayInterval(val value: String) {
+    MINUTE("1m"),
+    MINUTE2("2m"),
+    MINUTE5("5m"),
+    MINUTE15("15m"),
+    MINUTE30("30m"),
+    MINUTE60("60m"),
+    MINUTE90("90m"),
+    HOUR("1h")
+}
 
 data class YFinanceAuth(
     val cookie: String,
     val crumb: String
 )
-
-data class OHLC(
-    val time: Long, // UTC timestamp
-    val open: Double,
-    var high: Double,
-    var low: Double,
-    var close: Double,
-    var adjClose: Double,
-    var volume: Long
-)
-
-data class DayChartPoint(
-    @JsonProperty("Date")
-    val date: Date,
-
-    @JsonProperty("Open")
-    val open: Double,
-
-    @JsonProperty("High")
-    val high: Double,
-
-    @JsonProperty("Low")
-    val low: Double,
-
-    @JsonProperty("Close")
-    val close: Double,
-
-    @JsonProperty("Adj Close")
-    val adjClose: Double,
-
-    @JsonProperty("Volume")
-    val volume: Long
-)
-
-open class StockSymbol(date: Date, open: Float, high: Float, low: Float, close: Float, volume: Int, adjClose: Float) {
-    var date: Date by property(date)
-    fun dateProperty() = getProperty(StockSymbol::date)
-
-    var open: Float by property(open)
-    fun openProperty() = getProperty(StockSymbol::open)
-
-    var high: Float by property(high)
-    fun highProperty() = getProperty(StockSymbol::high)
-
-    var low: Float by property(low)
-    fun lowProperty() = getProperty(StockSymbol::low)
-
-    var close: Float by property(close)
-    fun closeProperty() = getProperty(StockSymbol::close)
-
-    var volume: Int by property(volume)
-    fun volumeProperty() = getProperty(StockSymbol::volume)
-
-    var adjClose: Float by property(adjClose)
-    fun adjCloseProperty() = getProperty(StockSymbol::adjClose)
-}
 
 fun getYFinanceAuth(symbol: String = "AAPL"): YFinanceAuth? {
     val url = "https://uk.finance.yahoo.com/quote/$symbol/history"
@@ -121,45 +68,33 @@ fun getYFinanceAuth(symbol: String = "AAPL"): YFinanceAuth? {
     return null
 }
 
-fun fetchDailyData(symbol: String, years: Long = 1): MutableList<DayChartPoint>? {
-    // See below for the 'crumb':
-    // http://blog.bradlucas.com/posts/2017-06-02-new-yahoo-finance-quote-download-url/
-    // https://github.com/dennislwy/YahooFinanceAPI
-
-    val now = ZonedDateTime.now(ZoneId.of("America/New_York"))
-    val then = now.minusYears(years)
-    val crumb = "vjMESKwkGZA"
-    val url = "${financeDownloadUrl}$symbol"
-
-    val response = yahooFetch(url, listOf(
-        "period1" to "${then.toInstant().toEpochMilli() / 1000}",
-        "period2" to "${now.toInstant().toEpochMilli() / 1000}",
-        "interval" to "1d", // [1m, 2m, 5m, 15m, 30m, 60m, 90m, 1h, 1d, 5d, 1wk, 1mo, 3mo]
-        "events" to "history",
-        "crumb" to crumb // required along with a cookie, changes with every login to Yahoo Finance
-    ))
-
-    return response?.let {
-        val mapper = CsvMapper()
-
-        val schema = CsvSchema.builder()
-            .addColumn("Date")
-            .addColumn("Open")
-            .addColumn("High")
-            .addColumn("Low")
-            .addColumn("Close")
-            .addColumn("Adj Close")
-            .addColumn("Volume")
-            .build().withHeader()
-
-        val reader = mapper.readerFor(DayChartPoint::class.java).with(schema)
-
-        reader.readValues<DayChartPoint>(it).readAll()
-    }
-}
 
 fun String.parseYahooCSV(): Iterable<CSVRecord> =
     CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(StringReader(this))
+
+
+open class StockSymbol(date: Date, open: Float, high: Float, low: Float, close: Float, volume: Int, adjClose: Float) {
+    var date: Date by property(date)
+    fun dateProperty() = getProperty(StockSymbol::date)
+
+    var open: Float by property(open)
+    fun openProperty() = getProperty(StockSymbol::open)
+
+    var high: Float by property(high)
+    fun highProperty() = getProperty(StockSymbol::high)
+
+    var low: Float by property(low)
+    fun lowProperty() = getProperty(StockSymbol::low)
+
+    var close: Float by property(close)
+    fun closeProperty() = getProperty(StockSymbol::close)
+
+    var volume: Int by property(volume)
+    fun volumeProperty() = getProperty(StockSymbol::volume)
+
+    var adjClose: Float by property(adjClose)
+    fun adjCloseProperty() = getProperty(StockSymbol::adjClose)
+}
 
 fun Iterable<CSVRecord>.toStockList(): List<StockSymbol> {
     val header = yahooDataHeader
@@ -206,6 +141,16 @@ fun Iterable<CSVRecord>.toStockList(): List<StockSymbol> {
 }
 
 
+
+data class OHLC(
+    val time: Long, // UTC timestamp
+    val open: Double,
+    var high: Double,
+    var low: Double,
+    var close: Double,
+    var adjClose: Double,
+    var volume: Long
+)
 
 
 enum class DataFrequency {
