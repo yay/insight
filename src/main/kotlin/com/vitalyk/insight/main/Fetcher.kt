@@ -1,8 +1,8 @@
 package com.vitalyk.insight.main
 
-import com.vitalyk.insight.yahoo.YahooCompanyNews
 import com.vitalyk.insight.yahoo.YahooData
 import com.vitalyk.insight.yahoo.fetchIntradayData
+import com.vitalyk.insight.yahoo.fetchNews
 import com.vitalyk.insight.yahoo.getYahooSummary
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
@@ -483,13 +483,11 @@ object StockFetcherUS {
 
             companies?.map { (symbol) ->
                 async {
-                    val data = YahooCompanyNews(symbol)
-                        .fetch()
-                        .json()
+                    val json = fetchNews(symbol).toPrettyJson()
 
                     val file = File("${AppSettings.paths.news}/$date/$exchange/$symbol.json")
                     file.parentFile.mkdirs()
-                    file.writeText(data)
+                    file.writeText(json)
                 }
             }?.forEach { it.await() }
         }

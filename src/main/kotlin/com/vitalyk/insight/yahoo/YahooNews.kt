@@ -1,6 +1,7 @@
 package com.vitalyk.insight.yahoo
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.vitalyk.insight.main.getAppLogger
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import java.io.IOException
@@ -12,8 +13,41 @@ class NewsItem(
     val headline: String,
     val url: String,
     val date: Date = Date()
-//        val story: String = ""
 )
+
+// https://developer.yahoo.com/finance/company.html
+private const val yahooBaseUrl = "http://finance.yahoo.com"
+private const val companyNewsUrl = "$yahooBaseUrl/rss/headline?s="
+private val newsDateParser = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z")
+
+fun fetchNews(symbol: String): MutableList<NewsItem> {
+    val list = mutableListOf<NewsItem>()
+    val url = companyNewsUrl + symbol
+    val connection = Jsoup.connect(url).timeout(10000)
+
+    val document = connection.get()
+    val code = connection.data().response().statusCode()
+
+    if (code == 200) {
+        val items = document.select("item")
+        for (item in items) {
+            val title = item.select("title")
+            val link = item.select("link")
+            val pubDate = item.select("pubDate")
+            val newsItem = NewsItem(
+                headline = title.text(),
+                url = link.text(),
+                date = newsDateParser.parse(pubDate.text())
+            )
+            newsItem.date.toString()
+            list.add(newsItem)
+        }
+    } else {
+        getAppLogger().warn("$symbol request status code: $code\nURL: $url")
+    }
+
+    return list
+}
 
 abstract class News {
     val items = mutableListOf<NewsItem>()
@@ -47,57 +81,4 @@ abstract class News {
     }
 
     abstract fun read(doc: Document)
-}
-
-// RSS 2.0
-var rssPubDateParser = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z")
-// Atom (ISO 8601)
-var atomDateParser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz")
-
-abstract class YahooNews : News() {
-    override val baseUrl = "http://finance.yahoo.com"
-}
-
-class YahooIpoNews : YahooNews() {
-    override var url = "$baseUrl/news/category-ipos/?bypass=true"
-
-    override fun read(doc: Document) {
-        val listItems = doc.select(".yom-top-story .yom-list li")
-
-        for (listItem in listItems) {
-            val a = listItem.select("a")
-//            val cite = a.next().text()
-            var href = a.attr("href")
-            // If news item comes from Yahoo Finance itself, the base url
-            // will be missing.
-            if (href.indexOf("http") != 0) {
-                href = baseUrl + href
-            }
-            val newsItem = NewsItem(
-                headline = a.text(),
-                url = href
-            )
-            items.add(newsItem)
-        }
-    }
-}
-
-class YahooCompanyNews(symbol: String) : YahooNews() {
-    override var url = "$baseUrl/rss/headline?s=$symbol"
-
-    override fun read(doc: Document) {
-        val domItems = doc.select("item")
-        for (domItem in domItems) {
-            val title = domItem.select("title")
-            val link = domItem.select("link")
-            val pubDate = domItem.select("pubDate")
-            val newsItem = NewsItem(
-                headline = title.text(),
-                url = link.text()
-//                    date = rssPubDateParser.parse(pubDate.text())
-//                    date = LocalDateTime.ofInstant(rssPubDateParser.parse(pubDate.text()).toInstant(), ZoneId.systemDefault())
-            )
-            items.add(newsItem)
-        }
-    }
 }

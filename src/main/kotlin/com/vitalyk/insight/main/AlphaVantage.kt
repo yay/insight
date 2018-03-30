@@ -16,7 +16,7 @@ object AlphaVantageApi {
     private val baseUrl = "https://www.alphavantage.co/query"
 
     fun getQuotes(tickers: Array<String>): String {
-//        val httpUrl = HttpUrl.parse(baseUrl) ?: throw Error("Bad URL.")
+//        val httpUrl = HttpUrl.parseyahooBaseUrl) ?: throw Error("Bad URL.")
 //        val urlBuilder = httpUrl.newBuilder()
 //        urlBuilder.addQueryParameter(param, value)
         return "lol"

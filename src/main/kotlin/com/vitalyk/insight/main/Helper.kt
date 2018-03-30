@@ -3,6 +3,7 @@ package com.vitalyk.insight.main
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import java.io.File
 import java.io.IOException
 import java.text.DecimalFormat
@@ -50,3 +51,6 @@ fun String.toJsonNode(): JsonNode {
 
 fun String.toPrettyJson(): String =
     ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this.toJsonNode())
+
+fun Any.toPrettyJson(): String =
+    jacksonObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this)

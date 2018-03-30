@@ -1,6 +1,5 @@
 package com.vitalyk.insight.view
 
-import com.vitalyk.insight.iex.DayChartPointBean
 import com.vitalyk.insight.iex.TopsBean
 import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.iex.toBean
@@ -8,9 +7,6 @@ import com.vitalyk.insight.ui.toolbox
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.MapChangeListener
 import javafx.event.EventHandler
-import javafx.geometry.Insets
-import javafx.geometry.Pos
-import javafx.scene.Parent
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
 import tornadofx.*

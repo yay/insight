@@ -7,8 +7,6 @@ import com.vitalyk.insight.ui.toolbox
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.event.EventHandler
-import javafx.geometry.Insets
-import javafx.geometry.Pos
 import javafx.scene.Node
 import javafx.scene.control.ComboBox
 import javafx.scene.control.TableView
@@ -38,6 +36,7 @@ class SymbolTableView : View("Instrument Data") {
         toolbox(border = false) {
             label("Symbol:")
             textfield(symbol) {
+                maxWidth = 80.0
                 textProperty().onChange { value ->
                     this.text = value?.toUpperCase()
                 }
@@ -47,24 +46,21 @@ class SymbolTableView : View("Instrument Data") {
                     }
                 }
             }
+            button("Go") {
+                setOnAction { updateSymbolTable() }
+            }
 
             label("Period:")
             rangeCombo = combobox(range, IexApi.Range.values().toList().observable()) {
-                setOnAction {
-                    updateSymbolTable()
-                }
+                setOnAction { updateSymbolTable() }
             }
 
             button("Chart") {
-                setOnAction {
-                    replaceWith(ChartView::class)
-                }
+                setOnAction { replaceWith(ChartView::class) }
             }
 
             button("News") {
-                setOnAction {
-                    replaceWith(NewsView::class)
-                }
+                setOnAction { replaceWith(NewsView::class) }
             }
 
             button("Quotes") {
@@ -74,9 +70,7 @@ class SymbolTableView : View("Instrument Data") {
             }
 
             button("Big Picture") {
-                setOnAction {
-                    replaceWith(BigPictureView::class)
-                }
+                setOnAction { replaceWith(BigPictureView::class) }
             }
         }
 
