@@ -2,7 +2,6 @@ package com.vitalyk.insight.main
 
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import java.io.File
 import java.io.IOException
@@ -39,18 +38,17 @@ fun String.writeToFile(pathname: String) {
     file.writeText(this)
 }
 
-fun String.toJsonNode(): JsonNode {
-    val mapper = ObjectMapper()
+private val objectMapper = jacksonObjectMapper()
+private val objectWriter = objectMapper.writerWithDefaultPrettyPrinter()
 
+fun String.toJsonNode(): JsonNode {
     return try {
-        mapper.readTree(this)
+        objectMapper.readTree(this)
     } catch (e: JsonProcessingException) {
-        mapper.readTree("{}")
+        objectMapper.readTree("{}")
     }
 }
 
-fun String.toPrettyJson(): String =
-    ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this.toJsonNode())
+fun String.toPrettyJson(): String = objectWriter.writeValueAsString(this.toJsonNode())
 
-fun Any.toPrettyJson(): String =
-    jacksonObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this)
+fun Any.toPrettyJson(): String = objectWriter.writeValueAsString(this)
