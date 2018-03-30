@@ -3,8 +3,6 @@ package com.vitalyk.insight.view
 import com.vitalyk.insight.iex.IexApi
 import com.vitalyk.insight.ui.PollingQuoteList
 import com.vitalyk.insight.ui.toolbox
-import javafx.geometry.Insets
-import javafx.geometry.Pos
 import javafx.scene.layout.Priority
 import tornadofx.*
 import kotlinx.coroutines.experimental.javafx.JavaFx as UI

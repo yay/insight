@@ -1,7 +1,6 @@
 package com.vitalyk.insight.view
 
 import com.vitalyk.insight.ui.toolbox
-import javafx.scene.chart.BarChart
 import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.LineChart
 import javafx.scene.chart.NumberAxis

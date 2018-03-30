@@ -1,6 +1,5 @@
 package com.vitalyk.insight.view
 
-import com.vitalyk.insight.main.toPrettyJson
 import com.vitalyk.insight.ui.toolbox
 import com.vitalyk.insight.yahoo.NewsItem
 import com.vitalyk.insight.yahoo.fetchNews

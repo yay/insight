@@ -1,13 +1,9 @@
 package com.vitalyk.insight.yahoo
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.vitalyk.insight.main.getAppLogger
 import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.logging.Logger
 
 class NewsItem(
     val headline: String,
@@ -47,38 +43,4 @@ fun fetchNews(symbol: String): MutableList<NewsItem> {
     }
 
     return list
-}
-
-abstract class News {
-    val items = mutableListOf<NewsItem>()
-
-    val timeout: Int = 30000
-    val log: Logger by lazy { Logger.getLogger(this::class.java.name) }
-
-    abstract val baseUrl: String
-    abstract var url: String
-
-    protected val mapper by lazy { jacksonObjectMapper() }
-
-    fun fetch(): News {
-        val connection = Jsoup.connect(url).timeout(timeout)
-//        connection.followRedirects(false)
-        try {
-            val doc = connection.get()
-//            val code = connection.response().statusCode()
-            read(doc)
-        } catch (e: IOException) {
-            log.warning { "News request failed: $e\nURL: $url" }
-        }
-
-        return this
-    }
-
-    fun json() = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(items)
-
-    fun print() {
-        print(json())
-    }
-
-    abstract fun read(doc: Document)
 }
