@@ -5,7 +5,7 @@ import com.vitalyk.insight.style.Styles
 import javafx.stage.Stage
 import tornadofx.*
 
-class InsightApp : App(BigPictureView::class, Styles::class) {
+class InsightApp : App(SymbolTableView::class, Styles::class) {
     override fun start(stage: Stage) {
         super.start(stage)
 
@@ -20,5 +20,3 @@ class InsightApp : App(BigPictureView::class, Styles::class) {
         }
     }
 }
-
-// Application.launch(InsightApp::class.java, *args)

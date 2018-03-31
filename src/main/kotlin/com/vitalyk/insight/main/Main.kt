@@ -3,16 +3,11 @@ package com.vitalyk.insight.main
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.vitalyk.insight.iex.IexApi
 import com.vitalyk.insight.view.InsightApp
-import com.vitalyk.insight.yahoo.ChartInterval
-import com.vitalyk.insight.yahoo.ChartPoint
 import com.vitalyk.insight.iex.IexApi.Tops as Tops
-import com.vitalyk.insight.yahoo.getChartPoints
-import com.vitalyk.insight.yahoo.getDistributionDays
 import io.socket.client.IO
 import io.socket.client.Socket.EVENT_CONNECT
 import io.socket.client.Socket.EVENT_DISCONNECT
 import javafx.application.Application
-import java.time.temporal.ChronoUnit
 
 fun main(args: Array<String>) {
 
@@ -28,71 +23,6 @@ fun main(args: Array<String>) {
 //    scheduleEndOfDayFetcher(appScheduler)
 
     Application.launch(InsightApp::class.java, *args)
-//    getChartPoints("^RUT", 5, ChronoUnit.WEEKS)?.forEach { println(it) }
-
-//    val distributionDays = mutableListOf<Int>()
-//    getChartPoints("^RUT", 5, ChronoUnit.WEEKS)?.reduceIndexed { index, prev, curr ->
-////        println("$index${Pair(prev, curr)}")
-//        if (isDistributionDay(prev, curr)) {
-//            distributionDays.add(index)
-//        }
-//        curr
-//    }
-//    println("${distributionDays.size} distribution days")
-
-//    println(toBeanMaker(IexApi.Tops::class))
-//    getTops()
-//    getLast()
-
-//    val list = observableList<String>()
-//    list.onChange { change ->
-//        change.next()
-//        println(change.removed)
-//        println(change.addedSubList)
-//        println(change.list)
-//    }
-////    list.add("FB")
-////    list.addAll("GOOG", "BAC")
-////    list.addAll("GOOG")
-//    val text = "BAC, GOOG,   FB, C, MSFT"
-
-//    map["FB"] = Tops(symbol = "FB")
-//
-//    text.split(",").forEach {
-//        map[it] = Tops(symbol = it)
-//    }
-
-//    map.addListener(MapChangeListener { change ->
-//        println(change.valueAdded)
-//        println(change.valueRemoved)
-//    })
-//
-//    map.keys.add("ANET")
-//    map.keys.toList()
-//
-//    println(map.values)
-
-//    val wl = Watchlist()
-////
-//    wl.add("BAC", "C")
-//    wl.add("MSFT")
-//    wl.add("MSFT", "ANET")
-
-//    launch(JavaFx) {
-//        Thread.sleep(10000)
-//        wl.remove("BAC", "C")
-//        println("removed BAC C")
-//    }
-//    launch(JavaFx) {
-//        Thread.sleep(20000)
-//        wl.remove("MSFT", "ANET")
-//        println("removed MSFT ANET")
-//    }
-
-//    async {
-//        Thread.sleep(7000)
-//        println("!!! ${wl["BAC"]}")
-//    }
 }
 
 fun getTops() {

@@ -9,6 +9,7 @@ import com.vitalyk.insight.main.getAppLogger
 import okhttp3.HttpUrl
 import okhttp3.Request
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
@@ -50,17 +51,54 @@ fun isDistributionDay(prev: ChartPoint, curr: ChartPoint): Boolean {
     return (curr.volume > prev.volume) && (curr.close / prev.close - 1.0 < -0.002)
 }
 
-fun getDistributionDays(symbol: String): Pair<MutableList<ChartPoint>?, MutableList<Int>> {
-    val days = mutableListOf<Int>()
-    val points = getChartPoints(symbol, 5, ChronoUnit.WEEKS)?.apply {
-        this.reduceIndexed { index, prev, curr ->
+data class DistributionData(
+    val symbol: String,
+    // Past 5 weeks of trading days.
+    val all: MutableList<ChartPoint>,
+    // Indexes of distribution days.
+    val down: MutableList<Int>
+)
+
+fun getDistributionData(symbol: String): DistributionData? {
+    val down = mutableListOf<Int>()
+    return getChartPoints(symbol, 5, ChronoUnit.WEEKS)?.let {
+        it.reduceIndexed { index, prev, curr ->
             if (isDistributionDay(prev, curr)) {
-                days.add(index)
+                down.add(index)
             }
             curr
         }
+        DistributionData(symbol, it, down)
     }
-    return Pair(points, days)
+}
+
+fun getDistributionInfo(symbols: List<String> = listOf("^GSPC", "^IXIC", "^RUT", "^DJI"),
+                        listDays: Boolean = true): String {
+    val symbolNames = mapOf(
+        "^GSPC" to "S&P 500",
+        "^IXIC" to "NASDAQ Composite",
+        "^RUT" to "Russel 2000",
+        "^DJI" to "Dow Jones Industrial Average"
+    )
+    val dateFormat = SimpleDateFormat("d MMM")
+    val sb = StringBuilder()
+    symbols.forEach {
+        getDistributionData(it)?.apply {
+            val name = symbolNames[symbol] ?: symbol
+            sb.append(down.size)
+            sb.append(" - ")
+            sb.append(name)
+            if (listDays) {
+                sb.append("\n")
+                sb.append(down.joinToString(", ") {
+                    dateFormat.format(all[it].date)
+                })
+                sb.append("\n")
+            }
+            sb.append("\n")
+        }
+    }
+    return sb.toString()
 }
 
 fun getChartPoints(symbol: String, amount: Long = 1, unit: ChronoUnit = ChronoUnit.YEARS,

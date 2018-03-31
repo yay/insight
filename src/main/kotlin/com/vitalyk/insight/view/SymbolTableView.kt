@@ -4,10 +4,12 @@ import com.vitalyk.insight.iex.DayChartPointBean
 import com.vitalyk.insight.iex.IexApi
 import com.vitalyk.insight.iex.toBean
 import com.vitalyk.insight.ui.toolbox
+import com.vitalyk.insight.yahoo.getDistributionInfo
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.event.EventHandler
 import javafx.scene.Node
+import javafx.scene.control.Alert
 import javafx.scene.control.ComboBox
 import javafx.scene.control.TableView
 import javafx.scene.input.KeyCode
@@ -69,8 +71,24 @@ class SymbolTableView : View("Instrument Data") {
                 }
             }
 
-            button("Big Picture") {
-                setOnAction { replaceWith(BigPictureView::class) }
+            button("Market Distribution") {
+                setOnAction {
+                    alert(
+                        Alert.AlertType.INFORMATION,
+                        "Market Distribution",
+                        getDistributionInfo()
+                    )
+                }
+            }
+
+            button("Symbol Distribution") {
+                setOnAction {
+                    alert(
+                        Alert.AlertType.INFORMATION,
+                        "Symbol Distribution",
+                        getDistributionInfo(listOf(symbol.value))
+                    )
+                }
             }
         }
 
