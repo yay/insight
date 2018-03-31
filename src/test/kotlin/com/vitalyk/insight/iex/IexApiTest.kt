@@ -1,7 +1,9 @@
 package com.vitalyk.insight.iex
 
+import com.vitalyk.insight.main.getLastWorkDay
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.time.format.DateTimeFormatter
 
 
 internal class IexApiTest {
@@ -60,14 +62,17 @@ internal class IexApiTest {
 
     @Test
     fun getMinuteChart() {
-        val chartPoints = IexApi.getMinuteChart(symbol1, "20180129")
+        // Note: doesn't account for holidays.
+        val lastWorkDay = getLastWorkDay()
+        val dateString = lastWorkDay.format(DateTimeFormatter.ofPattern("yyyyMMdd"))
+        val chartPoints = IexApi.getMinuteChart(symbol1, dateString)
         assertEquals(true, chartPoints?.isNotEmpty())
 
         chartPoints?.let {
             val date = it.first().date
-            assertEquals(2018, date.year)
-            assertEquals(1, date.monthValue)
-            assertEquals(29, date.dayOfMonth)
+            assertEquals(lastWorkDay.year, date.year)
+            assertEquals(lastWorkDay.monthValue, date.monthValue)
+            assertEquals(lastWorkDay.dayOfMonth, date.dayOfMonth)
         }
     }
 

@@ -6,9 +6,9 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import java.io.File
 import java.io.IOException
 import java.text.DecimalFormat
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
+import java.time.*
+import java.time.temporal.ChronoField
+import java.time.temporal.ChronoUnit
 import java.util.*
 
 fun Long.toReadableNumber(): String {
@@ -23,6 +23,15 @@ fun Long.toLocalTime(timezone: ZoneId = TimeZone.getDefault().toZoneId()) =
     LocalDateTime.ofInstant(Instant.ofEpochMilli(this), timezone)
 
 fun Long.toEasternTime() = this.toLocalTime(ZoneId.of("America/New_York"))
+
+fun getLastWorkDay(zoneId: String = "America/New_York"): LocalDate {
+    val now = LocalDate.now(ZoneId.of(zoneId))
+    return when (DayOfWeek.of(now.get(ChronoField.DAY_OF_WEEK))) {
+        DayOfWeek.MONDAY -> now.minus(3, ChronoUnit.DAYS)
+        DayOfWeek.SUNDAY -> now.minus(2, ChronoUnit.DAYS)
+        else -> now.minus(1, ChronoUnit.DAYS)
+    }
+}
 
 /**
  * Writes the string to a file with the specified `pathname`, creating all parent

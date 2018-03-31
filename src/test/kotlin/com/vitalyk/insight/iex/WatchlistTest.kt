@@ -1,10 +1,7 @@
 package com.vitalyk.insight.iex
 
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.runBlocking
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.assertThrows
 
 internal class WatchlistTest {

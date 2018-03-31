@@ -77,7 +77,7 @@ internal class HelpersTest {
 
     val instanceToBean =
     """
-    fun TestClass.toTestClassBean() =
+    fun TestClass.toBean() =
         TestClassBean().let {
             it.change = this.change
             it.changeOverTime = this.changeOverTime
