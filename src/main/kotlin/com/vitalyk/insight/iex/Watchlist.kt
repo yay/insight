@@ -39,6 +39,10 @@ class Watchlist {
             }
             watchlists.add(watchlist)
         }
+
+        fun deregister(watchlist: Watchlist) {
+            watchlists.remove(watchlist)
+        }
     }
 
     private val topsMap = FXCollections.observableHashMap<String, Tops>()
@@ -92,14 +96,14 @@ class Watchlist {
             }
     }
 
+    fun isConnected() = socket.connected()
+
     operator fun contains(key: String) = key in topsMap
     operator fun get(key: String) = topsMap[key]
 
     fun add(symbols: List<String>) {
         val new = symbols.filter { it !in topsMap }
         if (new.isEmpty()) return
-
-        println("Adding $new")
 
         socket.connect()
         socket.emit("subscribe", new.joinToString(","))

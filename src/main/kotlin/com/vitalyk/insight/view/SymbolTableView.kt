@@ -75,7 +75,7 @@ class SymbolTableView : View("Instrument Data") {
                 setOnAction {
                     alert(
                         Alert.AlertType.INFORMATION,
-                        "Market Distribution",
+                        "Market Distribution Days",
                         getDistributionInfo()
                     )
                 }
@@ -85,7 +85,7 @@ class SymbolTableView : View("Instrument Data") {
                 setOnAction {
                     alert(
                         Alert.AlertType.INFORMATION,
-                        "Symbol Distribution",
+                        "${symbol.value} Distribution Days",
                         getDistributionInfo(listOf(symbol.value))
                     )
                 }

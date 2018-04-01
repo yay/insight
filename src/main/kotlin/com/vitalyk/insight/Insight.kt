@@ -1,11 +1,12 @@
-package com.vitalyk.insight.view
+package com.vitalyk.insight
 
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.style.Styles
+import com.vitalyk.insight.view.SymbolTableView
 import javafx.stage.Stage
 import tornadofx.*
 
-class InsightApp : App(SymbolTableView::class, Styles::class) {
+class Insight : App(SymbolTableView::class, Styles::class) {
     override fun start(stage: Stage) {
         super.start(stage)
 
@@ -17,6 +18,13 @@ class InsightApp : App(SymbolTableView::class, Styles::class) {
             // and PlatformImpl.exit() docs.
             HttpClients.main.dispatcher().executorService().shutdown()
             HttpClients.main.connectionPool().evictAll()
+        }
+    }
+
+    companion object {
+        @JvmStatic
+        fun main(vararg args: String) {
+            launch(Insight::class.java, *args)
         }
     }
 }

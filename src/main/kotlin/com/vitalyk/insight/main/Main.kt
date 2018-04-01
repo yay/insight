@@ -2,12 +2,10 @@ package com.vitalyk.insight.main
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.vitalyk.insight.iex.IexApi
-import com.vitalyk.insight.view.InsightApp
 import com.vitalyk.insight.iex.IexApi.Tops as Tops
 import io.socket.client.IO
 import io.socket.client.Socket.EVENT_CONNECT
 import io.socket.client.Socket.EVENT_DISCONNECT
-import javafx.application.Application
 
 fun main(args: Array<String>) {
 
@@ -21,8 +19,6 @@ fun main(args: Array<String>) {
 //    appScheduler.start()
 //
 //    scheduleEndOfDayFetcher(appScheduler)
-
-    Application.launch(InsightApp::class.java, *args)
 }
 
 fun getTops() {
