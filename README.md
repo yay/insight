@@ -12,3 +12,4 @@ Uses Yahoo Finance as the service provider.
 Note: since Yahoo was purchased by Verizon in 2017,
 some Yahoo Finance APIs got removed and some changed in late May of 2017.
 
+The project is mostly using https://iextrading.com/ APIs now.
