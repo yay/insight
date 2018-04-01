@@ -76,13 +76,15 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-     maven { url "http://jcenter.bintray.com" }
-     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-     maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.2" }
-     maven { url "https://maven.oracle.com" }
+    maven { url "http://jcenter.bintray.com" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.2" }
+    maven { url "https://maven.oracle.com" }
 }
 
 dependencies {
+    compile fileTree(dir: 'lib', include: ['*.jar'])
+
     compile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.31'
     compile 'org.jetbrains.kotlin:kotlin-reflect:1.2.31'
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5'

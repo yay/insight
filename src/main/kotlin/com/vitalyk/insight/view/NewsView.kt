@@ -1,14 +1,18 @@
 package com.vitalyk.insight.view
 
+import com.teamdev.jxbrowser.chromium.Browser
+import com.teamdev.jxbrowser.chromium.javafx.BrowserView
 import com.vitalyk.insight.ui.toolbox
 import com.vitalyk.insight.yahoo.NewsItem
 import com.vitalyk.insight.yahoo.fetchNews
 import javafx.beans.property.SimpleStringProperty
 import javafx.event.EventHandler
+import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.Node
 import javafx.scene.control.ListView
 import javafx.scene.control.TabPane
+import javafx.scene.input.Clipboard
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
 import javafx.scene.paint.Color
@@ -39,12 +43,27 @@ class NewsView : View("Headlines") {
                 hyperlink(item.headline) {
                     tooltip(item.url)
                     setOnAction {
-                        Desktop.getDesktop().browse(URI(item.url))
+                        browser.loadURL(item.url)
+                        tabPane.selectionModel.select(1)
+                    }
+                    contextmenu {
+                        item("Open in browser").action {
+                            Desktop.getDesktop().browse(URI(item.url))
+                        }
+                        item("Copy link").action {
+                            val clipboard = Clipboard.getSystemClipboard()
+                            clipboard.putString(item.url)
+                        }
                     }
                 }
             }
         }
     }
+
+    val browser = Browser()
+    val view = BrowserView(browser)
+
+    lateinit var tabPane: TabPane
 
     override fun onDock() {
     }
@@ -61,13 +80,13 @@ class NewsView : View("Headlines") {
             }
         }
 
-        tabpane {
+        tabPane = tabpane {
             tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
             vgrow = Priority.ALWAYS
 
             tab("News") {
                 vbox {
-                    toolbox {
+                    toolbox(border = false) {
                         label("Symbol:")
                         textfield(symbol) {
                             textProperty().onChange { value ->
@@ -83,6 +102,10 @@ class NewsView : View("Headlines") {
 
                     this += listview
                 }
+            }
+
+            tab("Story") {
+                this += view
             }
         }
     }

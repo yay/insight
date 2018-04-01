@@ -1,5 +1,7 @@
 package com.vitalyk.insight
 
+import com.teamdev.jxbrowser.chromium.BrowserCore
+import com.teamdev.jxbrowser.chromium.internal.Environment
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.style.Styles
 import com.vitalyk.insight.view.SymbolTableView
@@ -7,6 +9,14 @@ import javafx.stage.Stage
 import tornadofx.*
 
 class Insight : App(SymbolTableView::class, Styles::class) {
+
+    override fun init() {
+        // On Mac OS X Chromium engine must be initialized in non-UI thread.
+        if (Environment.isMac()) {
+            BrowserCore.initialize()
+        }
+    }
+
     override fun start(stage: Stage) {
         super.start(stage)
 
