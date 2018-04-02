@@ -72,19 +72,20 @@ fun getDistributionData(symbol: String): DistributionData? {
     }
 }
 
+val marketIndexes = mapOf(
+    "^GSPC" to "S&P 500",
+    "^IXIC" to "NASDAQ Composite",
+    "^RUT" to "Russel 2000",
+    "^DJI" to "Dow Jones Industrial Average"
+)
+
 fun getDistributionInfo(symbols: List<String> = listOf("^GSPC", "^IXIC", "^RUT", "^DJI"),
                         listDays: Boolean = true): String {
-    val symbolNames = mapOf(
-        "^GSPC" to "S&P 500",
-        "^IXIC" to "NASDAQ Composite",
-        "^RUT" to "Russel 2000",
-        "^DJI" to "Dow Jones Industrial Average"
-    )
     val dateFormat = SimpleDateFormat("d MMM")
     val sb = StringBuilder()
     symbols.forEach {
         getDistributionData(it)?.apply {
-            val name = symbolNames[symbol] ?: symbol
+            val name = marketIndexes[symbol] ?: symbol
             sb.append(down.size)
             sb.append(" - ")
             sb.append(name)

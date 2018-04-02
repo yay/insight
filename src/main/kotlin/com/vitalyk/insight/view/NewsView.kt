@@ -1,13 +1,12 @@
 package com.vitalyk.insight.view
 
-import com.teamdev.jxbrowser.chromium.Browser
 import com.teamdev.jxbrowser.chromium.javafx.BrowserView
+import com.vitalyk.insight.Insight.Companion.browser
 import com.vitalyk.insight.ui.toolbox
 import com.vitalyk.insight.yahoo.NewsItem
 import com.vitalyk.insight.yahoo.fetchNews
 import javafx.beans.property.SimpleStringProperty
 import javafx.event.EventHandler
-import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.Node
 import javafx.scene.control.ListView
@@ -26,8 +25,9 @@ import java.text.SimpleDateFormat
 class NewsView : View("Headlines") {
 
     var symbol = SimpleStringProperty("AAPL")
-
     val dateFormatter = SimpleDateFormat("dd MMM HH:mm:ss zzz")
+    lateinit var tabPane: TabPane
+    val browserView = BrowserView(browser)
 
     val listview: ListView<NewsItem> = listview {
         vgrow = Priority.ALWAYS
@@ -60,11 +60,6 @@ class NewsView : View("Headlines") {
         }
     }
 
-    val browser = Browser()
-    val view = BrowserView(browser)
-
-    lateinit var tabPane: TabPane
-
     override fun onDock() {
     }
 
@@ -94,7 +89,7 @@ class NewsView : View("Headlines") {
                             }
                             onKeyReleased = EventHandler { key ->
                                 if (key.code == KeyCode.ENTER) {
-                                    fetchSymbolNews()
+                                    fetchSymbolNews(symbol.value)
                                 }
                             }
                         }
@@ -105,16 +100,17 @@ class NewsView : View("Headlines") {
             }
 
             tab("Story") {
-                this += view
+                // http://www.oracle.com/technetwork/articles/java/mixing-components-433992.html
+                this += browserView
             }
         }
     }
 
-    private fun Node.fetchSymbolNews() {
+    private fun Node.fetchSymbolNews(symbol: String) {
         listview.items.clear()
 
         runAsyncWithProgress {
-            fetchNews(symbol.value)
+            fetchNews(symbol)
         } ui {
             listview.items = it.observable()
             isDisable = false

@@ -50,7 +50,7 @@ subprojects {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'com.vitalyk.insight.main.MainKt'
+        attributes 'Main-Class': 'com.vitalyk.insight.Insight'
     }
 
     // This line of code recursively collects and copies all of a project's files
