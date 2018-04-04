@@ -1,12 +1,17 @@
 package com.vitalyk.insight
 
+import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.style.Styles
-import com.vitalyk.insight.view.WatchlistView
+import com.vitalyk.insight.view.SymbolTableView
 import javafx.stage.Stage
 import tornadofx.*
+import okhttp3.OkHttpClient
+import java.util.logging.Level
+import java.util.logging.Logger
 
-class Insight : App(WatchlistView::class, Styles::class) {
+
+class Insight : App(SymbolTableView::class, Styles::class) {
 
     override fun start(stage: Stage) {
         super.start(stage)
@@ -19,12 +24,15 @@ class Insight : App(WatchlistView::class, Styles::class) {
             // and PlatformImpl.exit() docs.
             HttpClients.main.dispatcher().executorService().shutdown()
             HttpClients.main.connectionPool().evictAll()
+
+            Watchlist.clearAll()
         }
     }
 
     companion object {
         @JvmStatic
         fun main(vararg args: String) {
+            Logger.getLogger(OkHttpClient::class.java.name).level = Level.FINE
             launch(Insight::class.java, *args)
         }
     }

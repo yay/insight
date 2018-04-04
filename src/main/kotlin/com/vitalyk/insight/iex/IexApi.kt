@@ -130,8 +130,8 @@ object IexApi {
         val volume: Long = 0,
         val lastSalePrice: Double = 0.0,
         val lastSaleSize: Int = 0,
-        val lastSaleTime: Date = Date(),
-        val lastUpdated: Date = Date(),
+        val lastSaleTime: Date? = null,
+        val lastUpdated: Date? = null,
         val sector: String = "",
         val securityType: String = ""
     )

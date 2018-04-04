@@ -31,6 +31,14 @@ class Watchlist {
         fun deregister(watchlist: Watchlist) {
             watchlists.remove(watchlist)
         }
+
+        fun clearAll() {
+            watchlists.forEach {
+                it.clearListeners()
+                it.clearSymbols()
+            }
+            watchlists.clear()
+        }
     }
 
     private val map = FXCollections.observableHashMap<String, Tops>()
@@ -50,12 +58,15 @@ class Watchlist {
     val symbols: List<String>
         get() = map.keys.toList()
 
+    val tops: List<Tops>
+        get() = map.values.toList()
+
     constructor(symbols: List<String>) {
-        add(symbols)
+        addSymbols(symbols)
     }
 
     constructor(vararg symbols: String) {
-        add(symbols.toList())
+        addSymbols(symbols.toList())
     }
 
     fun addListener(listener: (MapChangeListener.Change<out String, out Tops>) -> Unit): MapChangeListener<String, Tops> {
@@ -76,7 +87,7 @@ class Watchlist {
 
     init {
         socket
-            .on("message") { params ->
+            .on(Socket.EVENT_MESSAGE) { params ->
                 val tops = IexApi.parseTops(params.first() as String)
                 // This function can be called for a given symbol even if no change occurred:
                 // no bid/ask size, price or even volume changes. The contents of data class
@@ -87,8 +98,6 @@ class Watchlist {
             .on(Socket.EVENT_DISCONNECT) {
                 getAppLogger().debug("Watchlist disconnected: ${map.keys}")
             }
-
-        // socket.off() // Remove all listeners.
     }
 
     fun isConnected() = socket.connected()
@@ -96,7 +105,7 @@ class Watchlist {
     operator fun contains(key: String) = key in map
     operator fun get(key: String) = map[key]
 
-    fun add(symbols: List<String>) {
+    fun addSymbols(symbols: List<String>) {
         val new = symbols.filter { it !in map }
         if (new.isEmpty()) return
 
@@ -104,11 +113,11 @@ class Watchlist {
         socket.emit("subscribe", new.joinToString(","))
     }
 
-    fun add(vararg symbols: String) {
-        add(symbols.toList())
+    fun addSymbols(vararg symbols: String) {
+        addSymbols(symbols.toList())
     }
 
-    fun remove(symbols: List<String>) {
+    fun removeSymbols(symbols: List<String>) {
         val old = symbols.filter { it in map }
         old.forEach { map.remove(it) }
 
@@ -119,12 +128,13 @@ class Watchlist {
         socket.emit("unsubscribe", old.joinToString(","))
     }
 
-    fun remove(vararg symbols: String) {
-        remove(symbols.toList())
+    fun removeSymbols(vararg symbols: String) {
+        removeSymbols(symbols.toList())
     }
 
-    fun clear() {
+    fun clearSymbols() {
         map.clear()
         socket.disconnect()
+        socket.off() // Remove all listeners.
     }
 }

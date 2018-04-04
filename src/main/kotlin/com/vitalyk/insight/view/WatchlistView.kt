@@ -6,6 +6,7 @@ import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.iex.toBean
 import com.vitalyk.insight.ui.toolbox
 import javafx.beans.property.SimpleStringProperty
+import javafx.collections.MapChangeListener
 import javafx.event.EventHandler
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
@@ -24,6 +25,7 @@ class WatchlistUI : Fragment() {
 
         column("Symbol", TopsBean::symbolProperty)
         column("Last Trade", TopsBean::lastSalePriceProperty)
+        column("Last Trade Time", TopsBean::lastSaleTimeProperty)
         column("Bid", TopsBean::bidPriceProperty)
         column("Ask", TopsBean::askPriceProperty)
         column("Volume", TopsBean::volumeProperty)
@@ -31,7 +33,7 @@ class WatchlistUI : Fragment() {
         contextmenu {
             item("Remove").action {
                 val symbols = table.selectionModel.selectedItems.map { it.symbol }
-                watchlist.remove(symbols)
+                watchlist.removeSymbols(symbols)
                 table.items.removeAll(table.selectionModel.selectedItems)
             }
         }
@@ -71,7 +73,7 @@ class WatchlistUI : Fragment() {
         symbols.forEach {
             table.items.add(IexApi.Tops(symbol = it).toBean())
         }
-        watchlist.add(symbols)
+        watchlist.addSymbols(symbols)
     }
 
     fun addSymbols(vararg symbols: String) {
@@ -105,8 +107,24 @@ class WatchlistUI : Fragment() {
         if (index >= 0) table.items.removeAt(index)
     }
 
+    var listener: MapChangeListener<String, IexApi.Tops>? = null
+
+//    override fun onDock() {
+//        super.onDock()
+//        refresh()
+//    }
+//
+//    override fun onUndock() {
+//        super.onUndock()
+//        listener?.let { watchlist.removeListener(it) }
+//    }
+
+    private fun refresh() {
+        table.items.setAll(watchlist.tops.map { it.toBean() })
+    }
+
     init {
-        watchlist.addListener { change ->
+        listener = watchlist.addListener { change ->
             change.valueAdded?.let { new ->
                 val selected = table.selectionModel.selectedIndices.toList()
                 replaceOrAddItem(new)
@@ -128,17 +146,21 @@ class WatchlistUI : Fragment() {
 
 class WatchlistView : View("Watchlists") {
 
+    val watchlist = WatchlistUI()
+
     private val tabpane = tabpane {
         hgrow = Priority.ALWAYS
+        vgrow = Priority.ALWAYS
 
         tab("Main") {
-            this += WatchlistUI()
+            this += watchlist
         }
     }
 
-    override val root = hbox {
-        setMinSize(400.0, 300.0)
-
+    override val root = vbox {
+        toolbox {
+            button("Back").action { replaceWith(SymbolTableView::class) }
+        }
         this += tabpane
     }
 }

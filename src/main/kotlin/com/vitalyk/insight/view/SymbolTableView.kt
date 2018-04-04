@@ -48,28 +48,20 @@ class SymbolTableView : View("Instrument Data") {
                     }
                 }
             }
-            button("Go") {
-                setOnAction { updateSymbolTable() }
-            }
+            button("Go").action { updateSymbolTable() }
 
             label("Period:")
             rangeCombo = combobox(range, IexApi.Range.values().toList().observable()) {
                 setOnAction { updateSymbolTable() }
             }
 
-            button("Chart") {
-                setOnAction { replaceWith(ChartView::class) }
-            }
+            button("Chart").action { replaceWith(ChartView::class) }
 
-            button("News") {
-                setOnAction { replaceWith(NewsView::class) }
-            }
+            button("News").action { replaceWith(NewsView::class) }
 
-            button("Quotes") {
-                setOnAction {
-                    replaceWith(QuoteView::class)
-                }
-            }
+            button("Quotes").action { replaceWith(QuoteView::class) }
+
+            button("Watchlists").action { replaceWith(WatchlistView::class) }
 
             button("Market Distribution") {
                 setOnAction {
