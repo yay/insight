@@ -1,0 +1,9 @@
+Yahoo Finance NASDAQ Composite (^IXIC) volume is unreliable.
+
+For April 4, 2018 2 hours after market close, the volume shows up as 1.95B shares,
+while the https://www.nasdaq.com/aspx/DailyMarketStatistics.aspx shows it at 2.29B.
+For May 5, 2018 YF shows NASDAQ's volume at 49.35B!
+
+StockCharts ($COMPQ) volume data seems reliable (matches nasdaq.com for April 4, 2018).
+
+YF S&P 500 (^GSPC) volume seems reliable (matches StockCharts).

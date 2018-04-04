@@ -1,28 +1,16 @@
 package com.vitalyk.insight.iex
 
+import com.vitalyk.insight.iex.IexApi.Tops
+import com.vitalyk.insight.main.getAppLogger
 import io.socket.client.IO
 import io.socket.client.Socket
 import javafx.collections.FXCollections
 import javafx.collections.MapChangeListener
-import java.util.*
-import com.vitalyk.insight.iex.IexApi.Tops as Tops
-
-abstract class Alert<T> {
-    var isActive = true
-    abstract fun isTriggered(value: T): Boolean
-}
-
-class TopsAlert : Alert<Tops>() {
-
-    override fun isTriggered(value: Tops): Boolean {
-        return true
-    }
-}
 
 class Watchlist {
 
     companion object {
-        val watchlists = Collections.newSetFromMap( WeakHashMap<Watchlist, Boolean>() )
+        private val watchlists = mutableSetOf<Watchlist>()
 
         private fun generateName(watchlist: Watchlist): String {
             // There is a tiny chance that the user will set the name of one of the existing
@@ -45,7 +33,8 @@ class Watchlist {
         }
     }
 
-    private val topsMap = FXCollections.observableHashMap<String, Tops>()
+    private val map = FXCollections.observableHashMap<String, Tops>()
+    private val listeners = mutableSetOf<MapChangeListener<String, Tops>>()
     val socket = IO.socket("https://ws-api.iextrading.com/1.0/tops")
 
     var name: String = generateName(this)
@@ -59,7 +48,7 @@ class Watchlist {
     // This read-only property won't show the added symbols immediately,
     // only after they've been successfully fetched.
     val symbols: List<String>
-        get() = topsMap.keys.toList()
+        get() = map.keys.toList()
 
     constructor(symbols: List<String>) {
         add(symbols)
@@ -69,40 +58,46 @@ class Watchlist {
         add(symbols.toList())
     }
 
-    fun addListener(listener: MapChangeListener<String, Tops>) {
-        topsMap.addListener(listener)
+    fun addListener(listener: (MapChangeListener.Change<out String, out Tops>) -> Unit): MapChangeListener<String, Tops> {
+        return MapChangeListener<String, Tops> { change -> listener(change) }.apply {
+            map.addListener(this)
+            listeners.add(this)
+        }
     }
 
     fun removeListener(listener: MapChangeListener<String, Tops>) {
-        topsMap.removeListener(listener)
+        listeners.remove(listener)
+        map.removeListener(listener)
+    }
+
+    fun clearListeners() = listeners.forEach {
+        map.removeListener(it)
     }
 
     init {
-        topsMap.keys.remove("BAC")
-        topsMap.addListener(MapChangeListener { change ->
-            println("added: ${change.valueAdded}")
-            println("removed: ${change.valueRemoved}")
-        })
-
         socket
             .on("message") { params ->
                 val tops = IexApi.parseTops(params.first() as String)
-                topsMap[tops.symbol] = tops
-
-                println(tops)
+                // This function can be called for a given symbol even if no change occurred:
+                // no bid/ask size, price or even volume changes. The contents of data class
+                // instances will be identical. That's why we need an observable map,
+                // it's listener will only be called when an actual change happens.
+                map[tops.symbol] = tops
             }
             .on(Socket.EVENT_DISCONNECT) {
-                println("Watchlist disconnected.")
+                getAppLogger().debug("Watchlist disconnected: ${map.keys}")
             }
+
+        // socket.off() // Remove all listeners.
     }
 
     fun isConnected() = socket.connected()
 
-    operator fun contains(key: String) = key in topsMap
-    operator fun get(key: String) = topsMap[key]
+    operator fun contains(key: String) = key in map
+    operator fun get(key: String) = map[key]
 
     fun add(symbols: List<String>) {
-        val new = symbols.filter { it !in topsMap }
+        val new = symbols.filter { it !in map }
         if (new.isEmpty()) return
 
         socket.connect()
@@ -114,10 +109,10 @@ class Watchlist {
     }
 
     fun remove(symbols: List<String>) {
-        val old = symbols.filter { it in topsMap }
-        old.forEach { topsMap.remove(it) }
+        val old = symbols.filter { it in map }
+        old.forEach { map.remove(it) }
 
-        if (topsMap.keys.isEmpty()) {
+        if (map.keys.isEmpty()) {
             // If no threads are running, this will result in program exit.
             socket.disconnect()
         }
@@ -129,7 +124,7 @@ class Watchlist {
     }
 
     fun clear() {
-        topsMap.clear()
+        map.clear()
         socket.disconnect()
     }
 }

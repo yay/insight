@@ -122,18 +122,18 @@ object IexApi {
 
     data class Tops(
         val symbol: String,
-        val marketPercent: Double,
-        val bidSize: Int,
-        val bidPrice: Double,
-        val askSize: Int,
-        val askPrice: Double,
-        val volume: Long,
-        val lastSalePrice: Double,
-        val lastSaleSize: Int,
-        val lastSaleTime: Date,
-        val lastUpdated: Date,
-        val sector: String,
-        val securityType: String
+        val marketPercent: Double = 0.0,
+        val bidSize: Int = 0,
+        val bidPrice: Double = 0.0,
+        val askSize: Int = 0,
+        val askPrice: Double = 0.0,
+        val volume: Long = 0,
+        val lastSalePrice: Double = 0.0,
+        val lastSaleSize: Int = 0,
+        val lastSaleTime: Date = Date(),
+        val lastUpdated: Date = Date(),
+        val sector: String = "",
+        val securityType: String = ""
     )
 
     data class Dividend(

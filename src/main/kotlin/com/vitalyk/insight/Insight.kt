@@ -1,23 +1,12 @@
 package com.vitalyk.insight
 
-import com.teamdev.jxbrowser.chromium.Browser
-import com.teamdev.jxbrowser.chromium.BrowserCore
-import com.teamdev.jxbrowser.chromium.BrowserType
-import com.teamdev.jxbrowser.chromium.internal.Environment
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.style.Styles
-import com.vitalyk.insight.view.SymbolTableView
+import com.vitalyk.insight.view.WatchlistView
 import javafx.stage.Stage
 import tornadofx.*
 
-class Insight : App(SymbolTableView::class, Styles::class) {
-
-    override fun init() {
-        // On Mac OS X Chromium engine must be initialized in non-UI thread.
-        if (Environment.isMac()) {
-            BrowserCore.initialize()
-        }
-    }
+class Insight : App(WatchlistView::class, Styles::class) {
 
     override fun start(stage: Stage) {
         super.start(stage)
@@ -30,23 +19,10 @@ class Insight : App(SymbolTableView::class, Styles::class) {
             // and PlatformImpl.exit() docs.
             HttpClients.main.dispatcher().executorService().shutdown()
             HttpClients.main.connectionPool().evictAll()
-
-            if (Environment.isWindows()) {
-                Thread {
-                    browser.dispose()
-                }.start()
-            } else {
-                browser.dispose()
-            }
-            BrowserCore.shutdown()
         }
     }
 
     companion object {
-        val browser by lazy {
-            Browser(BrowserType.HEAVYWEIGHT)
-        }
-
         @JvmStatic
         fun main(vararg args: String) {
             launch(Insight::class.java, *args)

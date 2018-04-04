@@ -1,7 +1,5 @@
 package com.vitalyk.insight.view
 
-import com.teamdev.jxbrowser.chromium.javafx.BrowserView
-import com.vitalyk.insight.Insight.Companion.browser
 import com.vitalyk.insight.ui.toolbox
 import com.vitalyk.insight.yahoo.NewsItem
 import com.vitalyk.insight.yahoo.fetchNews
@@ -27,7 +25,6 @@ class NewsView : View("Headlines") {
     var symbol = SimpleStringProperty("AAPL")
     val dateFormatter = SimpleDateFormat("dd MMM HH:mm:ss zzz")
     lateinit var tabPane: TabPane
-    val browserView = BrowserView(browser)
 
     val listview: ListView<NewsItem> = listview {
         vgrow = Priority.ALWAYS
@@ -43,8 +40,7 @@ class NewsView : View("Headlines") {
                 hyperlink(item.headline) {
                     tooltip(item.url)
                     setOnAction {
-                        browser.loadURL(item.url)
-                        tabPane.selectionModel.select(1)
+                        Desktop.getDesktop().browse(URI(item.url))
                     }
                     contextmenu {
                         item("Open in browser").action {
@@ -97,11 +93,6 @@ class NewsView : View("Headlines") {
 
                     this += listview
                 }
-            }
-
-            tab("Story") {
-                // http://www.oracle.com/technetwork/articles/java/mixing-components-433992.html
-                this += browserView
             }
         }
     }
