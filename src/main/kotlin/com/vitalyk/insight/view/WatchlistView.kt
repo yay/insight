@@ -5,9 +5,11 @@ import com.vitalyk.insight.iex.TopsBean
 import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.iex.toBean
 import com.vitalyk.insight.ui.toolbox
+import javafx.application.Platform
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.MapChangeListener
 import javafx.event.EventHandler
+import javafx.geometry.Orientation
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
 import tornadofx.*
@@ -21,7 +23,7 @@ class WatchlistUI : Fragment() {
     var lastTradeFormatter = SimpleDateFormat("dd MMM HH:mm:ss zzz")
 
     // https://github.com/edvin/tornadofx/wiki/TableView-SmartResize
-    private val table = tableview(mutableListOf<TopsBean>().observable()) {
+    val table = tableview(mutableListOf<TopsBean>().observable()) {
         val table = this
 
         multiSelect()
@@ -43,6 +45,7 @@ class WatchlistUI : Fragment() {
 
         contextmenu {
             item("Remove").action {
+                // TODO: removed items sometimes reappear
                 val symbols = table.selectionModel.selectedItems.map { it.symbol }
                 watchlist.removeSymbols(symbols)
                 table.items.removeAll(table.selectionModel.selectedItems)
@@ -161,6 +164,7 @@ class WatchlistUI : Fragment() {
 class WatchlistView : View("Watchlists") {
 
     val watchlist = WatchlistUI()
+    val newslist = NewsList()
 
     private val tabpane = tabpane {
         hgrow = Priority.ALWAYS
@@ -175,6 +179,21 @@ class WatchlistView : View("Watchlists") {
         toolbox {
             button("Back").action { replaceWith(SymbolTableView::class) }
         }
-        this += tabpane
+        splitpane(Orientation.VERTICAL) {
+            vgrow = Priority.ALWAYS
+            this += tabpane
+            this += newslist.apply {
+                toolbox.hide()
+            }
+            setDividerPositions(.6, .4)
+
+            watchlist.table.onSelectionChange {
+                if (Platform.isFxApplicationThread()) {
+                    it?.let {
+                        newslist.symbol.value = it.symbol
+                    }
+                }
+            }
+        }
     }
 }
