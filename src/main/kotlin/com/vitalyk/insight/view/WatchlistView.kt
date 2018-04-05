@@ -73,9 +73,6 @@ class WatchlistUI : Fragment() {
             button("Add").action {
                 addSymbol()
             }
-            button("Autosize").action {
-                table.requestResize()
-            }
         }
 
         this += table

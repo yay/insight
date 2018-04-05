@@ -2,6 +2,7 @@ package com.vitalyk.insight.yahoo
 
 import com.vitalyk.insight.main.getAppLogger
 import org.jsoup.Jsoup
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -21,10 +22,13 @@ fun fetchNews(symbol: String): MutableList<NewsItem> {
     val url = companyNewsUrl + symbol
     val connection = Jsoup.connect(url).timeout(10000)
 
-    val document = connection.get()
+    val document = try { connection.get() } catch (e: IOException) {
+        getAppLogger().error("Fetching news for $symbol failed: ${e.message}")
+        null
+    }
     val code = connection.data().response().statusCode()
 
-    if (code == 200) {
+    if (document != null && code == 200) {
         val items = document.select("item")
         for (item in items) {
             val title = item.select("title")

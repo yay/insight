@@ -15,6 +15,10 @@ import java.util.logging.Logger
 class Insight : App(SymbolTableView::class, Styles::class) {
 
     override fun start(stage: Stage) {
+//        Thread.setDefaultUncaughtExceptionHandler { _, e ->
+//            System.err.println(e.message)
+//        }
+
         super.start(stage)
 
         stage.setOnCloseRequest {
