@@ -35,7 +35,7 @@ class SymbolTableView : View("Instrument Data") {
     }
 
     override val root = vbox {
-        toolbox(border = false) {
+        toolbox {
             label("Symbol:")
             textfield(symbol) {
                 maxWidth = 80.0
@@ -48,7 +48,11 @@ class SymbolTableView : View("Instrument Data") {
                     }
                 }
             }
-            button("Go").action { updateSymbolTable() }
+            button("Go") {
+                setOnAction {
+                    updateSymbolTable()
+                }
+            }
 
             label("Period:")
             rangeCombo = combobox(range, IexApi.Range.values().toList().observable()) {
@@ -60,7 +64,9 @@ class SymbolTableView : View("Instrument Data") {
             button("News").action { replaceWith(NewsView::class) }
 
             button("Quotes").action { replaceWith(QuoteView::class) }
+        }
 
+        toolbox(border = false) {
             button("Watchlists").action { replaceWith(WatchlistView::class) }
 
             button("Market Distribution") {
@@ -81,6 +87,10 @@ class SymbolTableView : View("Instrument Data") {
                         getDistributionInfo(listOf(symbol.value))
                     )
                 }
+            }
+
+            button("Canvas").action {
+                replaceWith(CanvasView::class)
             }
         }
 

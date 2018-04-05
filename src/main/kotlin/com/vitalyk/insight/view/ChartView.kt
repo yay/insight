@@ -19,6 +19,7 @@ class ChartView : View("Chart") {
         val showGridLines = symbolTableView.symbolTable.items.count() < 100
         chart.isHorizontalGridLinesVisible = showGridLines
         chart.verticalGridLinesVisible = showGridLines
+
         chart.series(symbolTableView.symbol.value) {
             val dateFormat = SimpleDateFormat("d MMM, yyyy")
             for (item in symbolTableView.symbolTable.items) {

@@ -11,13 +11,16 @@ import javafx.event.EventHandler
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
 import tornadofx.*
+import java.text.SimpleDateFormat
 
 
 class WatchlistUI : Fragment() {
 
     var symbol = SimpleStringProperty("")
     var watchlist = Watchlist()
+    var lastTradeFormatter = SimpleDateFormat("dd MMM HH:mm:ss zzz")
 
+    // https://github.com/edvin/tornadofx/wiki/TableView-SmartResize
     private val table = tableview(mutableListOf<TopsBean>().observable()) {
         val table = this
 
@@ -25,10 +28,18 @@ class WatchlistUI : Fragment() {
 
         column("Symbol", TopsBean::symbolProperty)
         column("Last Trade", TopsBean::lastSalePriceProperty)
-        column("Last Trade Time", TopsBean::lastSaleTimeProperty)
+        column("Trade Time", TopsBean::lastSaleTimeProperty).cellFormat {
+            if (it != null) {
+                text = lastTradeFormatter.format(it)
+            }
+        }
+        column("Trade Size", TopsBean::lastSaleSizeProperty)
         column("Bid", TopsBean::bidPriceProperty)
+        column("Bid Size", TopsBean::bidSizeProperty)
         column("Ask", TopsBean::askPriceProperty)
+        column("Ask Size", TopsBean::askSizeProperty)
         column("Volume", TopsBean::volumeProperty)
+        column("Sector", TopsBean::sectorProperty)
 
         contextmenu {
             item("Remove").action {
@@ -58,6 +69,9 @@ class WatchlistUI : Fragment() {
             }
             button("Add").action {
                 addSymbol()
+            }
+            button("Autosize").action {
+                table.requestResize()
             }
         }
 

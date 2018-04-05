@@ -4,6 +4,7 @@ import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.style.Styles
 import com.vitalyk.insight.view.SymbolTableView
+import io.socket.client.Socket
 import javafx.stage.Stage
 import tornadofx.*
 import okhttp3.OkHttpClient
@@ -33,6 +34,8 @@ class Insight : App(SymbolTableView::class, Styles::class) {
         @JvmStatic
         fun main(vararg args: String) {
             Logger.getLogger(OkHttpClient::class.java.name).level = Level.FINE
+            Logger.getLogger(Socket::class.java.name).level = Level.FINE
+
             launch(Insight::class.java, *args)
         }
     }
