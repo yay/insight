@@ -15,7 +15,7 @@ import javafx.scene.layout.Priority
 import tornadofx.*
 import java.text.SimpleDateFormat
 
-
+// TODO: the app won't shutdown because of some background thread activity
 class WatchlistUI : Fragment() {
 
     var symbol = SimpleStringProperty("")

@@ -2,6 +2,7 @@ package com.vitalyk.insight.yahoo
 
 import com.vitalyk.insight.main.getAppLogger
 import org.jsoup.Jsoup
+import org.jsoup.parser.Parser
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -35,7 +36,7 @@ fun fetchNews(symbol: String): MutableList<NewsItem> {
             val link = item.select("link")
             val pubDate = item.select("pubDate")
             val newsItem = NewsItem(
-                headline = title.text(),
+                headline = Parser.unescapeEntities(title.text(), true),
                 url = link.text(),
                 date = newsDateParser.parse(pubDate.text())
             )
