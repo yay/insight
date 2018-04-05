@@ -21,11 +21,10 @@ internal class WatchlistTest {
 
         assertEquals("DJI", wl2.name)
 
-        var wl3: Watchlist? = Watchlist()
-        wl3?.name = "Positions"
+        var wl3 = Watchlist()
+        wl3.name = "Positions"
 
-        wl3 = null  // remove the only reference to wl3
-        System.gc() // make sure it also disappears from the static weak set in the Watchlist
+        Watchlist.deregister(wl3)
 
         wl3 = Watchlist()
         wl3.name = "Positions" // should not throw
