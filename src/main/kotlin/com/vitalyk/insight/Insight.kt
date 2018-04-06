@@ -1,13 +1,11 @@
 package com.vitalyk.insight
 
-import com.vitalyk.insight.iex.IexApi
 import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.style.Styles
 import com.vitalyk.insight.view.SymbolTableView
-import io.socket.client.Socket
-import javafx.collections.FXCollections
-import javafx.collections.MapChangeListener
+import io.socket.client.IO
+import io.socket.engineio.client.Socket
 import javafx.stage.Stage
 import okhttp3.OkHttpClient
 import tornadofx.*
@@ -22,17 +20,15 @@ class Insight : App(SymbolTableView::class, Styles::class) {
 //            System.err.println(e.message)
 //        }
 
+        IO.setDefaultOkHttpWebSocketFactory(HttpClients.main)
+
+        Logger.getLogger(OkHttpClient::class.java.name).level = Level.FINE
+        Logger.getLogger(Socket::class.java.name).level = Level.FINE
+
         super.start(stage)
 
         stage.setOnCloseRequest {
-            // OkHttp uses two thread pools that keep threads alive for 60 seconds after use.
-            // The app will keep running unless the executor service is shut down
-            // and connection pool is cleared.
-            // See: https://square.github.io/okhttp/3.x/okhttp/okhttp3/OkHttpClient.html
-            // and PlatformImpl.exit() docs.
-            HttpClients.main.dispatcher().executorService().shutdown()
-            HttpClients.main.connectionPool().evictAll()
-
+            HttpClients.killAll()
             Watchlist.clearAll()
         }
     }
@@ -40,9 +36,6 @@ class Insight : App(SymbolTableView::class, Styles::class) {
     companion object {
         @JvmStatic
         fun main(vararg args: String) {
-            Logger.getLogger(OkHttpClient::class.java.name).level = Level.FINE
-            Logger.getLogger(Socket::class.java.name).level = Level.FINE
-
             launch(Insight::class.java, *args)
         }
     }
