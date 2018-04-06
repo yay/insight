@@ -14,13 +14,15 @@ import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
 import tornadofx.*
 import java.text.SimpleDateFormat
+import java.util.TimeZone
 
 // TODO: the app won't shutdown because of some background thread activity
 class WatchlistUI : Fragment() {
 
     var symbol = SimpleStringProperty("")
     var watchlist = Watchlist()
-    var lastTradeFormatter = SimpleDateFormat("dd MMM HH:mm:ss zzz")
+    private val newYorkTimeZone = TimeZone.getTimeZone("America/New_York")
+    private var lastTradeFormatter = SimpleDateFormat("dd MMM HH:mm:ss zzz")
 
     // https://github.com/edvin/tornadofx/wiki/TableView-SmartResize
     val table = tableview(mutableListOf<TopsBean>().observable()) {
@@ -55,6 +57,15 @@ class WatchlistUI : Fragment() {
         vgrow = Priority.ALWAYS
     }
 
+    var isEasternTime: Boolean = false
+        set(value) {
+            field = value
+            lastTradeFormatter.timeZone = if (value)
+                newYorkTimeZone
+            else
+                TimeZone.getDefault()
+        }
+
     override val root = vbox {
         vgrow = Priority.ALWAYS
 
@@ -72,6 +83,13 @@ class WatchlistUI : Fragment() {
             }
             button("Add").action {
                 addSymbol()
+            }
+            togglebutton("Eastern time") {
+                isSelected = false
+                setOnAction {
+                    isEasternTime = isSelected
+                    table.refresh()
+                }
             }
         }
 

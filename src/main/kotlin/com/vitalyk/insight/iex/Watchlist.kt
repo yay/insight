@@ -41,9 +41,15 @@ class Watchlist {
         }
     }
 
+    private val pendingAdd = mutableSetOf<String>()
+    private val pendingRemove = mutableSetOf<String>()
+
+    fun isPendingAdd(symbol: String) = symbol in pendingAdd
+    fun isPendingRemove(symbol: String) = symbol in pendingRemove
+
     private val map = FXCollections.observableHashMap<String, Tops>()
     private val listeners = mutableSetOf<MapChangeListener<String, Tops>>()
-    val socket = IO.socket("https://ws-api.iextrading.com/1.0/tops")
+    private val socket = IO.socket("https://ws-api.iextrading.com/1.0/tops")
 
     var name: String = generateName(this)
         @Throws(IllegalArgumentException::class)
@@ -89,11 +95,16 @@ class Watchlist {
         socket
             .on(Socket.EVENT_MESSAGE) { params ->
                 val tops = IexApi.parseTops(params.first() as String)
-                // This function can be called for a given symbol even if no change occurred:
-                // no bid/ask size, price or even volume changes. The contents of data class
-                // instances will be identical. That's why we need an observable map,
-                // it's listener will only be called when an actual change happens.
-                map[tops.symbol] = tops
+                // We can receive a message for a symbol even if no change occurred:
+                // no bid/ask size, price or even volume changes.
+                // That's why we use an observable map:
+                // it's change listener will only be called when an actual change happens,
+                // because `tops` data class instances are compared using the `equals` method.
+                val symbol = tops.symbol
+                if (symbol !in pendingRemove) {
+                    map[symbol] = tops
+                    pendingAdd.remove(symbol)
+                }
             }
             .on(Socket.EVENT_DISCONNECT) {
                 getAppLogger().debug("Watchlist disconnected: ${map.keys}")
@@ -106,11 +117,15 @@ class Watchlist {
     operator fun get(key: String) = map[key]
 
     fun addSymbols(symbols: List<String>) {
-        val new = symbols.filter { it !in map }
+        val new = symbols.filter { it !in map && it !in pendingAdd }
         if (new.isEmpty()) return
 
+        pendingAdd.addAll(new)
+
         socket.connect()
-        socket.emit("subscribe", new.joinToString(","))
+        socket.emit("subscribe", arrayOf(new.joinToString(","))) {
+            println("Watchlist symbols subscribed: $it")
+        }
     }
 
     fun addSymbols(vararg symbols: String) {
@@ -119,13 +134,18 @@ class Watchlist {
 
     fun removeSymbols(symbols: List<String>) {
         val old = symbols.filter { it in map }
-        old.forEach { map.remove(it) }
+        if (old.isEmpty()) return
+
+        pendingRemove.addAll(old)
+        map.keys.removeAll(old)
 
         if (map.keys.isEmpty()) {
             // If no threads are running, this will result in program exit.
             socket.disconnect()
         }
-        socket.emit("unsubscribe", old.joinToString(","))
+        socket.emit("unsubscribe", arrayOf(old.joinToString(","))) {
+            println("Watchlist symbols unsubscribed: $it")
+        }
     }
 
     fun removeSymbols(vararg symbols: String) {

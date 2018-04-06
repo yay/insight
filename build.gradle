@@ -108,6 +108,10 @@ dependencies {
     compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.9.5'
     compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.5'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.9.5'
+    // https://github.com/FasterXML/jackson-modules-java8
+//    compile 'com.fasterxml.jackson.module:jackson-module-parameter-names:2.9.5'
+//    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.5'
+//    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.5'
 
     compile 'ch.qos.logback:logback-classic:1.2.3'
     compile 'org.quartz-scheduler:quartz:2.3.0'

@@ -1,13 +1,16 @@
 package com.vitalyk.insight
 
+import com.vitalyk.insight.iex.IexApi
 import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.style.Styles
 import com.vitalyk.insight.view.SymbolTableView
 import io.socket.client.Socket
+import javafx.collections.FXCollections
+import javafx.collections.MapChangeListener
 import javafx.stage.Stage
-import tornadofx.*
 import okhttp3.OkHttpClient
+import tornadofx.*
 import java.util.logging.Level
 import java.util.logging.Logger
 
