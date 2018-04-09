@@ -1,10 +1,9 @@
 package com.vitalyk.insight.main
 
-//typealias WatchlistName = String
-//typealias Watchlist = MutableList<String>
+import com.vitalyk.insight.iex.Watchlist
 
 object AppSettings {
-//    var watchlists = mutableMapOf<WatchlistName, Watchlist>()
+    var watchlists = listOf<Watchlist.Settings>()
 
     object paths {
         var storage = "./storage"

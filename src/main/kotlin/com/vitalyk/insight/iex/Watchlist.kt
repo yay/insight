@@ -2,42 +2,63 @@ package com.vitalyk.insight.iex
 
 import com.vitalyk.insight.iex.IexApi.Tops
 import com.vitalyk.insight.main.getAppLogger
+import io.socket.client.Ack
 import io.socket.client.IO
 import io.socket.client.Socket
 import javafx.collections.FXCollections
 import javafx.collections.MapChangeListener
 
-class Watchlist {
+class Watchlist(name: String, symbols: List<String> = emptyList()) {
+
+    data class Settings(
+        val name: String,
+        val symbols: List<String>
+    )
 
     companion object {
-        private val watchlists = mutableSetOf<Watchlist>()
+        private val watchlists = mutableMapOf<String, Watchlist>()
 
-        private fun generateName(watchlist: Watchlist): String {
-            // There is a tiny chance that the user will set the name of one of the existing
-            // watchlists to the name we generate here for a new watchlist.
-            // So, if only in theory, the constructor might throw.
-            val name = "Watchlist ${watchlist.hashCode()}"
-            register(watchlist, name)
-            return name
-        }
+//        private fun generateName(watchlist: Watchlist): String {
+//            // There is a tiny chance that the user will set the name of one of the existing
+//            // watchlists to the name we generate here for a new watchlist.
+//            // So, if only in theory, the constructor might throw.
+//            val name = "Watchlist ${watchlist.hashCode()}"
+//            register(watchlist, name)
+//            return name
+//        }
 
         private fun register(watchlist: Watchlist, name: String) {
-            watchlists.find { it.name == name }?.let {
-                throw IllegalArgumentException("A watchlist with this name already exists.")
+            if (name in watchlists) {
+                throw IllegalArgumentException("A watchlist named '$name' already exists.")
             }
-            watchlists.add(watchlist)
+            watchlists[name] = watchlist
         }
 
         fun deregister(watchlist: Watchlist) {
-            watchlists.remove(watchlist)
+            watchlists.values.remove(watchlist)
         }
 
+        operator fun get(key: String) = watchlists[key]
+
         fun clearAll() {
-            watchlists.forEach {
+            watchlists.values.forEach {
                 it.clearListeners()
                 it.clearSymbols()
             }
             watchlists.clear()
+        }
+
+        fun save(): List<Settings> = watchlists.values.map {
+            Settings(
+                name = it.name,
+                symbols = it.symbols
+            )
+        }
+
+        fun restore(watchlists: List<Settings>) {
+            watchlists.forEach {
+                Watchlist(it.name, it.symbols)
+            }
         }
     }
 
@@ -51,9 +72,8 @@ class Watchlist {
     private val listeners = mutableSetOf<MapChangeListener<String, Tops>>()
     private val socket = IO.socket("https://ws-api.iextrading.com/1.0/tops")
 
-    var name: String = generateName(this)
-        @Throws(IllegalArgumentException::class)
-        set(value) { // Note: the setter is not triggered by the default (generated) value
+    var name: String = "" // Note: the setter is not triggered by the default value
+        set(value) {
             if (name == value) return
             register(this, value)
             field = value
@@ -66,14 +86,6 @@ class Watchlist {
 
     val tops: List<Tops>
         get() = map.values.toList()
-
-    constructor(symbols: List<String>) {
-        addSymbols(symbols)
-    }
-
-    constructor(vararg symbols: String) {
-        addSymbols(symbols.toList())
-    }
 
     fun addListener(listener: (MapChangeListener.Change<out String, out Tops>) -> Unit): MapChangeListener<String, Tops> {
         return MapChangeListener<String, Tops> { change -> listener(change) }.apply {
@@ -92,6 +104,9 @@ class Watchlist {
     }
 
     init {
+        this.name = name
+        addSymbols(symbols)
+
         socket
             .on(Socket.EVENT_MESSAGE) { params ->
                 val tops = IexApi.parseTops(params.first() as String)
@@ -116,40 +131,38 @@ class Watchlist {
     operator fun contains(key: String) = key in map
     operator fun get(key: String) = map[key]
 
-    fun addSymbols(symbols: List<String>) {
+    fun addSymbols(symbols: List<String>, ack: Ack? = null): List<String> {
         val new = symbols.filter { it !in map && it !in pendingAdd }
-        if (new.isEmpty()) return
 
-        pendingAdd.addAll(new)
+        if (new.isNotEmpty()) {
+            pendingAdd.addAll(new)
 
-        socket.connect()
-        socket.emit("subscribe", arrayOf(new.joinToString(","))) {
-            println("Watchlist symbols subscribed: $it")
+            socket.connect()
+            socket.emit("subscribe", arrayOf(new.joinToString(","))) {
+                println("Watchlist symbols subscribed: $it")
+            }
         }
+
+        return new
     }
 
-    fun addSymbols(vararg symbols: String) {
-        addSymbols(symbols.toList())
-    }
-
-    fun removeSymbols(symbols: List<String>) {
+    fun removeSymbols(symbols: List<String>, ack: Ack? = null): List<String> {
         val old = symbols.filter { it in map }
-        if (old.isEmpty()) return
 
-        pendingRemove.addAll(old)
-        map.keys.removeAll(old)
+        if (old.isNotEmpty()) {
+            pendingRemove.addAll(old)
+            map.keys.removeAll(old)
 
-        if (map.keys.isEmpty()) {
-            // If no threads are running, this will result in program exit.
-            socket.disconnect()
+            if (map.keys.isEmpty()) {
+                // If no threads are running, this will result in program exit.
+                socket.disconnect()
+            }
+            socket.emit("unsubscribe", arrayOf(old.joinToString(","))) {
+                println("Watchlist symbols unsubscribed: $it")
+            }
         }
-        socket.emit("unsubscribe", arrayOf(old.joinToString(","))) {
-            println("Watchlist symbols unsubscribed: $it")
-        }
-    }
 
-    fun removeSymbols(vararg symbols: String) {
-        removeSymbols(symbols.toList())
+        return old
     }
 
     fun clearSymbols() {

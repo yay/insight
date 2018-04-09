@@ -7,20 +7,6 @@ import io.socket.client.IO
 import io.socket.client.Socket.EVENT_CONNECT
 import io.socket.client.Socket.EVENT_DISCONNECT
 
-fun main(args: Array<String>) {
-
-//    Settings.load(AppSettings)
-//    Settings.saveOnShutdown(AppSettings)
-//
-//    // The app won't exit while the scheduler is running.
-//    val appSchedulerFactory = StdSchedulerFactory()
-//    val appScheduler = appSchedulerFactory.scheduler
-//
-//    appScheduler.start()
-//
-//    scheduleEndOfDayFetcher(appScheduler)
-}
-
 fun getTops() {
     val socket = IO.socket("https://ws-api.iextrading.com/1.0/tops")
 

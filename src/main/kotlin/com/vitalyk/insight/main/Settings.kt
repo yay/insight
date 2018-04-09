@@ -15,8 +15,13 @@ object Settings {
      */
     private fun getFileName(obj: Any): String = "${obj::class.java.name.split(".").last()}.json"
 
-    fun load(obj: Any, filename: String = getFileName(obj)) {
-        mapper.readValue(File(filename), obj::class.java)
+    /**
+     * Populates the given settings object with values read from JSON file.
+     */
+    fun <T> load(obj: T, filename: String = getFileName(obj as Any), block: T.() -> Unit = {}) {
+        mapper.readValue(File(filename), (obj as Any)::class.java)
+        block(obj)
+
     }
 
     fun save(obj: Any, filename: String = getFileName(obj)) {
@@ -28,14 +33,15 @@ object Settings {
     /**
      * Adds a hook to save the given settings object on shutdown using the specified filename.
      */
-    fun saveOnShutdown(obj: Any, filename: String = getFileName(obj)) {
+    fun <T> saveOnShutdown(obj: T, filename: String = getFileName(obj as Any), block: T.() -> Unit = {}) {
         if (saveOnShutdownMap[filename] != true) {
             Runtime.getRuntime().addShutdownHook(Thread {
+                block(obj)
                 mapper.writerWithDefaultPrettyPrinter().writeValue(File(filename), obj)
             })
             saveOnShutdownMap[filename] = true
         } else {
-            getAppLogger().warn("${getFileName(obj)} is already set to save on shutdown.")
+            getAppLogger().warn("${getFileName(obj as Any)} is already set to save on shutdown.")
         }
     }
 }

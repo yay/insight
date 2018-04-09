@@ -14,13 +14,12 @@ import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
 import tornadofx.*
 import java.text.SimpleDateFormat
-import java.util.TimeZone
+import java.util.*
 
 // TODO: the app won't shutdown because of some background thread activity
-class WatchlistUI : Fragment() {
+class WatchlistUI(val watchlist: Watchlist) : Fragment() {
 
     var symbol = SimpleStringProperty("")
-    var watchlist = Watchlist()
     private val newYorkTimeZone = TimeZone.getTimeZone("America/New_York")
     private var lastTradeFormatter = SimpleDateFormat("dd MMM HH:mm:ss zzz")
 
@@ -102,14 +101,9 @@ class WatchlistUI : Fragment() {
     }
 
     fun addSymbols(symbols: List<String>) {
-        symbols.forEach {
+        watchlist.addSymbols(symbols).forEach {
             table.items.add(IexApi.Tops(symbol = it).toBean())
         }
-        watchlist.addSymbols(symbols)
-    }
-
-    fun addSymbols(vararg symbols: String) {
-        addSymbols(symbols.toList())
     }
 
     private fun getSymbolIndex(symbol: String): Int {
@@ -172,13 +166,16 @@ class WatchlistUI : Fragment() {
                 Unit
             } ?: removeSymbol(change.valueRemoved.symbol)
         }
-        addSymbols("ANET", "SQ", "AMD", "INTC", "AVGO", "MU", "NVDA", "SCHW", "NFLX", "AMAT", "SPOT")
+        watchlist.symbols.forEach {
+            table.items.add(IexApi.Tops(symbol = it).toBean())
+        }
+        table.refresh()
     }
 }
 
 class WatchlistView : View("Watchlists") {
 
-    val watchlist = WatchlistUI()
+    val watchlist = WatchlistUI(Watchlist["Main"] ?: Watchlist("Main"))
     val newslist = NewsList()
 
     private val tabpane = tabpane {

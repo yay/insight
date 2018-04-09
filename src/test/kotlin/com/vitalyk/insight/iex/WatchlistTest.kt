@@ -8,26 +8,20 @@ internal class WatchlistTest {
 
     @Test
     fun construction() {
-        val wl1 = Watchlist()
-        wl1.name = "Main" // should not throw: "Main" is a unique name
-        wl1.name = "Main" // should not throw: not changing anything
+        val wl1 = Watchlist("Main")
+        wl1.name = "Main" // should not throw: name already taken, but hasn't changed
 
-        val wl2 = Watchlist()
-        wl2.name = "DJI"
+        val wl2 = Watchlist("DJI") // should not throw: name not taken
 
         assertThrows<IllegalArgumentException>("Watchlist names should be unique") {
             wl2.name = wl1.name
         }
 
-        assertEquals("DJI", wl2.name)
+        assertEquals("DJI", wl2.name) // name hasn't changed after exception
 
-        var wl3 = Watchlist()
-        wl3.name = "Positions"
-
+        val wl3 = Watchlist("Positions")
         Watchlist.deregister(wl3)
 
-        wl3 = Watchlist()
-        wl3.name = "Positions" // should not throw
-
+        Watchlist("Positions") // should not throw: name was deregistered
     }
 }
