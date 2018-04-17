@@ -1,5 +1,6 @@
 package com.vitalyk.insight.view
 
+import com.vitalyk.insight.iex.IexSymbols
 import com.vitalyk.insight.ui.toolbox
 import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.LineChart
@@ -15,12 +16,13 @@ class ChartView : View("Chart") {
     private lateinit var chart: LineChart<String, Number>
 
     override fun onDock() {
-        chart.title = symbolTableView.symbol.value
+        val symbol = symbolTableView.symbol.value
+        chart.title = "$symbol - ${IexSymbols.name(symbol) ?: "Unknown symbol"}"
         val showGridLines = symbolTableView.symbolTable.items.count() < 100
         chart.isHorizontalGridLinesVisible = showGridLines
         chart.verticalGridLinesVisible = showGridLines
 
-        chart.series(symbolTableView.symbol.value) {
+        chart.series(symbol) {
             val dateFormat = SimpleDateFormat("d MMM, yyyy")
             for (item in symbolTableView.symbolTable.items) {
                 data(dateFormat.format(item.date), item.close)

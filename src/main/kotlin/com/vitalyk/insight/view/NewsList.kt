@@ -1,5 +1,6 @@
 package com.vitalyk.insight.view
 
+import com.vitalyk.insight.ui.symbolfield
 import com.vitalyk.insight.ui.toolbox
 import com.vitalyk.insight.yahoo.NewsItem
 import com.vitalyk.insight.yahoo.fetchNews
@@ -55,10 +56,8 @@ class NewsList : Fragment("News") {
 
     val toolbox = toolbox(border = false) {
         label("Symbol:")
-        textfield {
-            textProperty().onChange { value ->
-                text = value?.toUpperCase()
-            }
+        val symbol = SimpleStringProperty("")
+        symbolfield(symbol) {
             onKeyReleased = EventHandler { key ->
                 if (key.code == KeyCode.ENTER) {
                     fetchSymbolNews(text)

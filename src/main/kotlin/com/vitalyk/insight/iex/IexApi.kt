@@ -88,6 +88,11 @@ object IexApi {
     private fun Class<*>.toListType(): CollectionType =
         mapper.typeFactory.constructCollectionType(List::class.java, this)
 
+    private val previousDayMapType = mapper.typeFactory.constructMapType(
+        Map::class.java,
+        String::class.java, PreviousDay::class.java
+    )
+
     // Refers to the common issue type of the stock.
     enum class IssueType {
         @JsonProperty("ad")
@@ -781,6 +786,16 @@ object IexApi {
 
         return getResponse(requestUrl)?.let {
             mapper.readValue(it, PreviousDay::class.java)
+        }
+    }
+
+    fun getPreviousDay(): Map<String, PreviousDay>? {
+        val url = "$baseUrl/stock/market/previous"
+        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
+        val requestUrl = httpUrl.newBuilder().build().toString()
+
+        return getResponse(requestUrl)?.let {
+            mapper.readValue(it, previousDayMapType)
         }
     }
 
