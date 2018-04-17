@@ -1,25 +1,18 @@
 package com.vitalyk.insight.ui
 
-import com.vitalyk.insight.iex.IexApi.Quote
+import com.vitalyk.insight.iex.Iex.Quote
 import javafx.geometry.Insets
-import javafx.geometry.Point2D
 import javafx.geometry.Pos
-import javafx.scene.Scene
 import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.LineChart
 import javafx.scene.chart.NumberAxis
-import javafx.scene.control.ListCell
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.Priority
-import javafx.scene.layout.Region
 import javafx.scene.paint.Color
 import javafx.scene.shape.Circle
-import javafx.scene.shape.Rectangle
 import javafx.scene.text.Font
 import javafx.scene.text.FontWeight
 import javafx.stage.Popup
-import javafx.stage.Stage
-import javafx.stage.StageStyle
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay

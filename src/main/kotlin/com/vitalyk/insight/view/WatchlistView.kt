@@ -1,6 +1,6 @@
 package com.vitalyk.insight.view
 
-import com.vitalyk.insight.iex.IexApi
+import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.TopsBean
 import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.iex.toBean
@@ -101,7 +101,7 @@ class WatchlistUI(val watchlist: Watchlist) : Fragment() {
 
     fun addSymbols(symbols: List<String>) {
         watchlist.addSymbols(symbols).forEach {
-            table.items.add(IexApi.Tops(symbol = it).toBean())
+            table.items.add(Iex.Tops(symbol = it).toBean())
         }
     }
 
@@ -112,7 +112,7 @@ class WatchlistUI(val watchlist: Watchlist) : Fragment() {
         return -1
     }
 
-    private fun replaceItem(tops: IexApi.Tops): Int {
+    private fun replaceItem(tops: Iex.Tops): Int {
         val index = getSymbolIndex(tops.symbol)
         if (index >= 0) {
             table.items[index] = tops.toBean()
@@ -120,7 +120,7 @@ class WatchlistUI(val watchlist: Watchlist) : Fragment() {
         return index
     }
 
-    private fun replaceOrAddItem(tops: IexApi.Tops) {
+    private fun replaceOrAddItem(tops: Iex.Tops) {
         val replacedAt = replaceItem(tops)
         if (replacedAt < 0) {
             table.items.add(tops.toBean())
@@ -132,7 +132,7 @@ class WatchlistUI(val watchlist: Watchlist) : Fragment() {
         if (index >= 0) table.items.removeAt(index)
     }
 
-    var listener: MapChangeListener<String, IexApi.Tops>? = null
+    var listener: MapChangeListener<String, Iex.Tops>? = null
 
 //    override fun onDock() {
 //        super.onDock()
@@ -166,7 +166,7 @@ class WatchlistUI(val watchlist: Watchlist) : Fragment() {
             } ?: removeSymbol(change.valueRemoved.symbol)
         }
         watchlist.symbols.forEach {
-            table.items.add(IexApi.Tops(symbol = it).toBean())
+            table.items.add(Iex.Tops(symbol = it).toBean())
         }
     }
 }

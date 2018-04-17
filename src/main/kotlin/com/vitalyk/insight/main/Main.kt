@@ -1,8 +1,8 @@
 package com.vitalyk.insight.main
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.vitalyk.insight.iex.IexApi
-import com.vitalyk.insight.iex.IexApi.Tops as Tops
+import com.vitalyk.insight.iex.Iex
+import com.vitalyk.insight.iex.Iex.Tops as Tops
 import io.socket.client.IO
 import io.socket.client.Socket.EVENT_CONNECT
 import io.socket.client.Socket.EVENT_DISCONNECT
@@ -21,7 +21,7 @@ fun getTops() {
             //        socket.disconnect()
         }
         .on("message") { params ->
-            println(IexApi.parseTops(params.first() as String))
+            println(Iex.parseTops(params.first() as String))
         }
         .on(EVENT_DISCONNECT) {
             println("Disconnected.")

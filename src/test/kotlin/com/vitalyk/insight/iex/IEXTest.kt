@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import java.time.format.DateTimeFormatter
 
 
-internal class IexApiTest {
+internal class IexTest {
 
     val symbol1 = "AAPL"
     val symbol2 = "AMZN"
@@ -15,48 +15,48 @@ internal class IexApiTest {
 
     @Test
     fun getCompany() {
-        val company = IexApi.getCompany(symbol1)
+        val company = Iex.getCompany(symbol1)
         assertEquals(symbol1, company?.symbol, "Should fetch the right symbol.")
     }
 
     @Test
     fun getStats() {
-        val stats = IexApi.getStats(symbol1)
+        val stats = Iex.getStats(symbol1)
         assertEquals(symbol1, stats?.symbol, "Should fetch the right symbol.")
     }
 
     @Test
     fun getMostActive() {
-        val mostActive = IexApi.getMostActive()
+        val mostActive = Iex.getMostActive()
 //        assertEquals(true, mostActive.isNotEmpty(), "Should return a non-empty list of quotes.")
     }
 
     @Test
     fun getGainers() {
-        val gainers = IexApi.getGainers()
+        val gainers = Iex.getGainers()
     }
 
     @Test
     fun getLosers() {
-        val losers = IexApi.getLosers()
+        val losers = Iex.getLosers()
     }
 
     @Test
     fun getIexVolume() {
-        val iexVolume = IexApi.getIexVolume()
+        val iexVolume = Iex.getIexVolume()
     }
 
     @Test
     fun getIexPercent() {
-        val iexPercent = IexApi.getIexPercent()
+        val iexPercent = Iex.getIexPercent()
     }
 
     @Test
     fun getDayChart() {
-        val chartPoints1 = IexApi.getDayChart(symbol2, IexApi.Range.M)
+        val chartPoints1 = Iex.getDayChart(symbol2, Iex.Range.M)
         assertEquals(true, chartPoints1?.isNotEmpty())
 
-        val chartPoints2 = IexApi.getDayChart(badSymbol, IexApi.Range.M)
+        val chartPoints2 = Iex.getDayChart(badSymbol, Iex.Range.M)
         assertEquals(null, chartPoints2)
     }
 
@@ -65,7 +65,7 @@ internal class IexApiTest {
         // Note: doesn't account for holidays.
         val lastWorkDay = getLastWorkDay()
         val dateString = lastWorkDay.format(DateTimeFormatter.ofPattern("yyyyMMdd"))
-        val chartPoints = IexApi.getMinuteChart(symbol1, dateString)
+        val chartPoints = Iex.getMinuteChart(symbol1, dateString)
         assertEquals(true, chartPoints?.isNotEmpty())
 
         chartPoints?.let {
@@ -78,81 +78,81 @@ internal class IexApiTest {
 
     @Test
     fun getDividends() {
-        val dividends = IexApi.getDividends(symbol1)
+        val dividends = Iex.getDividends(symbol1)
     }
 
     @Test
     fun getEarnings() {
-        val earnings = IexApi.getEarnings(symbol3)
+        val earnings = Iex.getEarnings(symbol3)
     }
 
     @Test
     fun getPeers() {
-        val peers = IexApi.getPeers(symbol3)
+        val peers = Iex.getPeers(symbol3)
     }
 
     @Test
     fun getVolumeByVenue() {
-        val volumeByVenue = IexApi.getVolumeByVenue(symbol2)
+        val volumeByVenue = Iex.getVolumeByVenue(symbol2)
     }
 
     @Test
     fun getLogoData() {
-        val logoData = IexApi.getLogoData(symbol3)
+        val logoData = Iex.getLogoData(symbol3)
     }
 
     @Test
     fun getFinancials() {
-        val financials = IexApi.getFinancials(symbol1)
+        val financials = Iex.getFinancials(symbol1)
     }
 
     @Test
     fun getSpread() {
-        val spread = IexApi.getSpread(symbol2)
+        val spread = Iex.getSpread(symbol2)
     }
 
     @Test
     fun getOHLC() {
-        val ohlc = IexApi.getOHLC(symbol3)
+        val ohlc = Iex.getOHLC(symbol3)
     }
 
     @Test
     fun getSplits() {
-        val splits = IexApi.getSplits(symbol1, IexApi.Range.Y5)
+        val splits = Iex.getSplits(symbol1, Iex.Range.Y5)
     }
 
     @Test
     fun getSymbols() {
-        val symbols = IexApi.getSymbols()
+        val symbols = Iex.getSymbols()
     }
 
     @Test
     fun getBatchOne() {
-        val batch = IexApi.getBatch(symbol1)
+        val batch = Iex.getBatch(symbol1)
     }
 
     @Test
     fun getBatchMany() {
-        val batch = IexApi.getBatch(listOf(symbol1, symbol2, symbol3))
+        val batch = Iex.getBatch(listOf(symbol1, symbol2, symbol3))
     }
 
     @Test
     fun getLastTrade() {
-        val lastTrades = IexApi.getLastTrade(listOf(symbol1, symbol2))
+        val lastTrades = Iex.getLastTrade(listOf(symbol1, symbol2))
         assertEquals(2, lastTrades?.size)
 
-        val allLastTrades = IexApi.getLastTrade()
+        val allLastTrades = Iex.getLastTrade()
         assertEquals(true, allLastTrades != null && allLastTrades.size > 8000)
     }
 
     @Test
     fun getTops() {
-        if (IexApi.isWeekend()) return
+        if (Iex.isWeekend()) return
 
-        val tops = IexApi.getTops(listOf(symbol1, symbol2))
+        val tops = Iex.getTops(listOf(symbol1, symbol2))
         assertEquals(2, tops?.size)
 
-        val allTops = IexApi.getTops()
+        val allTops = Iex.getTops()
         assertEquals(true, allTops != null && allTops.size > 8000)
     }
 
@@ -175,38 +175,38 @@ internal class IexApiTest {
                 "securityType": "commonstock"
             }
         """.trimIndent()
-        val tops = IexApi.parseTops(data)
+        val tops = Iex.parseTops(data)
     }
 
     @Test
     fun getDepth() {
-        if (!IexApi.isMarketHours()) return
+        if (!Iex.isMarketHours()) return
 
-        val depth = IexApi.getDepth(symbol3)
+        val depth = Iex.getDepth(symbol3)
     }
 
     @Test
     fun getBook() {
-        val book1 = IexApi.getBook(symbol1)
-        val book2 = IexApi.getBook(badSymbol)
+        val book1 = Iex.getBook(symbol1)
+        val book2 = Iex.getBook(badSymbol)
         assertEquals(null, book2)
     }
 
     @Test
     fun getTrades() {
-        if (IexApi.isWeekend()) return
+        if (Iex.isWeekend()) return
 
-        val trades = IexApi.getTrades(symbol2, last = 10)
+        val trades = Iex.getTrades(symbol2, last = 10)
         assertEquals(10, trades?.size)
     }
 
     @Test
     fun getIntradayStats() {
-        val intradayStats = IexApi.getIntradayStats()
+        val intradayStats = Iex.getIntradayStats()
     }
 
     @Test
     fun getRecordsStats() {
-        val recordsStats = IexApi.getRecordsStats()
+        val recordsStats = Iex.getRecordsStats()
     }
 }

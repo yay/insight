@@ -1,6 +1,6 @@
 package com.vitalyk.insight.iex
 
-import com.vitalyk.insight.iex.IexApi.DayChartPoint
+import com.vitalyk.insight.iex.Iex.DayChartPoint
 import javafx.beans.property.*
 import tornadofx.*
 import java.util.*
@@ -79,7 +79,7 @@ class TopsBean {
     var symbol by symbolProperty
 }
 
-fun IexApi.Tops.toBean() =
+fun Iex.Tops.toBean() =
     TopsBean().let {
         it.askPrice = this.askPrice
         it.askSize = this.askSize

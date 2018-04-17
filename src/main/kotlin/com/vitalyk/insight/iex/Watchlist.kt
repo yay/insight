@@ -1,6 +1,6 @@
 package com.vitalyk.insight.iex
 
-import com.vitalyk.insight.iex.IexApi.Tops
+import com.vitalyk.insight.iex.Iex.Tops
 import com.vitalyk.insight.main.getAppLogger
 import io.socket.client.IO
 import io.socket.client.Socket
@@ -155,7 +155,7 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
     fun connect() {
         socket
             .on(Socket.EVENT_MESSAGE) { params ->
-                val tops = IexApi.parseTops(params.first() as String)
+                val tops = Iex.parseTops(params.first() as String)
                 // We can receive a message for a symbol even if no change occurred:
                 // no bid/ask size, price or even volume changes.
                 // That's why we use an observable map:

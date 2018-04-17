@@ -1,7 +1,7 @@
 package com.vitalyk.insight.view
 
 import com.vitalyk.insight.iex.DayChartPointBean
-import com.vitalyk.insight.iex.IexApi
+import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.toBean
 import com.vitalyk.insight.ui.symbolfield
 import com.vitalyk.insight.ui.toolbox
@@ -20,14 +20,14 @@ import tornadofx.*
 class SymbolTableView : View("Instrument Data") {
 
     lateinit var symbolTable: TableView<DayChartPointBean>
-    lateinit var rangeCombo: ComboBox<IexApi.Range>
+    lateinit var rangeCombo: ComboBox<Iex.Range>
 
     var symbol = SimpleStringProperty("AAPL")
-    var range = SimpleObjectProperty(IexApi.Range.Y)
+    var range = SimpleObjectProperty(Iex.Range.Y)
 
     private fun Node.updateSymbolTable() {
         runAsyncWithProgress {
-            IexApi.getDayChart(symbol.value, range.value)?.map { point ->
+            Iex.getDayChart(symbol.value, range.value)?.map { point ->
                 point.toBean()
             } ?: emptyList()
         } ui { items ->
@@ -53,7 +53,7 @@ class SymbolTableView : View("Instrument Data") {
             }
 
             label("Period:")
-            rangeCombo = combobox(range, IexApi.Range.values().toList().observable()) {
+            rangeCombo = combobox(range, Iex.Range.values().toList().observable()) {
                 setOnAction { updateSymbolTable() }
             }
 

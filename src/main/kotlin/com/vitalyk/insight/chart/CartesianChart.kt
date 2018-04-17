@@ -1,8 +1,5 @@
 package com.vitalyk.insight.chart
 
-import com.vitalyk.insight.iex.IexApi
-import javafx.collections.FXCollections
-import javafx.collections.ObservableList
 import javafx.event.EventHandler
 import javafx.scene.Node
 import javafx.scene.canvas.Canvas

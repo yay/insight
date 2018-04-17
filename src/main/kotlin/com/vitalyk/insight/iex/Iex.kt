@@ -30,7 +30,7 @@ import java.util.*
 // We throttle endpoints by IP, but you should be able to achieve over 100 requests per second.
 // https://iextrading.com/developer/docs/
 
-object IexApi {
+object Iex {
     private val client = HttpClients.main
     private const val baseUrl = "https://api.iextrading.com/1.0"
     private const val badUrlMsg = "Bad URL."
@@ -324,7 +324,7 @@ object IexApi {
         // https://iextrading.com/developer/docs/#trade-break
         val tradeBreaks: List<Trade>,
         @JsonIgnore
-        val auction: Auction? = null,     // only for IEX listed securities
+        val auction: Auction? = null,     // only for Iex listed securities
         @JsonIgnore
         val officialPrice: OfficialPrice? = null
     )
@@ -704,9 +704,9 @@ object IexApi {
         val symbol: String, // Symbol represented in Nasdaq Integrated symbology (INET).
         val name: String,   // The date the symbol reference data was generated.
         val date: Date,
-        val isEnabled: Boolean, // Will be true if the symbol is enabled for trading on IEX.
+        val isEnabled: Boolean, // Will be true if the symbol is enabled for trading on Iex.
         val type: IssueType,
-        val iexId: String // Unique ID applied by IEX to track securities through symbol changes.
+        val iexId: String // Unique ID applied by Iex to track securities through symbol changes.
     )
 
     private fun getResponse(requestUrl: String): String? {
@@ -800,7 +800,7 @@ object IexApi {
     }
 
     // https://iextrading.com/developer/docs/#chart
-    // For example: IexApi.getDayChart("AAPL").joinToString("\n")
+    // For example: Iex.getDayChart("AAPL").joinToString("\n")
     fun getDayChart(symbol: String, range: Range = Range.Y): List<DayChartPoint>? {
         val url = "$baseUrl/stock/$symbol/chart/${range.value.code}"
         val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
@@ -965,7 +965,7 @@ object IexApi {
         }
     }
 
-    // Near real time, intraday API that provides IEX last sale price, size and time.
+    // Near real time, intraday API that provides Iex last sale price, size and time.
     // If no symbols are specified, will return all symbols (8K+).
     fun getLastTrade(symbols: List<String>? = null): List<LastTrade>? {
         val httpUrl = HttpUrl.parse("$baseUrl/tops/last") ?: throw Error(badUrlMsg)
@@ -1011,7 +1011,7 @@ object IexApi {
         }
     }
 
-    // Shows IEX’s bids and asks for given symbols.
+    // Shows Iex’s bids and asks for given symbols.
     // https://iextrading.com/developer/docs/#book51
     fun getBook(symbol: String): Book? {
         val httpUrl = HttpUrl.parse("$baseUrl/deep/book") ?: throw Error(badUrlMsg)

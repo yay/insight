@@ -1,6 +1,6 @@
 package com.vitalyk.insight.iex
 
-import com.vitalyk.insight.iex.IexApi.Symbol
+import com.vitalyk.insight.iex.Iex.Symbol
 import kotlinx.coroutines.experimental.async
 
 object IexSymbols {
@@ -8,7 +8,7 @@ object IexSymbols {
 
     fun update() {
         async {
-            IexApi.getSymbols()?.let {
+            Iex.getSymbols()?.let {
                 cache = it
             }
         }
