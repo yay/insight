@@ -10,6 +10,7 @@ import java.time.*
 import java.time.temporal.ChronoField
 import java.time.temporal.ChronoUnit
 import java.util.*
+import java.util.zip.ZipInputStream
 
 fun Long.toReadableNumber(): String {
     // E.g. 10_550_000_000.main.toReadableNumber()  // 10.6B
@@ -61,3 +62,14 @@ fun String.toJsonNode(): JsonNode {
 fun String.toPrettyJson(): String = objectWriter.writeValueAsString(this.toJsonNode())
 
 fun Any.toPrettyJson(): String = objectWriter.writeValueAsString(this)
+
+fun listResources(cls: Class<*>) {
+    cls.protectionDomain.codeSource?.apply {
+        val zip = ZipInputStream(location.openStream())
+        while (true) {
+            zip.nextEntry?.name?.let {
+                println(it)
+            } ?: break
+        }
+    }
+}

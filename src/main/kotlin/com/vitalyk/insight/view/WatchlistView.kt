@@ -4,6 +4,7 @@ import com.vitalyk.insight.iex.IexApi
 import com.vitalyk.insight.iex.TopsBean
 import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.iex.toBean
+import com.vitalyk.insight.ui.symbolfield
 import com.vitalyk.insight.ui.toolbox
 import javafx.application.Platform
 import javafx.beans.property.SimpleStringProperty
@@ -21,7 +22,8 @@ class WatchlistUI(val watchlist: Watchlist) : Fragment() {
 
     var symbol = SimpleStringProperty("")
     private val newYorkTimeZone = TimeZone.getTimeZone("America/New_York")
-    private var lastTradeFormatter = SimpleDateFormat("dd MMM HH:mm:ss zzz")
+    // "dd MMM HH:mm:ss zzz"
+    private var lastTradeFormatter = SimpleDateFormat("HH:mm:ss")
 
     // https://github.com/edvin/tornadofx/wiki/TableView-SmartResize
     val table = tableview(mutableListOf<TopsBean>().observable()) {
@@ -38,10 +40,10 @@ class WatchlistUI(val watchlist: Watchlist) : Fragment() {
         }
         column("Trade Size", TopsBean::lastSaleSizeProperty)
         column("Bid", TopsBean::bidPriceProperty)
-        column("Bid Size", TopsBean::bidSizeProperty)
         column("Ask", TopsBean::askPriceProperty)
-        column("Ask Size", TopsBean::askSizeProperty)
         column("Volume", TopsBean::volumeProperty)
+        column("Bid Size", TopsBean::bidSizeProperty)
+        column("Ask Size", TopsBean::askSizeProperty)
         column("Sector", TopsBean::sectorProperty)
 
         contextmenu {
@@ -69,11 +71,8 @@ class WatchlistUI(val watchlist: Watchlist) : Fragment() {
         vgrow = Priority.ALWAYS
 
         toolbox(border = false) {
-            textfield(symbol) {
+            symbolfield(symbol) {
                 promptText = "Add Symbol(s)"
-                textProperty().onChange { value ->
-                    this.text = value?.toUpperCase()
-                }
                 onKeyReleased = EventHandler { event ->
                     if (event.code == KeyCode.ENTER) {
                         addSymbol()
@@ -169,7 +168,6 @@ class WatchlistUI(val watchlist: Watchlist) : Fragment() {
         watchlist.symbols.forEach {
             table.items.add(IexApi.Tops(symbol = it).toBean())
         }
-        table.refresh()
     }
 }
 

@@ -1,5 +1,6 @@
 package com.vitalyk.insight
 
+import com.vitalyk.insight.iex.IexSymbols
 import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.main.AppSettings
 import com.vitalyk.insight.main.HttpClients
@@ -30,19 +31,22 @@ class Insight : App(SymbolTableView::class, Styles::class) {
         super.start(stage)
 
         stage.setOnCloseRequest {
-            HttpClients.killAll()
+            Watchlist.disconnect()
+            HttpClients.shutdown()
         }
     }
 
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
+            IexSymbols.update()
             Settings.load(AppSettings) {
                 Watchlist.restore(watchlists)
             }
+            // Note: the shutdown hook won't execute until the OkHttp threads are shut down.
             Settings.saveOnShutdown(AppSettings) {
-                watchlists = Watchlist.save()
-                Watchlist.clearAll()
+                println("Saving settings...")
+                AppSettings.watchlists = Watchlist.save()
             }
             //
             //    // The app won't exit while the scheduler is running.

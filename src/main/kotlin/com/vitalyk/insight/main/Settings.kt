@@ -19,9 +19,10 @@ object Settings {
      * Populates the given settings object with values read from JSON file.
      */
     fun <T> load(obj: T, filename: String = getFileName(obj as Any), block: T.() -> Unit = {}) {
-        mapper.readValue(File(filename), (obj as Any)::class.java)
+        val file = File(filename)
+        if (!file.isFile) return
+        mapper.readValue(file, (obj as Any)::class.java)
         block(obj)
-
     }
 
     fun save(obj: Any, filename: String = getFileName(obj)) {

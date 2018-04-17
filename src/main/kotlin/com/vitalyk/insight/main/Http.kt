@@ -50,13 +50,14 @@ object HttpClients {
         return client
     }
 
-    fun killAll() {
+    fun shutdown() {
         clients.forEach {
             // OkHttp uses two thread pools that keep threads alive for 60 seconds after use.
             // The app will keep running unless the executor service is shut down
             // and connection pool is cleared.
             // See: https://square.github.io/okhttp/3.x/okhttp/okhttp3/OkHttpClient.html
             // and PlatformImpl.exit() docs.
+            // Also: https://publicobject.com/2015/01/02/okio-watchdog/
             it.dispatcher().executorService().shutdown()
             it.connectionPool().evictAll()
         }

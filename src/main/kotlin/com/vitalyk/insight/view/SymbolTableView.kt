@@ -3,6 +3,7 @@ package com.vitalyk.insight.view
 import com.vitalyk.insight.iex.DayChartPointBean
 import com.vitalyk.insight.iex.IexApi
 import com.vitalyk.insight.iex.toBean
+import com.vitalyk.insight.ui.symbolfield
 import com.vitalyk.insight.ui.toolbox
 import com.vitalyk.insight.yahoo.getDistributionInfo
 import javafx.beans.property.SimpleObjectProperty
@@ -37,11 +38,8 @@ class SymbolTableView : View("Instrument Data") {
     override val root = vbox {
         toolbox {
             label("Symbol:")
-            textfield(symbol) {
+            symbolfield(symbol) {
                 maxWidth = 80.0
-                textProperty().onChange { value ->
-                    this.text = value?.toUpperCase()
-                }
                 onKeyReleased = EventHandler { key ->
                     if (key.code == KeyCode.ENTER) {
                         updateSymbolTable()

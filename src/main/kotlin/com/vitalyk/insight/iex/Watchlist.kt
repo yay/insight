@@ -2,7 +2,6 @@ package com.vitalyk.insight.iex
 
 import com.vitalyk.insight.iex.IexApi.Tops
 import com.vitalyk.insight.main.getAppLogger
-import io.socket.client.Ack
 import io.socket.client.IO
 import io.socket.client.Socket
 import javafx.collections.FXCollections
@@ -40,12 +39,11 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
 
         operator fun get(key: String) = watchlists[key]
 
-        fun clearAll() {
+        fun disconnect() {
             watchlists.values.forEach {
                 it.clearListeners()
-                it.clearSymbols()
+                it.disconnect()
             }
-            watchlists.clear()
         }
 
         fun save(): List<Settings> = watchlists.values.map {
@@ -106,7 +104,55 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
     init {
         this.name = name
         addSymbols(symbols)
+        connect()
+    }
 
+    fun isConnected() = socket.connected()
+
+    operator fun contains(key: String) = key in map
+    operator fun get(key: String) = map[key]
+
+    fun addSymbols(symbols: List<String>, ack: () -> Unit = {}): List<String> {
+        val new = symbols
+            .filter { it !in map && it !in pendingAdd && it.isNotBlank() }
+            .map { it.trim() }
+
+        if (new.isNotEmpty()) {
+            pendingAdd.addAll(new)
+
+            socket.connect()
+            socket.emit("subscribe", arrayOf(new.joinToString(","))) {
+                ack()
+                println("Watchlist symbols subscribed: $it")
+            }
+        }
+
+        return new
+    }
+
+    fun removeSymbols(symbols: List<String>, ack: () -> Unit = {}): List<String> {
+        val old = symbols
+            .filter { it in map && it.isNotBlank() }
+            .map { it.trim() }
+
+        if (old.isNotEmpty()) {
+            pendingRemove.addAll(old)
+            map.keys.removeAll(old)
+
+            if (map.keys.isEmpty()) {
+                // If no threads are running, this will result in program exit.
+                socket.disconnect()
+            }
+            socket.emit("unsubscribe", arrayOf(old.joinToString(","))) {
+                ack()
+                println("Watchlist symbols unsubscribed: $it")
+            }
+        }
+
+        return old
+    }
+
+    fun connect() {
         socket
             .on(Socket.EVENT_MESSAGE) { params ->
                 val tops = IexApi.parseTops(params.first() as String)
@@ -126,47 +172,7 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
             }
     }
 
-    fun isConnected() = socket.connected()
-
-    operator fun contains(key: String) = key in map
-    operator fun get(key: String) = map[key]
-
-    fun addSymbols(symbols: List<String>, ack: Ack? = null): List<String> {
-        val new = symbols.filter { it !in map && it !in pendingAdd }
-
-        if (new.isNotEmpty()) {
-            pendingAdd.addAll(new)
-
-            socket.connect()
-            socket.emit("subscribe", arrayOf(new.joinToString(","))) {
-                println("Watchlist symbols subscribed: $it")
-            }
-        }
-
-        return new
-    }
-
-    fun removeSymbols(symbols: List<String>, ack: Ack? = null): List<String> {
-        val old = symbols.filter { it in map }
-
-        if (old.isNotEmpty()) {
-            pendingRemove.addAll(old)
-            map.keys.removeAll(old)
-
-            if (map.keys.isEmpty()) {
-                // If no threads are running, this will result in program exit.
-                socket.disconnect()
-            }
-            socket.emit("unsubscribe", arrayOf(old.joinToString(","))) {
-                println("Watchlist symbols unsubscribed: $it")
-            }
-        }
-
-        return old
-    }
-
-    fun clearSymbols() {
-        map.clear()
+    fun disconnect() {
         socket.disconnect()
         socket.off() // Remove all listeners.
     }
