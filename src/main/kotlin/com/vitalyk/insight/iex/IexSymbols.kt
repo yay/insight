@@ -10,14 +10,9 @@ object IexSymbols {
         async {
             Iex.getSymbols()?.let {
                 cache = it
-                isReady = true
-                println("IexSymbols fetched.")
             }
         }
     }
-
-    var isReady: Boolean = false
-        fun get() = cache.isNotEmpty()
 
     private fun completeByName(part: String, max: Int = 10): List<Symbol> {
         val lowerCasePart = part.toLowerCase()
