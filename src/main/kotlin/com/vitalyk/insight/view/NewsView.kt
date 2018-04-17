@@ -24,7 +24,7 @@ class NewsView : View("Headlines") {
             vgrow = Priority.ALWAYS
 
             tab("News") {
-                this += NewsList()
+                this += NewsFragment()
             }
         }
     }

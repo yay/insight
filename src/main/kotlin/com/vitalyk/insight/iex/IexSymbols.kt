@@ -10,11 +10,30 @@ object IexSymbols {
         async {
             Iex.getSymbols()?.let {
                 cache = it
+                isReady = true
+                println("IexSymbols fetched.")
             }
         }
     }
 
-    fun complete(part: String, max: Int = 10): List<Symbol> = cache.filter { it.symbol.startsWith(part) }.take(max)
+    var isReady: Boolean = false
+        fun get() = cache.isNotEmpty()
+
+    private fun completeByName(part: String, max: Int = 10): List<Symbol> {
+        val lowerCasePart = part.toLowerCase()
+        return cache.asSequence().filter {
+            it.name.toLowerCase().contains(lowerCasePart)
+        }.take(max).toList()
+    }
+
+    fun complete(part: String?, max: Int = 10): List<Symbol> {
+        if (part == null || part.isBlank()) return emptyList()
+
+        val upperCasePart = part.toUpperCase()
+        return cache.asSequence().filter {
+            it.symbol.startsWith(upperCasePart)
+        }.take(max).toList().takeIf { it.isNotEmpty() } ?: completeByName(part)
+    }
 
     fun find(symbol: String): Symbol? = cache.firstOrNull { it.symbol == symbol }
 

@@ -709,6 +709,8 @@ object Iex {
         val iexId: String // Unique ID applied by Iex to track securities through symbol changes.
     )
 
+    // TODO: implement https://iextrading.com/developer/docs/#market
+
     private fun getResponse(requestUrl: String): String? {
         val request = Request.Builder()
             .url(requestUrl)

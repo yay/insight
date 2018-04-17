@@ -174,7 +174,7 @@ class WatchlistUI(val watchlist: Watchlist) : Fragment() {
 class WatchlistView : View("Watchlists") {
 
     val watchlist = WatchlistUI(Watchlist["Main"] ?: Watchlist("Main"))
-    val newslist = NewsList()
+    val newslist = NewsFragment()
 
     private val tabpane = tabpane {
         hgrow = Priority.ALWAYS

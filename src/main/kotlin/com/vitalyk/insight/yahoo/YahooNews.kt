@@ -49,3 +49,25 @@ fun fetchNews(symbol: String): MutableList<NewsItem> {
 
     return list
 }
+
+object YahooNews {
+
+    var updateInterval = 1 * 60 * 10_000
+
+    // map of symbols to keywords we are listening too
+
+    // show alert with the news and the keywords triggered
+
+    // predefined set of keywords to choose from
+
+    // keywords common to all symbols
+
+
+
+    fun watch(symbol: String, keywords: Set<String>) {
+
+    }
+
+    init {
+    }
+}

@@ -48,19 +48,18 @@ fun EventTarget.symbolfield(property: ObservableValue<String>, op: TextField.() 
         it
     }
 
+    // TODO: validator
     val textfield = this
     val completeMenu = ContextMenu()
     val sb = StringBuilder()
 
     textProperty().onChange { value ->
         completeMenu.hide()
-        if (value.isNullOrBlank() || value!!.contains(" ")) {
-            return@onChange
-        }
-        value.let {
+        val symbols = IexSymbols.complete(value)
+        if (symbols.isNotEmpty()) {
             completeMenu.apply {
                 items.clear()
-                IexSymbols.complete(it).forEach {
+                symbols.forEach {
                     val symbol = it.symbol
                     sb.append(symbol).append(" - ").append(it.name)
                     item(sb.toString()) {

@@ -19,7 +19,7 @@ import java.awt.Desktop
 import java.net.URI
 import java.text.SimpleDateFormat
 
-class NewsList : Fragment("News") {
+class NewsFragment : Fragment("News") {
 
     var symbol = SimpleStringProperty("AAPL")
     val dateFormatter = SimpleDateFormat("dd MMM HH:mm:ss zzz")
