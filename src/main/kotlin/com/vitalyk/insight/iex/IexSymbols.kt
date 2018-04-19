@@ -1,13 +1,13 @@
 package com.vitalyk.insight.iex
 
 import com.vitalyk.insight.iex.Iex.Symbol
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 
 object IexSymbols {
     private var cache = listOf<Symbol>()
 
     fun update() {
-        async {
+        launch {
             Iex.getSymbols()?.let {
                 cache = it
             }
@@ -33,4 +33,8 @@ object IexSymbols {
     fun find(symbol: String): Symbol? = cache.firstOrNull { it.symbol == symbol }
 
     fun name(symbol: String): String? = find(symbol)?.name
+
+//    init { // The 'init' will be triggered on first use of the singleton
+//        update()
+//    }
 }

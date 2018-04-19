@@ -760,7 +760,8 @@ object Iex {
         val requestUrl = httpUrl.newBuilder().build().toString()
 
         return getResponse(requestUrl)?.let {
-            mapper.readValue(it, Quote::class.java)
+            try { mapper.readValue(it, Quote::class.java) }
+            catch (e: Exception) { println("$url: ${e.message}"); null }
         }
     }
 
