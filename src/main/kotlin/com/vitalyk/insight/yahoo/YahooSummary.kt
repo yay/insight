@@ -1,9 +1,8 @@
 package com.vitalyk.insight.yahoo
 
-import com.vitalyk.insight.main.YahooGetFailure
-import com.vitalyk.insight.main.YahooGetSuccess
-import com.vitalyk.insight.main.getAppLogger
-import com.vitalyk.insight.main.yahooGet
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import com.vitalyk.insight.main.*
+import java.sql.Time
 
 /*
 
@@ -61,6 +60,49 @@ private val summaryModules = listOf(
 
 private val defaultSummaryParams = listOf("modules" to summaryModules.joinToString(","))
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+data class AssetProfile(
+    val address1: String,
+    val city: String,
+    val state: String,
+    val zip: Int,
+    val country: String,
+    val phone: String,
+    val website: String,
+    val industry: String,
+    val industrySymbol: String,
+    val sector: String,
+    val longBusinessSummary: String,
+    val fullTimeEmployees: Int,
+    val companyOfficers: List<CompanyOfficer>,
+    val auditRisk: Int,
+    val boardRisk: Int,
+    val compensationRisk: Int,
+    val shareHolderRightsRisk: Int,
+    val overallRisk: Int,
+    val governanceEpochDate: Time,
+    val compensationAsOfEpochDate: Int,
+    val maxAge: Int
+)
+
+data class FmtValue<T>(
+    val raw: T,
+    val fmt: String?,
+    val longFmt: String?
+)
+
+data class CompanyOfficer(
+    val maxAge: Int,
+    val name: String,
+    val age: Int,
+    val title: String,
+    val yearBorn: Int,
+    val fiscalYear: Int,
+    val totalPay: FmtValue<Int>?,
+    val exercisedValue: FmtValue<Int>,
+    val unexercisedValue: FmtValue<Int>
+)
+
 fun getYahooSummary(symbol: String, params: List<Pair<String, String>> = defaultSummaryParams): String? {
     val result = yahooGet("https://query2.finance.yahoo.com/v10/finance/quoteSummary/$symbol", params)
 
@@ -74,4 +116,17 @@ fun getYahooSummary(symbol: String, params: List<Pair<String, String>> = default
     }
 
     return null
+}
+
+fun getAssetProfile(symbol: String): AssetProfile? {
+    val summary = getYahooSummary(symbol)
+    println(summary)
+    val jsonNode = summary?.toJsonNode()
+    val assetProfile = jsonNode
+        ?.get("quoteSummary")
+        ?.get("result")
+        ?.first()
+        ?.get("assetProfile")
+    println(assetProfile)
+    return objectMapper.convertValue(assetProfile, AssetProfile::class.java)
 }

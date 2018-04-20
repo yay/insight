@@ -2,6 +2,8 @@ package com.vitalyk.insight.main
 
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.ObjectWriter
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import java.io.File
 import java.io.IOException
@@ -48,8 +50,8 @@ fun String.writeToFile(pathname: String) {
     file.writeText(this)
 }
 
-private val objectMapper = jacksonObjectMapper()
-private val objectWriter = objectMapper.writerWithDefaultPrettyPrinter()
+val objectMapper: ObjectMapper = jacksonObjectMapper()
+val objectWriter: ObjectWriter = objectMapper.writerWithDefaultPrettyPrinter()
 
 fun String.toJsonNode(): JsonNode {
     return try {

@@ -5,7 +5,7 @@ apply plugin: 'kotlin'
 apply plugin: 'org.junit.platform.gradle.plugin'
 
 buildscript {
-    ext.kotlin_version = '1.2.31'
+    ext.kotlin_version = '1.2.40'
 
     repositories {
         mavenCentral()
@@ -31,8 +31,8 @@ subprojects {
     }
 
     dependencies {
-        compile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.31'
-        compile 'org.jetbrains.kotlin:kotlin-reflect:1.2.31'
+        compile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.40'
+        compile 'org.jetbrains.kotlin:kotlin-reflect:1.2.40'
 
         testCompile(
                 // This dependency provides the public API for writing tests and extensions.
@@ -81,8 +81,8 @@ repositories {
 dependencies {
     compile fileTree(dir: 'lib', include: ['*.jar'])
 
-    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.31'
-    compile 'org.jetbrains.kotlin:kotlin-reflect:1.2.31'
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.40'
+    compile 'org.jetbrains.kotlin:kotlin-reflect:1.2.40'
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5'
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-javafx:0.22.5'
 

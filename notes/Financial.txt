@@ -56,3 +56,8 @@ After-Hours Session:
 Orders can be entered from 4:05 p.m. to 8:00 p.m. ET,
 but trades are not eligible for execution until the session officially opens
 for trading at 4:15 p.m. ET.
+
+Yahoo Finance futures symbols:
+S&P Futures (E-Mini S&P 500): ES=F
+Dow Futures (E-mini Dow ($5) Futures): YM=F
+Nasdaq Futures (Nasdaq 100): NQ=F
