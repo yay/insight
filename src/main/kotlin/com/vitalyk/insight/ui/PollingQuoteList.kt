@@ -1,5 +1,6 @@
 package com.vitalyk.insight.ui
 
+import com.vitalyk.insight.fragment.AssetProfileFragment
 import com.vitalyk.insight.iex.Iex.Quote
 import javafx.geometry.Insets
 import javafx.geometry.Pos
@@ -52,8 +53,17 @@ class PollingQuoteList(title: String, private val getQuotes: () -> List<Quote>?)
 
         vgrow = Priority.ALWAYS
 
+        contextmenu {
+            item("Profile").action {
+                selectedItem?.apply {
+                    AssetProfileFragment.show(symbol)
+                }
+            }
+        }
+
         cellFormat {
             val change = it.change
+            val symbol = it.symbol
             val cell = this
 
 //            tooltip(it.companyName, Circle().apply { radius = 30.0; fill = Color.RED }) {
@@ -75,7 +85,7 @@ class PollingQuoteList(title: String, private val getQuotes: () -> List<Quote>?)
                     else -> Color.GRAY
                 }
                 hbox {
-                    label(it.symbol) {
+                    label(symbol) {
                         textFill = Color.DODGERBLUE
                         font = Font.font("Verdana", FontWeight.BOLD, 15.0)
                         minWidth = 80.0

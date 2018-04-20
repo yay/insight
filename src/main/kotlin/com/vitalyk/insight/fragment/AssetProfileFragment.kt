@@ -1,9 +1,12 @@
 package com.vitalyk.insight.fragment
 
+import com.vitalyk.insight.iex.IexSymbols
 import com.vitalyk.insight.yahoo.AssetProfile
+import com.vitalyk.insight.yahoo.getAssetProfile
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Orientation
+import javafx.scene.control.Alert
 import javafx.scene.layout.Priority
 import tornadofx.*
 import java.awt.Desktop
@@ -61,9 +64,26 @@ class AssetProfileFragment : Fragment() {
                     textarea(longBusinessSummaryProperty) {
                         isEditable = false
                         isWrapText = true
-                        vgrow = Priority.ALWAYS
                     }
                 }
+            }
+        }
+    }
+
+    companion object {
+        var fragment: AssetProfileFragment? = null
+        fun show(symbol: String) {
+            runAsync {
+                getAssetProfile(symbol)
+            } ui {
+                it?.let {
+                    fragment = fragment ?: tornadofx.find(AssetProfileFragment::class)
+                    fragment?.apply {
+                        openWindow()
+                        titleProperty.value = symbol
+                        this.profile.value = it
+                    }
+                } ?: alert(Alert.AlertType.ERROR, "Asset Profile", "No profile available.")
             }
         }
     }

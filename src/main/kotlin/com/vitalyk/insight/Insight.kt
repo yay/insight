@@ -8,8 +8,6 @@ import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.main.Settings
 import com.vitalyk.insight.style.Styles
 import com.vitalyk.insight.view.SymbolTableView
-import com.vitalyk.insight.yahoo.AssetProfile
-import com.vitalyk.insight.yahoo.getAssetProfile
 import io.socket.client.IO
 import io.socket.engineio.client.Socket
 import javafx.beans.property.SimpleStringProperty
@@ -38,21 +36,12 @@ fun clipboardHook() {
 //        println("${it.source} $it")
 //    }
 
-    val clipboardMonitor = object {
-        var fragment: AssetProfileFragment? = null
+    object {
         val clipboard = Clipboard.getSystemClipboard()
 
         val symbolProperty = SimpleStringProperty().apply {
             addListener { _, _, symbol ->
-                if (symbol in IexSymbols) {
-                    runAsync {
-                        getAssetProfile(symbol)
-                    } ui {
-                        it?.let {
-                            show(symbol, it)
-                        }
-                    }
-                }
+                AssetProfileFragment.show(symbol)
             }
         }
 
@@ -61,18 +50,11 @@ fun clipboardHook() {
                 while (isActive) {
                     delay(500)
                     runLater {
-                        symbolProperty.value = clipboard.string
+                        val string = clipboard.string
+                        if (string in IexSymbols)
+                            symbolProperty.value = string
                     }
                 }
-            }
-        }
-
-        fun show(symbol: String, profile: AssetProfile) {
-            fragment = fragment ?: tornadofx.find(AssetProfileFragment::class)
-            fragment?.apply {
-                openWindow()
-                titleProperty.value = symbol
-                this.profile.value = profile
             }
         }
     }
@@ -85,6 +67,7 @@ class Insight : App(SymbolTableView::class, Styles::class) {
 //            System.err.println(e.message)
 //        }
 
+        IexSymbols.update()
         clipboardHook()
 
 //        println(getYahooSummary("AAPL")?.toPrettyJson())
@@ -106,7 +89,6 @@ class Insight : App(SymbolTableView::class, Styles::class) {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            IexSymbols.update()
             Settings.load(AppSettings) {
                 Watchlist.restore(watchlists)
             }
