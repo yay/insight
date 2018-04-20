@@ -8,6 +8,7 @@ import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.main.Settings
 import com.vitalyk.insight.style.Styles
 import com.vitalyk.insight.view.SymbolTableView
+import com.vitalyk.insight.yahoo.AssetProfile
 import com.vitalyk.insight.yahoo.getAssetProfile
 import io.socket.client.IO
 import io.socket.engineio.client.Socket
@@ -38,17 +39,24 @@ fun clipboardHook() {
 //    }
 
     val clipboardMonitor = object {
-        init {
-            val clipboard = Clipboard.getSystemClipboard()
-            val symbolProperty = SimpleStringProperty().apply {
-                addListener { _, _, symbol ->
-                    if (symbol in IexSymbols) {
-                        val fragment = find(AssetProfileFragment::class)
-                        fragment.openWindow()
-                        fragment.profile.value = getAssetProfile(symbol)
+        var fragment: AssetProfileFragment? = null
+        val clipboard = Clipboard.getSystemClipboard()
+
+        val symbolProperty = SimpleStringProperty().apply {
+            addListener { _, _, symbol ->
+                if (symbol in IexSymbols) {
+                    runAsync {
+                        getAssetProfile(symbol)
+                    } ui {
+                        it?.let {
+                            show(symbol, it)
+                        }
                     }
                 }
             }
+        }
+
+        init {
             launch {
                 while (isActive) {
                     delay(500)
@@ -56,6 +64,15 @@ fun clipboardHook() {
                         symbolProperty.value = clipboard.string
                     }
                 }
+            }
+        }
+
+        fun show(symbol: String, profile: AssetProfile) {
+            fragment = fragment ?: tornadofx.find(AssetProfileFragment::class)
+            fragment?.apply {
+                openWindow()
+                titleProperty.value = symbol
+                this.profile.value = profile
             }
         }
     }
