@@ -27,28 +27,27 @@ internal class IexTest {
 
     @Test
     fun getMostActive() {
-        val mostActive = Iex.getMostActive()
-//        assertEquals(true, mostActive.isNotEmpty(), "Should return a non-empty list of quotes.")
+        Iex.getMostActive()
     }
 
     @Test
     fun getGainers() {
-        val gainers = Iex.getGainers()
+        Iex.getGainers()
     }
 
     @Test
     fun getLosers() {
-        val losers = Iex.getLosers()
+        Iex.getLosers()
     }
 
     @Test
     fun getIexVolume() {
-        val iexVolume = Iex.getIexVolume()
+        Iex.getIexVolume()
     }
 
     @Test
     fun getIexPercent() {
-        val iexPercent = Iex.getIexPercent()
+        Iex.getIexPercent()
     }
 
     @Test
@@ -78,62 +77,62 @@ internal class IexTest {
 
     @Test
     fun getDividends() {
-        val dividends = Iex.getDividends(symbol1)
+        Iex.getDividends(symbol1)
     }
 
     @Test
     fun getEarnings() {
-        val earnings = Iex.getEarnings(symbol3)
+        Iex.getEarnings(symbol3)
     }
 
     @Test
     fun getPeers() {
-        val peers = Iex.getPeers(symbol3)
+        Iex.getPeers(symbol3)
     }
 
     @Test
     fun getVolumeByVenue() {
-        val volumeByVenue = Iex.getVolumeByVenue(symbol2)
+        Iex.getVolumeByVenue(symbol2)
     }
 
     @Test
     fun getLogoData() {
-        val logoData = Iex.getLogoData(symbol3)
+        Iex.getLogoData(symbol3)
     }
 
     @Test
     fun getFinancials() {
-        val financials = Iex.getFinancials(symbol1)
+        Iex.getFinancials(symbol1)
     }
 
     @Test
     fun getSpread() {
-        val spread = Iex.getSpread(symbol2)
+        Iex.getSpread(symbol2)
     }
 
     @Test
     fun getOHLC() {
-        val ohlc = Iex.getOHLC(symbol3)
+        Iex.getOHLC(symbol3)
     }
 
     @Test
     fun getSplits() {
-        val splits = Iex.getSplits(symbol1, Iex.Range.Y5)
+        Iex.getSplits(symbol1, Iex.Range.Y5)
     }
 
     @Test
     fun getSymbols() {
-        val symbols = Iex.getSymbols()
+        Iex.getSymbols()
     }
 
     @Test
     fun getBatchOne() {
-        val batch = Iex.getBatch(symbol1)
+        Iex.getBatch(symbol1)
     }
 
     @Test
     fun getBatchMany() {
-        val batch = Iex.getBatch(listOf(symbol1, symbol2, symbol3))
+        Iex.getBatch(listOf(symbol1, symbol2, symbol3))
     }
 
     @Test
@@ -175,21 +174,20 @@ internal class IexTest {
                 "securityType": "commonstock"
             }
         """.trimIndent()
-        val tops = Iex.parseTops(data)
+        Iex.parseTops(data)
     }
 
     @Test
     fun getDepth() {
         if (!Iex.isMarketHours()) return
 
-        val depth = Iex.getDepth(symbol3)
+        Iex.getDepth(symbol3)
     }
 
     @Test
     fun getBook() {
-        val book1 = Iex.getBook(symbol1)
-        val book2 = Iex.getBook(badSymbol)
-        assertEquals(null, book2)
+        Iex.getBook(symbol1)
+        assertEquals(null, Iex.getBook(badSymbol))
     }
 
     @Test
@@ -202,11 +200,11 @@ internal class IexTest {
 
     @Test
     fun getIntradayStats() {
-        val intradayStats = Iex.getIntradayStats()
+        Iex.getIntradayStats()
     }
 
     @Test
     fun getRecordsStats() {
-        val recordsStats = Iex.getRecordsStats()
+        Iex.getRecordsStats()
     }
 }
