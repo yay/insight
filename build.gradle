@@ -17,36 +17,36 @@ buildscript {
     }
 }
 
-subprojects {
-    apply plugin: 'kotlin'
-
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-        kotlinOptions {
-            jvmTarget = '1.8'
-        }
-    }
-
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        compile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.40'
-        compile 'org.jetbrains.kotlin:kotlin-reflect:1.2.40'
-
-        testCompile(
-                // This dependency provides the public API for writing tests and extensions.
-                'org.junit.jupiter:junit-jupiter-api:5.1.0'
-        )
-        testRuntime (
-                // Use the test engine of JUnit 5 for running tests.
-                'org.junit.jupiter:junit-jupiter-engine:5.1.0',
-                // Provides a public API for configuring and launching tests.
-                // This API is typically used by IDEs and build tools.
-                'org.junit.platform:junit-platform-launcher:1.1.0'
-        )
-    }
-}
+//subprojects {
+//    apply plugin: 'kotlin'
+//
+//    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+//        kotlinOptions {
+//            jvmTarget = '1.8'
+//        }
+//    }
+//
+//    repositories {
+//        jcenter()
+//    }
+//
+//    dependencies {
+//        compile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.40'
+//        compile 'org.jetbrains.kotlin:kotlin-reflect:1.2.40'
+//
+//        testCompile(
+//                // This dependency provides the public API for writing tests and extensions.
+//                'org.junit.jupiter:junit-jupiter-api:5.1.1'
+//        )
+//        testRuntime (
+//                // Use the test engine of JUnit 5 for running tests.
+//                'org.junit.jupiter:junit-jupiter-engine:5.1.1',
+//                // Provides a public API for configuring and launching tests.
+//                // This API is typically used by IDEs and build tools.
+//                'org.junit.platform:junit-platform-launcher:1.1.1'
+//        )
+//    }
+//}
 
 jar {
     manifest {
@@ -86,9 +86,9 @@ dependencies {
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5'
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-javafx:0.22.5'
 
-    compile project(':kubed-core')
-    compile project(':kubed-geo')
-    compile project(':kubed-demos')
+//    compile project(':kubed-core')
+//    compile project(':kubed-geo')
+//    compile project(':kubed-demos')
 
     // Until Java 9 HTTP client: http://www.baeldung.com/java-9-http-client
     compile 'com.squareup.okhttp3:okhttp:3.10.0'
