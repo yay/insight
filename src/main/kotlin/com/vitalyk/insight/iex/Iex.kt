@@ -193,6 +193,7 @@ object Iex {
         NA
     }
 
+    // Earnings for the past 4 quarters.
     data class RecentEarnings(
         val symbol: String,
         val earnings: List<Earnings>
@@ -595,8 +596,12 @@ object Iex {
         val marketVolume: Long,
         val marketNotional: Double,
         val marketNumberOfTrades: Int,
-        val marketChangeOverTime: Double,
-        val changeOverTime: Double
+        val open: Double,
+        val close: Double,
+        val marketOpen: Double,
+        val marketClose: Double,
+        val changeOverTime: Double,
+        val marketChangeOverTime: Double
     )
 
     data class Batch(
@@ -819,7 +824,6 @@ object Iex {
         val url = "$baseUrl/stock/$symbol/chart/date/$date"
         val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
         val requestUrl = httpUrl.newBuilder().build().toString()
-
 
         return getResponse(requestUrl)?.let {
             mapper.readValue(it, listTypes[MinuteChartPoint::class.java])
