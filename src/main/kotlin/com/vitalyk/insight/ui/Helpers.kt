@@ -1,10 +1,5 @@
 package com.vitalyk.insight.ui
 
-import javafx.event.EventTarget
-import javafx.geometry.Insets
-import javafx.geometry.Pos
-import javafx.scene.layout.HBox
-import tornadofx.*
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredMemberProperties
 

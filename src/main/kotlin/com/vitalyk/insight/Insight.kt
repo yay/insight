@@ -60,6 +60,16 @@ fun clipboardHook() {
     }
 }
 
+//@FxBean
+//data class TestMe(
+//    val hey: String,
+//    val hi: String
+//)
+//
+//fun test(pp: TestMeFxBean) {
+//
+//}
+
 class Insight : App(SymbolTableView::class, Styles::class) {
 
     override fun start(stage: Stage) {
@@ -111,7 +121,7 @@ class Insight : App(SymbolTableView::class, Styles::class) {
     }
 }
 
-fun parse(str: String) {
+//fun parse(str: String) {
     // object field condition value repeat
     // object must be a recognized object
     // field must be recognized field, etc.
@@ -124,4 +134,4 @@ fun parse(str: String) {
     //     sendEmail("asdfasdf")
     //     removeAlert()
     // }
-}
+//}

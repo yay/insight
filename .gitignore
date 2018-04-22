@@ -8,4 +8,5 @@ META-INF
 .vscode
 target
 out
+build
 /lib/*.jar

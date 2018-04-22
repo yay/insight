@@ -1,8 +1,17 @@
 // https://kotlinlang.org/docs/reference/using-gradle.html
 
+apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'kotlin'
-apply plugin: 'org.junit.platform.gradle.plugin'
+apply plugin: 'kotlin-kapt' // Kotlin Annotation Processing
+
+group = 'com.vitalyk.insight'
+version = '1.0-SNAPSHOT'
+
+description = """"""
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 buildscript {
     ext.kotlin_version = '1.2.40'
@@ -13,40 +22,16 @@ buildscript {
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.0'
     }
 }
 
-//subprojects {
-//    apply plugin: 'kotlin'
-//
-//    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-//        kotlinOptions {
-//            jvmTarget = '1.8'
-//        }
-//    }
-//
-//    repositories {
-//        jcenter()
-//    }
-//
-//    dependencies {
-//        compile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.40'
-//        compile 'org.jetbrains.kotlin:kotlin-reflect:1.2.40'
-//
-//        testCompile(
-//                // This dependency provides the public API for writing tests and extensions.
-//                'org.junit.jupiter:junit-jupiter-api:5.1.1'
-//        )
-//        testRuntime (
-//                // Use the test engine of JUnit 5 for running tests.
-//                'org.junit.jupiter:junit-jupiter-engine:5.1.1',
-//                // Provides a public API for configuring and launching tests.
-//                // This API is typically used by IDEs and build tools.
-//                'org.junit.platform:junit-platform-launcher:1.1.1'
-//        )
-//    }
-//}
+repositories {
+    mavenCentral()
+//    maven { url "http://jcenter.bintray.com" }
+//    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+//    maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.2" }
+//    maven { url "https://maven.oracle.com" }
+}
 
 jar {
     manifest {
@@ -59,26 +44,16 @@ jar {
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
-junitPlatform {
-    reportsDir file('build/test-results/junit-platform') // this is the default
-}
-
-group = 'com.vitalyk.insight'
-version = '1.0-SNAPSHOT'
-
-description = """"""
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-repositories {
-    maven { url "http://jcenter.bintray.com" }
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-    maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.2" }
-    maven { url "https://maven.oracle.com" }
-}
+//sourceSets {
+//    main.kotlin.srcDirs += 'src/main/kotlin/'
+//    test.kotlin.srcDirs += 'src/test/kotlin/'
+//}
 
 dependencies {
+    kapt project(":generator")
+    compileOnly project(":generator")
+
+    // Add whatever jars are in lib folder as dependencies.
     compile fileTree(dir: 'lib', include: ['*.jar'])
 
     compile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.40'
@@ -86,18 +61,14 @@ dependencies {
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5'
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-javafx:0.22.5'
 
-//    compile project(':kubed-core')
-//    compile project(':kubed-geo')
-//    compile project(':kubed-demos')
-
-    // Until Java 9 HTTP client: http://www.baeldung.com/java-9-http-client
     compile 'com.squareup.okhttp3:okhttp:3.10.0'
     compile 'no.tornado:tornadofx:1.7.15'
     compile 'org.apache.commons:commons-csv:1.5' // CSV parser
     compile 'org.jsoup:jsoup:1.11.2' // HTML parser
 
-    compile 'org.json:json:20180130'
     compile 'io.socket:socket.io-client:1.0.0'
+    compile 'org.json:json:20180130' // required by socket.io
+
     // JSON and XML parsers (until http://openjdk.java.net/jeps/198 maybe)
     compile 'com.fasterxml.jackson.core:jackson-core:2.9.5'
     compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.5'
@@ -127,26 +98,15 @@ dependencies {
 
     testCompile(
             // This dependency provides the public API for writing tests and extensions.
-            'org.junit.jupiter:junit-jupiter-api:5.1.0'
+            'org.junit.jupiter:junit-jupiter-api:5.1.1'
     )
     testRuntime (
             // Use the test engine of JUnit 5 for running tests.
-            'org.junit.jupiter:junit-jupiter-engine:5.1.0',
+            'org.junit.jupiter:junit-jupiter-engine:5.1.1',
             // Provides a public API for configuring and launching tests.
             // This API is typically used by IDEs and build tools.
-            'org.junit.platform:junit-platform-launcher:1.1.0'
+            'org.junit.platform:junit-platform-launcher:1.1.1'
     )
-}
-
-sourceSets {
-    main.kotlin.srcDirs += 'src/main/kotlin/'
-    test.kotlin.srcDirs += 'src/test/kotlin/'
-}
-
-kotlin {
-    experimental {
-        coroutines 'enable'
-    }
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
