@@ -11,7 +11,7 @@ fun fetchIntradayData(symbol: String): String? {
 
     when (result) {
         is YahooGetSuccess -> {
-            return result.data
+            return result.value
         }
         is YahooGetFailure -> {
             getAppLogger().error("$url ${result.code}: ${result.message}")

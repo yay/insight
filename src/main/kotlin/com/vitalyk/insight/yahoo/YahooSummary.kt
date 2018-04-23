@@ -3,7 +3,6 @@ package com.vitalyk.insight.yahoo
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.vitalyk.insight.main.*
-import com.vitalyk.insight.processors.FxBean
 import java.sql.Time
 import java.util.*
 
@@ -199,7 +198,7 @@ fun getYahooSummary(symbol: String, params: List<Pair<String, String>> = default
 
     when (result) {
         is YahooGetSuccess -> {
-            return result.data // this JSON string is not "pretty"
+            return result.value // this JSON string is not "pretty"
         }
         is YahooGetFailure -> {
             getAppLogger().warn("$symbol request status code ${result.code}: ${result.message}\n${result.url}")

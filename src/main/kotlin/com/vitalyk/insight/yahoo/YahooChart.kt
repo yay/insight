@@ -3,7 +3,7 @@ package com.vitalyk.insight.yahoo
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.dataformat.csv.CsvMapper
 import com.fasterxml.jackson.dataformat.csv.CsvSchema
-import java.text.SimpleDateFormat
+import com.vitalyk.insight.main.getAppLogger
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
@@ -49,9 +49,9 @@ fun getChartPoints(symbol: String, amount: Long = 1, unit: ChronoUnit = ChronoUn
     val now = ZonedDateTime.now(ZoneId.of("America/New_York"))
     val ago = now.minus(amount, unit)
     val crumb = "vjMESKwkGZA"
-    val url = "https://query1.finance.yahoo.com/v7/finance/download/"
+    val baseUrl = "https://query1.finance.yahoo.com/v7/finance/download/"
 
-    val response = yahooFetch("$url$symbol", listOf(
+    val result = yahooGet("$baseUrl$symbol", listOf(
         "period1" to "${ago.toInstant().toEpochMilli() / 1000}",
         "period2" to "${now.toInstant().toEpochMilli() / 1000}",
         "interval" to interval.value,
@@ -59,21 +59,29 @@ fun getChartPoints(symbol: String, amount: Long = 1, unit: ChronoUnit = ChronoUn
         "crumb" to crumb // required along with a cookie, changes with every login to Yahoo Finance
     ))
 
-    return response?.let {
-        val mapper = CsvMapper()
+    return when (result) {
+        is YahooGetSuccess -> {
+            val mapper = CsvMapper()
 
-        val schema = CsvSchema.builder()
-            .addColumn("Date")
-            .addColumn("Open")
-            .addColumn("High")
-            .addColumn("Low")
-            .addColumn("Close")
-            .addColumn("Adj Close")
-            .addColumn("Volume")
-            .build().withHeader()
+            val schema = CsvSchema.builder()
+                .addColumn("Date")
+                .addColumn("Open")
+                .addColumn("High")
+                .addColumn("Low")
+                .addColumn("Close")
+                .addColumn("Adj Close")
+                .addColumn("Volume")
+                .build().withHeader()
 
-        val reader = mapper.readerFor(ChartPoint::class.java).with(schema)
+            val reader = mapper.readerFor(ChartPoint::class.java).with(schema)
 
-        reader.readValues<ChartPoint>(it).readAll()
+            reader.readValues<ChartPoint>(result.value).readAll()
+        }
+        is YahooGetFailure -> {
+            result.apply {
+                getAppLogger().error("$message ($code): $url")
+            }
+            null
+        }
     }
 }

@@ -172,7 +172,7 @@ fun Exchange.getExchangeSecuritiesFromNasdaq(): List<Security> {
 
     when (result) {
         is YahooGetSuccess -> {
-            val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(StringReader(result.data))
+            val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(StringReader(result.value))
 
             // Convert CSVRecord's to instances of the Security data class.
             return records.map { it ->
@@ -242,7 +242,7 @@ suspend fun Exchange.asyncFetchDailyData() {
             is YahooGetSuccess -> {
                 if (!newDataOnly) {
                     try {
-                        val fetchedRecordsParser = CSVFormat.DEFAULT.parse(result.data.reader())
+                        val fetchedRecordsParser = CSVFormat.DEFAULT.parse(result.value.reader())
                         val fetchedRecords = fetchedRecordsParser.records
 
                         if (fetchedRecords.size <= 1) {
@@ -300,7 +300,7 @@ suspend fun Exchange.asyncFetchDailyData() {
                 } else {
                     try {
                         file.parentFile.mkdirs()
-                        file.writeText(result.data)
+                        file.writeText(result.value)
                     } catch (e: Error) {
                         exchange.logger.error("Writing new symbol ($symbol) date failed: ${e.message}")
                     }
@@ -426,7 +426,7 @@ object StockFetcherUS {
 
             when (result) {
                 is YahooGetSuccess -> {
-                    val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(StringReader(result.data))
+                    val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(StringReader(result.value))
 
                     list = records.map { it ->
                         Security(
