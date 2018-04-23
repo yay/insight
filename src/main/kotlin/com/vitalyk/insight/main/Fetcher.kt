@@ -1,9 +1,6 @@
 package com.vitalyk.insight.main
 
-import com.vitalyk.insight.yahoo.YahooData
-import com.vitalyk.insight.yahoo.fetchIntradayData
-import com.vitalyk.insight.yahoo.fetchNews
-import com.vitalyk.insight.yahoo.getYahooSummary
+import com.vitalyk.insight.yahoo.*
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking

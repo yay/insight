@@ -13,9 +13,8 @@ class NewsItem(
     val date: Date = Date()
 )
 
-// https://developer.yahoo.com/finance/company.html
-private const val yahooBaseUrl = "http://finance.yahoo.com"
-private const val companyNewsUrl = "$yahooBaseUrl/rss/headline?s="
+// API info: https://developer.yahoo.com/finance/company.html
+private const val companyNewsUrl = "http://finance.yahoo.com/rss/headline?s="
 private val newsDateParser = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z")
 
 fun fetchNews(symbol: String): MutableList<NewsItem> {

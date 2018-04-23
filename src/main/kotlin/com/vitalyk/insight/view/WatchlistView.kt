@@ -9,9 +9,7 @@ import com.vitalyk.insight.ui.toolbox
 import javafx.application.Platform
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.MapChangeListener
-import javafx.event.EventHandler
 import javafx.geometry.Orientation
-import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
 import tornadofx.*
 import java.text.SimpleDateFormat
@@ -71,14 +69,9 @@ class WatchlistUI(val watchlist: Watchlist) : Fragment() {
         vgrow = Priority.ALWAYS
 
         toolbox(border = false) {
-            symbolfield(symbol) {
+            symbolfield(symbol, { addSymbol() }, {
                 promptText = "Add Symbol(s)"
-                onKeyReleased = EventHandler { event ->
-                    if (event.code == KeyCode.ENTER) {
-                        addSymbol()
-                    }
-                }
-            }
+            })
             button("Add").action {
                 addSymbol()
             }

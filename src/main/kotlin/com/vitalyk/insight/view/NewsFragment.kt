@@ -4,13 +4,12 @@ import com.vitalyk.insight.ui.symbolfield
 import com.vitalyk.insight.ui.toolbox
 import com.vitalyk.insight.yahoo.NewsItem
 import com.vitalyk.insight.yahoo.fetchNews
+import com.vitalyk.insight.yahoo.marketIndexes
 import javafx.beans.property.SimpleStringProperty
-import javafx.event.EventHandler
 import javafx.geometry.Pos
 import javafx.scene.Node
 import javafx.scene.control.ListView
 import javafx.scene.input.Clipboard
-import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
@@ -18,11 +17,14 @@ import tornadofx.*
 import java.awt.Desktop
 import java.net.URI
 import java.text.SimpleDateFormat
+import java.util.*
 
 class NewsFragment : Fragment("News") {
 
     var symbol = SimpleStringProperty("AAPL")
-    val dateFormatter = SimpleDateFormat("dd MMM HH:mm:ss zzz")
+    val dateFormatter = SimpleDateFormat("dd MMM HH:mm:ss zzz").apply {
+        timeZone = TimeZone.getTimeZone("America/New_York")
+    }
 
     val listview: ListView<NewsItem> = listview {
         vgrow = Priority.ALWAYS
@@ -56,11 +58,12 @@ class NewsFragment : Fragment("News") {
 
     val toolbox = toolbox(border = false) {
         label("Symbol:")
-        val symbol = SimpleStringProperty("")
-        symbolfield(symbol) {
-            onKeyReleased = EventHandler { key ->
-                if (key.code == KeyCode.ENTER) {
-                    fetchSymbolNews(text)
+        symbolfield(onAction = { fetchSymbolNews(it) })
+
+        marketIndexes.forEach { symbol, name ->
+            button(name) {
+                setOnAction {
+                    fetchSymbolNews(symbol)
                 }
             }
         }

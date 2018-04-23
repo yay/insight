@@ -2,6 +2,7 @@ package com.vitalyk.insight.ui
 
 import com.vitalyk.insight.iex.IexSymbols
 import javafx.beans.value.ObservableValue
+import javafx.event.EventHandler
 import javafx.event.EventTarget
 import javafx.geometry.Insets
 import javafx.geometry.Pos
@@ -9,6 +10,7 @@ import javafx.geometry.Side
 import javafx.scene.control.ContextMenu
 import javafx.scene.control.TextField
 import javafx.scene.control.TextFormatter
+import javafx.scene.input.KeyCode
 import javafx.scene.layout.HBox
 import javafx.scene.paint.Color
 import javafx.scene.paint.CycleMethod
@@ -40,8 +42,16 @@ fun EventTarget.toolbox(border: Boolean = true, op: HBox.() -> Unit = {}): HBox 
     return opcr(this, hbox, op)
 }
 
-fun EventTarget.symbolfield(property: ObservableValue<String>, op: TextField.() -> Unit = {}) = textfield().apply {
-    bind(property)
+/**
+ * `onAction` is called either when the user pressed the Enter key
+ * or selected a symbol from the autocomplete menu.
+ */
+fun EventTarget.symbolfield(property: ObservableValue<String>? = null,
+                            onAction: (String) -> Unit = {},
+                            op: TextField.() -> Unit = {}) = textfield().apply {
+    if (property != null) {
+        bind(property)
+    }
 
     textFormatter = TextFormatter<String> {
         it.text = it.text.toUpperCase()
@@ -65,6 +75,7 @@ fun EventTarget.symbolfield(property: ObservableValue<String>, op: TextField.() 
                     item(sb.toString()) {
                         setOnAction {
                             textfield.text = symbol
+                            onAction(symbol)
                         }
                     }
                     sb.setLength(0)
@@ -73,6 +84,12 @@ fun EventTarget.symbolfield(property: ObservableValue<String>, op: TextField.() 
                     show(textfield, Side.BOTTOM, 0.0, 0.0)
                 }
             }
+        }
+    }
+
+    onKeyReleased = EventHandler { event ->
+        if (event.code == KeyCode.ENTER) {
+            onAction(text)
         }
     }
 

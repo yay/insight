@@ -8,12 +8,10 @@ import com.vitalyk.insight.ui.toolbox
 import com.vitalyk.insight.yahoo.getDistributionInfo
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
-import javafx.event.EventHandler
 import javafx.scene.Node
 import javafx.scene.control.Alert
 import javafx.scene.control.ComboBox
 import javafx.scene.control.TableView
-import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
 import tornadofx.*
 
@@ -38,13 +36,8 @@ class SymbolTableView : View("Instrument Data") {
     override val root = vbox {
         toolbox {
             label("Symbol:")
-            symbolfield(symbol) {
+            symbolfield(symbol, { updateSymbolTable() }) {
                 maxWidth = 80.0
-                onKeyReleased = EventHandler { key ->
-                    if (key.code == KeyCode.ENTER) {
-                        updateSymbolTable()
-                    }
-                }
             }
             button("Go") {
                 setOnAction {
@@ -82,7 +75,7 @@ class SymbolTableView : View("Instrument Data") {
                     alert(
                         Alert.AlertType.INFORMATION,
                         "${symbol.value} Distribution Days",
-                        getDistributionInfo(listOf(symbol.value))
+                        getDistributionInfo(setOf(symbol.value))
                     )
                 }
             }

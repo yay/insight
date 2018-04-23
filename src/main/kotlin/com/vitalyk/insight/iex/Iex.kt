@@ -200,13 +200,18 @@ object Iex {
     )
 
     data class Earnings(
-        val actualEPS: Double,
-        val consensusEPS: Double,
-        val estimatedEPS: Double,
+        @JsonProperty("actualEPS")
+        val actualEps: Double,
+        @JsonProperty("consensusEPS")
+        val consensusEps: Double,
+        @JsonProperty("estimatedEPS")
+        val estimatedEps: Double,
         val announceTime: String,
-        val numberOfEstimates: Short,
-        val EPSSurpriseDollar: Double,
-        val EPSReportDate: Date,
+        val numberOfEstimates: Int,
+        @JsonProperty("EPSSurpriseDollar")
+        val epsSurpriseDollar: Double,
+        @JsonProperty("EPSReportDate")
+        val epsReportDate: Date,
         val fiscalPeriod: String,
         val fiscalEndDate: Date
     )

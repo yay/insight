@@ -31,12 +31,13 @@ fun getFxBeanDefinition(klass: KClass<*>): String {
         "kotlin.Long" to "SimpleLongProperty"
     )
 
+    val indent = " ".repeat(4)
     val sb = StringBuilder()
     sb.append("package ").append(klass.java.`package`.name).append("\n\n")
     sb.append("import tornadofx.*").append("\n\n")
     sb.append("class ").append(klass.simpleName).append("FxBean").append(" {\n")
     klass.memberProperties.forEach {
-        sb.append(" ".repeat(4))
+        sb.append(indent)
         sb.append("val ").append(it.name).append("Property = ")
         val property = typeToPropertyMap[it.returnType.toString()]
         if (property != null) {
@@ -46,7 +47,7 @@ fun getFxBeanDefinition(klass: KClass<*>): String {
         }
         sb.append("()\n")
 
-        sb.append(" ".repeat(4))
+        sb.append(indent)
         sb.append("var ").append(it.name).append(" by ").append(it.name).append("Property\n")
     }
     sb.append("}")
