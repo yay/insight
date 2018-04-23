@@ -307,7 +307,7 @@ suspend fun Exchange.asyncFetchDailyData() {
                 }
             }
             is YahooGetFailure -> {
-                getAppLogger().warn("Daily data request: $requestUrl - ${result.code} - ${result.message}")
+                getAppLogger().warn("Daily data request: $result")
             }
         }
     } }.forEach { it.await() }
@@ -363,6 +363,10 @@ fun Exchange.syncFetchIntradayData() {
         }
     }
 }
+
+// Yahoo API https://chartapi.finance.yahoo.com/instrument/1.0/<symbol>/chartdata;type=quote;range=1d/json
+// was discontinued on May 17, 2017. This is just a stub.
+fun fetchIntradayData(symbol: String): String? = null
 
 suspend fun Exchange.asyncFetchSummary() {
     val exchange = this

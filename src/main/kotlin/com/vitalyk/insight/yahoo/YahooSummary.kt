@@ -201,7 +201,7 @@ fun getYahooSummary(symbol: String, params: List<Pair<String, String>> = default
             return result.value // this JSON string is not "pretty"
         }
         is YahooGetFailure -> {
-            getAppLogger().warn("$symbol request status code ${result.code}: ${result.message}\n${result.url}")
+            getAppLogger().warn("getYahooSummary($symbol) $result")
         }
     }
 

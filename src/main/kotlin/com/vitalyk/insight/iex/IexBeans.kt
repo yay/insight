@@ -34,20 +34,35 @@ class DayChartPointBean {
 
 fun DayChartPoint.toBean() =
     DayChartPointBean().let {
-        it.change = this.change
-        it.changeOverTime = this.changeOverTime
-        it.changePercent = this.changePercent
-        it.close = this.close
-        it.date = this.date
-        it.high = this.high
-        it.label = this.label
-        it.low = this.low
-        it.open = this.open
-        it.unadjustedVolume = this.unadjustedVolume
-        it.volume = this.volume
-        it.vwap = this.vwap
+        it.change = change
+        it.changeOverTime = changeOverTime
+        it.changePercent = changePercent
+        it.close = close
+        it.date = date
+        it.high = high
+        it.label = label
+        it.low = low
+        it.open = open
+        it.unadjustedVolume = unadjustedVolume
+        it.volume = volume
+        it.vwap = vwap
         it
     }
+
+fun DayChartPoint.toBean(bean: DayChartPointBean) = bean.let {
+    it.change = change
+    it.changeOverTime = changeOverTime
+    it.changePercent = changePercent
+    it.close = close
+    it.date = date
+    it.high = high
+    it.label = label
+    it.low = low
+    it.open = open
+    it.unadjustedVolume = unadjustedVolume
+    it.volume = volume
+    it.vwap = vwap
+}
 
 
 class TopsBean {

@@ -8,7 +8,7 @@ import java.io.IOException
 
 sealed class YahooGetResult
 data class YahooGetSuccess(val value: String) : YahooGetResult()
-data class YahooGetFailure(val url: String, val code: Int, val message: String) : YahooGetResult()
+data class YahooGetFailure(val url: String, val message: String, val code: Int) : YahooGetResult()
 
 fun yahooGet(url: String, params: List<Pair<String, String>>? = null): YahooGetResult {
     val httpUrl = HttpUrl.parse(url) ?: throw Error("Bad URL.")
@@ -19,12 +19,15 @@ fun yahooGet(url: String, params: List<Pair<String, String>>? = null): YahooGetR
         }
     }
     val requestUrl: String = urlBuilder.build().toString()
-
     val request = Request.Builder()
         .addHeader("User-Agent", UserAgents.chrome)
         .url(requestUrl)
         .build()
-    val response = HttpClients.yahoo.newCall(request).execute()
+    val response = try {
+        HttpClients.yahoo.newCall(request).execute()
+    } catch (e: IOException) {
+        return YahooGetFailure(requestUrl, e.message ?: "", 0)
+    }
 
     response.use {
         return if (it.isSuccessful) {
@@ -35,13 +38,13 @@ fun yahooGet(url: String, params: List<Pair<String, String>>? = null): YahooGetR
                     // but can return an empty string
                     YahooGetSuccess(body.string())
                 } else {
-                    YahooGetFailure(requestUrl, it.code(), "Empty response body.")
+                    YahooGetFailure(requestUrl, "Empty response body.", it.code())
                 }
             } catch (e: IOException) {
-                YahooGetFailure(requestUrl, it.code(), e.message ?: "")
+                YahooGetFailure(requestUrl, e.message ?: "", it.code())
             }
         } else {
-            YahooGetFailure(requestUrl, it.code(), it.message())
+            YahooGetFailure(requestUrl, it.message(), it.code())
         }
     }
 }

@@ -36,7 +36,13 @@ class FxBeanGenerator : AbstractProcessor() {
             .forEach {
                 val className = it.simpleName.toString()
                 val packageName = processingEnv.elementUtils.getPackageOf(it).toString()
-                generateClass(className, packageName, it.javaClass)
+
+                val metaDataClass = Class.forName("kotlin.Metadata").asSubclass(Annotation::class.java)
+                val isKotlinClass = it.getAnnotation(metaDataClass) != null
+
+                if (isKotlinClass) {
+                    generateClass(className, packageName, it.javaClass)
+                }
             }
         return true
     }
