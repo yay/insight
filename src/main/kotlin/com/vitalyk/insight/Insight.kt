@@ -60,16 +60,6 @@ fun clipboardHook() {
     }
 }
 
-//@FxBean
-//data class TestMe(
-//    val hey: String,
-//    val hi: String
-//)
-//
-//fun test(pp: TestMeFxBean) {
-//
-//}
-
 class Insight : App(SymbolTableView::class, Styles::class) {
 
     override fun start(stage: Stage) {

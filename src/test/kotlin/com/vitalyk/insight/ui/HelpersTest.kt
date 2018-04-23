@@ -7,7 +7,7 @@ import java.util.*
 
 internal class HelpersTest {
 
-    data class TestClass(
+    data class TestClass1(
         val date: Date,
         val open: Double,
         val high: Double,
@@ -22,7 +22,7 @@ internal class HelpersTest {
         val changeOverTime: Double
     )
 
-    val testBean = """
+    val testBean1 = """
     open class TestClassBean(
         change: Double,
         changeOverTime: Double,
@@ -95,13 +95,51 @@ internal class HelpersTest {
         }
     """.trimIndent()
 
+    data class TestClass2(
+        val bool: Boolean,
+        val str: String,
+        val double: Double,
+        val float: Float,
+        val int: Int,
+        val long: Long,
+        val date: Date
+    )
+
+    val testBean2 = """
+        package com.vitalyk.insight.ui
+
+        import tornadofx.*
+
+        class TestClass2FxBean {
+            val boolProperty = SimpleBooleanProperty()
+            var bool by boolProperty
+            val dateProperty = SimpleObjectProperty<java.util.Date>()
+            var date by dateProperty
+            val doubleProperty = SimpleDoubleProperty()
+            var double by doubleProperty
+            val floatProperty = SimpleFloatProperty()
+            var float by floatProperty
+            val intProperty = SimpleIntegerProperty()
+            var int by intProperty
+            val longProperty = SimpleLongProperty()
+            var long by longProperty
+            val strProperty = SimpleStringProperty()
+            var str by strProperty
+        }
+    """.trimIndent()
+
     @Test
-    fun getFxBeanDefinition() {
-        assertEquals(testBean, getFxBeanDefinition(TestClass::class))
+    fun getOldFxBeanDefinition() {
+        assertEquals(testBean1, getOldFxBeanDefinition(TestClass1::class))
     }
 
     @Test
     fun getBeanMaker() {
-        assertEquals(instanceToBean, toBeanMaker(TestClass::class))
+        assertEquals(instanceToBean, toBeanMaker(TestClass1::class))
+    }
+
+    @Test
+    fun getFxBeanDefinition() {
+        assertEquals(testBean2, getFxBeanDefinition(TestClass2::class))
     }
 }

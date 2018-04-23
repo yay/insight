@@ -2,9 +2,10 @@ package com.vitalyk.insight.ui
 
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredMemberProperties
+import kotlin.reflect.full.memberProperties
 
 // Takes a data class definition and produces a bean definition.
-fun getFxBeanDefinition(klass: KClass<*>): String {
+fun getOldFxBeanDefinition(klass: KClass<*>): String {
     val indent = " ".repeat(4)
     val kclassProps = klass.declaredMemberProperties
     val beanConstructor = kclassProps.map { prop ->
@@ -17,6 +18,40 @@ fun getFxBeanDefinition(klass: KClass<*>): String {
     return "open class ${klass.simpleName}Bean(\n" +
         beanConstructor.joinToString(",\n") + "\n) {\n" +
         beanProps.joinToString("\n") + "}"
+}
+
+// TODO: check with nullable types, lists, sets and other types not in the typeToPropertyMap.
+fun getFxBeanDefinition(klass: KClass<*>): String {
+    val typeToPropertyMap = mapOf(
+        "kotlin.Boolean" to "SimpleBooleanProperty",
+        "kotlin.String" to "SimpleStringProperty",
+        "kotlin.Double" to "SimpleDoubleProperty",
+        "kotlin.Float" to "SimpleFloatProperty",
+        "kotlin.Int" to "SimpleIntegerProperty",
+        "kotlin.Long" to "SimpleLongProperty"
+    )
+
+    val sb = StringBuilder()
+    sb.append("package ").append(klass.java.`package`.name).append("\n\n")
+    sb.append("import tornadofx.*").append("\n\n")
+    sb.append("class ").append(klass.simpleName).append("FxBean").append(" {\n")
+    klass.memberProperties.forEach {
+        sb.append(" ".repeat(4))
+        sb.append("val ").append(it.name).append("Property = ")
+        val property = typeToPropertyMap[it.returnType.toString()]
+        if (property != null) {
+            sb.append(property)
+        } else {
+            sb.append("SimpleObjectProperty<").append(it.returnType.toString()).append(">")
+        }
+        sb.append("()\n")
+
+        sb.append(" ".repeat(4))
+        sb.append("var ").append(it.name).append(" by ").append(it.name).append("Property\n")
+    }
+    sb.append("}")
+
+    return sb.toString()
 }
 
 // Takes a data class and creates a table view creation code
