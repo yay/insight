@@ -24,11 +24,11 @@ fun getOldFxBeanDefinition(klass: KClass<*>): String {
 fun getFxBeanDefinition(klass: KClass<*>): String {
     val typeToPropertyMap = mapOf(
         "kotlin.Boolean" to "SimpleBooleanProperty",
-        "kotlin.String" to "SimpleStringProperty",
-        "kotlin.Double" to "SimpleDoubleProperty",
-        "kotlin.Float" to "SimpleFloatProperty",
         "kotlin.Int" to "SimpleIntegerProperty",
-        "kotlin.Long" to "SimpleLongProperty"
+        "kotlin.Long" to "SimpleLongProperty",
+        "kotlin.Float" to "SimpleFloatProperty",
+        "kotlin.Double" to "SimpleDoubleProperty",
+        "kotlin.String" to "SimpleStringProperty"
     )
 
     val indent = " ".repeat(4)

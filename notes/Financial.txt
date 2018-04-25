@@ -61,3 +61,7 @@ Yahoo Finance futures symbols:
 S&P Futures (E-Mini S&P 500): ES=F
 Dow Futures (E-mini Dow ($5) Futures): YM=F
 Nasdaq Futures (Nasdaq 100): NQ=F
+
+
+CBOE Volatility Index (^VIX)
+CBOE Interest Rate 10 Year T No (^TNX)

@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.main.getAppLogger
+import com.vitalyk.insight.processors.FxBean
 import okhttp3.HttpUrl
 import okhttp3.Request
 import java.io.IOException

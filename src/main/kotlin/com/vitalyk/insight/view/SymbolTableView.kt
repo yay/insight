@@ -8,6 +8,7 @@ import com.vitalyk.insight.ui.toolbox
 import com.vitalyk.insight.yahoo.getDistributionInfo
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
+import javafx.beans.property.StringProperty
 import javafx.scene.Node
 import javafx.scene.control.Alert
 import javafx.scene.control.ComboBox

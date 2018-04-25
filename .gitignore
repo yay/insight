@@ -1,7 +1,6 @@
 *~
 .DS_Store
 /logs/
-/.idea/
 /.gradle/
 META-INF
 *.iml
