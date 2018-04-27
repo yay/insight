@@ -3,7 +3,6 @@ package com.vitalyk.insight.processors
 import com.google.auto.service.AutoService
 import java.io.File
 import javax.annotation.processing.AbstractProcessor
-import javax.annotation.processing.ProcessingEnvironment
 import javax.annotation.processing.Processor
 import javax.annotation.processing.RoundEnvironment
 import javax.lang.model.SourceVersion
@@ -15,10 +14,6 @@ annotation class FxBean
 
 @AutoService(Processor::class)
 class FxBeanGenerator : AbstractProcessor() {
-
-//    override fun init(processingEnv: ProcessingEnvironment?) {
-//        super.init(processingEnv)
-//    }
 
     override fun getSupportedAnnotationTypes(): MutableSet<String> {
         return mutableSetOf(FxBean::class.java.name)
@@ -41,14 +36,13 @@ class FxBeanGenerator : AbstractProcessor() {
                 // definition of are being compiled right now.
 
                 if (isKotlinClass) {
-                    val fileName = className + "Bullshit"
+                    val fileName = className + "FxBean"
                     val kaptKotlinGeneratedDir = processingEnv.options[KAPT_KOTLIN_GENERATED_OPTION_NAME]
-                    val strings = mutableListOf<String>()
+                    val classNames = mutableListOf<String>()
 
-                    // This won't list any Kotlin's data classes.
                     val methods = roundEnv.rootElements.find {
-                        strings.add("// " + it.simpleName.toString())
-                        it.simpleName.toString() == className
+                        classNames.add("// " + it.simpleName.toString())
+                        it.simpleName.toString() == className // this is never true
                     }?.let {
                         val methods = mutableListOf<ExecutableElement>()
                         it.enclosedElements.forEach {
@@ -59,12 +53,10 @@ class FxBeanGenerator : AbstractProcessor() {
                         methods
                     }
 
-                    File(kaptKotlinGeneratedDir, "$fileName.kt").writeText(strings.joinToString("\n"))
+                    File(kaptKotlinGeneratedDir, "$fileName.kt").writeText(classNames.joinToString("\n"))
 
                     if (methods != null && methods.isNotEmpty()) {
                         generateClass(className, packageName, methods)
-                    } else {
-//                        throw Error("SHIT SHIT SHIT")
                     }
                 }
             }
