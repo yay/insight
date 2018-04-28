@@ -1,5 +1,6 @@
 package com.vitalyk.insight.view
 
+import com.vitalyk.insight.bond.getUsYieldCurveData
 import com.vitalyk.insight.iex.DayChartPointBean
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.toBean
@@ -56,6 +57,8 @@ class SymbolTableView : View("Instrument Data") {
             button("News").action { replaceWith(NewsView::class) }
 
             button("Quotes").action { replaceWith(QuoteView::class) }
+
+            button("Yield Curve").action { replaceWith(YieldCurveView::class) }
         }
 
         toolbox(border = false) {

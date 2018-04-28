@@ -1,5 +1,6 @@
 package com.vitalyk.insight
 
+import com.vitalyk.insight.bond.getUsYieldCurveData
 import com.vitalyk.insight.fragment.AssetProfileFragment
 import com.vitalyk.insight.iex.IexSymbols
 import com.vitalyk.insight.iex.Watchlist

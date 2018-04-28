@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/generator/generator.iml" filepath="$PROJECT_DIR$/.idea/modules/generator/generator.iml" group="generator" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/generator/generator_main.iml" filepath="$PROJECT_DIR$/.idea/modules/generator/generator_main.iml" group="generator" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/generator/generator_test.iml" filepath="$PROJECT_DIR$/.idea/modules/generator/generator_test.iml" group="generator" />
       <module fileurl="file://$PROJECT_DIR$/insight.iml" filepath="$PROJECT_DIR$/insight.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/insight_main.iml" filepath="$PROJECT_DIR$/.idea/modules/insight_main.iml" group="insight" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/insight_test.iml" filepath="$PROJECT_DIR$/.idea/modules/insight_test.iml" group="insight" />
