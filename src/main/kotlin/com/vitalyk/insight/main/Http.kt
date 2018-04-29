@@ -82,9 +82,13 @@ class UserAgentInterceptor(private val userAgent: String) : Interceptor {
     }
 }
 
-fun httpGet(url: String, block: HttpUrl.Builder.() -> Unit): Result<String, Exception> {
+fun httpGet(url: String, params: Map<String, String?> = emptyMap()): Result<String, Exception> {
     val httpUrl = HttpUrl.parse(url) ?: throw IllegalArgumentException("Bad URL: $url")
-    val requestUrl = httpUrl.newBuilder().also{ block(it) }.build()
+    val requestUrl = httpUrl.newBuilder().apply {
+        for ((key, value) in params) {
+            addQueryParameter(key, value)
+        }
+    }.build()
     val request = Request.Builder().url(requestUrl).build()
     val response = HttpClients.main.newCall(request).execute()
 
@@ -92,7 +96,7 @@ fun httpGet(url: String, block: HttpUrl.Builder.() -> Unit): Result<String, Exce
         return if (it.isSuccessful) {
             Result.of { it.body()?.string() ?: "" }
         } else {
-            Result.of { throw Error("Request failed: $it.") }
+            Result.of { throw IOException("Request failed: $it.") }
         }
     }
 }

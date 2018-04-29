@@ -13,7 +13,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.github.kittinunf.result.Result
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.main.getAppLogger
 import okhttp3.HttpUrl
@@ -41,23 +40,26 @@ object Iex {
         this.client = client
     }
 
-    private fun getResponse(requestUrl: String): String? {
-        val request = Request.Builder()
-            .url(requestUrl)
-            .build()
-
-        val response = client.newCall(request).execute()
+    private fun fetch(url: String, params: Map<String, String?> = emptyMap()): String? {
+        val httpUrl = HttpUrl.parse(url) ?: throw IllegalArgumentException("Bad URL: $url")
+        val requestUrl = httpUrl.newBuilder().apply {
+            for ((key, value) in params) {
+                addQueryParameter(key, value)
+            }
+        }.build()
+        val request = Request.Builder().url(requestUrl).build()
+        val response = HttpClients.main.newCall(request).execute()
 
         response.use {
             return if (it.isSuccessful) {
                 try {
                     it.body()?.string()
                 } catch (e: IOException) { // string() can throw
-                    getAppLogger().error("Request failed: ${e.message}")
+                    getAppLogger().error("Request $requestUrl\nfailed: ${e.message}")
                     null
                 }
             } else {
-                getAppLogger().error("Request failed: $it.")
+                getAppLogger().error("Request $requestUrl\nfailed: $it")
                 null
             }
         }
@@ -241,7 +243,11 @@ object Iex {
         @JsonProperty("EPSReportDate")
         val epsReportDate: Date,
         val fiscalPeriod: String,
-        val fiscalEndDate: Date
+        val fiscalEndDate: Date,
+        val yearAgo: Double,
+        val yearAgoChangePercent: Double,
+        val estimatedChangePercent: Double,
+        val symbolId: Int
     )
 
     data class RecentFinancials(
@@ -574,7 +580,7 @@ object Iex {
     )
 
     data class LastTrade(
-        val symbol: String,
+        val symbol: String?,
         val price: Double,
         val size: Int,
         val time: Date
@@ -750,43 +756,26 @@ object Iex {
     // TODO: implement https://iextrading.com/developer/docs/#market
 
     fun getCompany(symbol: String): Company? {
-        val url = "$baseUrl/stock/$symbol/company"
-        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().build().toString()
-
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl/stock/$symbol/company")?.let {
             mapper.readValue(it, Company::class.java)
         }
     }
 
     fun getStats(symbol: String): Stats? {
-        val url = "$baseUrl/stock/$symbol/stats"
-        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().build().toString()
-
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl/stock/$symbol/stats")?.let {
             mapper.readValue(it, Stats::class.java)
         }
     }
 
     fun getQuote(symbol: String): Quote? {
-        val url = "$baseUrl/stock/$symbol/quote"
-        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().build().toString()
-
-        return getResponse(requestUrl)?.let {
-            try { mapper.readValue(it, Quote::class.java) }
-            catch (e: Exception) { println("$url: ${e.message}"); null }
+        return fetch("$baseUrl/stock/$symbol/quote")?.let {
+            mapper.readValue(it, Quote::class.java)
         }
     }
 
     // Generic method for fetching gainers, losers, etc.
     private fun getQuotes(path: String): List<Quote>? {
-        val url = "$baseUrl$path"
-        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().build().toString()
-
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl$path")?.let {
             mapper.readValue(it, listTypes[Quote::class.java])
         }
     }
@@ -798,21 +787,13 @@ object Iex {
     fun getIexPercent() = getQuotes("/stock/market/list/iexpercent")
 
     fun getPreviousDay(symbol: String): PreviousDay? {
-        val url = "$baseUrl/stock/$symbol/previous"
-        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().build().toString()
-
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl/stock/$symbol/previous")?.let {
             mapper.readValue(it, PreviousDay::class.java)
         }
     }
 
     fun getPreviousDay(): Map<String, PreviousDay>? {
-        val url = "$baseUrl/stock/market/previous"
-        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().build().toString()
-
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl/stock/market/previous")?.let {
             mapper.readValue(it, previousDayMapType)
         }
     }
@@ -820,124 +801,76 @@ object Iex {
     // https://iextrading.com/developer/docs/#chart
     // For example: Iex.getDayChart("AAPL").joinToString("\n")
     fun getDayChart(symbol: String, range: Range = Range.Y): List<DayChartPoint>? {
-        val url = "$baseUrl/stock/$symbol/chart/${range.value.code}"
-        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().build().toString()
-
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl/stock/$symbol/chart/${range.value.code}")?.let {
             mapper.readValue(it, listTypes[DayChartPoint::class.java])
         }
     }
 
     // For example: getMinuteChart("AAPL", "20180129")
     fun getMinuteChart(symbol: String, date: String): List<MinuteChartPoint>? {
-        val url = "$baseUrl/stock/$symbol/chart/date/$date"
-        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().build().toString()
-
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl/stock/$symbol/chart/date/$date")?.let {
             mapper.readValue(it, listTypes[MinuteChartPoint::class.java])
         }
     }
 
     fun getDividends(symbol: String, range: Range = Range.Y): List<Dividend>? {
-        val url = "$baseUrl/stock/$symbol/dividends/${range.value.code}"
-        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().build().toString()
-
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl/stock/$symbol/dividends/${range.value.code}")?.let {
             mapper.readValue(it, listTypes[Dividend::class.java])
         }
     }
 
     fun getEarnings(symbol: String): RecentEarnings? {
-        val url = "$baseUrl/stock/$symbol/earnings"
-        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().build().toString()
-
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl/stock/$symbol/earnings")?.let {
             mapper.readValue(it, RecentEarnings::class.java)
         }
     }
 
     fun getPeers(symbol: String): List<String>? {
-        val url = "$baseUrl/stock/$symbol/peers"
-        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().build().toString()
-
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl/stock/$symbol/peers")?.let {
             mapper.readValue(it, listTypes[String::class.java])
         }
     }
 
     fun getVolumeByVenue(symbol: String): List<VenueVolume>? {
-        val url = "$baseUrl/stock/$symbol/volume-by-venue"
-        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().build().toString()
-
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl/stock/$symbol/volume-by-venue")?.let {
             mapper.readValue(it, listTypes[VenueVolume::class.java])
         }
     }
 
     // This is a helper function, but the google APIs url is standardized.
     fun getLogoData(symbol: String): LogoData? {
-        val url = "$baseUrl/stock/$symbol/logo"
-        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().build().toString()
-
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl/stock/$symbol/logo")?.let {
             mapper.readValue(it, LogoData::class.java)
         }
     }
 
     fun getFinancials(symbol: String): RecentFinancials? {
-        val url = "$baseUrl/stock/$symbol/financials"
-        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().build().toString()
-
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl/stock/$symbol/financials")?.let {
             mapper.readValue(it, RecentFinancials::class.java)
         }
     }
 
     fun getSpread(symbol: String): List<Spread>? {
-        val url = "$baseUrl/stock/$symbol/effective-spread"
-        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().build().toString()
-
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl/stock/$symbol/effective-spread")?.let {
             mapper.readValue(it, listTypes[Spread::class.java])
         }
     }
 
     fun getOHLC(symbol: String): OHLC? {
-        val url = "$baseUrl/stock/$symbol/ohlc"
-        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().build().toString()
-
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl/stock/$symbol/ohlc")?.let {
             mapper.readValue(it, OHLC::class.java)
         }
     }
 
     fun getSplits(symbol: String, range: Range = Range.Y5): List<Split>? {
-        val url = "$baseUrl/stock/$symbol/splits/${range.value.code}"
-        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().build().toString()
-
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl/stock/$symbol/splits/${range.value.code}")?.let {
             mapper.readValue(it, listTypes[Split::class.java])
         }
     }
 
     // List of all supported symbols.
     fun getSymbols(): List<Symbol>? {
-        val url = "$baseUrl/ref-data/symbols"
-        val httpUrl = HttpUrl.parse(url) ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().build().toString()
-
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl/ref-data/symbols")?.let {
             mapper.readValue(it, listTypes[Symbol::class.java])
         }
     }
@@ -945,17 +878,16 @@ object Iex {
     // 'range' refers to chart range, optional if chart is not in 'types'.
     // https://iextrading.com/developer/docs/#batch-requests
     fun getBatch(symbol: String, types: Set<BatchType> = batchTypes, range: Range = Range.M): Batch? {
-        val httpUrl = HttpUrl.parse("$baseUrl/stock/$symbol/batch") ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().apply {
-            addQueryParameter("types", types.joinToString(",") { it.value })
-            addQueryParameter("range", range.value.code)
+        val params = mapOf(
+            "types" to types.joinToString(",") { it.value },
+            "range" to range.value.code,
             // Parameters that are sent to individual endpoints can be specified in batch calls
             // and will be applied to each supporting endpoint.
             // For example, param below applies to news (only last 10 will be fetched).
-            addQueryParameter("last", "10")
-        }.build().toString()
+            "last" to "10"
+        )
 
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl/stock/$symbol/batch", params)?.let {
             mapper.readValue(it, Batch::class.java)
         }
     }
@@ -965,19 +897,18 @@ object Iex {
         if (symbols.size > 100) {
             throw IllegalArgumentException("Up to 100 symbols allowed.")
         }
-        val httpUrl = HttpUrl.parse("$baseUrl/stock/market/batch") ?: throw Error(badUrlMsg)
 
-        val requestUrl = httpUrl.newBuilder().apply {
-            addQueryParameter("symbols", symbols.joinToString(","))
-            addQueryParameter("types", types.joinToString(",") { it.value })
-            if (BatchType.CHART in types) {
-                // used to specify a chart range if 'chart' is used in 'types' parameter
-                addQueryParameter("range", range.value.code)
-            }
-            addQueryParameter("last", "5")
-        }.build().toString()
+        val params = mutableMapOf(
+            "symbols" to symbols.joinToString(","),
+            "types" to types.joinToString(",") { it.value },
+            "last" to "5"
+        )
+        if (BatchType.CHART in types) {
+            // used to specify a chart range if 'chart' is used in 'types' parameter
+            params["range"] = range.value.code
+        }
 
-        return getResponse(requestUrl)?.toJsonNode()?.map {
+        return fetch("$baseUrl/stock/market/batch", params)?.toJsonNode()?.map {
             mapper.convertValue(it, Batch::class.java)
         }
     }
@@ -985,30 +916,24 @@ object Iex {
     // Near real time, intraday API that provides Iex last sale price, size and time.
     // If no symbols are specified, will return all symbols (8K+).
     fun getLastTrade(symbols: List<String>? = null): List<LastTrade>? {
-        val httpUrl = HttpUrl.parse("$baseUrl/tops/last") ?: throw Error(badUrlMsg)
+        val params = if (symbols != null && symbols.isNotEmpty()) {
+            mapOf("symbols" to symbols.joinToString(","))
+        } else emptyMap()
 
-        val requestUrl = httpUrl.newBuilder().apply {
-            if (symbols != null && symbols.isNotEmpty()) {
-                addQueryParameter("symbols", symbols.joinToString(","))
-            }
-        }.build().toString()
-
-        return getResponse(requestUrl)?.let {
-            mapper.readValue(it, listTypes[LastTrade::class.java])
+        return fetch("$baseUrl/tops/last", params)?.let {
+            // https://github.com/iexg/IEX-API/issues/304
+            mapper.readValue(it.replace("{},", ""), listTypes[LastTrade::class.java])
         }
     }
 
     fun getTops(symbols: List<String>? = null): List<Tops>? {
         if (isWeekend()) return emptyList()
 
-        val httpUrl = HttpUrl.parse("$baseUrl/tops") ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().apply {
-            if (symbols != null && symbols.isNotEmpty()) {
-                addQueryParameter("symbols", symbols.joinToString(","))
-            }
-        }.build().toString()
+        val params = if (symbols != null && symbols.isNotEmpty()) {
+            mapOf("symbols" to symbols.joinToString(","))
+        } else emptyMap()
 
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl/tops", params)?.let {
             mapper.readValue(it, listTypes[Tops::class.java])
         }
     }
@@ -1018,12 +943,7 @@ object Iex {
 
     // https://iextrading.com/developer/docs/#deep
     fun getDepth(symbol: String): Depth? {
-        val httpUrl = HttpUrl.parse("$baseUrl/deep") ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().apply {
-            addQueryParameter("symbols", symbol)
-        }.build().toString()
-
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl/deep", mapOf("symbols" to symbol))?.let {
             mapper.readValue(it, Depth::class.java)
         }
     }
@@ -1031,14 +951,9 @@ object Iex {
     // Shows Iex’s bids and asks for given symbols.
     // https://iextrading.com/developer/docs/#book51
     fun getBook(symbol: String): Book? {
-        val httpUrl = HttpUrl.parse("$baseUrl/deep/book") ?: throw Error(badUrlMsg)
-
-        val requestUrl = httpUrl.newBuilder().apply {
-            addQueryParameter("symbols", symbol)
-        }.build().toString()
-
         return mapper.convertValue(
-            getResponse(requestUrl)?.toJsonNode()?.get(symbol.toUpperCase()),
+            fetch("$baseUrl/deep/book", mapOf("symbols" to symbol))
+                ?.toJsonNode()?.get(symbol.toUpperCase()),
             Book::class.java
         )
     }
@@ -1047,34 +962,26 @@ object Iex {
     fun getTrades(symbol: String, last: Int = 20): List<Trade>? {
         if (isWeekend()) return emptyList()
 
-        val httpUrl = HttpUrl.parse("$baseUrl/deep/trades") ?: throw Error(badUrlMsg)
+        val params = mapOf(
+            "symbols" to symbol,
+            "last" to last.toString()
+        )
 
-        val requestUrl = httpUrl.newBuilder().apply {
-            addQueryParameter("symbols", symbol)
-            addQueryParameter("last", last.toString())
-        }.build().toString()
-
-        return getResponse(requestUrl)?.toJsonNode()?.get(symbol.toUpperCase())?.map {
+        return fetch("$baseUrl/deep/trades", params)?.toJsonNode()?.get(symbol.toUpperCase())?.map {
             mapper.convertValue(it, Trade::class.java)
         }
     }
 
     // https://iextrading.com/developer/docs/#intraday
     fun getIntradayStats(): IntradayStats? {
-        val httpUrl = HttpUrl.parse("$baseUrl/stats/intraday") ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().build().toString()
-
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl/stats/intraday")?.let {
             mapper.readValue(it, IntradayStats::class.java)
         }
     }
 
     // https://iextrading.com/developer/docs/#records
     fun getRecordsStats(): RecordsStats? {
-        val httpUrl = HttpUrl.parse("$baseUrl/stats/records") ?: throw Error(badUrlMsg)
-        val requestUrl = httpUrl.newBuilder().build().toString()
-
-        return getResponse(requestUrl)?.let {
+        return fetch("$baseUrl/stats/records")?.let {
             mapper.readValue(it, RecordsStats::class.java)
         }
     }

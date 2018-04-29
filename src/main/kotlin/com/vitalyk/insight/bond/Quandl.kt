@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 private const val usYieldUrl = "https://www.quandl.com/api/v3/datasets/USTREASURY/YIELD.csv"
+private val apiKey = "D56KmTLWdnWBzWexFcX2"
+private val apiKeyParam = mapOf("api_key" to apiKey)
 
 data class UsYield(
     val date: Date,
@@ -24,9 +26,7 @@ data class UsYield(
 )
 
 fun getUsYieldData(): List<UsYield> {
-    httpGet(usYieldUrl) {
-        addQueryParameter("api_key", "D56KmTLWdnWBzWexFcX2")
-    }.fold({
+    httpGet(usYieldUrl, apiKeyParam).fold({
         val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().withNullString("").parse(it.reader())
         return mapUsYieldRecords(records)
     }, {

@@ -1,0 +1,2 @@
+16:48:46.181 [main] ERROR insight - Request https://api.iextrading.com/1.0/stock/ABRACADABRA/chart/1m
+failed: Response{protocol=http/1.1, code=404, message=Not Found, url=https://api.iextrading.com/1.0/stock/ABRACADABRA/chart/1m} (Iex.kt:62)
