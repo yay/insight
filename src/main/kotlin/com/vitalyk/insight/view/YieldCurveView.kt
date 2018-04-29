@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat
 
 class YieldCurveView : View("Yield Curve") {
     private val dateFormat = SimpleDateFormat("d MMM, yyyy")
-    private lateinit var data: List<UsYield>
+    private var data: List<UsYield>? = null
 
     val updateButton = button("Update") {
         action { updateData() }
@@ -33,7 +33,8 @@ class YieldCurveView : View("Yield Curve") {
     val scrollBar = ScrollBar().apply {
         isDisable = true
         valueProperty().onChange {
-            updateChart(it.toInt())
+            val index = it.toInt()
+            data?.let { updateChart(it[index]) }
         }
     }
 
@@ -44,7 +45,7 @@ class YieldCurveView : View("Yield Curve") {
     }
 
     override fun onDock() {
-        updateData()
+        if (data == null) updateData()
     }
 
     fun updateData() {
@@ -59,14 +60,11 @@ class YieldCurveView : View("Yield Curve") {
                 max = (it.count() - 1).toDouble()
                 value = 0.0
             }
-
-            updateChart(0)
+            updateChart(it[0])
         }
     }
 
-    fun updateChart(index: Int) {
-        val rec = data[index]
-
+    fun updateChart(rec: UsYield) {
         chart.title = dateFormat.format(rec.date)
         chart.data.clear()
         chart.series("Yield Curve") {
