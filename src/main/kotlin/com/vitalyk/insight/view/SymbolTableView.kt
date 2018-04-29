@@ -51,11 +51,8 @@ class SymbolTableView : View("Instrument Data") {
             }
 
             button("Chart").action { replaceWith(ChartView::class) }
-
             button("News").action { replaceWith(NewsView::class) }
-
             button("Quotes").action { replaceWith(QuoteView::class) }
-
             button("Yield Curve").action { replaceWith(YieldCurveView::class) }
         }
 

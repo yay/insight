@@ -13,7 +13,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.main.getAppLogger
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
@@ -48,7 +47,7 @@ object Iex {
             }
         }.build()
         val request = Request.Builder().url(requestUrl).build()
-        val response = HttpClients.main.newCall(request).execute()
+        val response = client.newCall(request).execute()
 
         response.use {
             return if (it.isSuccessful) {
