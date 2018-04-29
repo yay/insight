@@ -2,6 +2,9 @@ package com.vitalyk.insight.yahoo
 
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.main.UserAgents
+import javafx.beans.property.SimpleDoubleProperty
+import javafx.beans.property.SimpleLongProperty
+import javafx.beans.property.SimpleObjectProperty
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -10,7 +13,6 @@ import org.apache.commons.csv.CSVRecord
 import tornadofx.*
 import java.io.StringReader
 import java.net.MalformedURLException
-import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
@@ -72,70 +74,36 @@ fun getYFinanceAuth(symbol: String = "AAPL"): YFinanceAuth? {
 fun String.parseYahooCSV(): Iterable<CSVRecord> =
     CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(StringReader(this))
 
-
-open class StockSymbol(date: Date, open: Float, high: Float, low: Float, close: Float, volume: Int, adjClose: Float) {
-    var date: Date by property(date)
-    fun dateProperty() = getProperty(StockSymbol::date)
-
-    var open: Float by property(open)
-    fun openProperty() = getProperty(StockSymbol::open)
-
-    var high: Float by property(high)
-    fun highProperty() = getProperty(StockSymbol::high)
-
-    var low: Float by property(low)
-    fun lowProperty() = getProperty(StockSymbol::low)
-
-    var close: Float by property(close)
-    fun closeProperty() = getProperty(StockSymbol::close)
-
-    var volume: Int by property(volume)
-    fun volumeProperty() = getProperty(StockSymbol::volume)
-
-    var adjClose: Float by property(adjClose)
-    fun adjCloseProperty() = getProperty(StockSymbol::adjClose)
+class StockSymbol {
+    val dateProperty = SimpleObjectProperty<Date>()
+    var date by dateProperty
+    val openProperty = SimpleDoubleProperty()
+    var open by openProperty
+    val highProperty = SimpleDoubleProperty()
+    var high by highProperty
+    val lowProperty = SimpleDoubleProperty()
+    var low by lowProperty
+    val closeProperty = SimpleDoubleProperty()
+    var close by closeProperty
+    val volumeProperty = SimpleLongProperty()
+    var volume by volumeProperty
+    val adjCloseProperty = SimpleDoubleProperty()
+    var adjClose by adjCloseProperty
 }
 
 fun Iterable<CSVRecord>.toStockList(): List<StockSymbol> {
     val header = yahooDataHeader
     val dateFormat = SimpleDateFormat("yyyy-MM-dd")
 
-    return this.map { it ->
-        val date = try {
-            dateFormat.parse(it.get(YahooDataColumns.date))
-        } catch (e: ParseException) {
-            YahooDataColumns.date
-        }
-        try {
-            StockSymbol(
-                dateFormat.parse(it.get(header[0])),
-                it.get(header[1]).toFloat(),
-                it.get(header[2]).toFloat(),
-                it.get(header[3]).toFloat(),
-                it.get(header[4]).toFloat(),
-                it.get(header[5]).toInt(),
-                it.get(header[6]).toFloat()
-            )
-        } catch (e: ParseException) {
-            StockSymbol(
-                dateFormat.parse(it.get(header[0])),
-                0.0f,
-                0.0f,
-                0.0f,
-                0.0f,
-                0,
-                0.0f
-            )
-        } catch (e: NumberFormatException) {
-            StockSymbol(
-                dateFormat.parse(it.get(header[0])),
-                0.0f,
-                0.0f,
-                0.0f,
-                0.0f,
-                0,
-                0.0f
-            )
+    return this.map {
+        StockSymbol().apply {
+            date = dateFormat.parse(it.get(header[0]))
+            open = it.get(header[1]).toDouble()
+            high = it.get(header[2]).toDouble()
+            low = it.get(header[3]).toDouble()
+            close = it.get(header[4]).toDouble()
+            volume = it.get(header[5]).toLong()
+            adjClose = it.get(header[6]).toDouble()
         }
     }
 }
@@ -337,15 +305,15 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
         val dateFormat = SimpleDateFormat("yyyy-MM-dd")
 
         return records.map { it ->
-            StockSymbol(
-                dateFormat.parse(it.get(header[0])),
-                it.get(header[1]).toFloat(),
-                it.get(header[2]).toFloat(),
-                it.get(header[3]).toFloat(),
-                it.get(header[4]).toFloat(),
-                it.get(header[5]).toInt(),
-                it.get(header[6]).toFloat()
-            )
+            StockSymbol().apply {
+                date = dateFormat.parse(it.get(header[0]))
+                open = it.get(header[1]).toDouble()
+                high = it.get(header[2]).toDouble()
+                low = it.get(header[3]).toDouble()
+                close = it.get(header[4]).toDouble()
+                volume = it.get(header[5]).toLong()
+                adjClose = it.get(header[6]).toDouble()
+            }
         }
     }
 
