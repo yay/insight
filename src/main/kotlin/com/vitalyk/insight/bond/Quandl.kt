@@ -1,10 +1,12 @@
 package com.vitalyk.insight.bond
 
+import com.vitalyk.insight.main.httpGet
 import org.apache.commons.csv.CSVFormat
+import org.apache.commons.csv.CSVParser
 import java.text.SimpleDateFormat
 import java.util.*
 
-const val usYieldCurveUrl = "https://www.quandl.com/api/v3/datasets/USTREASURY/YIELD.csv?api_key="
+private const val usYieldUrl = "https://www.quandl.com/api/v3/datasets/USTREASURY/YIELD.csv"
 
 data class UsYield(
     val date: Date,
@@ -21,12 +23,27 @@ data class UsYield(
     val yr30: Double?
 )
 
-fun getUsYieldCurveData(): List<UsYield> {
-    val reader = ClassLoader.getSystemResourceAsStream("data/bonds/USTREASURY-YIELD.csv")
+fun getUsYieldData(): List<UsYield> {
+    httpGet(usYieldUrl) {
+        addQueryParameter("api_key", "D56KmTLWdnWBzWexFcX2")
+    }.fold({
+        val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().withNullString("").parse(it.reader())
+        return mapUsYieldRecords(records)
+    }, {
+        return emptyList()
+    })
+}
+
+fun getLocalUsYieldData(): List<UsYield> {
+    val reader = ClassLoader
+        .getSystemResourceAsStream("data/bonds/USTREASURY-YIELD.csv")
         .bufferedReader()
     val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().withNullString("").parse(reader)
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+    return mapUsYieldRecords(records)
+}
 
+private fun mapUsYieldRecords(records: CSVParser): List<UsYield> {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
     return records.map {
         UsYield(
             dateFormat.parse(it.get("Date")),

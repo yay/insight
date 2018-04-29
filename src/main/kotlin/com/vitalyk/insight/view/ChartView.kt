@@ -37,7 +37,7 @@ class ChartView : View("Chart") {
     override val root = vbox {
         toolbox {
             button("Back") {
-                setOnAction {
+                action {
                     replaceWith(SymbolTableView::class)
                 }
             }

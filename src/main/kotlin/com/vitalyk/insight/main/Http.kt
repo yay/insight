@@ -1,8 +1,7 @@
 package com.vitalyk.insight.main
 
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Response
+import com.github.kittinunf.result.Result
+import okhttp3.*
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
@@ -80,5 +79,20 @@ class UserAgentInterceptor(private val userAgent: String) : Interceptor {
 
     companion object {
         private val USER_AGENT_HEADER_NAME = "User-Agent"
+    }
+}
+
+fun httpGet(url: String, block: HttpUrl.Builder.() -> Unit): Result<String, Exception> {
+    val httpUrl = HttpUrl.parse(url) ?: throw IllegalArgumentException("Bad URL: $url")
+    val requestUrl = httpUrl.newBuilder().also{ block(it) }.build()
+    val request = Request.Builder().url(requestUrl).build()
+    val response = HttpClients.main.newCall(request).execute()
+
+    response.use {
+        return if (it.isSuccessful) {
+            Result.of { it.body()?.string() ?: "" }
+        } else {
+            Result.of { throw Error("Request failed: $it.") }
+        }
     }
 }

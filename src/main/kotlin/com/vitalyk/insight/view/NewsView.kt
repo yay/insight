@@ -13,7 +13,7 @@ class NewsView : View("Headlines") {
     override val root = vbox {
         toolbox {
             button("Back") {
-                setOnAction {
+                action {
                     replaceWith(SymbolTableView::class)
                 }
             }

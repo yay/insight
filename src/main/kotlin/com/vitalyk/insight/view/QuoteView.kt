@@ -35,7 +35,7 @@ class QuoteView : View("Quotes") {
     override val root = vbox {
         toolbox {
             button("Back") {
-                setOnAction {
+                action {
                     replaceWith(SymbolTableView::class)
                 }
             }

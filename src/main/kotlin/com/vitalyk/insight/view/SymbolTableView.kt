@@ -1,6 +1,5 @@
 package com.vitalyk.insight.view
 
-import com.vitalyk.insight.bond.getUsYieldCurveData
 import com.vitalyk.insight.iex.DayChartPointBean
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.toBean
@@ -9,7 +8,6 @@ import com.vitalyk.insight.ui.toolbox
 import com.vitalyk.insight.yahoo.getDistributionInfo
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
-import javafx.beans.property.StringProperty
 import javafx.scene.Node
 import javafx.scene.control.Alert
 import javafx.scene.control.ComboBox
@@ -42,7 +40,7 @@ class SymbolTableView : View("Instrument Data") {
                 maxWidth = 80.0
             }
             button("Go") {
-                setOnAction {
+                action {
                     updateSymbolTable()
                 }
             }
@@ -65,7 +63,7 @@ class SymbolTableView : View("Instrument Data") {
             button("Watchlists").action { replaceWith(WatchlistView::class) }
 
             button("Market Distribution") {
-                setOnAction {
+                action {
                     alert(
                         Alert.AlertType.INFORMATION,
                         "Market Distribution Days",
@@ -75,7 +73,7 @@ class SymbolTableView : View("Instrument Data") {
             }
 
             button("Symbol Distribution") {
-                setOnAction {
+                action {
                     alert(
                         Alert.AlertType.INFORMATION,
                         "${symbol.value} Distribution Days",

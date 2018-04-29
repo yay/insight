@@ -77,7 +77,7 @@ class WatchlistUI(val watchlist: Watchlist) : Fragment() {
             }
             togglebutton("Eastern time") {
                 isSelected = false
-                setOnAction {
+                action {
                     isEasternTime = isSelected
                     table.refresh()
                 }

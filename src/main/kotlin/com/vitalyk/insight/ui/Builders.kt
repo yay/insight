@@ -73,7 +73,7 @@ fun EventTarget.symbolfield(property: ObservableValue<String>? = null,
                     val symbol = it.symbol
                     sb.append(symbol).append(" - ").append(it.name)
                     item(sb.toString()) {
-                        setOnAction {
+                        action {
                             textfield.text = symbol
                             onAction(symbol)
                         }

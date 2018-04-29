@@ -27,6 +27,7 @@ buildscript {
 
 repositories {
     mavenCentral()
+    jcenter()
 //    maven { url "http://jcenter.bintray.com" }
 //    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 //    maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.2" }
@@ -60,6 +61,9 @@ dependencies {
     compile 'org.jetbrains.kotlin:kotlin-reflect:1.2.41'
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5'
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-javafx:0.22.5'
+
+    compile 'com.github.kittinunf.result:result:1.4.0'
+//    compile 'com.github.kittinunf.result:result-coroutines:1.4.0'
 
     compile 'com.squareup.okhttp3:okhttp:3.10.0'
     compile 'no.tornado:tornadofx:1.7.15'

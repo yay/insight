@@ -39,7 +39,7 @@ class NewsFragment : Fragment("News") {
                 }
                 hyperlink(item.headline) {
                     tooltip(item.url)
-                    setOnAction {
+                    action {
                         Desktop.getDesktop().browse(URI(item.url))
                     }
                     contextmenu {
@@ -62,7 +62,7 @@ class NewsFragment : Fragment("News") {
 
         marketIndexes.forEach { symbol, name ->
             button(name) {
-                setOnAction {
+                action {
                     fetchSymbolNews(symbol)
                 }
             }

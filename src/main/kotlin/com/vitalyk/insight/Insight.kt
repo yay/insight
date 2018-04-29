@@ -1,7 +1,7 @@
 package com.vitalyk.insight
 
-import com.vitalyk.insight.bond.getUsYieldCurveData
 import com.vitalyk.insight.fragment.AssetProfileFragment
+import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.IexSymbols
 import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.main.AppSettings
@@ -68,6 +68,26 @@ class Insight : App(SymbolTableView::class, Styles::class) {
 //            System.err.println(e.message)
 //        }
 
+        Iex.setOkHttpClient(HttpClients.main)
+
+        Settings.load(AppSettings) {
+            Watchlist.restore(watchlists)
+        }
+        // Note: the shutdown hook won"t execute until the OkHttp threads are shut down.
+        Settings.saveOnShutdown(AppSettings) {
+            println("Saving settings...")
+            AppSettings.watchlists = Watchlist.save()
+        }
+
+        //
+        //    // The app won"t exit while the scheduler is running.
+        //    val appSchedulerFactory = StdSchedulerFactory()
+        //    val appScheduler = appSchedulerFactory.scheduler
+        //
+        //    appScheduler.start()
+        //
+        //    scheduleEndOfDayFetcher(appScheduler)
+
         IexSymbols.update()
         clipboardHook()
 
@@ -90,39 +110,7 @@ class Insight : App(SymbolTableView::class, Styles::class) {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            Settings.load(AppSettings) {
-                Watchlist.restore(watchlists)
-            }
-            // Note: the shutdown hook won"t execute until the OkHttp threads are shut down.
-            Settings.saveOnShutdown(AppSettings) {
-                println("Saving settings...")
-                AppSettings.watchlists = Watchlist.save()
-            }
-            //
-            //    // The app won"t exit while the scheduler is running.
-            //    val appSchedulerFactory = StdSchedulerFactory()
-            //    val appScheduler = appSchedulerFactory.scheduler
-            //
-            //    appScheduler.start()
-            //
-            //    scheduleEndOfDayFetcher(appScheduler)
-
             launch(Insight::class.java, *args)
         }
     }
 }
-
-//fun parse(str: String) {
-    // object field condition value repeat
-    // object must be a recognized object
-    // field must be recognized field, etc.
-//    parse("ANET price increases to 50.25 playSound() sendEmail("vitalyx@gmail.com") once")
-//    parse("INTC bid gains 20%")
-    // if (ANET.price >= 50.25) then
-
-    // if (symbols["ANET"].price >= 50.25) {
-    //     playSound("adsfsadf")
-    //     sendEmail("asdfasdf")
-    //     removeAlert()
-    // }
-//}

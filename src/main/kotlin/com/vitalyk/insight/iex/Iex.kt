@@ -13,9 +13,11 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.github.kittinunf.result.Result
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.main.getAppLogger
 import okhttp3.HttpUrl
+import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
 import java.time.DayOfWeek
@@ -31,9 +33,35 @@ import java.util.*
 // https://iextrading.com/developer/docs/
 
 object Iex {
-    private val client = HttpClients.main
+    private lateinit var client: OkHttpClient
     private const val baseUrl = "https://api.iextrading.com/1.0"
     private const val badUrlMsg = "Bad URL."
+
+    fun setOkHttpClient(client: OkHttpClient) {
+        this.client = client
+    }
+
+    private fun getResponse(requestUrl: String): String? {
+        val request = Request.Builder()
+            .url(requestUrl)
+            .build()
+
+        val response = client.newCall(request).execute()
+
+        response.use {
+            return if (it.isSuccessful) {
+                try {
+                    it.body()?.string()
+                } catch (e: IOException) { // string() can throw
+                    getAppLogger().error("Request failed: ${e.message}")
+                    null
+                }
+            } else {
+                getAppLogger().error("Request failed: $it.")
+                null
+            }
+        }
+    }
 
     private class LocalDateDeserializer : StdDeserializer<LocalDate>(LocalDate::class.java) {
 
@@ -720,29 +748,6 @@ object Iex {
     )
 
     // TODO: implement https://iextrading.com/developer/docs/#market
-
-    private fun getResponse(requestUrl: String): String? {
-        val request = Request.Builder()
-            .url(requestUrl)
-            .build()
-
-        val response = client.newCall(request).execute()
-
-        response.use {
-            return if (it.isSuccessful) {
-                try {
-                    it.body()?.string()
-                } catch (e: IOException) { // string() can throw
-                    getAppLogger().error("Request failed: ${e.message}")
-                    null
-                }
-            } else {
-                getAppLogger().error("Request failed: $it.")
-                null
-            }
-        }
-    }
-
 
     fun getCompany(symbol: String): Company? {
         val url = "$baseUrl/stock/$symbol/company"
