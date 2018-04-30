@@ -62,7 +62,7 @@ private val summaryModules = listOf(
     "assetProfile"  // there is also "summaryProfile" which is the same, but less comprehensive
 )
 
-private val defaultSummaryParams = listOf("modules" to summaryModules.joinToString(","))
+private val defaultSummaryParams = mapOf("modules" to summaryModules.joinToString(","))
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class AssetProfile(
@@ -195,7 +195,7 @@ data class QuoteSummary(
     val defaultKeyStatistics: DefaultKeyStatistics
 )
 
-fun getYahooSummary(symbol: String, params: List<Pair<String, String>> = defaultSummaryParams): String? {
+fun getYahooSummary(symbol: String, params: Map<String, String> = defaultSummaryParams): String? {
     return try {
         yahooGet("https://query2.finance.yahoo.com/v10/finance/quoteSummary/$symbol", params)
     } catch (e: Exception) {

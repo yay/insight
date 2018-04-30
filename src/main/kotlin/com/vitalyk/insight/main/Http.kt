@@ -1,6 +1,5 @@
 package com.vitalyk.insight.main
 
-import com.github.kittinunf.result.Result
 import okhttp3.*
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -82,21 +81,44 @@ class UserAgentInterceptor(private val userAgent: String) : Interceptor {
     }
 }
 
-fun httpGet(url: String, params: Map<String, String?> = emptyMap()): Result<String, Exception> {
-    val httpUrl = HttpUrl.parse(url) ?: throw IllegalArgumentException("Bad URL: $url")
-    val requestUrl = httpUrl.newBuilder().apply {
-        for ((key, value) in params) {
-            addQueryParameter(key, value)
-        }
-    }.build()
-    val request = Request.Builder().url(requestUrl).build()
-    val response = HttpClients.main.newCall(request).execute()
+fun httpGet(
+    url: String,
+    client: OkHttpClient,
+    withUrl: HttpUrl.Builder.() -> Unit = {},
+    withRequest: Request.Builder.() -> Unit = {}
+): String {
+    val httpUrl = (HttpUrl.parse(url) ?: throw IllegalArgumentException("Bad URL: $url"))
+        .newBuilder().apply(withUrl).build()
+    val request = Request.Builder().url(httpUrl).apply(withRequest).build()
+    val response = try {
+        client.newCall(request).execute()
+    } catch (e: IOException) {
+        throw IOException(e.message + "\nURL: $httpUrl")
+    }
 
     response.use {
         return if (it.isSuccessful) {
-            Result.of { it.body()?.string() ?: "" }
+            val body = it.body()
+            if (body != null) {
+                // body.string() seems to never return null,
+                // but can return an empty string or throw IOException
+                body.string()
+            } else {
+                throw IOException("Empty response body (${it.code()}).\nURL: $httpUrl")
+            }
         } else {
-            Result.of { throw IOException("Request failed: $it.") }
+            throw IOException("Request failed (${it.code()}). Message: ${it.message()}\nURL: $httpUrl")
         }
     }
+}
+
+fun httpGet(url: String, params: Map<String, String?> = emptyMap()): String {
+    return httpGet(url,
+        client = HttpClients.main,
+        withUrl = {
+            for ((key, value) in params) {
+                addQueryParameter(key, value)
+            }
+        }
+    )
 }

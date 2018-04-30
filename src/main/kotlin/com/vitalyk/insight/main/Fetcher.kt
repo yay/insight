@@ -165,7 +165,7 @@ fun Exchange.fetchSummary() {
 fun Exchange.getExchangeSecuritiesFromNasdaq(): List<Security> {
 
     return try {
-        yahooGet("http://www.nasdaq.com/screening/companies-by-name.aspx", listOf(
+        yahooGet("http://www.nasdaq.com/screening/companies-by-name.aspx", mapOf(
             "letter" to "0",
             "render" to "download",
             "exchange" to this.code
@@ -415,7 +415,7 @@ object StockFetcherUS {
     fun getStocks(exchange: String): List<Security>? {
         if (exchange in exchanges) {
             return try {
-                yahooGet(baseUrl, listOf(
+                yahooGet(baseUrl, mapOf(
                     "letter" to "0",
                     "render" to "download",
                     "exchange" to exchange

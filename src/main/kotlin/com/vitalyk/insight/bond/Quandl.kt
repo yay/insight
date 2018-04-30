@@ -1,5 +1,6 @@
 package com.vitalyk.insight.bond
 
+import com.vitalyk.insight.main.getAppLogger
 import com.vitalyk.insight.main.httpGet
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
@@ -26,12 +27,15 @@ data class UsYield(
 )
 
 fun getUsYieldData(): List<UsYield> {
-    httpGet(usYieldUrl, apiKeyParam).fold({
+    return try {
+        httpGet(usYieldUrl, apiKeyParam)
+    } catch (e: Exception) {
+        getAppLogger().error(e.message)
+        null
+    }?.let {
         val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().withNullString("").parse(it.reader())
-        return mapUsYieldRecords(records)
-    }, {
-        return emptyList()
-    })
+        mapUsYieldRecords(records)
+    } ?: emptyList()
 }
 
 fun getLocalUsYieldData(): List<UsYield> {

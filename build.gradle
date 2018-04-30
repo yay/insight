@@ -62,9 +62,6 @@ dependencies {
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.22.5'
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-javafx:0.22.5'
 
-    compile 'com.github.kittinunf.result:result:1.4.0'
-//    compile 'com.github.kittinunf.result:result-coroutines:1.4.0'
-
     compile 'com.squareup.okhttp3:okhttp:3.10.0'
     compile 'no.tornado:tornadofx:1.7.15'
     compile 'org.apache.commons:commons-csv:1.5' // CSV parser

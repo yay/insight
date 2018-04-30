@@ -52,7 +52,7 @@ fun getChartPoints(symbol: String, amount: Long = 1, unit: ChronoUnit = ChronoUn
     val baseUrl = "https://query1.finance.yahoo.com/v7/finance/download/"
 
     return try {
-        yahooGet("$baseUrl$symbol", listOf(
+        yahooGet("$baseUrl$symbol", mapOf(
             "period1" to "${ago.toInstant().toEpochMilli() / 1000}",
             "period2" to "${now.toInstant().toEpochMilli() / 1000}",
             "interval" to interval.value,
