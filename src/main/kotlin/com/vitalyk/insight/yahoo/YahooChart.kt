@@ -51,37 +51,32 @@ fun getChartPoints(symbol: String, amount: Long = 1, unit: ChronoUnit = ChronoUn
     val crumb = "vjMESKwkGZA"
     val baseUrl = "https://query1.finance.yahoo.com/v7/finance/download/"
 
-    val result = yahooGet("$baseUrl$symbol", listOf(
-        "period1" to "${ago.toInstant().toEpochMilli() / 1000}",
-        "period2" to "${now.toInstant().toEpochMilli() / 1000}",
-        "interval" to interval.value,
-        "events" to "history",
-        "crumb" to crumb // required along with a cookie, changes with every login to Yahoo Finance
-    ))
+    return try {
+        yahooGet("$baseUrl$symbol", listOf(
+            "period1" to "${ago.toInstant().toEpochMilli() / 1000}",
+            "period2" to "${now.toInstant().toEpochMilli() / 1000}",
+            "interval" to interval.value,
+            "events" to "history",
+            "crumb" to crumb // required along with a cookie, changes with every login to Yahoo Finance
+        ))
+    } catch (e: Exception) {
+        getAppLogger().error(e.message)
+        null
+    }?.let {
+        val mapper = CsvMapper()
 
-    return when (result) {
-        is YahooGetSuccess -> {
-            val mapper = CsvMapper()
+        val schema = CsvSchema.builder()
+            .addColumn("Date")
+            .addColumn("Open")
+            .addColumn("High")
+            .addColumn("Low")
+            .addColumn("Close")
+            .addColumn("Adj Close")
+            .addColumn("Volume")
+            .build().withHeader()
 
-            val schema = CsvSchema.builder()
-                .addColumn("Date")
-                .addColumn("Open")
-                .addColumn("High")
-                .addColumn("Low")
-                .addColumn("Close")
-                .addColumn("Adj Close")
-                .addColumn("Volume")
-                .build().withHeader()
+        val reader = mapper.readerFor(ChartPoint::class.java).with(schema)
 
-            val reader = mapper.readerFor(ChartPoint::class.java).with(schema)
-
-            reader.readValues<ChartPoint>(result.value).readAll()
-        }
-        is YahooGetFailure -> {
-            result.apply {
-                getAppLogger().error("$message ($code): $url")
-            }
-            null
-        }
+        reader.readValues<ChartPoint>(it).readAll()
     }
 }

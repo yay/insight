@@ -196,18 +196,12 @@ data class QuoteSummary(
 )
 
 fun getYahooSummary(symbol: String, params: List<Pair<String, String>> = defaultSummaryParams): String? {
-    val result = yahooGet("https://query2.finance.yahoo.com/v10/finance/quoteSummary/$symbol", params)
-
-    when (result) {
-        is YahooGetSuccess -> {
-            return result.value // this JSON string is not "pretty"
-        }
-        is YahooGetFailure -> {
-            getAppLogger().warn("getYahooSummary($symbol) $result")
-        }
+    return try {
+        yahooGet("https://query2.finance.yahoo.com/v10/finance/quoteSummary/$symbol", params)
+    } catch (e: Exception) {
+        getAppLogger().warn("getYahooSummary($symbol): ${e.message}")
+        null
     }
-
-    return null
 }
 
 fun getQuoteSummary(symbol: String): QuoteSummary? {

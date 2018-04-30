@@ -6,11 +6,7 @@ import okhttp3.HttpUrl
 import okhttp3.Request
 import java.io.IOException
 
-sealed class YahooGetResult
-data class YahooGetSuccess(val value: String) : YahooGetResult()
-data class YahooGetFailure(val url: String, val message: String, val code: Int) : YahooGetResult()
-
-fun yahooGet(url: String, params: List<Pair<String, String>>? = null): YahooGetResult {
+fun yahooGet(url: String, params: List<Pair<String, String>>? = null): String {
     val httpUrl = HttpUrl.parse(url) ?: throw Error("Bad URL.")
     val urlBuilder = httpUrl.newBuilder()
     if (params != null) {
@@ -26,25 +22,21 @@ fun yahooGet(url: String, params: List<Pair<String, String>>? = null): YahooGetR
     val response = try {
         HttpClients.yahoo.newCall(request).execute()
     } catch (e: IOException) {
-        return YahooGetFailure(requestUrl, e.message ?: "", 0)
+        throw IOException(e.message + "\nURL: $requestUrl")
     }
 
     response.use {
         return if (it.isSuccessful) {
-            try {
-                val body = it.body()
-                if (body != null) {
-                    // body.string() seems to never return null,
-                    // but can return an empty string
-                    YahooGetSuccess(body.string())
-                } else {
-                    YahooGetFailure(requestUrl, "Empty response body.", it.code())
-                }
-            } catch (e: IOException) {
-                YahooGetFailure(requestUrl, e.message ?: "", it.code())
+            val body = it.body()
+            if (body != null) {
+                // body.string() seems to never return null,
+                // but can return an empty string or throw IOException
+                body.string()
+            } else {
+                throw IOException("Empty response body (${it.code()}).\nURL: $requestUrl")
             }
         } else {
-            YahooGetFailure(requestUrl, it.message(), it.code())
+            throw IOException("Request failed (${it.code()}). Message: ${it.message()}\nURL: $requestUrl")
         }
     }
 }
