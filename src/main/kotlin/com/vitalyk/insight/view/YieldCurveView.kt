@@ -45,7 +45,10 @@ class YieldCurveView : View("Yield Curve") {
     }
 
     override fun onDock() {
-        if (data == null) updateData()
+        if (data == null)
+            runLater { // this gives just enough time for toolbar to render
+                updateData()
+            }
     }
 
     fun updateData() {

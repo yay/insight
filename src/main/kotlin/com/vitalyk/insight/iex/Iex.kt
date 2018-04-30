@@ -33,7 +33,6 @@ import java.util.*
 object Iex {
     private lateinit var client: OkHttpClient
     private const val baseUrl = "https://api.iextrading.com/1.0"
-    private const val badUrlMsg = "Bad URL."
 
     fun setOkHttpClient(client: OkHttpClient) {
         this.client = client
@@ -167,7 +166,8 @@ object Iex {
         val lastSaleTime: Date? = null,
         val lastUpdated: Date? = null,
         val sector: String = "",
-        val securityType: String = ""
+        val securityType: String = "",
+        val seq: Int = 0
     )
 
     data class Dividend(
