@@ -4,6 +4,7 @@ import com.vitalyk.insight.main.getAppLogger
 import com.vitalyk.insight.main.httpGet
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,7 +30,7 @@ data class UsYield(
 fun getUsYieldData(): List<UsYield> {
     return try {
         httpGet(usYieldUrl, apiKeyParam)
-    } catch (e: Exception) {
+    } catch (e: IOException) {
         getAppLogger().error(e.message)
         null
     }?.let {

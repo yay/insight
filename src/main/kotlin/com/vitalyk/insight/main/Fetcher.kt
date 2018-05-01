@@ -14,6 +14,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.FileWriter
+import java.io.IOException
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -172,7 +173,7 @@ fun Exchange.getExchangeSecuritiesFromNasdaq(): List<Security> {
             "render" to "download",
             "exchange" to this.code
         ))
-    } catch (e: Exception) {
+    } catch (e: IOException) {
         logger.error(e.message)
         null
     }?.let {
@@ -236,7 +237,7 @@ suspend fun Exchange.asyncFetchDailyData() {
 
         try {
             yahooGet(requestUrl)
-        } catch (e: Exception) {
+        } catch (e: IOException) {
             exchange.logger.error(e.message)
             null
         }?.let {
@@ -422,7 +423,7 @@ object StockFetcherUS {
                     "render" to "download",
                     "exchange" to exchange
                 ))
-            } catch (e: Exception) {
+            } catch (e: IOException) {
                 logger.error(e.message)
                 null
             }?.let {

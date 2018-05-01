@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.dataformat.csv.CsvMapper
 import com.fasterxml.jackson.dataformat.csv.CsvSchema
 import com.vitalyk.insight.main.getAppLogger
+import java.io.IOException
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
@@ -59,7 +60,7 @@ fun getChartPoints(symbol: String, amount: Long = 1, unit: ChronoUnit = ChronoUn
             "events" to "history",
             "crumb" to crumb // required along with a cookie, changes with every login to Yahoo Finance
         ))
-    } catch (e: Exception) {
+    } catch (e: IOException) {
         getAppLogger().error(e.message)
         null
     }?.let {

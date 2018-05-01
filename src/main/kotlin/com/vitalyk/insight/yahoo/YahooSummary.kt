@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.vitalyk.insight.main.getAppLogger
 import com.vitalyk.insight.main.objectMapper
 import com.vitalyk.insight.main.toJsonNode
+import java.io.IOException
 import java.sql.Time
 import java.util.*
 
@@ -198,7 +199,7 @@ data class QuoteSummary(
 fun getYahooSummary(symbol: String, params: Map<String, String> = defaultSummaryParams): String? {
     return try {
         yahooGet("https://query2.finance.yahoo.com/v10/finance/quoteSummary/$symbol", params)
-    } catch (e: Exception) {
+    } catch (e: IOException) {
         getAppLogger().warn("getYahooSummary($symbol): ${e.message}")
         null
     }
@@ -214,7 +215,7 @@ fun getQuoteSummary(symbol: String): QuoteSummary? {
 
     return try {
         objectMapper.convertValue(assetProfile, QuoteSummary::class.java)
-    } catch (e: Exception) {
+    } catch (e: IllegalArgumentException) {
         println("$symbol $summary")
         e.printStackTrace()
         null
@@ -232,7 +233,7 @@ fun getAssetProfile(symbol: String): AssetProfile? {
 
     return try {
         objectMapper.convertValue(assetProfile, AssetProfile::class.java)
-    } catch (e: Exception) {
+    } catch (e: IllegalArgumentException) {
         println("$symbol $summary")
         e.printStackTrace()
         null
