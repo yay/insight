@@ -8,7 +8,6 @@ import com.vitalyk.insight.ui.symbolfield
 import com.vitalyk.insight.ui.toolbox
 import javafx.application.Platform
 import javafx.beans.property.SimpleStringProperty
-import javafx.collections.MapChangeListener
 import javafx.geometry.Orientation
 import javafx.scene.layout.Priority
 import tornadofx.*
@@ -125,8 +124,6 @@ class WatchlistUI(val watchlist: Watchlist) : Fragment() {
         if (index >= 0) table.items.removeAt(index)
     }
 
-    var listener: MapChangeListener<String, Iex.Tops>? = null
-
 //    override fun onDock() {
 //        super.onDock()
 //        refresh()
@@ -142,21 +139,14 @@ class WatchlistUI(val watchlist: Watchlist) : Fragment() {
     }
 
     init {
-        listener = watchlist.addListener { change ->
-            change.valueAdded?.let { new ->
+        watchlist.addListener { old, new ->
+            if (new != null) {
                 val selected = table.selectionModel.selectedIndices.toList()
                 replaceOrAddItem(new)
                 selected.forEach { table.selectionModel.select(it) }
-                change.valueRemoved?.let { old ->
-                    val delta = new.lastSalePrice - old.lastSalePrice
-                    when {
-                        delta > 0.0 -> {}
-                        delta < 0.0 -> {}
-                        else -> Unit
-                    }
-                }
-                Unit
-            } ?: removeSymbol(change.valueRemoved.symbol)
+            } else {
+                removeSymbol(old!!.symbol)
+            }
         }
         watchlist.symbols.forEach {
             table.items.add(Iex.Tops(symbol = it).toBean())

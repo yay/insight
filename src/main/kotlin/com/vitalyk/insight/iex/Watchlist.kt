@@ -4,8 +4,8 @@ import com.vitalyk.insight.iex.Iex.Tops
 import com.vitalyk.insight.main.appLogger
 import io.socket.client.IO
 import io.socket.client.Socket
-import javafx.collections.FXCollections
-import javafx.collections.MapChangeListener
+
+typealias ChangeListener = (old: Tops?, new: Tops?) -> Unit
 
 class Watchlist(name: String, symbols: List<String> = emptyList()) {
 
@@ -60,17 +60,44 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
         }
     }
 
+    private val socket = IO.socket("https://ws-api.iextrading.com/1.0/tops")
+
+    private val map = mutableMapOf<String, Tops>()
+
+    private val listeners = mutableListOf<ChangeListener>()
+
+    fun addListener(listener: ChangeListener) {
+        listeners.add(listener)
+    }
+
+    fun removeListener(listener: ChangeListener) {
+        listeners.remove(listener)
+    }
+
+    fun clearListeners() = listeners.clear()
+
     private val pendingAdd = mutableSetOf<String>()
     private val pendingRemove = mutableSetOf<String>()
 
     fun isPendingAdd(symbol: String) = symbol in pendingAdd
     fun isPendingRemove(symbol: String) = symbol in pendingRemove
 
-    private val map = FXCollections.observableHashMap<String, Tops>()
-    private val listeners = mutableSetOf<MapChangeListener<String, Tops>>()
-    private val socket = IO.socket("https://ws-api.iextrading.com/1.0/tops")
+    private fun updateMap(key: String, value: Tops?) {
+        val oldValue = map[key]
 
-    var name: String = "" // Note: the setter is not triggered by the default value
+        if (value != null)
+            map[key] = value
+        else
+            map.remove(key)
+
+        if (value != oldValue) {
+            listeners.forEach {
+                it(oldValue, value)
+            }
+        }
+    }
+
+    var name: String = "" // the setter is not triggered by the default value
         set(value) {
             if (name == value) return
             register(this, value)
@@ -84,22 +111,6 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
 
     val tops: List<Tops>
         get() = map.values.toList()
-
-    fun addListener(listener: (MapChangeListener.Change<out String, out Tops>) -> Unit): MapChangeListener<String, Tops> {
-        return MapChangeListener<String, Tops> { change -> listener(change) }.apply {
-            map.addListener(this)
-            listeners.add(this)
-        }
-    }
-
-    fun removeListener(listener: MapChangeListener<String, Tops>) {
-        listeners.remove(listener)
-        map.removeListener(listener)
-    }
-
-    fun clearListeners() = listeners.forEach {
-        map.removeListener(it)
-    }
 
     init {
         this.name = name
@@ -138,9 +149,12 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
         if (old.isNotEmpty()) {
             pendingRemove.addAll(old)
             map.keys.removeAll(old)
+            old.forEach {
+                updateMap(it, null)
+            }
 
             if (map.keys.isEmpty()) {
-                // If no threads are running, this will result in program exit.
+                // If no other threads are active, this will result in program exit.
                 socket.disconnect()
             }
             socket.emit("unsubscribe", arrayOf(old.joinToString(","))) {
@@ -156,14 +170,9 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
         socket
             .on(Socket.EVENT_MESSAGE) { params ->
                 val tops = Iex.parseTops(params.first() as String)
-                // We can receive a message for a symbol even if no change occurred:
-                // no bid/ask size, price or even volume changes.
-                // That's why we use an observable map:
-                // it's change listener will only be called when an actual change happens,
-                // because `tops` data class instances are compared using the `equals` method.
                 val symbol = tops.symbol
                 if (symbol !in pendingRemove) {
-                    map[symbol] = tops
+                    updateMap(symbol, tops)
                     pendingAdd.remove(symbol)
                 }
             }
