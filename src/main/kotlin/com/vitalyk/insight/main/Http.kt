@@ -90,11 +90,7 @@ fun httpGet(
     val httpUrl = (HttpUrl.parse(url) ?: throw IllegalArgumentException("Bad URL: $url"))
         .newBuilder().apply(withUrl).build()
     val request = Request.Builder().url(httpUrl).apply(withRequest).build()
-    val response = try {
-        client.newCall(request).execute()
-    } catch (e: IOException) {
-        throw IOException(e.message + "\nURL: $httpUrl")
-    }
+    val response = client.newCall(request).execute()
 
     response.use {
         return if (it.isSuccessful) {
@@ -104,10 +100,10 @@ fun httpGet(
                 // but can return an empty string or throw IOException
                 body.string()
             } else {
-                throw IOException("Empty response body (${it.code()}).\nURL: $httpUrl")
+                throw IOException("Empty response body. ${it.message()}.\nURL: $httpUrl")
             }
         } else {
-            throw IOException("Request failed (${it.code()}). Message: ${it.message()}\nURL: $httpUrl")
+            throw IOException("Request failed. ${it.message()}.\nURL: $httpUrl")
         }
     }
 }
