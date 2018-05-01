@@ -278,7 +278,7 @@ object Iex {
         val operatingGainsLosses: Long?
     )
 
-    data class Stats(
+    data class AssetStats(
         val companyName: String,
         val marketcap: Long,
         val beta: Double,
@@ -761,9 +761,9 @@ object Iex {
         }
     }
 
-    fun getStats(symbol: String): Stats? {
+    fun getAssetStats(symbol: String): AssetStats? {
         return fetch("$baseUrl/stock/$symbol/stats")?.let {
-            mapper.readValue(it, Stats::class.java)
+            mapper.readValue(it, AssetStats::class.java)
         }
     }
 

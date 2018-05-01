@@ -7,7 +7,7 @@ import tornadofx.*
 import java.util.*
 
 class AssetStats : Fragment() {
-    val stats = SimpleObjectProperty<Iex.Stats>()
+    val stats = SimpleObjectProperty<Iex.AssetStats>()
 
     val symbolProperty = SimpleStringProperty()
     val companyProperty = SimpleStringProperty()

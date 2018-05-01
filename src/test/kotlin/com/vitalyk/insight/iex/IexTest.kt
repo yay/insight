@@ -20,8 +20,8 @@ internal class IexTest {
     }
 
     @Test
-    fun getStats() {
-        val stats = Iex.getStats(symbol1)
+    fun getAssetStats() {
+        val stats = Iex.getAssetStats(symbol1)
         assertEquals(symbol1, stats?.symbol, "Should fetch the right symbol.")
     }
 

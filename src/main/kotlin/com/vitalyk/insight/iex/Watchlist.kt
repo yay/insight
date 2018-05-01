@@ -17,15 +17,6 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
     companion object {
         private val watchlists = mutableMapOf<String, Watchlist>()
 
-//        private fun generateName(watchlist: Watchlist): String {
-//            // There is a tiny chance that the user will set the name of one of the existing
-//            // watchlists to the name we generate here for a new watchlist.
-//            // So, if only in theory, the constructor might throw.
-//            val name = "Watchlist ${watchlist.hashCode()}"
-//            register(watchlist, name)
-//            return name
-//        }
-
         private fun register(watchlist: Watchlist, name: String) {
             if (name in watchlists) {
                 throw IllegalArgumentException("A watchlist named '$name' already exists.")

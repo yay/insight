@@ -20,5 +20,6 @@ Even for the same company, two people might now fixate on the same value.
 
 Number of stocks at new 12-month highs. Chart over time.
 Can't get 52-week low/high data quickly via IEX API. Make a feature request?
+https://github.com/iexg/IEX-API/issues/306
 
 Put/Call ratio over time for the whole market.
