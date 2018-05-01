@@ -13,10 +13,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.vitalyk.insight.main.getAppLogger
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -33,6 +33,7 @@ import java.util.*
 object Iex {
     private lateinit var client: OkHttpClient
     private const val baseUrl = "https://api.iextrading.com/1.0"
+    private val logger by lazy { LoggerFactory.getLogger(this::class.simpleName) }
 
     fun setOkHttpClient(client: OkHttpClient) {
         this.client = client
@@ -53,11 +54,11 @@ object Iex {
                 try {
                     it.body()?.string()
                 } catch (e: IOException) { // string() can throw
-                    getAppLogger().error("Request failed. ${e.message}.\nURL: $httpUrl")
+                    logger.error("Request failed. ${e.message}.\nURL: $httpUrl")
                     null
                 }
             } else {
-                getAppLogger().error("Request failed. ${it.message()}.\nURL: $httpUrl")
+                logger.error("Request failed. ${it.message()}.\nURL: $httpUrl")
                 null
             }
         }
@@ -92,7 +93,7 @@ object Iex {
             mapper.readTree(this)
         } catch (e: JsonProcessingException) {
             e.printStackTrace()
-            getAppLogger().error("JSON parsing failed: ${e.message}")
+            logger.error("JSON parsing failed: ${e.message}")
             null
         }
     }
