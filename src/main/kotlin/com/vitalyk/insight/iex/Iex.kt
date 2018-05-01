@@ -39,13 +39,13 @@ object Iex {
     }
 
     private fun fetch(url: String, params: Map<String, String?> = emptyMap()): String? {
-        val httpUrl = HttpUrl.parse(url) ?: throw IllegalArgumentException("Bad URL: $url")
-        val requestUrl = httpUrl.newBuilder().apply {
-            for ((key, value) in params) {
-                addQueryParameter(key, value)
-            }
-        }.build()
-        val request = Request.Builder().url(requestUrl).build()
+        val httpUrl = (HttpUrl.parse(url) ?: throw IllegalArgumentException("Bad URL: $url"))
+            .newBuilder().apply {
+                for ((key, value) in params) {
+                    addQueryParameter(key, value)
+                }
+            }.build()
+        val request = Request.Builder().url(httpUrl).build()
         val response = client.newCall(request).execute()
 
         response.use {
@@ -53,11 +53,11 @@ object Iex {
                 try {
                     it.body()?.string()
                 } catch (e: IOException) { // string() can throw
-                    getAppLogger().error("Request $requestUrl\nfailed: ${e.message}")
+                    getAppLogger().error("Request failed. ${e.message}.\nURL: $httpUrl")
                     null
                 }
             } else {
-                getAppLogger().error("Request $requestUrl\nfailed: $it")
+                getAppLogger().error("Request failed. ${it.message()}.\nURL: $httpUrl")
                 null
             }
         }
