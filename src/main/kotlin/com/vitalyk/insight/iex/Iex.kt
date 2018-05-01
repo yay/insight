@@ -914,7 +914,7 @@ object Iex {
     }
 
     // Near real time, intraday API that provides Iex last sale price, size and time.
-    // If no symbols are specified, will return all symbols (8K+).
+    // If no symbols are specified, will return data for all symbols.
     fun getLastTrade(symbols: List<String>? = null): List<LastTrade>? {
         val params = if (symbols != null && symbols.isNotEmpty()) {
             mapOf("symbols" to symbols.joinToString(","))
@@ -926,6 +926,8 @@ object Iex {
         }
     }
 
+    // If no symbols are specified, will return data for all symbols.
+    // The data is ~2MB uncompressed and is throttled at one request per second.
     fun getTops(symbols: List<String>? = null): List<Tops>? {
         if (isWeekend()) return emptyList()
 
