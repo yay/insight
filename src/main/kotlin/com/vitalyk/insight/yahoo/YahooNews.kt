@@ -1,6 +1,6 @@
 package com.vitalyk.insight.yahoo
 
-import com.vitalyk.insight.main.getAppLogger
+import com.vitalyk.insight.main.appLogger
 import org.jsoup.Jsoup
 import org.jsoup.parser.Parser
 import java.io.IOException
@@ -23,7 +23,7 @@ fun fetchNews(symbol: String): MutableList<NewsItem> {
     val connection = Jsoup.connect(url).timeout(10000)
 
     val document = try { connection.get() } catch (e: IOException) {
-        getAppLogger().error("Fetching news for $symbol failed: ${e.message}")
+        appLogger.error("Fetching news for $symbol failed: ${e.message}")
         null
     }
     val code = connection.data().response().statusCode()
@@ -43,7 +43,7 @@ fun fetchNews(symbol: String): MutableList<NewsItem> {
             list.add(newsItem)
         }
     } else {
-        getAppLogger().warn("$symbol request status code: $code\nURL: $url")
+        appLogger.warn("$symbol request status code: $code\nURL: $url")
     }
 
     return list

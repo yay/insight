@@ -69,7 +69,7 @@ fun fetchEndOfDayData() {
 
         isFetchingEndOfDayData = false
     } else {
-        getAppLogger().warn("The end of day data fetching is already in progress.")
+        appLogger.warn("The end of day data fetching is already in progress.")
     }
 }
 
@@ -77,7 +77,7 @@ fun fetchEndOfDayData() {
 val exchangeMap = exchanges.map { it.code to it }.toMap()
 
 fun asyncMassFetchDailyData() {
-    getAppLogger().info("Fetching daily data ...")
+    appLogger.info("Fetching daily data ...")
     val time = measureTimeMillis {
         runBlocking {
             exchangeMap["nasdaq"]?.asyncFetchDailyData()
@@ -85,7 +85,7 @@ fun asyncMassFetchDailyData() {
             exchangeMap["amex"]?.asyncFetchDailyData()
         }
     }
-    getAppLogger().info("Fetching daily data completed in $time ms.")
+    appLogger.info("Fetching daily data completed in $time ms.")
 }
 
 /**
@@ -93,7 +93,7 @@ fun asyncMassFetchDailyData() {
  */
 fun asyncMassFetchIntradayData() {
     val name = "Fetch intraday data for all exchanges"
-    getAppLogger().info("'$name' started.")
+    appLogger.info("'$name' started.")
     val time = measureTimeMillis {
         runBlocking {
             exchangeMap["nasdaq"]?.asyncFetchIntradayData()
@@ -101,25 +101,25 @@ fun asyncMassFetchIntradayData() {
             exchangeMap["amex"]?.asyncFetchIntradayData()
         }
     }
-    getAppLogger().info("'$name' completed in $time ms.")
+    appLogger.info("'$name' completed in $time ms.")
 }
 
 fun syncFetchAllIntradayData() {
     val name = "Fetch intraday data for all exchanges"
-    getAppLogger().info("'$name' started.")
+    appLogger.info("'$name' started.")
     val time = measureTimeMillis {
         exchangeMap["nasdaq"]?.syncFetchIntradayData()
         exchangeMap["nyse"]?.syncFetchIntradayData()
         exchangeMap["amex"]?.syncFetchIntradayData()
     }
-    getAppLogger().info("'$name' completed in $time ms.")
+    appLogger.info("'$name' completed in $time ms.")
 }
 
 /**
  * Fetches last day's summary data for major exchanges.
  */
 fun asyncMassFetchSummary() {
-    getAppLogger().info("Fetching summary data ...")
+    appLogger.info("Fetching summary data ...")
     val time = measureTimeMillis {
         runBlocking {
             exchangeMap["nasdaq"]?.asyncFetchSummary()
@@ -127,17 +127,17 @@ fun asyncMassFetchSummary() {
             exchangeMap["amex"]?.asyncFetchSummary()
         }
     }
-    getAppLogger().info("Fetching summaries completed in $time ms.")
+    appLogger.info("Fetching summaries completed in $time ms.")
 }
 
 fun massFetchSummary() {
-    getAppLogger().info("Fetching summary data (sync) ...")
+    appLogger.info("Fetching summary data (sync) ...")
     val time = measureTimeMillis {
         exchangeMap["nasdaq"]?.fetchSummary()
         exchangeMap["nyse"]?.fetchSummary()
         exchangeMap["amex"]?.fetchSummary()
     }
-    getAppLogger().info("Fetching summaries completed in $time ms.")
+    appLogger.info("Fetching summaries completed in $time ms.")
 }
 
 fun Exchange.fetchSummary() {

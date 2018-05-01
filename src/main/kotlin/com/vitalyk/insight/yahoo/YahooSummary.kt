@@ -2,7 +2,7 @@ package com.vitalyk.insight.yahoo
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.vitalyk.insight.main.getAppLogger
+import com.vitalyk.insight.main.appLogger
 import com.vitalyk.insight.main.objectMapper
 import com.vitalyk.insight.main.toJsonNode
 import java.io.IOException
@@ -200,7 +200,7 @@ fun getYahooSummary(symbol: String, params: Map<String, String> = defaultSummary
     return try {
         yahooGet("https://query2.finance.yahoo.com/v10/finance/quoteSummary/$symbol", params)
     } catch (e: IOException) {
-        getAppLogger().warn("getYahooSummary($symbol): ${e.message}")
+        appLogger.warn("getYahooSummary($symbol): ${e.message}")
         null
     }
 }

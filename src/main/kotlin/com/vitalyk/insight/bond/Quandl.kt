@@ -1,6 +1,6 @@
 package com.vitalyk.insight.bond
 
-import com.vitalyk.insight.main.getAppLogger
+import com.vitalyk.insight.main.appLogger
 import com.vitalyk.insight.main.httpGet
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
@@ -31,7 +31,7 @@ fun getUsYieldData(): List<UsYield> {
     return try {
         httpGet(usYieldUrl, apiKeyParam)
     } catch (e: IOException) {
-        getAppLogger().error(e.message)
+        appLogger.error(e.message)
         null
     }?.let {
         val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().withNullString("").parse(it.reader())

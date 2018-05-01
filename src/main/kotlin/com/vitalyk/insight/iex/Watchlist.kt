@@ -1,7 +1,7 @@
 package com.vitalyk.insight.iex
 
 import com.vitalyk.insight.iex.Iex.Tops
-import com.vitalyk.insight.main.getAppLogger
+import com.vitalyk.insight.main.appLogger
 import io.socket.client.IO
 import io.socket.client.Socket
 import javafx.collections.FXCollections
@@ -168,7 +168,7 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
                 }
             }
             .on(Socket.EVENT_DISCONNECT) {
-                getAppLogger().debug("Watchlist disconnected: ${map.keys}")
+                appLogger.debug("Watchlist disconnected: ${map.keys}")
             }
     }
 

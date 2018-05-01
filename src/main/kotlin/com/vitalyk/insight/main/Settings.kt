@@ -42,7 +42,7 @@ object Settings {
             })
             saveOnShutdownMap[filename] = true
         } else {
-            getAppLogger().warn("${getFileName(obj as Any)} is already set to save on shutdown.")
+            appLogger.warn("${getFileName(obj as Any)} is already set to save on shutdown.")
         }
     }
 }
