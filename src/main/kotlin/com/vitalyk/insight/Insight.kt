@@ -110,6 +110,7 @@ class Insight : App(SymbolTableView::class, Styles::class) {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
+            Settings.parentDir = "/Users/vitalykravchenko/insight-data/"
             launch(Insight::class.java, *args)
         }
     }

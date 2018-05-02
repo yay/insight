@@ -153,7 +153,7 @@ fun Exchange.fetchSummary() {
         val data = getYahooSummary(symbol)
         if (data != null) {
             try {
-                val path = "${AppSettings.paths.summary}/$nyIsoDate/${exchange.code}/$symbol.json"
+                val path = "${AppSettings.Paths.summary}/$nyIsoDate/${exchange.code}/$symbol.json"
                 data.toPrettyJson().writeToFile(path)
             } catch (e: Error) {
                 exchange.logger.error(e.message)
@@ -209,7 +209,7 @@ suspend fun Exchange.asyncFetchDailyData() {
     val securities = async { exchange.getSecurities() }.await()
 
     securities.map { (symbol) -> async {
-        val filename = "${AppSettings.paths.dailyData}/${exchange.code}/$symbol.csv"
+        val filename = "${AppSettings.Paths.dailyData}/${exchange.code}/$symbol.csv"
         val file = File(filename)
         val fileExists = file.exists()
 
@@ -325,7 +325,7 @@ suspend fun Exchange.asyncFetchIntradayData() {
             val data = fetchIntradayData(symbol)
             if (data != null) {
                 try {
-                    data.writeToFile("${AppSettings.paths.intradayData}/$nyIsoDate/${exchange.code}/$symbol.json")
+                    data.writeToFile("${AppSettings.Paths.intradayData}/$nyIsoDate/${exchange.code}/$symbol.json")
                 } catch (e: Error) {
                     exchange.logger.error(e.message)
                 }
@@ -351,7 +351,7 @@ fun Exchange.syncFetchIntradayData() {
             data = fetchIntradayData(symbol)
             if (data != null) {
                 try {
-                    data.writeToFile("${AppSettings.paths.intradayData}/$nyIsoDate/${exchange.code}/$symbol.json")
+                    data.writeToFile("${AppSettings.Paths.intradayData}/$nyIsoDate/${exchange.code}/$symbol.json")
                 } catch (e: Error) {
                     exchange.logger.error(e.message)
                 }
@@ -373,7 +373,7 @@ suspend fun Exchange.asyncFetchSummary() {
     // No matter what time and date it is locally, we are interested in what date it is in New York.
     val nyDateTime = ZonedDateTime.now(ZoneId.of("America/New_York"))
     val nyIsoDate: String = nyDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE)
-    val path = "${AppSettings.paths.summary}/$nyIsoDate/${exchange.code}"
+    val path = "${AppSettings.Paths.summary}/$nyIsoDate/${exchange.code}"
 
     if (File(path).exists()) {
         exchange.logger.warn("'$path' already exists. The data won't be fetched.")
@@ -456,7 +456,7 @@ object StockFetcherUS {
     fun fetchData() {
         forAll { exchange, companies ->
             for ((symbol) in companies) {
-                val file = File("${AppSettings.paths.dailyData}/$exchange/$symbol.csv")
+                val file = File("${AppSettings.Paths.dailyData}/$exchange/$symbol.csv")
                 file.parentFile.mkdirs()
                 val data = YahooData(symbol)
                     .startDate(LocalDate.now().minusYears(70))
@@ -479,7 +479,7 @@ object StockFetcherUS {
                 async {
                     val json = fetchNews(symbol).toPrettyJson()
 
-                    val file = File("${AppSettings.paths.news}/$date/$exchange/$symbol.json")
+                    val file = File("${AppSettings.Paths.news}/$date/$exchange/$symbol.json")
                     file.parentFile.mkdirs()
                     file.writeText(json)
                 }

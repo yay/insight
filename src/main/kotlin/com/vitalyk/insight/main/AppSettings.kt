@@ -5,7 +5,7 @@ import com.vitalyk.insight.iex.Watchlist
 object AppSettings {
     var watchlists = listOf<Watchlist.Settings>()
 
-    object paths {
+    object Paths {
         var storage = "./storage"
         var dailyData = "$storage/stock_daily"
         var intradayData = "$storage/stock_intraday"

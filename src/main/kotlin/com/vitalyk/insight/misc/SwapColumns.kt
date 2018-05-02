@@ -4,8 +4,8 @@ import com.vitalyk.insight.main.AppSettings
 import java.io.File
 
 fun swapVolumeAndAdjCloseColumnsInDailyData() {
-    val inBasePath = "${AppSettings.paths.storage}/old_stock_daily"
-    val outBasePath = "${AppSettings.paths.storage}/new_stock_daily"
+    val inBasePath = "${AppSettings.Paths.storage}/old_stock_daily"
+    val outBasePath = "${AppSettings.Paths.storage}/new_stock_daily"
 
     val exchanges = listOf("amex", "nasdaq", "nyse")
 

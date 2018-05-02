@@ -8,12 +8,25 @@ import java.io.File
  */
 object Settings {
 
+    private var canSetParentDir = true
+
+    var parentDir = "" // can only be set once
+        set(value) {
+            if (canSetParentDir)
+                canSetParentDir = false
+                field = value
+        }
+        get() {
+            canSetParentDir = false
+            return field
+        }
+
     private val mapper by lazy { jacksonObjectMapper() }
 
     /**
      * Creates a filename for the given settings object based on its class name.
      */
-    private fun getFileName(obj: Any): String = "${obj::class.java.name.split(".").last()}.json"
+    private fun getFileName(obj: Any) = parentDir + "${obj::class.java.simpleName}.json"
 
     /**
      * Populates the given settings object with values read from JSON file.
@@ -34,7 +47,8 @@ object Settings {
     /**
      * Adds a hook to save the given settings object on shutdown using the specified filename.
      */
-    fun <T> saveOnShutdown(obj: T, filename: String = getFileName(obj as Any), block: T.() -> Unit = {}) {
+    fun <T> saveOnShutdown(obj: T, filename: String = getFileName(obj as Any),
+                           block: T.() -> Unit = {}) {
         if (saveOnShutdownMap[filename] != true) {
             Runtime.getRuntime().addShutdownHook(Thread {
                 block(obj)

@@ -65,7 +65,6 @@ object Iex {
     }
 
     private class LocalDateDeserializer : StdDeserializer<LocalDate>(LocalDate::class.java) {
-
         override fun deserialize(parser: JsonParser, context: DeserializationContext): LocalDate {
             return LocalDate.parse(parser.readValueAs(String::class.java), DateTimeFormatter.BASIC_ISO_DATE)
         }

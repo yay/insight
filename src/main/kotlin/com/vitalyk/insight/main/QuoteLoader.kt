@@ -39,7 +39,7 @@ fun loadDailyQuotesForTicker(records: CSVParser, dateFormat: SimpleDateFormat): 
  */
 fun loadAllDailyQuotes(exchanges: List<String>): Map<ExchangeName, Map<Ticker, List<Quote>>> {
 
-    val basePath = "${AppSettings.paths.storage}/${AppSettings.paths.dailyData}/"
+    val basePath = "${AppSettings.Paths.storage}/${AppSettings.Paths.dailyData}/"
     val exchangeMap = mutableMapOf<ExchangeName, Map<Ticker, List<Quote>>>()
 
     for (exchange in exchanges) {
@@ -67,7 +67,7 @@ fun loadAllDailyQuotes(exchanges: List<String>): Map<ExchangeName, Map<Ticker, L
 
 suspend fun asyncLoadAllDailyQuotes(exchanges: List<String>): Map<ExchangeName, Map<Ticker, List<Quote>>> {
 
-    val basePath = "${AppSettings.paths.storage}/${AppSettings.paths.dailyData}/"
+    val basePath = "${AppSettings.Paths.storage}/${AppSettings.Paths.dailyData}/"
     val exchangeMap = mutableMapOf<ExchangeName, Map<Ticker, List<Quote>>>()
 
     for (exchange in exchanges) {
