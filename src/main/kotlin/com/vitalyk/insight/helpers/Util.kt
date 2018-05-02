@@ -1,5 +1,7 @@
 package com.vitalyk.insight.helpers
 
+import java.awt.Desktop
+import java.net.URI
 import java.util.zip.ZipInputStream
 
 fun listResources(cls: Class<*>) {
@@ -12,3 +14,5 @@ fun listResources(cls: Class<*>) {
         }
     }
 }
+
+fun browseTo(url: String) = Desktop.getDesktop().browse(URI(url))

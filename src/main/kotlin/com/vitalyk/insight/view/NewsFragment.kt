@@ -1,5 +1,6 @@
 package com.vitalyk.insight.view
 
+import com.vitalyk.insight.helpers.browseTo
 import com.vitalyk.insight.ui.symbolfield
 import com.vitalyk.insight.ui.toolbox
 import com.vitalyk.insight.yahoo.NewsItem
@@ -14,8 +15,6 @@ import javafx.scene.layout.Priority
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import tornadofx.*
-import java.awt.Desktop
-import java.net.URI
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -40,11 +39,11 @@ class NewsFragment : Fragment("News") {
                 hyperlink(item.headline) {
                     tooltip(item.url)
                     action {
-                        Desktop.getDesktop().browse(URI(item.url))
+                        browseTo(item.url)
                     }
                     contextmenu {
                         item("Open in browser").action {
-                            Desktop.getDesktop().browse(URI(item.url))
+                            browseTo(item.url)
                         }
                         item("Copy link").action {
                             val clipboard = Clipboard.getSystemClipboard()

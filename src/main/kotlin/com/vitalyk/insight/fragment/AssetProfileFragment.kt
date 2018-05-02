@@ -1,5 +1,6 @@
 package com.vitalyk.insight.fragment
 
+import com.vitalyk.insight.helpers.browseTo
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.yahoo.AssetProfile
 import com.vitalyk.insight.yahoo.getAssetProfile
@@ -10,8 +11,6 @@ import javafx.geometry.Orientation
 import javafx.scene.control.Alert
 import javafx.scene.control.TextArea
 import tornadofx.*
-import java.awt.Desktop
-import java.net.URI
 
 class AssetProfileFragment : Fragment() {
     val profile = SimpleObjectProperty<AssetProfile>()
@@ -46,7 +45,7 @@ class AssetProfileFragment : Fragment() {
                     label("Website:")
                     label(websiteProperty) {
                         setOnMouseClicked {
-                            Desktop.getDesktop().browse(URI(websiteProperty.value))
+                            browseTo(websiteProperty.value)
                         }
                         onHover {
                             isUnderline = it
