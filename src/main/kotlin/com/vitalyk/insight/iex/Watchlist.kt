@@ -116,7 +116,7 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
 
     fun addSymbols(symbols: List<String>, ack: () -> Unit = {}): List<String> {
         val new = symbols
-            .filter { it !in map && it !in pendingAdd && it.isNotBlank() }
+            .filter { it.isNotBlank() && it !in map && it !in pendingAdd }
             .map { it.trim() }
 
         if (new.isNotEmpty()) {
@@ -134,7 +134,7 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
 
     fun removeSymbols(symbols: List<String>, ack: () -> Unit = {}): List<String> {
         val old = symbols
-            .filter { it in map && it.isNotBlank() }
+            .filter { it.isNotBlank() && it in map }
             .map { it.trim() }
 
         if (old.isNotEmpty()) {
@@ -162,10 +162,11 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
             .on(Socket.EVENT_MESSAGE) { params ->
                 val tops = Iex.parseTops(params.first() as String)
                 val symbol = tops.symbol
-                if (symbol !in pendingRemove) {
+                // https://github.com/iexg/IEX-API/issues/307
+//                if (symbol !in pendingRemove) {
                     updateMap(symbol, tops)
                     pendingAdd.remove(symbol)
-                }
+//                }
             }
             .on(Socket.EVENT_DISCONNECT) {
                 appLogger.debug("Watchlist disconnected: ${map.keys}")
