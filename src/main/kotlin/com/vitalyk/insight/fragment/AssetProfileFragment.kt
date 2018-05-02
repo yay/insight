@@ -3,6 +3,7 @@ package com.vitalyk.insight.fragment
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.yahoo.AssetProfile
 import com.vitalyk.insight.yahoo.getAssetProfile
+import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Orientation
@@ -22,6 +23,7 @@ class AssetProfileFragment : Fragment() {
     val industryProperty = SimpleStringProperty()
     val sectorProperty = SimpleStringProperty()
     val longBusinessSummaryProperty = SimpleStringProperty()
+    val fullTimeEmployeesProperty = SimpleIntegerProperty()
 
     override val root = vbox {
         form {
@@ -32,12 +34,12 @@ class AssetProfileFragment : Fragment() {
                         label(countryProperty)
                     }
                     hbox(5) {
-                        label("State:")
-                        label(stateProperty)
-                    }
-                    hbox(5) {
                         label("City:")
                         label(cityProperty)
+                    }
+                    hbox(5) {
+                        label("State:")
+                        label(stateProperty)
                     }
                 }
                 hbox(5) {
@@ -58,6 +60,10 @@ class AssetProfileFragment : Fragment() {
                 hbox(5) {
                     label("Sector:")
                     label(sectorProperty)
+                }
+                hbox(5) {
+                    label("Employees:")
+                    label(fullTimeEmployeesProperty)
                 }
 
                 field("Business Summary:") {
@@ -104,6 +110,7 @@ class AssetProfileFragment : Fragment() {
                 industryProperty.value = industry
                 sectorProperty.value = sector
                 longBusinessSummaryProperty.value = longBusinessSummary
+                fullTimeEmployeesProperty.value = fullTimeEmployees
             }
         }
     }
