@@ -1,5 +1,7 @@
 package com.vitalyk.insight.main
 
+import com.vitalyk.insight.helpers.toPrettyJson
+import com.vitalyk.insight.helpers.writeToFile
 import com.vitalyk.insight.yahoo.YahooData
 import com.vitalyk.insight.yahoo.fetchNews
 import com.vitalyk.insight.yahoo.getYahooSummary

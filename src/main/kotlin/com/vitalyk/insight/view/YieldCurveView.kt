@@ -18,7 +18,7 @@ class YieldCurveView : View("Yield Curve") {
     val toolbox = toolbox {
         button("Back").action { replaceWith(SymbolTableView::class) }
         button("Update").action { updateData() }
-        button("Details").action {
+        button("?").action {
             find(InfoFragment::class.java).setInfo("Yield Curve", """
                 Yield Curve - a summary of yields across a spectrum of maturities in the bond market.
 

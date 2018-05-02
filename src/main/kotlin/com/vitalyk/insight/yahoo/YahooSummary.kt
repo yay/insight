@@ -2,9 +2,9 @@ package com.vitalyk.insight.yahoo
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.vitalyk.insight.helpers.objectMapper
+import com.vitalyk.insight.helpers.toJsonNode
 import com.vitalyk.insight.main.appLogger
-import com.vitalyk.insight.main.objectMapper
-import com.vitalyk.insight.main.toJsonNode
 import java.io.IOException
 import java.sql.Time
 import java.util.*

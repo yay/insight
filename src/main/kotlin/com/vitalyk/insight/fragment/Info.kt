@@ -1,6 +1,6 @@
 package com.vitalyk.insight.fragment
 
-import com.vitalyk.insight.main.dropSingle
+import com.vitalyk.insight.helpers.dropSingle
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.layout.Priority
