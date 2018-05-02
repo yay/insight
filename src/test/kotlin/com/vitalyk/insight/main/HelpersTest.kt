@@ -49,5 +49,9 @@ internal class HelpersTest {
         val actual3 = dropSingle("oo", 'o')
         val expected3 = "oo"
         assertEquals(expected3, actual3)
+
+        val actual4 = dropSingle("o ooo o oo o", 'o', "__")
+        val expected4 = "__ ooo __ oo __"
+        assertEquals(expected4, actual4)
     }
 }

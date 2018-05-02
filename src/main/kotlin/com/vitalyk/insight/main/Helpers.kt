@@ -60,9 +60,10 @@ fun takeOneOffSequence(text: String, char: Char): String {
     return sb.toString()
 }
 
-fun dropSingle(text: String, char: Char): String {
+fun dropSingle(text: String, char: Char, replace: String = ""): String {
     val sb = StringBuilder()
     if (text.isNotEmpty()) {
+        val isReplace = replace.isNotEmpty()
         val last = text.lastIndex
         text.forEachIndexed { i, c ->
             val pi = i - 1
@@ -70,7 +71,11 @@ fun dropSingle(text: String, char: Char): String {
             val prev = if (pi >= 0) text[pi] else null
             val next = if (ni <= last) text[ni] else null
             val skip = c == char && prev != char && next != char
-            if (!skip) sb.append(c)
+            if (!skip)
+                sb.append(c)
+            else if (isReplace) {
+                sb.append(replace)
+            }
         }
     }
     return sb.toString()

@@ -29,7 +29,10 @@ class InfoFragment : Fragment() {
 
     fun setInfo(title: String, text: String, trim: Boolean = false): Fragment {
         fragment.title = title
-        textarea.text = if (trim) dropSingle(text.trimIndent(), '\n') else text
+        textarea.text = if (trim)
+            dropSingle(text.trimIndent(), '\n', " ")
+        else
+            text
         return this
     }
 }

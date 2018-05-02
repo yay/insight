@@ -7,7 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a490854d-a2d0-4317-8b26-69c8c9d06fdb" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/kotlin/com/vitalyk/insight/main/HelpersTest.kt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../kubed/kubed-core/build/classes/kotlin/main/META-INF/kubed-core.kotlin_module" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../kubed/kubed-core/build/classes/kotlin/main/PackageKt.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../kubed/kubed-core/build/classes/kotlin/main/kubed/shape/Shape$clip$1.class" afterDir="false" />
@@ -2386,9 +2385,9 @@
       <change afterPath="$PROJECT_DIR$/../kubed/kubed-geo/out/production/classes/kubed/geo/tile/Tiler.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../kubed/kubed-geo/out/production/resources/world.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/Info.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/Info.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/main/Helpers.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/main/Helpers.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/SymbolTableView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/SymbolTableView.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/YieldCurveView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/YieldCurveView.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/com/vitalyk/insight/main/HelpersTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/com/vitalyk/insight/main/HelpersTest.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../kubed/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../kubed/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../kubed/.idea/modules/kubed-core/kubed-core.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../kubed/.idea/modules/kubed-core/kubed-core.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../kubed/.idea/modules/kubed-demos/kubed-demos.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../kubed/.idea/modules/kubed-demos/kubed-demos.iml" afterDir="false" />
@@ -2497,7 +2496,7 @@
     <favorites_list name="insight" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.4332724">
+    <splitter split-orientation="horizontal" split-proportion="0.4290067">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="Insight.kt" pinned="false" current-in-tab="false">
@@ -2546,7 +2545,7 @@
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/Info.kt">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="465">
-                  <caret line="31" column="42" selection-start-line="31" selection-start-column="42" selection-end-line="31" selection-end-column="42" />
+                  <caret line="31" column="33" lean-forward="true" selection-start-line="31" selection-start-column="33" selection-end-line="31" selection-end-column="33" />
                   <folding>
                     <element signature="e#38#192#0" expanded="true" />
                   </folding>
@@ -2585,8 +2584,8 @@
           <file leaf-file-name="YieldCurveView.kt" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/YieldCurveView.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="540">
-                  <caret line="36" column="72" selection-start-line="36" selection-start-column="72" selection-end-line="36" selection-end-column="72" />
+                <state relative-caret-position="225">
+                  <caret line="29" column="26" lean-forward="true" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
                   <folding>
                     <element signature="e#34#410#0" expanded="true" />
                   </folding>
@@ -2615,8 +2614,8 @@
           <file leaf-file-name="Helpers.kt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/main/Helpers.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="311">
-                  <caret line="62" column="50" lean-forward="true" selection-start-line="62" selection-start-column="50" selection-end-line="62" selection-end-column="50" />
+                <state relative-caret-position="392">
+                  <caret line="75" column="33" lean-forward="true" selection-start-line="75" selection-start-column="33" selection-end-line="75" selection-end-column="33" />
                   <folding>
                     <element signature="e#34#530#0" expanded="true" />
                   </folding>
@@ -2627,8 +2626,8 @@
           <file leaf-file-name="HelpersTest.kt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/test/kotlin/com/vitalyk/insight/main/HelpersTest.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="585">
-                  <caret line="39" column="22" lean-forward="true" selection-start-line="39" selection-start-column="22" selection-end-line="39" selection-end-column="22" />
+                <state relative-caret-position="494">
+                  <caret line="53" column="41" lean-forward="true" selection-start-line="53" selection-start-column="41" selection-end-line="53" selection-end-column="41" />
                   <folding>
                     <element signature="e#34#110#0" expanded="true" />
                   </folding>
@@ -3576,8 +3575,8 @@
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/SymbolTableView.kt" />
         <option value="$PROJECT_DIR$/src/test/kotlin/com/vitalyk/insight/main/HelpersTest.java" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/main/Helpers.kt" />
-        <option value="$PROJECT_DIR$/src/test/kotlin/com/vitalyk/insight/main/HelpersTest.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/Info.kt" />
+        <option value="$PROJECT_DIR$/src/test/kotlin/com/vitalyk/insight/main/HelpersTest.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/YieldCurveView.kt" />
       </list>
     </option>
@@ -3756,7 +3755,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Kotlin.com.vitalyk.insight.Insight">
+  <component name="RunManager" selected="Gradle.insight [build]">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="HEIGHT" value="0" />
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
@@ -3927,18 +3926,15 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.insight [build]" />
         <item itemvalue="Kotlin.com.vitalyk.insight.Insight" />
         <item itemvalue="JUnit.HelpersTest.dropSingle" />
         <item itemvalue="JUnit.HelpersTest.takeOneOffSequence" />
         <item itemvalue="JUnit.HelpersTest.dropSingleSquashSequence" />
-        <item itemvalue="Gradle.insight [build]" />
       </list>
     </recent_temporary>
   </component>
   <component name="TestHistory">
-    <history-entry file="HelpersTest_remove - 2018.05.02 at 04h 12m 15s.xml">
-      <configuration name="HelpersTest.remove" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="HelpersTest_remove - 2018.05.02 at 04h 14m 47s.xml">
       <configuration name="HelpersTest.remove" configurationId="JUnit" />
     </history-entry>
@@ -3966,6 +3962,9 @@
     <history-entry file="HelpersTest_dropSingle - 2018.05.02 at 05h 05m 04s.xml">
       <configuration name="HelpersTest.dropSingle" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="HelpersTest_dropSingle - 2018.05.02 at 05h 29m 25s.xml">
+      <configuration name="HelpersTest.dropSingle" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -3978,7 +3977,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-3840" y="23" width="1920" height="1057" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32889965" />
       <window_info anchor="bottom" id="Messages" order="7" sideWeight="0.49605057" weight="0.27824268" />
@@ -3987,7 +3985,7 @@
       <window_info id="Maven Projects" order="4" weight="0.15481833" />
       <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4947146" visible="true" weight="0.31875" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.36924687" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49605057" weight="0.33577406" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49605057" weight="0.33541667" />
       <window_info id="Designer" order="7" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13586098" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.35" />
@@ -4484,10 +4482,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/main/Helpers.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="75" column="33" lean-forward="true" selection-start-line="75" selection-start-column="33" selection-end-line="75" selection-end-column="33" />
+          <folding>
+            <element signature="e#34#530#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/kotlin/com/vitalyk/insight/main/HelpersTest.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="39" column="22" lean-forward="true" selection-start-line="39" selection-start-column="22" selection-end-line="39" selection-end-column="22" />
+        <state relative-caret-position="494">
+          <caret line="53" column="41" lean-forward="true" selection-start-line="53" selection-start-column="41" selection-end-line="53" selection-end-column="41" />
           <folding>
             <element signature="e#34#110#0" expanded="true" />
           </folding>
@@ -4497,27 +4505,17 @@
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/Info.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="465">
-          <caret line="31" column="42" selection-start-line="31" selection-start-column="42" selection-end-line="31" selection-end-column="42" />
+          <caret line="31" column="33" lean-forward="true" selection-start-line="31" selection-start-column="33" selection-end-line="31" selection-end-column="33" />
           <folding>
             <element signature="e#38#192#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/main/Helpers.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="62" column="50" lean-forward="true" selection-start-line="62" selection-start-column="50" selection-end-line="62" selection-end-column="50" />
-          <folding>
-            <element signature="e#34#530#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/YieldCurveView.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="36" column="72" selection-start-line="36" selection-start-column="72" selection-end-line="36" selection-end-column="72" />
+        <state relative-caret-position="225">
+          <caret line="29" column="26" lean-forward="true" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="26" />
           <folding>
             <element signature="e#34#410#0" expanded="true" />
           </folding>
