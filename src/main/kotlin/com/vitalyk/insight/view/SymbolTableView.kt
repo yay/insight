@@ -14,6 +14,7 @@ import javafx.scene.control.ComboBox
 import javafx.scene.control.TableView
 import javafx.scene.layout.Priority
 import tornadofx.*
+import java.text.SimpleDateFormat
 
 class SymbolTableView : View("Instrument Data") {
 
@@ -84,17 +85,24 @@ class SymbolTableView : View("Instrument Data") {
             }
         }
 
+        val dateFormat = SimpleDateFormat("dd MMM, yy")
         symbolTable = tableview(listOf<DayChartPointBean>().observable()) {
-            column("Date", DayChartPointBean::dateProperty)
+            column("Date", DayChartPointBean::dateProperty) {
+                cellFormat {
+                    if (it != null)
+                        text = dateFormat.format(it)
+                }
+            }
             column("Open", DayChartPointBean::openProperty)
             column("High", DayChartPointBean::highProperty)
             column("Low", DayChartPointBean::lowProperty)
             column("Close", DayChartPointBean::closeProperty)
             column("Volume", DayChartPointBean::volumeProperty)
             column("Change", DayChartPointBean::changeProperty)
-            column("ChangePercent", DayChartPointBean::changePercentProperty)
-            column("ChangeOverTime", DayChartPointBean::changeOverTimeProperty)
-            column("Label", DayChartPointBean::labelProperty)
+            column("Change %", DayChartPointBean::changePercentProperty) {
+                cellFormat { text = "$it%" }
+            }
+            column("Change Over Time", DayChartPointBean::changeOverTimeProperty)
 
             vgrow = Priority.ALWAYS
         }
