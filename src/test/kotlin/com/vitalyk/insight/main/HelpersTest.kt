@@ -1,5 +1,8 @@
 package com.vitalyk.insight.main
 
+import com.vitalyk.insight.helpers.dropSingle
+import com.vitalyk.insight.helpers.dropSingleSquashSequence
+import com.vitalyk.insight.helpers.takeOneOffSequence
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
@@ -7,7 +10,7 @@ import org.junit.jupiter.api.Assertions.*
 internal class HelpersTest {
 
     @Test
-    fun dropSingleSquashSequence() {
+    fun dropSingleSquashSequenceTest() {
         val actual1 = dropSingleSquashSequence("o ooo o oo o", 'o')
         val expected1 = " o  o "
         assertEquals(expected1, actual1)
@@ -22,7 +25,7 @@ internal class HelpersTest {
     }
 
     @Test
-    fun takeOneOffSequence() {
+    fun takeOneOffSequenceTest() {
         val actual1 = takeOneOffSequence("o ooo o oo o", 'o')
         val expected1 = " oo  o "
         assertEquals(expected1, actual1)
@@ -37,7 +40,7 @@ internal class HelpersTest {
     }
 
     @Test
-    fun dropSingle() {
+    fun dropSingleTest() {
         val actual1 = dropSingle("o ooo o oo o", 'o')
         val expected1 = " ooo  oo "
         assertEquals(expected1, actual1)
