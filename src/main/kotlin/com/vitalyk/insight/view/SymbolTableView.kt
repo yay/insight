@@ -1,6 +1,7 @@
 package com.vitalyk.insight.view
 
 import com.vitalyk.insight.helpers.browseTo
+import com.vitalyk.insight.helpers.getResourceAudioClip
 import com.vitalyk.insight.iex.DayChartPointBean
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.toBean
