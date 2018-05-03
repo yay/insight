@@ -18,6 +18,8 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.slf4j.LoggerFactory
 import java.io.IOException
+import java.net.ConnectException
+import java.net.SocketTimeoutException
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -47,10 +49,18 @@ object Iex {
                 }
             }.build()
         val request = Request.Builder().url(httpUrl).build()
-        val response = client.newCall(request).execute()
+        val response = try {
+            client.newCall(request).execute()
+        } catch (e: ConnectException) {
+            logger.warn("${this::class.simpleName}: ${e.message}\n$httpUrl")
+            null
+        } catch (e: SocketTimeoutException) {
+            logger.warn("${this::class.simpleName}: ${e.message}\n$httpUrl")
+            null
+        }
 
-        response.use {
-            return if (it.isSuccessful) {
+        return response?.use {
+            if (it.isSuccessful) {
                 try {
                     it.body()?.string()
                 } catch (e: IOException) { // string() can throw
