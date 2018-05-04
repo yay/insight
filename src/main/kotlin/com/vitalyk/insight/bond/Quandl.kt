@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 private const val usYieldUrl = "https://www.quandl.com/api/v3/datasets/USTREASURY/YIELD.csv"
-private val apiKey = "D56KmTLWdnWBzWexFcX2"
+private const val apiKey = "D56KmTLWdnWBzWexFcX2"
 private val apiKeyParam = mapOf("api_key" to apiKey)
 
 data class UsYield(
@@ -34,7 +34,10 @@ fun getUsYieldData(): List<UsYield> {
         appLogger.error(e.message)
         null
     }?.let {
-        val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().withNullString("").parse(it.reader())
+        val records = CSVFormat.DEFAULT
+            .withFirstRecordAsHeader()
+            .withNullString("")
+            .parse(it.reader())
         mapUsYieldRecords(records)
     } ?: emptyList()
 }
@@ -43,7 +46,10 @@ fun getLocalUsYieldData(): List<UsYield> {
     val reader = ClassLoader
         .getSystemResourceAsStream("data/bonds/USTREASURY-YIELD.csv")
         .bufferedReader()
-    val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().withNullString("").parse(reader)
+    val records = CSVFormat.DEFAULT
+        .withFirstRecordAsHeader()
+        .withNullString("")
+        .parse(reader)
     return mapUsYieldRecords(records)
 }
 

@@ -23,3 +23,10 @@ Can't get 52-week low/high data quickly via IEX API. Make a feature request?
 https://github.com/iexg/IEX-API/issues/306
 
 Put/Call ratio over time for the whole market.
+
+
+Cheniere Energy (LNG) - breakout
+Sarepta Therapeutics (SRPT)
+SailPoint Technologies (SAIL)
+58.com  (WUBA)
+Arena Pharmaceuticals (ARNA)

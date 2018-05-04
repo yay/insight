@@ -29,9 +29,13 @@ class StatsView : View("Statistics") {
                     button("Employment (BLS)").action {
                         browseTo("https://www.bls.gov/news.release/empsit.nr0.htm")
                     }
+                    button("Unemployment (FRED)").action {
+                        browseTo("https://fred.stlouisfed.org/series/UNRATE")
+                    }
                     button("Shiller P/E").action {
                         browseTo("http://www.multpl.com/table?f=m")
                     }
+
                     children.forEach {
                         if (it is Button) {
                             it.maxWidth = Double.MAX_VALUE
