@@ -52,10 +52,10 @@ object Iex {
         val response = try {
             client.newCall(request).execute()
         } catch (e: ConnectException) {
-            logger.warn("${this::class.simpleName}: ${e.message}\n$httpUrl")
+            logger.warn("${e.message}:\n$httpUrl")
             null
         } catch (e: SocketTimeoutException) {
-            logger.warn("${this::class.simpleName}: ${e.message}\n$httpUrl")
+            logger.warn("${e.message}:\n$httpUrl")
             null
         }
 
@@ -64,11 +64,11 @@ object Iex {
                 try {
                     it.body()?.string()
                 } catch (e: IOException) { // string() can throw
-                    logger.error("Request failed. ${e.message}.\nURL: $httpUrl")
+                    logger.error("Request failed. ${e.message}:\n$httpUrl")
                     null
                 }
             } else {
-                logger.error("Request failed. ${it.message()}.\nURL: $httpUrl")
+                logger.error("Request failed. ${it.message()}:\n$httpUrl")
                 null
             }
         }

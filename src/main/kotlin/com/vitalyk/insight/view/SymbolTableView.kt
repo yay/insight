@@ -56,8 +56,7 @@ class SymbolTableView : View("Instrument Data") {
             button("Chart").action { replaceWith(ChartView::class) }
             button("News").action { replaceWith(NewsView::class) }
             button("Quotes").action { replaceWith(QuoteView::class) }
-            button("Yield Curve").action { replaceWith(YieldCurveView::class) }
-            button("Nasdaq stats").action { browseTo("https://www.nasdaq.com/markets/most-active.aspx") }
+            button("Statistics").action { replaceWith(StatsView::class) }
         }
 
         toolbox(border = false) {
