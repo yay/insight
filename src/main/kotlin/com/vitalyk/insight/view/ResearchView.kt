@@ -2,6 +2,7 @@ package com.vitalyk.insight.view
 
 import com.vitalyk.insight.fragment.AssetProfileFragment
 import com.vitalyk.insight.iex.Iex
+import com.vitalyk.insight.iex.IexSymbols
 import com.vitalyk.insight.ui.symbolfield
 import com.vitalyk.insight.ui.toolbox
 import javafx.beans.property.SimpleStringProperty
@@ -10,11 +11,20 @@ import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.NumberAxis
 import javafx.scene.text.Font
 import javafx.scene.text.Text
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.experimental.launch
 import tornadofx.*
 import java.text.SimpleDateFormat
 
 class ResearchView : View("Research") {
-    var symbolProperty = SimpleStringProperty("")
+    val symbolProperty = SimpleStringProperty().apply {
+        addListener { _, _, symbol ->
+            fetch(symbol)
+        }
+    }
+
+    val symbolField = symbolfield { symbolProperty.value = it }
 
     val profile = AssetProfileFragment()
     val earnings = EarningsFragment()
@@ -23,10 +33,7 @@ class ResearchView : View("Research") {
         toolbox {
             button("Main").action { replaceWith(MainView::class) }
             label("Symbol:")
-            symbolfield(symbolProperty) {
-                profile.fetch(it)
-                earnings.fetch(it)
-            }
+            this += symbolField
         }
 
         hbox {
@@ -37,6 +44,33 @@ class ResearchView : View("Research") {
                 this += profile
             }
         }
+    }
+
+    fun fetch(symbol: String) {
+        title = "Research ${IexSymbols.name(symbol)} ($symbol)"
+        symbolField.text = symbol
+        profile.fetch(symbol)
+        earnings.fetch(symbol)
+    }
+
+    private var clipboardJob: Job? = null
+
+    override fun onDock() {
+        clipboardJob = launch {
+            while (isActive) {
+                delay(1000)
+                runLater {
+                    val string = clipboard.string
+                    if (string in IexSymbols) {
+                        symbolProperty.value = string
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onUndock() {
+        clipboardJob?.cancel()
     }
 }
 
