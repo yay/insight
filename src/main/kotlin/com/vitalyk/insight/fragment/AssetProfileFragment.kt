@@ -1,15 +1,16 @@
 package com.vitalyk.insight.fragment
 
 import com.vitalyk.insight.helpers.browseTo
-import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.yahoo.AssetProfile
 import com.vitalyk.insight.yahoo.getAssetProfile
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
+import javafx.geometry.Insets
 import javafx.geometry.Orientation
+import javafx.geometry.Pos
 import javafx.scene.control.Alert
-import javafx.scene.control.TextArea
+import javafx.scene.layout.Priority
 import tornadofx.*
 
 class AssetProfileFragment : Fragment() {
@@ -25,6 +26,14 @@ class AssetProfileFragment : Fragment() {
     val fullTimeEmployeesProperty = SimpleIntegerProperty()
 
     override val root = vbox {
+        label("Asset Profile") {
+            alignment = Pos.CENTER
+            maxWidth = Double.MAX_VALUE
+            padding = Insets(5.0)
+            style {
+                fontSize = 1.4.em
+            }
+        }
         form {
             fieldset(labelPosition = Orientation.VERTICAL) {
                 hbox(20) {
@@ -75,26 +84,32 @@ class AssetProfileFragment : Fragment() {
         }
     }
 
+    fun fetch(symbol: String) {
+        runAsync {
+            getAssetProfile(symbol)
+        } ui {
+            it?.let {
+                titleProperty.value = symbol
+                this.profile.value = it
+            }
+        }
+    }
+
     companion object {
         var fragment: AssetProfileFragment? = null
+
         fun show(symbol: String) {
             runAsync {
                 getAssetProfile(symbol)
             } ui {
                 it?.let {
-                    fragment = fragment ?: tornadofx.find(AssetProfileFragment::class)
+                    fragment = fragment ?: find(AssetProfileFragment::class)
                     fragment?.apply {
                         openWindow()
                         titleProperty.value = symbol
                         this.profile.value = it
                     }
                 } ?: alert(Alert.AlertType.ERROR, "$symbol Asset Profile", "No profile available.")
-
-                runAsync {
-                    Iex.getEarnings(symbol)
-                } ui {
-                    fragment?.root?.children?.add(TextArea(it?.toString()))
-                }
             }
         }
     }

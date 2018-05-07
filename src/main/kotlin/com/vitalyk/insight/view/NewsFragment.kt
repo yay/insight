@@ -28,8 +28,7 @@ class NewsFragment : Fragment("News") {
     val listview: ListView<NewsItem> = listview {
         vgrow = Priority.ALWAYS
 
-        cellCache {
-            val item = it
+        cellCache { item ->
             hbox {
                 alignment = Pos.CENTER_LEFT
                 text(dateFormatter.format(item.date)) {
@@ -57,7 +56,7 @@ class NewsFragment : Fragment("News") {
 
     val toolbox = toolbox(border = false) {
         label("Symbol:")
-        symbolfield(onAction = { fetchSymbolNews(it) })
+        symbolfield { fetchSymbolNews(it) }
 
         marketIndexes.forEach { symbol, name ->
             button(name) {

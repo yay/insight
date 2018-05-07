@@ -108,6 +108,9 @@ fun httpGet(
     }
 }
 
+/**
+ * Watch out for IOException.
+ */
 fun httpGet(url: String, params: Map<String, String?> = emptyMap()): String {
     return httpGet(url,
         client = HttpClients.main,

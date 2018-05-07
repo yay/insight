@@ -47,8 +47,8 @@ fun EventTarget.toolbox(border: Boolean = true, op: HBox.() -> Unit = {}): HBox 
  * or selected a symbol from the autocomplete menu.
  */
 fun EventTarget.symbolfield(property: ObservableValue<String>? = null,
-                            onAction: (String) -> Unit = {},
-                            op: TextField.() -> Unit = {}) = textfield().apply {
+                            op: TextField.() -> Unit = {},
+                            onAction: (String) -> Unit = {}) = textfield().apply {
     if (property != null) {
         bind(property)
     }
@@ -92,6 +92,9 @@ fun EventTarget.symbolfield(property: ObservableValue<String>? = null,
             onAction(text)
         }
     }
+
+    maxWidth = 100.0
+    promptText = "Enter Symbol"
 
     op(this)
 }

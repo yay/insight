@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 // TODO: the app won't shutdown because of some background thread activity
-class WatchlistUI(val watchlist: Watchlist) : Fragment() {
+class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
 
     var symbol = SimpleStringProperty("")
     private val newYorkTimeZone = TimeZone.getTimeZone("America/New_York")
@@ -68,9 +68,12 @@ class WatchlistUI(val watchlist: Watchlist) : Fragment() {
         vgrow = Priority.ALWAYS
 
         toolbox(border = false) {
-            symbolfield(symbol, { addSymbol() }, {
+            symbolfield(symbol, {
                 promptText = "Add Symbol(s)"
-            })
+                minWidth = 120.0
+            }) {
+                addSymbol()
+            }
             button("Add").action {
                 addSymbol()
             }
@@ -154,9 +157,34 @@ class WatchlistUI(val watchlist: Watchlist) : Fragment() {
     }
 }
 
+class MainWatchlistFragment : Fragment() {
+    val watchlist = WatchlistFragment(Watchlist.getOrPut("Main"))
+    val newslist = NewsFragment()
+
+    override val root = vbox {
+        splitpane(Orientation.VERTICAL) {
+            vgrow = Priority.ALWAYS
+
+            this += watchlist
+            this += newslist.apply {
+                toolbox.hide()
+            }
+            setDividerPositions(.7, .3)
+
+            watchlist.table.onSelectionChange {
+                if (Platform.isFxApplicationThread()) {
+                    it?.let {
+                        newslist.symbol.value = it.symbol
+                    }
+                }
+            }
+        }
+    }
+}
+
 class WatchlistView : View("Watchlists") {
 
-    val watchlist = WatchlistUI(Watchlist["Main"] ?: Watchlist("Main"))
+    val watchlist = WatchlistFragment(Watchlist.getOrPut("Main"))
     val newslist = NewsFragment()
 
     private val tabpane = tabpane {
@@ -170,7 +198,7 @@ class WatchlistView : View("Watchlists") {
 
     override val root = vbox {
         toolbox {
-            button("Back").action { replaceWith(SymbolTableView::class) }
+            button("Main").action { replaceWith(MainView::class) }
         }
         splitpane(Orientation.VERTICAL) {
             vgrow = Priority.ALWAYS

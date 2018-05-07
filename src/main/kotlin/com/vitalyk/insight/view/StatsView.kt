@@ -10,8 +10,8 @@ import tornadofx.*
 class StatsView : View("Statistics") {
     override val root = vbox {
         toolbox(border = false) {
-            button("Back").action {
-                replaceWith(SymbolTableView::class)
+            button("Main").action {
+                replaceWith(MainView::class)
             }
         }
         hbox {

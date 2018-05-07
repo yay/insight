@@ -49,13 +49,15 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
                 Watchlist(it.name, it.symbols)
             }
         }
+
+        fun getOrPut(name: String) = Watchlist[name] ?: Watchlist(name)
     }
 
     private val socket = IO.socket("https://ws-api.iextrading.com/1.0/tops")
 
     private val map = mutableMapOf<String, Tops>()
 
-    private val listeners = mutableListOf<ChangeListener>()
+    private val listeners = mutableSetOf<ChangeListener>()
 
     fun addListener(listener: ChangeListener) {
         listeners.add(listener)

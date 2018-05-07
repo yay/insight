@@ -8,7 +8,7 @@ import com.vitalyk.insight.main.AppSettings
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.main.Settings
 import com.vitalyk.insight.style.Styles
-import com.vitalyk.insight.view.SymbolTableView
+import com.vitalyk.insight.view.MainView
 import io.socket.client.IO
 import io.socket.engineio.client.Socket
 import javafx.beans.property.SimpleStringProperty
@@ -61,7 +61,7 @@ fun clipboardHook() {
     }
 }
 
-class Insight : App(SymbolTableView::class, Styles::class) {
+class Insight : App(MainView::class, Styles::class) {
 
     override fun start(stage: Stage) {
 //        Thread.setDefaultUncaughtExceptionHandler { _, e ->

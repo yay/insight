@@ -36,9 +36,13 @@ class SymbolTableView : View("Instrument Data") {
 
     override val root = vbox {
         toolbox {
+            button("Back").action {
+                replaceWith(MainView::class)
+            }
+
             label("Symbol:")
-            symbolfield(symbol, { updateSymbolTable() }) {
-                maxWidth = 80.0
+            symbolfield(symbol) {
+                updateSymbolTable()
             }
             button("Go") {
                 action {
@@ -52,14 +56,9 @@ class SymbolTableView : View("Instrument Data") {
             }
 
             button("Chart").action { replaceWith(ChartView::class) }
-            button("News").action { replaceWith(NewsView::class) }
-            button("Quotes").action { replaceWith(QuoteView::class) }
-            button("Statistics").action { replaceWith(StatsView::class) }
         }
 
         toolbox(border = false) {
-            button("Watchlists").action { replaceWith(WatchlistView::class) }
-
             button("Market Distribution") {
                 action {
                     alert(

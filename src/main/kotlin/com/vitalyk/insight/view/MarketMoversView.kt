@@ -7,7 +7,7 @@ import javafx.scene.layout.Priority
 import tornadofx.*
 import kotlinx.coroutines.experimental.javafx.JavaFx as UI
 
-class QuoteView : View("Quotes") {
+class MarketMoversView : View("Market Movers") {
     val quoteLists = listOf(
         PollingQuoteList("Most active", Iex::getMostActive),
         PollingQuoteList("Gainers", Iex::getGainers),
@@ -34,9 +34,9 @@ class QuoteView : View("Quotes") {
 
     override val root = vbox {
         toolbox {
-            button("Back") {
+            button("Main") {
                 action {
-                    replaceWith(SymbolTableView::class)
+                    replaceWith(MainView::class)
                 }
             }
         }
