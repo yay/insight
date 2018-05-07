@@ -52,10 +52,17 @@ class EarningsFragment : Fragment("Earnings") {
         this += chart
     }
 
+    private val labelFontSize = 9.0
+    private val labelGap = 2.0
+
     private fun positionText(text: Text, bounds: Bounds) {
+        var y = bounds.minY - labelGap
+        if (y < labelFontSize + labelGap * 2) { // bars reaching the top will have minY close to 0
+            y = bounds.minY + labelGap + labelFontSize
+        }
         text.isVisible = bounds.width > 16
         text.layoutX = bounds.minX + bounds.width * 0.5 - text.prefWidth(-1.0) * 0.5
-        text.layoutY = bounds.minY - 2.0
+        text.layoutY = y
     }
 
     fun fetch(symbol: String) {
@@ -95,7 +102,7 @@ class EarningsFragment : Fragment("Earnings") {
                                 tooltip("${dateFormat.format(data.epsReportDate)} (${data.announceTime})")
 
                                 val text = Text(datum.yValue.toString()).apply {
-                                    font = Font("Tahoma", 9.0)
+                                    font = Font("Tahoma", labelFontSize)
                                 }
                                 chartLabels.add(text)
                                 parent.add(text)
