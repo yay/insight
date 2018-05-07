@@ -12,7 +12,9 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import com.fasterxml.jackson.databind.type.CollectionType
+import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.vitalyk.insight.helpers.toPrettyJson
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -830,7 +832,14 @@ object Iex {
 
     fun getEarnings(symbol: String): RecentEarnings? {
         return fetch("$baseUrl/stock/$symbol/earnings")?.let {
-            mapper.readValue(it, RecentEarnings::class.java)
+            try {
+                mapper.readValue(it, RecentEarnings::class.java)
+            } catch (e: MissingKotlinParameterException) {
+                // Some assets have no earnings.
+                // In this case "{ }" is returned by the server.
+                logger.warn("$symbol earnings are not available. ${e.message}")
+                null
+            }
         }
     }
 

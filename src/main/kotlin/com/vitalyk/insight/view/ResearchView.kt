@@ -5,7 +5,6 @@ import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.IexSymbols
 import com.vitalyk.insight.ui.symbolfield
 import com.vitalyk.insight.ui.toolbox
-import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Bounds
 import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.NumberAxis
@@ -18,13 +17,7 @@ import tornadofx.*
 import java.text.SimpleDateFormat
 
 class ResearchView : View("Research") {
-    val symbolProperty = SimpleStringProperty().apply {
-        addListener { _, _, symbol ->
-            fetch(symbol)
-        }
-    }
-
-    val symbolField = symbolfield { symbolProperty.value = it }
+    val symbolField = symbolfield { fetch(it) }
 
     val profile = AssetProfileFragment()
     val earnings = EarningsFragment()
@@ -54,15 +47,17 @@ class ResearchView : View("Research") {
     }
 
     private var clipboardJob: Job? = null
+    private var clipboardSymbol: String = ""
 
     override fun onDock() {
         clipboardJob = launch {
             while (isActive) {
                 delay(1000)
                 runLater {
-                    val string = clipboard.string
-                    if (string in IexSymbols) {
-                        symbolProperty.value = string
+                    val symbol = clipboard.string
+                    if (symbol in IexSymbols && symbol != clipboardSymbol) {
+                        clipboardSymbol = symbol
+                        fetch(symbol)
                     }
                 }
             }

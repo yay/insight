@@ -64,6 +64,7 @@ fun EventTarget.symbolfield(property: ObservableValue<String>? = null,
     val sb = StringBuilder()
 
     textProperty().onChange { value ->
+        if (!isFocused) return@onChange
         completeMenu.hide()
         val symbols = IexSymbols.complete(value)
         if (symbols.isNotEmpty()) {
