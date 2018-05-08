@@ -20,6 +20,7 @@ class StatsView : View("Statistics") {
                 padding = Insets(10.0)
                 vbox {
                     spacing = 10.0
+
                     button("Nasdaq stats").action {
                         browseTo("https://www.nasdaq.com/markets/most-active.aspx")
                     }
@@ -34,6 +35,25 @@ class StatsView : View("Statistics") {
                     }
                     button("Shiller P/E").action {
                         browseTo("http://www.multpl.com/table?f=m")
+                    }
+
+                    children.forEach {
+                        if (it is Button) {
+                            it.maxWidth = Double.MAX_VALUE
+                        }
+                    }
+                }
+            }
+            scrollpane {
+                padding = Insets(10.0)
+                vbox {
+                    spacing = 10.0
+
+                    button("Economic Calendar").action {
+                        browseTo("http://hosting.briefing.com/cschwab/Calendars/EconomicCalendar.htm")
+                    }
+                    button("Earnings Calendar").action {
+                        browseTo("http://hosting.briefing.com/cschwab/Calendars/EarningsCalendar5Weeks.htm")
                     }
 
                     children.forEach {

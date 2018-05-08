@@ -1,7 +1,6 @@
 // https://kotlinlang.org/docs/reference/using-gradle.html
 
 apply plugin: 'idea'
-apply plugin: 'java'
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt' // Kotlin Annotation Processing Tool
 
@@ -17,7 +16,7 @@ buildscript {
     ext.kotlin_version = '1.2.41'
 
     repositories {
-        mavenCentral()
+        jcenter()
     }
 
     dependencies {
@@ -49,6 +48,23 @@ jar {
 //    main.kotlin.srcDirs += 'src/main/kotlin/'
 //    test.kotlin.srcDirs += 'src/test/kotlin/'
 //}
+
+subprojects {
+    apply plugin: 'kotlin'
+
+    compileKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        compile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.41'
+        compile 'org.jetbrains.kotlin:kotlin-reflect:1.2.41'
+    }
+}
 
 dependencies {
 //    kapt project(":generator")

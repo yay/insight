@@ -208,12 +208,12 @@ class WatchlistView : View("Watchlists") {
             }
             setDividerPositions(.6, .4)
 
-            watchlist.table.onSelectionChange {
-                if (Platform.isFxApplicationThread()) {
-                    it?.let {
-                        newslist.symbol.value = it.symbol
+            watchlist.table.onSelectionChange { data ->
+                if (data != null)
+                    // May not be on FxApplicationThread here so ...
+                    runLater {
+                        newslist.symbol.value = data.symbol
                     }
-                }
             }
         }
     }

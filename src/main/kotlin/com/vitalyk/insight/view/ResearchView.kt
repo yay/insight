@@ -132,6 +132,7 @@ class EarningsFragment : Fragment("Earnings") {
 
                                 val text = Text(datum.yValue.toString()).apply {
                                     font = Font("Tahoma", labelFontSize)
+                                    isMouseTransparent = true
                                 }
                                 chartLabels.add(text)
                                 parent.add(text)
