@@ -75,7 +75,7 @@ class EarningsFragment : Fragment("Earnings") {
     }
 
     private val chartLabels = mutableListOf<Text>()
-    private val dateFormat = SimpleDateFormat("dd MMM, yy")
+    private val dateFormat = SimpleDateFormat("E MMM dd, yy")
 
     override val root = vbox {
         this += chart
@@ -113,7 +113,7 @@ class EarningsFragment : Fragment("Earnings") {
                         data(it.fiscalPeriod, it.estimatedEps)
                     }
                 }
-                chart.series("Actual") {
+                val actualEarningsSeries = chart.series("Actual") {
                     earnings.forEach {
                         data(it.fiscalPeriod, it.actualEps)
                     }
@@ -125,10 +125,12 @@ class EarningsFragment : Fragment("Earnings") {
                 chartLabels.clear()
                 runLater {
                     chart.data.forEach { series ->
+                        val isActual = series == actualEarningsSeries
                         series.data.forEachIndexed { index, datum ->
                             datum.node?.apply {
                                 val data = earnings[index]
-                                tooltip("${dateFormat.format(data.epsReportDate)} (${data.announceTime})")
+                                if (isActual)
+                                    tooltip("${dateFormat.format(data.epsReportDate)} (${data.announceTime})")
 
                                 val text = Text(datum.yValue.toString()).apply {
                                     font = Font("Tahoma", labelFontSize)
