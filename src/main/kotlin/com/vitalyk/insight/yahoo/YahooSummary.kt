@@ -67,25 +67,25 @@ private val defaultSummaryParams = mapOf("modules" to summaryModules.joinToStrin
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class AssetProfile(
-    val address1: String?,
-    val city: String?,
-    val state: String?,
-    val zip: String?,
-    val country: String?,
-    val phone: String?,
-    val website: String?,
-    val industry: String?,
-    val sector: String?,
-    val longBusinessSummary: String,
-    val fullTimeEmployees: Int?,
-    val companyOfficers: List<CompanyOfficer>,
-    val auditRisk: Int?,
-    val boardRisk: Int?,
-    val compensationRisk: Int?,
-    val shareHolderRightsRisk: Int?,
-    val overallRisk: Int?,
-    val governanceEpochDate: Time?,
-    val compensationAsOfEpochDate: Long?
+    val address1: String? = "",
+    val city: String? = "",
+    val state: String? = "",
+    val zip: String? = "",
+    val country: String? = "",
+    val phone: String? = "",
+    val website: String? = "",
+    val industry: String? = "",
+    val sector: String? = "",
+    val longBusinessSummary: String = "",
+    val fullTimeEmployees: Int? = 0,
+    val companyOfficers: List<CompanyOfficer> = emptyList(),
+    val auditRisk: Int? = 0,
+    val boardRisk: Int? = 0,
+    val compensationRisk: Int? = 0,
+    val shareHolderRightsRisk: Int? = 0,
+    val overallRisk: Int? = 0,
+    val governanceEpochDate: Time? = Time(0),
+    val compensationAsOfEpochDate: Long? = 0L
 )
 
 @JsonIgnoreProperties(ignoreUnknown = true)

@@ -781,7 +781,9 @@ object Iex {
 
     fun getAssetStats(symbol: String): AssetStats? {
         return fetch("$baseUrl/stock/$symbol/stats")?.let {
-            mapper.readValue(it, AssetStats::class.java)
+            // The returned JSON here can use `"NaN"` for values:
+            // https://github.com/iexg/IEX-API/issues/29
+            mapper.readValue(it.replace("\"NaN\"", "0"), AssetStats::class.java)
         }
     }
 

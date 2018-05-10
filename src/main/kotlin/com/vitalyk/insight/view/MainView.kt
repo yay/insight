@@ -1,5 +1,6 @@
 package com.vitalyk.insight.view
 
+import com.vitalyk.insight.fragment.MainWatchlistFragment
 import com.vitalyk.insight.fragment.ReutersFragment
 import com.vitalyk.insight.ui.toolbox
 import javafx.scene.layout.Priority

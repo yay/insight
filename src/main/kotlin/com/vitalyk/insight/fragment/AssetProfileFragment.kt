@@ -87,7 +87,7 @@ class AssetProfileFragment : Fragment() {
         runAsync {
             getAssetProfile(symbol)
         } ui {
-            it?.let {
+            (it ?: AssetProfile()).let {
                 titleProperty.value = symbol
                 profile.value = it
             }

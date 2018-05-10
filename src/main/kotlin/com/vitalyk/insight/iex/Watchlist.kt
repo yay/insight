@@ -165,10 +165,8 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
                 val tops = Iex.parseTops(params.first() as String)
                 val symbol = tops.symbol
                 // https://github.com/iexg/IEX-API/issues/307
-//                if (symbol !in pendingRemove) {
-                    updateMap(symbol, tops)
-                    pendingAdd.remove(symbol)
-//                }
+                updateMap(symbol, tops)
+                pendingAdd.remove(symbol)
             }
             .on(Socket.EVENT_DISCONNECT) {
                 appLogger.debug("Watchlist disconnected: ${map.keys}")
