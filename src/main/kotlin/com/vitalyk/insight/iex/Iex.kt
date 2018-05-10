@@ -14,7 +14,6 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.vitalyk.insight.helpers.toPrettyJson
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -246,14 +245,14 @@ object Iex {
         @JsonProperty("consensusEPS")
         val consensusEps: Double,
         @JsonProperty("estimatedEPS")
-        val estimatedEps: Double,
+        val estimatedEps: Double?,
         val announceTime: String,
         val numberOfEstimates: Int,
         @JsonProperty("EPSSurpriseDollar")
         val epsSurpriseDollar: Double,
         @JsonProperty("EPSReportDate")
         val epsReportDate: Date,
-        val fiscalPeriod: String,
+        val fiscalPeriod: String?,
         val fiscalEndDate: Date,
         val yearAgo: Double,
         val yearAgoChangePercent: Double,
@@ -290,57 +289,65 @@ object Iex {
     )
 
     data class AssetStats(
-        val companyName: String,
-        val marketcap: Long,
-        val beta: Double,
-        val week52high: Double,
-        val week52low: Double,
-        val week52change: Double,
-        val shortInterest: Long,
-        val shortDate: Date,
-        val dividendRate: Double,
-        val dividendYield: Double,
+        val companyName: String = "",
+        @JsonProperty("marketcap")
+        val marketCap: Long = 0L,
+        val beta: Double = 0.0,
+        val week52high: Double = 0.0,
+        val week52low: Double = 0.0,
+        val week52change: Double = 0.0,
+        val shortInterest: Long = 0L,
+        val shortDate: Date = Date(0),
+        val dividendRate: Double = 0.0,
+        val dividendYield: Double = 0.0,
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.S")
-        val exDividendDate: Date,
-        val latestEPS: Double,          // Most recent quarter (MRQ)
-        val latestEPSDate: Date,
-        val sharesOutstanding: Long,
-        val float: Long,
-        val returnOnEquity: Double,     // Trailing twelve months (TTM)
-        val consensusEPS: Double,       // MRQ
-        val numberOfEstimates: Short,   // MRQ
-        val EPSSurpriseDollar: Double?, // actual EPS vs consensus EPS, in dollars
-        val EPSSurprisePercent: Double, // actual EPS vs consensus EPS, percent difference
-        val symbol: String,
-        val EBITDA: Long,               // TTM
-        val revenue: Long,              // TTM
-        val grossProfit: Long,          // TTM
-        val cash: Long,                 // Total cash, TTM
-        val debt: Long,                 // Total debt, TTM
-        val ttmEPS: Double,             // TTM
-        val revenuePerShare: Double,    // TTM
-        val revenuePerEmployee: Double, // TTM
-        val peRatioHigh: Double,
-        val peRatioLow: Double,
-        val returnOnAssets: Double,     // TTM
-        val returnOnCapital: Double?,   // TTM
-        val profitMargin: Double?,
-        val priceToSales: Double?,
-        val priceToBook: Double,
-        val day200MovingAvg: Double,
-        val day50MovingAvg: Double,
-        val institutionPercent: Double, // Represents top 15 institutions
-        val insiderPercent: Double?,
-        val shortRatio: Double,
-        val year5ChangePercent: Double,
-        val year2ChangePercent: Double,
-        val year1ChangePercent: Double,
-        val ytdChangePercent: Double,
-        val month6ChangePercent: Double,
-        val month3ChangePercent: Double,
-        val month1ChangePercent: Double,
-        val day5ChangePercent: Double,
-        val day30ChangePercent: Double
+        val exDividendDate: Date = Date(0),
+        @JsonProperty("latestEPS")
+        val latestEps: Double = 0.0, // Most recent quarter (MRQ)
+        @JsonProperty("latestEPSDate")
+        val latestEpsDate: Date = Date(0),
+        val sharesOutstanding: Long = 0L,
+        val float: Long = 0L,
+        val returnOnEquity: Double = 0.0, // Trailing twelve months (TTM)
+        @JsonProperty("consensusEPS")
+        val consensusEps: Double = 0.0, // MRQ
+        val numberOfEstimates: Int = 0, // MRQ
+        @JsonProperty("EPSSurpriseDollar")
+        val epsSurpriseDollar: Double = 0.0, // actual EPS vs consensus EPS, in dollars
+        @JsonProperty("EPSSurprisePercent")
+        val epsSurprisePercent: Double = 0.0, // actual EPS vs consensus EPS, percent difference
+        val symbol: String = "",
+        @JsonProperty("EBITDA")
+        val ebitda: Long = 0L, // TTM
+        val revenue: Long = 0L,  // TTM
+        val grossProfit: Long = 0L, // TTM
+        val cash: Long = 0L, // Total cash, TTM
+        val debt: Long = 0L, // Total debt, TTM
+        @JsonProperty("ttmEPS")
+        val ttmEps: Double = 0.0, // TTM
+        val revenuePerShare: Int = 0, // TTM
+        val revenuePerEmployee: Int = 0, // TTM
+        val peRatioHigh: Double = 0.0,
+        val peRatioLow: Double = 0.0,
+        val returnOnAssets: Double = 0.0, // TTM
+        val returnOnCapital: Double = 0.0, // TTM
+        val profitMargin: Double = 0.0,
+        val priceToSales: Double = 0.0,
+        val priceToBook: Double = 0.0,
+        val day200MovingAvg: Double = 0.0,
+        val day50MovingAvg: Double = 0.0,
+        val institutionPercent: Double = 0.0, // Represents top 15 institutions
+        val insiderPercent: Double = 0.0,
+        val shortRatio: Double = 0.0,
+        val year5ChangePercent: Double = 0.0,
+        val year2ChangePercent: Double = 0.0,
+        val year1ChangePercent: Double = 0.0,
+        val ytdChangePercent: Double = 0.0,
+        val month6ChangePercent: Double = 0.0,
+        val month3ChangePercent: Double = 0.0,
+        val month1ChangePercent: Double = 0.0,
+        val day5ChangePercent: Double = 0.0,
+        val day30ChangePercent: Double = 0.0
     )
 
     data class Trade(
@@ -836,7 +843,7 @@ object Iex {
                 mapper.readValue(it, RecentEarnings::class.java)
             } catch (e: MissingKotlinParameterException) {
                 // Some assets have no earnings.
-                // In this case "{ }" is returned by the server.
+                // In this case an empty JSON object is returned by the server.
                 logger.warn("$symbol earnings are not available. ${e.message}")
                 null
             }

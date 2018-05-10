@@ -1,0 +1,198 @@
+package com.vitalyk.insight.fragment
+
+import com.vitalyk.insight.helpers.toReadableNumber
+import com.vitalyk.insight.iex.Iex.AssetStats
+import com.vitalyk.insight.iex.Iex.getAssetStats
+import javafx.geometry.Orientation
+import javafx.scene.control.Label
+import tornadofx.*
+import java.text.SimpleDateFormat
+import java.util.*
+
+class AssetStatsFragment : Fragment() {
+    val marketCap = Label()
+    val beta = Label()
+
+    val shortInterest = Label()
+    val shortDate = Label()
+
+    val dividendRate = Label()
+    val dividendYield = Label()
+    val exDividendDate = Label()
+
+    val latestEps = Label()
+    val latestEpsDate = Label()
+    val consensusEps = Label()
+    val ttmEps = Label()
+
+    val sharesOutstanding = Label()
+    val float = Label()
+
+    val returnOnEquity = Label()
+    val returnOnAssets = Label()
+    val returnOnCapital = Label()
+    val ebitda = Label()
+    val revenue = Label()
+    val grossProfit = Label()
+    val cash = Label()
+    val debt = Label()
+    val revenuePerShare = Label()
+    val revenuePerEmployee = Label()
+
+    override val root = form {
+        fieldset("Key Statistics", labelPosition = Orientation.VERTICAL) {
+            gridpane {
+                hgap = 40.0
+                row {
+                    label("Market Cap")
+                    this += marketCap
+                }
+                row {
+                    label("Beta")
+                    this += beta
+                }
+                row {
+                    label("Short Interest")
+                    this += shortInterest
+                }
+                row {
+                    label("Short Date")
+                    this += shortDate
+                }
+                row {
+                    label("Dividend Rate")
+                    this += dividendRate
+                }
+                row {
+                    label("Dividend Yield")
+                    this += dividendYield
+                }
+                row {
+                    label("Ex Dividend Date")
+                    this += exDividendDate
+                }
+                row {
+                    label("Latest EPS")
+                    this += latestEps
+                }
+                row {
+                    label("Latest EPS date")
+                    this += latestEpsDate
+                }
+                row {
+                    label("Consensus EPS")
+                    this += consensusEps
+                }
+                row {
+                    label("TTM EPS")
+                    this += ttmEps
+                }
+                row {
+                    label("Shares Outstanding")
+                    this += sharesOutstanding
+                }
+                row {
+                    label("Float")
+                    this += float
+                }
+                row {
+                    label("Return On Equity")
+                    this += returnOnEquity
+                }
+                row {
+                    label("Return On Assets")
+                    this += returnOnAssets
+                }
+                row {
+                    label("Return On Capital")
+                    this += returnOnCapital
+                }
+                row {
+                    label("EBITDA")
+                    this += ebitda
+                }
+                row {
+                    label("Revenue")
+                    this += revenue
+                }
+                row {
+                    label("Gross Profit")
+                    this += grossProfit
+                }
+                row {
+                    label("Cash")
+                    this += cash
+                }
+                row {
+                    label("Debt")
+                    this += debt
+                }
+                row {
+                    label("Revenue / Share")
+                    this += revenuePerShare
+                }
+                row {
+                    label("Revenue / Employee")
+                    this += revenuePerEmployee
+                }
+            }
+        }
+    }
+
+    fun fetch(symbol: String) {
+        runAsync {
+            getAssetStats(symbol)
+        } ui {
+            (it ?: AssetStats()).let {
+                marketCap.text = formatNumber(it.marketCap)
+                beta.text = formatNumber(it.beta, 4)
+
+                shortInterest.text = formatNumber(it.shortInterest)
+                shortDate.text = formatDate(it.shortDate)
+
+                dividendRate.text = formatNumber(it.dividendRate)
+                dividendYield.text = formatNumber(it.dividendYield)
+                exDividendDate.text = formatDate(it.exDividendDate)
+
+                latestEps.text = formatNumber(it.latestEps)
+                latestEpsDate.text = formatDate(it.latestEpsDate)
+                consensusEps.text = formatNumber(it.consensusEps)
+                ttmEps.text = formatNumber(it.ttmEps)
+
+                sharesOutstanding.text = formatNumber(it.sharesOutstanding)
+                float.text = formatNumber(it.float)
+
+                returnOnEquity.text = formatPercent(it.returnOnEquity)
+                returnOnAssets.text = formatPercent(it.returnOnAssets)
+                returnOnCapital.text = formatPercent(it.returnOnCapital)
+                ebitda.text = formatNumber(it.ebitda)
+                revenue.text = formatNumber(it.revenue)
+                grossProfit.text = formatNumber(it.grossProfit)
+                cash.text = formatNumber(it.cash)
+                debt.text = formatNumber(it.debt)
+                revenuePerShare.text = formatNumber(it.revenuePerShare)
+                revenuePerEmployee.text = formatNumber(it.revenuePerEmployee)
+            }
+        }
+    }
+
+    private val dateFormat = SimpleDateFormat("E MMM dd, yy")
+    private val zeroDate = Date(0)
+    private fun formatDate(date: Date): String {
+        return if (date == zeroDate) "--" else dateFormat.format(date)
+    }
+
+    private fun formatNumber(value: Double, significand: Int = 2): String {
+        return if (value == 0.0) "--" else "%.${significand}f".format(value)
+    }
+
+    private fun formatNumber(value: Long): String {
+        return if (value == 0L) "--" else value.toReadableNumber()
+    }
+
+    private fun formatNumber(value: Int) = formatNumber(value.toLong())
+
+    private fun formatPercent(value: Double, times: Double = 1.0): String {
+        return if (value == 0.0) "--" else "%.2f%%".format(value * times)
+    }
+}

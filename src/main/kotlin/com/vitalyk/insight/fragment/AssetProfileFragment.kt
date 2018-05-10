@@ -89,7 +89,7 @@ class AssetProfileFragment : Fragment() {
         } ui {
             it?.let {
                 titleProperty.value = symbol
-                this.profile.value = it
+                profile.value = it
             }
         }
     }
