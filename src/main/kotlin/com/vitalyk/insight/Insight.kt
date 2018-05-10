@@ -10,6 +10,7 @@ import com.vitalyk.insight.style.Styles
 import com.vitalyk.insight.view.MainView
 import io.socket.client.IO
 import io.socket.engineio.client.Socket
+import javafx.scene.control.Alert
 import javafx.stage.Stage
 import okhttp3.OkHttpClient
 import tornadofx.*
@@ -25,9 +26,9 @@ class Insight : App(MainView::class, Styles::class) {
 
         Iex.setOkHttpClient(HttpClients.main)
 
-        Settings.load(AppSettings) {
+        if (!Settings.load(AppSettings) {
             Watchlist.restore(watchlists)
-        }
+        }) alert(Alert.AlertType.ERROR, "Application settings failed to load (corrupted).")
         // Note: the shutdown hook won"t execute until the OkHttp threads are shut down.
         Settings.saveOnShutdown(AppSettings) {
             println("Saving settings...")
