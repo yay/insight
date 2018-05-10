@@ -3,8 +3,12 @@ package com.vitalyk.insight.fragment
 import com.vitalyk.insight.helpers.toReadableNumber
 import com.vitalyk.insight.iex.Iex.AssetStats
 import com.vitalyk.insight.iex.Iex.getAssetStats
+import javafx.geometry.Insets
 import javafx.geometry.Orientation
+import javafx.geometry.Pos
 import javafx.scene.control.Label
+import javafx.scene.layout.GridPane
+import javafx.scene.text.FontWeight
 import tornadofx.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -39,102 +43,134 @@ class AssetStatsFragment : Fragment() {
     val revenuePerShare = Label()
     val revenuePerEmployee = Label()
 
-    override val root = form {
-        fieldset("Key Statistics", labelPosition = Orientation.VERTICAL) {
-            gridpane {
-                hgap = 40.0
-                row {
-                    label("Market Cap")
-                    this += marketCap
+    override val root = vbox {
+        label("Metrics") {
+            alignment = Pos.CENTER
+            maxWidth = Double.MAX_VALUE
+            padding = Insets(5.0)
+            style {
+                fontSize = 1.4.em
+            }
+        }
+        form {
+            fieldset(labelPosition = Orientation.VERTICAL) {
+                gridpane {
+                    hgap = 40.0
+
+                    headerRow("Overview")
+                    row {
+                        label("Market Cap")
+                        this += marketCap
+                    }
+                    row {
+                        label("Beta")
+                        this += beta
+                    }
+                    row {
+                        label("Shares Outstanding")
+                        this += sharesOutstanding
+                    }
+                    row {
+                        label("Float")
+                        this += float
+                    }
+
+                    headerRow("Earnings")
+                    row {
+                        label("Latest EPS")
+                        this += latestEps
+                    }
+                    row {
+                        label("Latest EPS date")
+                        this += latestEpsDate
+                    }
+                    row {
+                        label("Consensus EPS")
+                        this += consensusEps
+                    }
+                    row {
+                        label("TTM EPS")
+                        this += ttmEps
+                    }
+
+                    headerRow("Dividends")
+                    row {
+                        label("Dividend Rate")
+                        this += dividendRate
+                    }
+                    row {
+                        label("Dividend Yield")
+                        this += dividendYield
+                    }
+                    row {
+                        label("Ex Dividend Date")
+                        this += exDividendDate
+                    }
+
+                    headerRow("Short Interest")
+                    row {
+                        label("Shares short")
+                        this += shortInterest
+                    }
+                    row {
+                        label("As of")
+                        this += shortDate
+                    }
+
+                    headerRow("Management Effectiveness")
+                    row {
+                        label("Return On Equity")
+                        this += returnOnEquity
+                    }
+                    row {
+                        label("Return On Assets")
+                        this += returnOnAssets
+                    }
+                    row {
+                        label("Return On Capital")
+                        this += returnOnCapital
+                    }
+                    row {
+                        label("Revenue / Employee")
+                        this += revenuePerEmployee
+                    }
+
+                    headerRow("Financial Metrics")
+                    row {
+                        label("Revenue")
+                        this += revenue
+                    }
+                    row {
+                        label("Revenue / Share")
+                        this += revenuePerShare
+                    }
+                    row {
+                        label("EBITDA")
+                        this += ebitda
+                    }
+                    row {
+                        label("Gross Profit")
+                        this += grossProfit
+                    }
+                    row {
+                        label("Cash")
+                        this += cash
+                    }
+                    row {
+                        label("Debt")
+                        this += debt
+                    }
                 }
-                row {
-                    label("Beta")
-                    this += beta
-                }
-                row {
-                    label("Short Interest")
-                    this += shortInterest
-                }
-                row {
-                    label("Short Date")
-                    this += shortDate
-                }
-                row {
-                    label("Dividend Rate")
-                    this += dividendRate
-                }
-                row {
-                    label("Dividend Yield")
-                    this += dividendYield
-                }
-                row {
-                    label("Ex Dividend Date")
-                    this += exDividendDate
-                }
-                row {
-                    label("Latest EPS")
-                    this += latestEps
-                }
-                row {
-                    label("Latest EPS date")
-                    this += latestEpsDate
-                }
-                row {
-                    label("Consensus EPS")
-                    this += consensusEps
-                }
-                row {
-                    label("TTM EPS")
-                    this += ttmEps
-                }
-                row {
-                    label("Shares Outstanding")
-                    this += sharesOutstanding
-                }
-                row {
-                    label("Float")
-                    this += float
-                }
-                row {
-                    label("Return On Equity")
-                    this += returnOnEquity
-                }
-                row {
-                    label("Return On Assets")
-                    this += returnOnAssets
-                }
-                row {
-                    label("Return On Capital")
-                    this += returnOnCapital
-                }
-                row {
-                    label("EBITDA")
-                    this += ebitda
-                }
-                row {
-                    label("Revenue")
-                    this += revenue
-                }
-                row {
-                    label("Gross Profit")
-                    this += grossProfit
-                }
-                row {
-                    label("Cash")
-                    this += cash
-                }
-                row {
-                    label("Debt")
-                    this += debt
-                }
-                row {
-                    label("Revenue / Share")
-                    this += revenuePerShare
-                }
-                row {
-                    label("Revenue / Employee")
-                    this += revenuePerEmployee
-                }
+            }
+        }
+    }
+
+    fun GridPane.headerRow(title: String) = row {
+        label(title) {
+            padding = Insets(10.0, 0.0, 5.0, 0.0)
+            style {
+                fontFamily = "Verdana"
+                fontWeight = FontWeight.BOLD
             }
         }
     }

@@ -6,6 +6,7 @@ import com.vitalyk.insight.fragment.EarningsFragment
 import com.vitalyk.insight.iex.IexSymbols
 import com.vitalyk.insight.ui.symbolfield
 import com.vitalyk.insight.ui.toolbox
+import javafx.scene.layout.Priority
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
@@ -19,13 +20,14 @@ class ResearchView : View("Research") {
     val stats = AssetStatsFragment()
 
     override val root = vbox {
-        toolbox {
+        toolbox(border = false) {
             button("Main").action { replaceWith(MainView::class) }
             label("Symbol:")
             this += symbolField
         }
 
         scrollpane {
+            vgrow = Priority.ALWAYS
             hbox {
                 vbox {
                     this += earnings

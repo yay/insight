@@ -25,7 +25,7 @@ class AssetProfileFragment : Fragment() {
     val fullTimeEmployeesProperty = SimpleIntegerProperty()
 
     override val root = vbox {
-        label("Asset Profile") {
+        label("Profile") {
             alignment = Pos.CENTER
             maxWidth = Double.MAX_VALUE
             padding = Insets(5.0)
