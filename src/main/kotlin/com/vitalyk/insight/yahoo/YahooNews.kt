@@ -18,6 +18,11 @@ private const val companyNewsUrl = "http://finance.yahoo.com/rss/headline?s="
 private val newsDateParser = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z")
 
 fun fetchNews(symbol: String): MutableList<NewsItem> {
+    // YFinance uses dashes for delimiters: RDS-B
+    // IEX uses dots: RDS.B
+    // Schwab and StockCharts use slashes: RDS/B
+    @Suppress("NAME_SHADOWING")
+    val symbol = symbol.replace(".", "-")
     val list = mutableListOf<NewsItem>()
     val url = companyNewsUrl + symbol
     val connection = Jsoup.connect(url).timeout(10000)

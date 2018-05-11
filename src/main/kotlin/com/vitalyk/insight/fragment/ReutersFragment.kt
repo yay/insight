@@ -1,90 +1,29 @@
 package com.vitalyk.insight.fragment
 
 import com.vitalyk.insight.helpers.browseTo
-import com.vitalyk.insight.helpers.objectMapper
-import com.vitalyk.insight.main.appLogger
-import com.vitalyk.insight.main.httpGet
-import javafx.scene.control.ListView
+import com.vitalyk.insight.reuters.ReutersHeadline
+import com.vitalyk.insight.reuters.ReutersHeadlineAlert
+import com.vitalyk.insight.reuters.ReutersWire
+import com.vitalyk.insight.trigger.TextTrigger
+import com.vitalyk.insight.ui.PlusButton
+import javafx.geometry.Insets
+import javafx.scene.control.*
 import javafx.scene.layout.Priority
+import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.text.FontWeight
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
 import tornadofx.*
-import java.io.IOException
-
-data class ReutersHeadline(
-    val id: String,
-    val headline: String,
-    val dateMillis: String,
-    val formattedDate: String,
-    val url: String,
-    val mainPicUrl: String
-)
-
-typealias ReutersWireListener = (headlines: List<ReutersHeadline>) -> Unit
-
-object ReutersWire {
-    private val updateInterval = 10_000 // as on reuters.com
-    private val url = "https://www.reuters.com/assets/jsonWireNews"
-
-    private val listeners = mutableSetOf<ReutersWireListener>()
-
-    data class Headlines(
-        val headlines: List<ReutersHeadline>
-    )
-
-    fun addListener(listener: ReutersWireListener) {
-        listeners.add(listener)
-        val job = fetchJob
-        if (job == null || !job.isActive) {
-            start()
-        }
-    }
-
-    fun removeListener(listener: ReutersWireListener) {
-        listeners.remove(listener)
-        if (listeners.isEmpty()) {
-            stop()
-        }
-    }
-
-    private fun fetch() {
-        try {
-            val responseText = httpGet(url)
-            val headlines = objectMapper.readValue(responseText, Headlines::class.java)
-            listeners.forEach { it(headlines.headlines) }
-        } catch (e: IOException) {
-            appLogger.warn("Fetching $url failed.")
-        }
-    }
-
-    var fetchJob: Job? = null
-
-    private fun start() {
-        fetchJob = launch {
-            while (isActive && listeners.isNotEmpty()) {
-                fetch()
-                delay(updateInterval)
-            }
-        }
-    }
-
-    private fun stop() {
-        fetchJob?.cancel()
-    }
-}
+import java.text.SimpleDateFormat
+import java.util.*
 
 // Non-UI Reuters news fetcher singleton
 // https://www.reuters.com/assets/jsonWireNews?startTime=1525694056000
 
 class ReutersFragment : Fragment("Reuters Wire") {
-    val listview: ListView<ReutersHeadline> = listview {
-        val listview = this
+    val newsList: ListView<ReutersHeadline> = listview {
         vgrow = Priority.ALWAYS
-        minWidth = 200.0
+        managedProperty().bind(visibleProperty())
 
         cellCache { headline ->
             vbox {
@@ -94,11 +33,12 @@ class ReutersFragment : Fragment("Reuters Wire") {
                 label(headline.headline) {
                     textFill = Color.BLACK
                     isWrapText = true
+                    prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
+
                     style {
                         font = Font.font("Tahoma", 9.0)
                         fontWeight = FontWeight.BOLD
                     }
-                    prefWidthProperty().bind(listview.widthProperty().subtract(36))
                 }
             }
         }
@@ -106,16 +46,161 @@ class ReutersFragment : Fragment("Reuters Wire") {
         onUserSelect {
             browseTo("https://www.reuters.com" + it.url)
         }
+
+        contextmenu {
+            item("Copy").action {
+                selectedItem?.apply {
+                    clipboard.putString(headline)
+                }
+            }
+        }
+    }
+
+    val alertList: ListView<ReutersHeadlineAlert> = listview {
+        vgrow = Priority.ALWAYS
+        managedProperty().bind(visibleProperty())
+        isVisible = false
+        val dateFormat = SimpleDateFormat("HH:mm:ss zzz - EEE, dd MMM yy")
+        dateFormat.timeZone = TimeZone.getTimeZone("America/New_York")
+
+        cellCache { alert ->
+            vbox {
+                label(dateFormat.format(alert.date)) {
+                    textFill = Color.GRAY
+                }
+                label(alert.headline.headline) {
+                    textFill = Color.BLACK
+                    isWrapText = true
+                    prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
+
+                    style {
+                        font = Font.font("Tahoma", 9.0)
+                        fontWeight = FontWeight.BOLD
+                    }
+                }
+            }
+        }
+    }
+
+    val triggerList: ListView<TextTrigger> = listview {
+        val listview = this
+        vgrow = Priority.ALWAYS
+        managedProperty().bind(visibleProperty())
+        isVisible = false
+
+        cellCache { trigger ->
+            vbox {
+                label(trigger.type.name) {
+                    textFill = Color.GRAY
+                }
+                label(trigger.value) {
+                    textFill = Color.BLACK
+                    isWrapText = true
+                    prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
+
+                    style {
+                        font = Font.font("Tahoma", 9.0)
+                        fontWeight = FontWeight.BOLD
+                    }
+                }
+            }
+        }
+
+        contextmenu {
+            item("Remove").action {
+                selectedItem?.let {
+                    ReutersWire.removeTrigger(it)
+                    listview.items = ReutersWire.triggers.observable()
+                }
+            }
+        }
     }
 
     override val root = vbox {
-        this += listview
+        toolbar {
+            val toggleGroup = ToggleGroup()
+            radiobutton ("News", toggleGroup) { isSelected = true }
+            radiobutton("Alerts", toggleGroup)
+            radiobutton("Triggers", toggleGroup)
+            toggleGroup.selectedToggleProperty().addListener(ChangeListener { _, _, _ ->
+                toggleGroup.selectedToggle?.let {
+                    val index = (it as RadioButton).indexInParent
+                    newsList.isVisible = index == 0
+                    alertList.isVisible = index == 1
+                    triggerList.isVisible = index == 2
+                }
+            })
+
+            this += PlusButton("New Trigger...").apply {
+                action {
+                    val dialog = Dialog<TextTrigger>().apply {
+                        title = "New Trigger"
+                        headerText = "Enter trigger keywords, a regular expression or a script"
+                        isResizable = true
+
+                        val toggleGroup = ToggleGroup()
+                        val textArea = TextArea().apply {
+                            vgrow = Priority.ALWAYS
+                        }
+
+                        val add = ButtonType("Add", ButtonBar.ButtonData.OK_DONE)
+                        val cancel = ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE)
+
+                        dialogPane.buttonTypes.addAll(add, cancel)
+
+                        dialogPane.content = VBox().apply {
+                            hbox {
+                                spacing = 10.0
+                                padding = Insets(0.0, 0.0, 10.0, 0.0)
+                                radiobutton("Keywords", toggleGroup) { isSelected = true }
+                                radiobutton("RegEx", toggleGroup)
+                                radiobutton("Script", toggleGroup)
+                            }
+                            this += textArea
+                        }
+
+                        var triggerType = TextTrigger.Type.KEYWORDS
+                        toggleGroup.selectedToggleProperty().addListener(ChangeListener { _, _, _ ->
+                            toggleGroup.selectedToggle?.let {
+                                val index = (it as RadioButton).indexInParent
+                                when (index) {
+                                    0 -> triggerType = TextTrigger.Type.KEYWORDS
+                                    1 -> triggerType = TextTrigger.Type.REGEX
+                                    2 -> triggerType = TextTrigger.Type.SCRIPT
+                                }
+                            }
+                        })
+
+                        setResultConverter {
+                            val selectedToggle = toggleGroup.selectedToggle
+                            if (it == add && selectedToggle != null) {
+                                TextTrigger(textArea.text, triggerType)
+                            } else {
+                                null
+                            }
+                        }
+                    }
+
+                    val result = dialog.showAndWait()
+
+                    if (result.isPresent) {
+                        println(result.get())
+                        ReutersWire.addTrigger(result.get())
+                        triggerList.items = ReutersWire.triggers.observable()
+                    }
+                }
+            }
+        }
+        this += newsList
+        this += alertList
+        this += triggerList
     }
 
     init {
-        ReutersWire.addListener { headlines ->
+        ReutersWire.addListener { headlines, alerts ->
             runLater {
-                listview.items = headlines.observable()
+                newsList.items = headlines.observable()
+                alertList.items = alerts.observable()
             }
         }
     }

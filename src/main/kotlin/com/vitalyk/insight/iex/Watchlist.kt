@@ -1,9 +1,11 @@
 package com.vitalyk.insight.iex
 
 import com.vitalyk.insight.iex.Iex.Tops
-import com.vitalyk.insight.main.appLogger
 import io.socket.client.IO
 import io.socket.client.Socket
+import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.experimental.launch
+import org.slf4j.LoggerFactory
 
 typealias ChangeListener = (old: Tops?, new: Tops?) -> Unit
 
@@ -15,6 +17,8 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
     )
 
     companion object {
+        private val logger = LoggerFactory.getLogger(Watchlist::class.java)
+
         private val watchlists = mutableMapOf<String, Watchlist>()
 
         private fun register(watchlist: Watchlist, name: String) {
@@ -78,12 +82,12 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
     private fun updateMap(key: String, value: Tops?) {
         val oldValue = map[key]
 
-        if (value != null)
-            map[key] = value
-        else
-            map.remove(key)
-
         if (value != oldValue) {
+            if (value != null)
+                map[key] = value
+            else
+                map.remove(key)
+
             listeners.forEach {
                 it(oldValue, value)
             }
@@ -169,8 +173,25 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
                 pendingAdd.remove(symbol)
             }
             .on(Socket.EVENT_DISCONNECT) {
-                appLogger.debug("Watchlist disconnected: ${map.keys}")
+                logger.debug("Watchlist disconnected: ${map.keys}")
             }
+
+        // Simulation.
+        launch {
+            while (isActive) {
+                delay(500)
+                if (map.isNotEmpty()) {
+                    val tops = tops
+                    val index = (Math.random() * tops.size).toInt()
+                    val oldTop = tops[index]
+                    val top = oldTop.copy(
+                        bidPrice = oldTop.bidPrice + Math.random() * 5.0,
+                        askPrice = oldTop.bidPrice + Math.random() * 5.0
+                    )
+                    updateMap(top.symbol, top)
+                }
+            }
+        }
     }
 
     fun disconnect() {

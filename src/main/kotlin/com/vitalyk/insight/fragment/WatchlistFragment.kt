@@ -6,6 +6,7 @@ import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.iex.toBean
 import com.vitalyk.insight.ui.symbolfield
 import com.vitalyk.insight.ui.toolbox
+import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.scene.layout.Priority
 import tornadofx.*
@@ -18,7 +19,8 @@ class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
     var symbol = SimpleStringProperty("")
     private val newYorkTimeZone = TimeZone.getTimeZone("America/New_York")
     // "dd MMM HH:mm:ss zzz"
-    private var lastTradeFormatter = SimpleDateFormat("HH:mm:ss")
+    private var lastTradeTimeFormatter = SimpleDateFormat("HH:mm:ss")
+    private val priceFormat = "%.2f"
 
     // https://github.com/edvin/tornadofx/wiki/TableView-SmartResize
     val table = tableview(mutableListOf<TopsBean>().observable()) {
@@ -30,12 +32,42 @@ class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
         column("Last Trade", TopsBean::lastSalePriceProperty)
         column("Trade Time", TopsBean::lastSaleTimeProperty).cellFormat {
             if (it != null) {
-                text = lastTradeFormatter.format(it)
+                text = lastTradeTimeFormatter.format(it)
             }
         }
         column("Trade Size", TopsBean::lastSaleSizeProperty)
+//        val doubleComparator = Comparator<Double> { a, b ->
+//            when {
+//                a === null && b === null -> 0
+//                a === null -> -1
+//                b === null -> 1
+//                else -> Math.signum(a - b).toInt()
+//            }
+//        }
+//        val col = TableColumn<TopsBean, Double>("Bid1").apply {
+//            setCellFactory {
+//                FlashingTableCell(doubleComparator)
+//            }
+//        }
+//        addColumnInternal(col)
+//        column("Bid", TopsBean::bidPriceProperty) {
+//            setCellFactory {
+//                FlashingTableCell(Comparator { a, b ->
+//                    when {
+//                        a === null && b === null -> 0
+//                        a === null -> -1
+//                        b === null -> 1
+//                        else -> Math.signum(a.toDouble() - b.toDouble()).toInt()
+//                    }
+//                })
+//            }
+//        }
         column("Bid", TopsBean::bidPriceProperty)
         column("Ask", TopsBean::askPriceProperty)
+        column<TopsBean, String>("Spread") {
+            val data = it.value
+            SimpleObjectProperty(priceFormat.format(data.bidPrice - data.askPrice))
+        }
         column("Volume", TopsBean::volumeProperty)
         column("Bid Size", TopsBean::bidSizeProperty)
         column("Ask Size", TopsBean::askSizeProperty)
@@ -56,7 +88,7 @@ class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
     var isEasternTime: Boolean = false
         set(value) {
             field = value
-            lastTradeFormatter.timeZone = if (value)
+            lastTradeTimeFormatter.timeZone = if (value)
                 newYorkTimeZone
             else
                 TimeZone.getDefault()
