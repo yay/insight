@@ -3,8 +3,6 @@ package com.vitalyk.insight.iex
 import com.vitalyk.insight.iex.Iex.Tops
 import io.socket.client.IO
 import io.socket.client.Socket
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
 import org.slf4j.LoggerFactory
 
 typealias ChangeListener = (old: Tops?, new: Tops?) -> Unit

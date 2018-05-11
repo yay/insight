@@ -195,11 +195,22 @@ class ReutersFragment : Fragment("Reuters Wire") {
         if (result.isPresent) {
             println(result.get())
             ReutersWire.addTrigger(result.get())
-            triggerList.items = ReutersWire.triggers.observable()
+            updateTriggers()
         }
     }
 
+    fun updateTriggers() {
+        triggerList.items = ReutersWire.triggers.observable()
+    }
+
+    fun updateAlerts() {
+        alertList.items = ReutersWire.alerts.observable()
+    }
+
     init {
+        updateAlerts()
+        updateTriggers()
+
         ReutersWire.apply {
             addHeadlineListener { headlines ->
                 runLater {
@@ -209,7 +220,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
             addAlertListener { _ ->
                 runLater {
                     getResourceAudioClip("/sounds/alerts/chime.wav").play()
-                    alertList.items = alerts.observable()
+                    updateAlerts()
                 }
             }
         }

@@ -6,6 +6,7 @@ import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.main.AppSettings
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.main.Settings
+import com.vitalyk.insight.reuters.ReutersWire
 import com.vitalyk.insight.style.Styles
 import com.vitalyk.insight.view.MainView
 import io.socket.client.IO
@@ -28,11 +29,14 @@ class Insight : App(MainView::class, Styles::class) {
 
         if (!Settings.load(AppSettings) {
             Watchlist.restore(watchlists)
+            ReutersWire.loadState(reutersWire)
         }) alert(Alert.AlertType.ERROR, "Application settings failed to load (corrupted).")
+
         // Note: the shutdown hook won"t execute until the OkHttp threads are shut down.
         Settings.saveOnShutdown(AppSettings) {
             println("Saving settings...")
             AppSettings.watchlists = Watchlist.save()
+            AppSettings.reutersWire = ReutersWire.saveState()
         }
 
         //

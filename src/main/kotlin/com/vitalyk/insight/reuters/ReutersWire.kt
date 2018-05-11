@@ -31,6 +31,11 @@ typealias AlertListener = (alerts: List<HeadlineAlert>) -> Unit
 object ReutersWire {
     private val mutex = this
 
+    data class State(
+        val triggers: List<TextTrigger>,
+        val alerts: List<HeadlineAlert>
+    )
+
     private val logger = LoggerFactory.getLogger(javaClass)
     private val updateInterval = 10_000 // as on reuters.com
     private val url = "https://www.reuters.com/assets/jsonWireNews"
@@ -39,6 +44,24 @@ object ReutersWire {
         val headlines: List<Headline>
     )
 
+    fun saveState(): State = State(
+        triggers = triggers,
+        alerts = alerts
+    )
+
+    fun loadState(state: State?) {
+        if (state != null) {
+            val triggers = _triggers
+            triggers.clear()
+            triggers.addAll(state.triggers)
+
+            val alerts = _alerts
+            alerts.clear()
+            state.alerts.forEach { alert ->
+                alerts[alert.headline.headline] = alert
+            }
+        }
+    }
 
     private val headlineListeners = mutableSetOf<HeadlineListener>()
 
@@ -65,28 +88,28 @@ object ReutersWire {
         stopFetching()
     }
 
-    private val triggerList = mutableListOf<TextTrigger>()
-    val triggers get() = triggerList.toList()
+    private val _triggers = mutableListOf<TextTrigger>()
+    val triggers get() = _triggers.toList()
 
     fun addTrigger(trigger: TextTrigger) {
-        triggerList.add(trigger)
+        _triggers.add(trigger)
     }
 
     fun removeTrigger(trigger: TextTrigger) {
-        triggerList.remove(trigger)
+        _triggers.remove(trigger)
     }
 
     private const val alertCacheSize = 100
-    private val alertMap = linkedMapOf<String, HeadlineAlert>()
+    private val _alerts = linkedMapOf<String, HeadlineAlert>()
 
-    val alerts get() = alertMap.values.reversed()
+    val alerts get() = _alerts.values.reversed()
 
     fun clearAlerts() {
         // TODO: read more about mutexes and concurrency in Java
         // What happens if the map is cleared from another (e.g. UI) thread
         // when the `fetch` is running in a coroutine?
         synchronized(mutex) {
-            alertMap.clear()
+            _alerts.clear()
         }
     }
 
@@ -97,17 +120,17 @@ object ReutersWire {
             val headlines = response.headlines
 
             // Make a local copy of triggers before iteration for thread safety.
-            val triggers = triggerList.toList()
+            val triggers = _triggers.toList()
             val newAlerts = mutableListOf<HeadlineAlert>()
             headlines.forEach { headline ->
                 triggers.forEach {
                     val text = headline.headline
                     // Alerts only trigger for the same text once (first time).
-                    if (text !in alertMap && it.check(text)) {
+                    if (text !in _alerts && it.check(text)) {
                         // TODO: remove older alerts and keep newer ones, while keeping no more than alertCacheSize
-                        if (alertMap.size >= alertCacheSize) alertMap.clear()
+                        if (_alerts.size >= alertCacheSize) _alerts.clear()
                         val alert = HeadlineAlert(Date(), headline, it)
-                        alertMap[text] = alert
+                        _alerts[text] = alert
                         newAlerts.add(alert)
                     }
                 }
