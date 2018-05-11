@@ -45,7 +45,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
         }
 
         onUserSelect {
-            browseTo("https://www.reuters.com" + it.url)
+            browseTo(ReutersWire.baseUrl + it.url)
         }
 
         contextmenu {
@@ -81,6 +81,17 @@ class ReutersFragment : Fragment("Reuters Wire") {
                 }
             }
         }
+
+        onUserSelect {
+            browseTo(ReutersWire.baseUrl + it.headline.url)
+        }
+
+        contextmenu {
+            item("Clear All").action {
+                ReutersWire.clearAlerts()
+                updateAlerts()
+            }
+        }
     }
 
     val triggerList: ListView<TextTrigger> = listview {
@@ -114,11 +125,16 @@ class ReutersFragment : Fragment("Reuters Wire") {
                     listview.items = ReutersWire.triggers.observable()
                 }
             }
+            item("Clear All").action {
+                ReutersWire.clearTriggers()
+                updateTriggers()
+            }
         }
     }
 
     override val root = vbox {
         toolbar {
+            padding = Insets(0.0, 10.0, 0.0, 10.0)
             val toggleGroup = ToggleGroup()
             radiobutton ("News", toggleGroup) { isSelected = true }
             radiobutton("Alerts", toggleGroup)

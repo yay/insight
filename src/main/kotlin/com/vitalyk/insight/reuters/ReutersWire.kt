@@ -38,7 +38,8 @@ object ReutersWire {
 
     private val logger = LoggerFactory.getLogger(javaClass)
     private val updateInterval = 10_000 // as on reuters.com
-    private val url = "https://www.reuters.com/assets/jsonWireNews"
+    const val baseUrl = "https://www.reuters.com"
+    private const val url = "$baseUrl/assets/jsonWireNews"
 
     private data class Response(
         val headlines: List<Headline>
@@ -46,7 +47,10 @@ object ReutersWire {
 
     fun saveState(): State = State(
         triggers = triggers,
-        alerts = alerts
+        // Not using `alerts` property, as it returns a reversed copy.
+        // Would have to reverse on load as well.
+        // Instead, save and restore alerts in natural order.
+        alerts = _alerts.values.toList()
     )
 
     fun loadState(state: State?) {
@@ -108,9 +112,13 @@ object ReutersWire {
         // TODO: read more about mutexes and concurrency in Java
         // What happens if the map is cleared from another (e.g. UI) thread
         // when the `fetch` is running in a coroutine?
-        synchronized(mutex) {
+//        synchronized(mutex) {
             _alerts.clear()
-        }
+//        }
+    }
+
+    fun clearTriggers() {
+        _triggers.clear()
     }
 
     private fun fetch() {
