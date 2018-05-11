@@ -28,6 +28,8 @@ data class ReutersHeadlineAlert(
 typealias ReutersWireListener = (headlines: List<ReutersHeadline>, alerts: List<ReutersHeadlineAlert>) -> Unit
 
 object ReutersWire {
+    val mutex = this
+
     private val logger = LoggerFactory.getLogger(javaClass)
     private val updateInterval = 10_000 // as on reuters.com
     private val url = "https://www.reuters.com/assets/jsonWireNews"
@@ -63,7 +65,19 @@ object ReutersWire {
         triggers.remove(trigger)
     }
 
-    private val alerts = mutableMapOf<String, ReutersHeadlineAlert>()
+    private const val alertCacheSize = 100
+    private val alertMap = mutableMapOf<String, ReutersHeadlineAlert>()
+
+    val alerts get() = alertMap.values.toList()
+
+    fun clearAlerts() {
+        // TODO: read more about mutexes and concurrency in Java
+        // What happens if the map is cleared from another (e.g. UI) thread
+        // when the `fetch` is running in a coroutine?
+        synchronized(mutex) {
+            alertMap.clear()
+        }
+    }
 
     private fun fetch() {
         try {
@@ -71,17 +85,24 @@ object ReutersWire {
             val response = objectMapper.readValue(responseText, Response::class.java)
             val headlines = response.headlines
 
+            // Make a local copy of triggers before iteration for thread safety.
+            val triggers = triggers.toList()
+            val newAlerts = mutableListOf<ReutersHeadlineAlert>()
             headlines.forEach { headline ->
                 triggers.forEach {
                     val text = headline.headline
                     // Alerts only trigger for the same text once (first time).
-                    if (text !in alerts && it.check(text)) {
-                        alerts[text] = ReutersHeadlineAlert(Date(), headline, it)
+                    if (text !in alertMap && it.check(text)) {
+                        // TODO: remove older alerts and keep newer ones, while keeping no more than alertCacheSize
+                        if (alertMap.size >= alertCacheSize) alertMap.clear()
+                        val alert = ReutersHeadlineAlert(Date(), headline, it)
+                        alertMap[text] = alert
+                        newAlerts.add(alert)
                     }
                 }
             }
 
-            listeners.forEach { it(headlines, alerts.values.toList()) }
+            listeners.forEach { it(headlines, newAlerts) }
         } catch (e: IOException) {
             logger.warn("Fetching $url failed.")
         }
