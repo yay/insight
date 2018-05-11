@@ -159,6 +159,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
 
     fun addTrigger() {
         val dialog = Dialog<TextTrigger>().apply {
+            initOwner(primaryStage)
             title = "New Trigger"
             headerText = "Enter trigger keywords, a regular expression or a script"
             isResizable = true
