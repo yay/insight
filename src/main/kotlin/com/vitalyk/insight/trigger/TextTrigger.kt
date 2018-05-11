@@ -12,16 +12,16 @@ data class TextTrigger(
 
     fun check(text: String): Boolean {
         return when (type) {
-            TextTrigger.Type.KEYWORDS -> {
+            Type.KEYWORDS -> {
                 val words = getWords(text)
                 val keywords = value.toLowerCase().split(",").map { it.trim() }
                 keywords.all { it in words }
             }
-            TextTrigger.Type.REGEX -> {
+            Type.REGEX -> {
                 val regex = value.toRegex()
                 regex.containsMatchIn(text)
             }
-            TextTrigger.Type.SCRIPT -> {
+            Type.SCRIPT -> {
                 false
             }
         }

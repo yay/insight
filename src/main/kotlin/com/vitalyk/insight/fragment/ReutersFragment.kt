@@ -1,8 +1,9 @@
 package com.vitalyk.insight.fragment
 
 import com.vitalyk.insight.helpers.browseTo
-import com.vitalyk.insight.reuters.ReutersHeadline
-import com.vitalyk.insight.reuters.ReutersHeadlineAlert
+import com.vitalyk.insight.helpers.getResourceAudioClip
+import com.vitalyk.insight.reuters.Headline
+import com.vitalyk.insight.reuters.HeadlineAlert
 import com.vitalyk.insight.reuters.ReutersWire
 import com.vitalyk.insight.trigger.TextTrigger
 import com.vitalyk.insight.ui.PlusButton
@@ -21,7 +22,7 @@ import java.util.*
 // https://www.reuters.com/assets/jsonWireNews?startTime=1525694056000
 
 class ReutersFragment : Fragment("Reuters Wire") {
-    val newsList: ListView<ReutersHeadline> = listview {
+    val newsList: ListView<Headline> = listview {
         vgrow = Priority.ALWAYS
         managedProperty().bind(visibleProperty())
 
@@ -56,7 +57,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
         }
     }
 
-    val alertList: ListView<ReutersHeadlineAlert> = listview {
+    val alertList: ListView<HeadlineAlert> = listview {
         vgrow = Priority.ALWAYS
         managedProperty().bind(visibleProperty())
         isVisible = false
@@ -132,63 +133,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
             })
 
             this += PlusButton("New Trigger...").apply {
-                action {
-                    val dialog = Dialog<TextTrigger>().apply {
-                        title = "New Trigger"
-                        headerText = "Enter trigger keywords, a regular expression or a script"
-                        isResizable = true
-
-                        val toggleGroup = ToggleGroup()
-                        val textArea = TextArea().apply {
-                            vgrow = Priority.ALWAYS
-                        }
-
-                        val add = ButtonType("Add", ButtonBar.ButtonData.OK_DONE)
-                        val cancel = ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE)
-
-                        dialogPane.buttonTypes.addAll(add, cancel)
-
-                        dialogPane.content = VBox().apply {
-                            hbox {
-                                spacing = 10.0
-                                padding = Insets(0.0, 0.0, 10.0, 0.0)
-                                radiobutton("Keywords", toggleGroup) { isSelected = true }
-                                radiobutton("RegEx", toggleGroup)
-                                radiobutton("Script", toggleGroup)
-                            }
-                            this += textArea
-                        }
-
-                        var triggerType = TextTrigger.Type.KEYWORDS
-                        toggleGroup.selectedToggleProperty().addListener(ChangeListener { _, _, _ ->
-                            toggleGroup.selectedToggle?.let {
-                                val index = (it as RadioButton).indexInParent
-                                when (index) {
-                                    0 -> triggerType = TextTrigger.Type.KEYWORDS
-                                    1 -> triggerType = TextTrigger.Type.REGEX
-                                    2 -> triggerType = TextTrigger.Type.SCRIPT
-                                }
-                            }
-                        })
-
-                        setResultConverter {
-                            val selectedToggle = toggleGroup.selectedToggle
-                            if (it == add && selectedToggle != null) {
-                                TextTrigger(textArea.text, triggerType)
-                            } else {
-                                null
-                            }
-                        }
-                    }
-
-                    val result = dialog.showAndWait()
-
-                    if (result.isPresent) {
-                        println(result.get())
-                        ReutersWire.addTrigger(result.get())
-                        triggerList.items = ReutersWire.triggers.observable()
-                    }
-                }
+                action { addTrigger() }
             }
         }
         this += newsList
@@ -196,11 +141,76 @@ class ReutersFragment : Fragment("Reuters Wire") {
         this += triggerList
     }
 
+    fun addTrigger() {
+        val dialog = Dialog<TextTrigger>().apply {
+            title = "New Trigger"
+            headerText = "Enter trigger keywords, a regular expression or a script"
+            isResizable = true
+
+            val toggleGroup = ToggleGroup()
+            val textArea = TextArea().apply {
+                vgrow = Priority.ALWAYS
+            }
+
+            val add = ButtonType("Add", ButtonBar.ButtonData.OK_DONE)
+            val cancel = ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE)
+
+            dialogPane.buttonTypes.addAll(add, cancel)
+
+            dialogPane.content = VBox().apply {
+                hbox {
+                    spacing = 10.0
+                    padding = Insets(0.0, 0.0, 10.0, 0.0)
+                    radiobutton("Keywords", toggleGroup) { isSelected = true }
+                    radiobutton("RegEx", toggleGroup)
+                    radiobutton("Script", toggleGroup)
+                }
+                this += textArea
+            }
+
+            var triggerType = TextTrigger.Type.KEYWORDS
+            toggleGroup.selectedToggleProperty().addListener(ChangeListener { _, _, _ ->
+                toggleGroup.selectedToggle?.let {
+                    val index = (it as RadioButton).indexInParent
+                    when (index) {
+                        0 -> triggerType = TextTrigger.Type.KEYWORDS
+                        1 -> triggerType = TextTrigger.Type.REGEX
+                        2 -> triggerType = TextTrigger.Type.SCRIPT
+                    }
+                }
+            })
+
+            setResultConverter {
+                val selectedToggle = toggleGroup.selectedToggle
+                if (it == add && selectedToggle != null) {
+                    TextTrigger(textArea.text, triggerType)
+                } else {
+                    null
+                }
+            }
+        }
+
+        val result = dialog.showAndWait()
+
+        if (result.isPresent) {
+            println(result.get())
+            ReutersWire.addTrigger(result.get())
+            triggerList.items = ReutersWire.triggers.observable()
+        }
+    }
+
     init {
-        ReutersWire.addListener { headlines, alerts ->
-            runLater {
-                newsList.items = headlines.observable()
-                alertList.items = alerts.observable()
+        ReutersWire.apply {
+            addHeadlineListener { headlines ->
+                runLater {
+                    newsList.items = headlines.observable()
+                }
+            }
+            addAlertListener { _ ->
+                runLater {
+                    getResourceAudioClip("/sounds/alerts/chime.wav").play()
+                    alertList.items = alerts.observable()
+                }
             }
         }
     }

@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.util.*
 
-data class ReutersHeadline(
+data class Headline(
     val id: String,
     val headline: String,
     val dateMillis: String,
@@ -19,56 +19,67 @@ data class ReutersHeadline(
     val mainPicUrl: String
 )
 
-data class ReutersHeadlineAlert(
+data class HeadlineAlert(
     val date: Date,
-    val headline: ReutersHeadline,
+    val headline: Headline,
     val trigger: TextTrigger
 )
 
-typealias ReutersWireListener = (headlines: List<ReutersHeadline>, alerts: List<ReutersHeadlineAlert>) -> Unit
+typealias HeadlineListener = (headlines: List<Headline>) -> Unit
+typealias AlertListener = (alerts: List<HeadlineAlert>) -> Unit
 
 object ReutersWire {
-    val mutex = this
+    private val mutex = this
 
     private val logger = LoggerFactory.getLogger(javaClass)
     private val updateInterval = 10_000 // as on reuters.com
     private val url = "https://www.reuters.com/assets/jsonWireNews"
 
-    private val listeners = mutableSetOf<ReutersWireListener>()
-
     private data class Response(
-        val headlines: List<ReutersHeadline>
+        val headlines: List<Headline>
     )
 
-    fun addListener(listener: ReutersWireListener) {
-        listeners.add(listener)
-        val job = fetchJob
-        if (job == null || !job.isActive) {
-            start()
-        }
+
+    private val headlineListeners = mutableSetOf<HeadlineListener>()
+
+    fun addHeadlineListener(listener: HeadlineListener) {
+        headlineListeners.add(listener)
+        startFetching()
     }
 
-    fun removeListener(listener: ReutersWireListener) {
-        listeners.remove(listener)
-        if (listeners.isEmpty()) {
-            stop()
-        }
+    fun removeHeadlineListener(listener: HeadlineListener) {
+        headlineListeners.remove(listener)
+        stopFetching()
     }
 
-    val triggers = mutableListOf<TextTrigger>()
+
+    private val alertListeners = mutableListOf<AlertListener>()
+
+    fun addAlertListener(listener: AlertListener) {
+        alertListeners.add(listener)
+        startFetching()
+    }
+
+    fun removeAlertListener(listener: AlertListener) {
+        alertListeners.remove(listener)
+        stopFetching()
+    }
+
+    private val triggerList = mutableListOf<TextTrigger>()
+    val triggers get() = triggerList.toList()
 
     fun addTrigger(trigger: TextTrigger) {
-        triggers.add(trigger)
+        triggerList.add(trigger)
     }
 
     fun removeTrigger(trigger: TextTrigger) {
-        triggers.remove(trigger)
+        triggerList.remove(trigger)
     }
 
     private const val alertCacheSize = 100
-    private val alertMap = mutableMapOf<String, ReutersHeadlineAlert>()
+    private val alertMap = linkedMapOf<String, HeadlineAlert>()
 
-    val alerts get() = alertMap.values.toList()
+    val alerts get() = alertMap.values.reversed()
 
     fun clearAlerts() {
         // TODO: read more about mutexes and concurrency in Java
@@ -86,8 +97,8 @@ object ReutersWire {
             val headlines = response.headlines
 
             // Make a local copy of triggers before iteration for thread safety.
-            val triggers = triggers.toList()
-            val newAlerts = mutableListOf<ReutersHeadlineAlert>()
+            val triggers = triggerList.toList()
+            val newAlerts = mutableListOf<HeadlineAlert>()
             headlines.forEach { headline ->
                 triggers.forEach {
                     val text = headline.headline
@@ -95,14 +106,19 @@ object ReutersWire {
                     if (text !in alertMap && it.check(text)) {
                         // TODO: remove older alerts and keep newer ones, while keeping no more than alertCacheSize
                         if (alertMap.size >= alertCacheSize) alertMap.clear()
-                        val alert = ReutersHeadlineAlert(Date(), headline, it)
+                        val alert = HeadlineAlert(Date(), headline, it)
                         alertMap[text] = alert
                         newAlerts.add(alert)
                     }
                 }
             }
 
-            listeners.forEach { it(headlines, newAlerts) }
+            if (headlines.isNotEmpty())
+                headlineListeners.forEach { it(headlines) }
+
+            if (newAlerts.isNotEmpty())
+                alertListeners.forEach { it(newAlerts) }
+
         } catch (e: IOException) {
             logger.warn("Fetching $url failed.")
         }
@@ -110,16 +126,21 @@ object ReutersWire {
 
     var fetchJob: Job? = null
 
-    private fun start() {
-        fetchJob = launch {
-            while (isActive && listeners.isNotEmpty()) {
-                fetch()
-                delay(updateInterval)
+    private fun startFetching() {
+        val job = fetchJob
+        if (job == null || !job.isActive) {
+            fetchJob = launch {
+                while (isActive && headlineListeners.isNotEmpty()) {
+                    fetch()
+                    delay(updateInterval)
+                }
             }
         }
     }
 
-    private fun stop() {
-        fetchJob?.cancel()
+    private fun stopFetching() {
+        if (headlineListeners.isEmpty() && alertListeners.isEmpty()) {
+            fetchJob?.cancel()
+        }
     }
 }
