@@ -103,6 +103,13 @@ object ReutersWire {
         _triggers.remove(trigger)
     }
 
+    // Same stories can reappear in headlines with more updates.
+    // To prevent alerting the user repeatedly, we keep an ordered map
+    // of headlines to recently triggered alerts. This also allows us
+    // to know at what time the news first surfaced.
+    // If a trigger is recurring, it will result in an alert,
+    // even if the headline is already in the cache, but this will
+    // not violate the order of cache items.
     private const val alertCacheSize = 100
     private val _alerts = linkedMapOf<String, HeadlineAlert>()
 
@@ -134,7 +141,7 @@ object ReutersWire {
                 triggers.forEach {
                     val text = headline.headline
                     // Alerts only trigger for the same text once (first time).
-                    if (text !in _alerts && it.check(text)) {
+                    if ((it.recurring || text !in _alerts) && it.check(text)) {
                         // TODO: remove older alerts and keep newer ones, while keeping no more than alertCacheSize
                         if (_alerts.size >= alertCacheSize) _alerts.clear()
                         val alert = HeadlineAlert(Date(), headline, it)

@@ -80,6 +80,10 @@ dependencies {
 
     compile 'com.squareup.okhttp3:okhttp:3.10.0'
     compile 'no.tornado:tornadofx:1.7.15'
+    // https://bitbucket.org/Jerady/fontawesomefx/src/master/
+    // https://github.com/Jerady/fontawesomefx-examples
+    compile 'de.jensd:fontawesomefx-materialdesignfont:1.7.22'
+
     compile 'org.apache.commons:commons-csv:1.5' // CSV parser
     compile 'org.jsoup:jsoup:1.11.2' // HTML parser
 

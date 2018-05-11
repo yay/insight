@@ -7,7 +7,11 @@ import com.vitalyk.insight.reuters.HeadlineAlert
 import com.vitalyk.insight.reuters.ReutersWire
 import com.vitalyk.insight.trigger.TextTrigger
 import com.vitalyk.insight.ui.PlusButton
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon
+import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView
+import javafx.beans.property.SimpleBooleanProperty
 import javafx.geometry.Insets
+import javafx.geometry.Pos
 import javafx.scene.control.*
 import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
@@ -100,10 +104,21 @@ class ReutersFragment : Fragment("Reuters Wire") {
         managedProperty().bind(visibleProperty())
         isVisible = false
 
+        val recurringIcon = MaterialDesignIconView(MaterialDesignIcon.REFRESH).apply {
+            glyphSize = 16.0
+        }
+
         cellCache { trigger ->
             vbox {
-                label(trigger.type.name) {
-                    textFill = Color.GRAY
+                hbox {
+                    alignment = Pos.CENTER_LEFT
+                    spacing = 5.0
+                    label(trigger.type.name) {
+                        textFill = Color.GRAY
+                    }
+                    if (trigger.recurring) {
+                        this += recurringIcon
+                    }
                 }
                 label(trigger.value) {
                     textFill = Color.BLACK
@@ -152,6 +167,8 @@ class ReutersFragment : Fragment("Reuters Wire") {
                 action { addTrigger() }
             }
         }
+
+        // Only one list is visible at a time.
         this += newsList
         this += alertList
         this += triggerList
@@ -164,6 +181,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
             headerText = "Enter trigger keywords, a regular expression or a script"
             isResizable = true
 
+            val recurringProperty = SimpleBooleanProperty(false)
             val toggleGroup = ToggleGroup()
             val textArea = TextArea().apply {
                 vgrow = Priority.ALWAYS
@@ -181,6 +199,8 @@ class ReutersFragment : Fragment("Reuters Wire") {
                     radiobutton("Keywords", toggleGroup) { isSelected = true }
                     radiobutton("RegEx", toggleGroup)
                     radiobutton("Script", toggleGroup)
+                    pane { hgrow = Priority.ALWAYS } // spacer
+                    checkbox("Recurring", recurringProperty)
                 }
                 this += textArea
             }
@@ -200,7 +220,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
             setResultConverter {
                 val selectedToggle = toggleGroup.selectedToggle
                 if (it == add && selectedToggle != null) {
-                    TextTrigger(textArea.text, triggerType)
+                    TextTrigger(textArea.text, triggerType, recurringProperty.value)
                 } else {
                     null
                 }

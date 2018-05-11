@@ -2,7 +2,8 @@ package com.vitalyk.insight.trigger
 
 data class TextTrigger(
     val value: String,
-    val type: Type
+    val type: Type,
+    val recurring: Boolean = false
 ) {
     enum class Type {
         KEYWORDS,

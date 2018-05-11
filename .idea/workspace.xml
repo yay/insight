@@ -2385,7 +2385,10 @@
       <change afterPath="$PROJECT_DIR$/../kubed/kubed-geo/out/production/classes/kubed/geo/tile/Tiler.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../kubed/kubed-geo/out/production/resources/world.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/ReutersFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/ReutersFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/reuters/ReutersWire.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/reuters/ReutersWire.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/trigger/TextTrigger.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/trigger/TextTrigger.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../kubed/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../kubed/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../kubed/.idea/modules/kubed-core/kubed-core.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../kubed/.idea/modules/kubed-core/kubed-core.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../kubed/.idea/modules/kubed-demos/kubed-demos.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../kubed/.idea/modules/kubed-demos/kubed-demos.iml" afterDir="false" />
@@ -2505,14 +2508,14 @@
     <favorites_list name="insight" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.4918957">
+    <splitter split-orientation="horizontal" split-proportion="0.49048626">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="Insight.kt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/Insight.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="557">
-                  <caret line="66" column="18" selection-start-line="66" selection-start-column="18" selection-end-line="66" selection-end-column="18" />
+                <state relative-caret-position="270">
+                  <caret line="34" column="81" selection-start-line="34" selection-start-column="81" selection-end-line="34" selection-end-column="81" />
                 </state>
               </provider>
             </entry>
@@ -2521,7 +2524,7 @@
             <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.10.0/e99b7b608968f16b07104b93e62cb90701174d0/okhttp-3.10.0-sources.jar!/okhttp3/OkHttpClient.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="9750">
-                  <caret line="767" column="33" selection-start-line="767" selection-start-column="33" selection-end-line="767" selection-end-column="33" />
+                  <caret line="767" column="66" selection-start-line="767" selection-start-column="66" selection-end-line="767" selection-end-column="66" />
                 </state>
               </provider>
             </entry>
@@ -2529,7 +2532,7 @@
           <file leaf-file-name="Watchlist.kt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Watchlist.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="285">
+                <state relative-caret-position="330">
                   <caret line="22" column="37" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
                   <folding>
                     <element signature="e#33#161#0" expanded="true" />
@@ -2541,8 +2544,20 @@
           <file leaf-file-name="ReutersFragment.kt" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/ReutersFragment.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="140">
-                  <caret line="161" column="35" lean-forward="true" selection-start-line="161" selection-start-column="35" selection-end-line="161" selection-end-column="35" />
+                <state relative-caret-position="253">
+                  <caret line="114" column="33" lean-forward="true" selection-start-line="114" selection-start-column="33" selection-end-line="114" selection-end-column="33" />
+                  <folding>
+                    <element signature="e#38#663#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/build.gradle">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="269">
+                  <caret line="83" column="55" selection-start-line="83" selection-start-column="55" selection-end-line="83" selection-end-column="55" />
                 </state>
               </provider>
             </entry>
@@ -2566,8 +2581,8 @@
           <file leaf-file-name="TextTrigger.kt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/trigger/TextTrigger.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="45">
-                  <caret line="3" column="21" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
+                <state relative-caret-position="75">
+                  <caret line="5" column="34" selection-start-line="5" selection-start-column="34" selection-end-line="5" selection-end-column="34" />
                 </state>
               </provider>
             </entry>
@@ -2575,8 +2590,8 @@
           <file leaf-file-name="ReutersWire.kt" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/reuters/ReutersWire.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="437">
-                  <caret line="116" column="11" selection-start-line="116" selection-start-column="11" selection-end-line="116" selection-end-column="11" />
+                <state relative-caret-position="242">
+                  <caret line="156" selection-start-line="156" selection-end-line="156" />
                   <folding>
                     <element signature="e#37#382#0" expanded="true" />
                   </folding>
@@ -3026,9 +3041,9 @@
       <map>
         <entry key="$USER_HOME$/Desktop/DemoFX" value="1487166188000" />
         <entry key="$USER_HOME$/Desktop/kool" value="2973376708000" />
-        <entry key="$PROJECT_DIR$" value="9135633072000" />
+        <entry key="$PROJECT_DIR$" value="9135709093000" />
         <entry key="$PROJECT_DIR$/.gradle" value="0" />
-        <entry key="$PROJECT_DIR$/build.gradle" value="2664221312" />
+        <entry key="$PROJECT_DIR$/build.gradle" value="3776031573" />
         <entry key="$PROJECT_DIR$/dataviz/build.gradle" value="0" />
         <entry key="$PROJECT_DIR$/generator/build.gradle" value="1994148878" />
         <entry key="$PROJECT_DIR$/gradle.properties" value="0" />
@@ -3704,15 +3719,15 @@
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/yahoo/YahooNews.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/WatchlistFragment.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/TestView.kt" />
-        <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/ui/PlusButton.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/helpers/FX.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/trigger/TextTrigger.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Watchlist.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/main/AppSettings.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/Insight.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/reuters/ReutersWire.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/main/Http.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/trigger/TextTrigger.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/reuters/ReutersWire.kt" />
+        <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/ReutersFragment.kt" />
       </list>
     </option>
@@ -3743,6 +3758,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -3811,50 +3827,10 @@
               <item name="kotlin" type="462c0819:PsiDirectoryNode" />
               <item name="insight" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; 1.8 &gt;" type="70bed36:NamedLibraryElementNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; 1.8 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="jfxrt.jar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; 1.8 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="jfxrt.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="javafx" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; 1.8 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="jfxrt.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="javafx" type="462c0819:PsiDirectoryNode" />
-              <item name="scene" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; 1.8 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="jfxrt.jar" type="462c0819:PsiDirectoryNode" />
-              <item name="javafx" type="462c0819:PsiDirectoryNode" />
-              <item name="scene" type="462c0819:PsiDirectoryNode" />
-              <item name="control" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -3938,29 +3914,6 @@
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-    </configuration>
-    <configuration name="FXKtTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="insight_test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.vitalyk.insight.helpers.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.vitalyk.insight.helpers" />
-      <option name="MAIN_CLASS_NAME" value="com.vitalyk.insight.helpers.FXKtTest" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <patterns />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -4046,7 +3999,6 @@
       <item itemvalue="Gradle.insight [build]" />
       <item itemvalue="Kotlin.com.vitalyk.insight.Insight" />
       <item itemvalue="Kotlin.com.vitalyk.insight.helpers.FXKt" />
-      <item itemvalue="JUnit.FXKtTest" />
       <item itemvalue="Kotlin.com.vitalyk.insight.trigger.TextTriggerKt" />
     </list>
     <recent_temporary>
@@ -4055,7 +4007,6 @@
         <item itemvalue="Gradle.insight [build]" />
         <item itemvalue="Kotlin.com.vitalyk.insight.trigger.TextTriggerKt" />
         <item itemvalue="Kotlin.com.vitalyk.insight.helpers.FXKt" />
-        <item itemvalue="JUnit.FXKtTest" />
       </list>
     </recent_temporary>
   </component>
@@ -4104,33 +4055,33 @@
     <frame x="0" y="23" width="1440" height="873" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32889965" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32860824" />
+      <window_info anchor="bottom" id="Messages" order="7" sideWeight="0.49605057" weight="0.26417527" />
       <window_info anchor="right" id="Palette&#9;" order="2" />
       <window_info anchor="bottom" id="Event Log" order="14" sideWeight="0.50528544" side_tool="true" weight="0.35041842" />
       <window_info id="Maven Projects" order="4" weight="0.15481833" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4947146" weight="0.36597937" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4947146" visible="true" weight="0.36597937" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.36597937" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49605057" weight="0.32860824" />
       <window_info id="Designer" order="7" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1663143" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.1663143" />
+      <window_info anchor="bottom" id="Build" order="10" weight="0.33376288" />
       <window_info id="Gradle" order="2" weight="0.15785764" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.24749643" />
       <window_info id="Ant Build" order="5" weight="0.24947146" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4780928" />
       <window_info id="Favorites" order="8" side_tool="true" weight="0.32904148" />
+      <window_info anchor="bottom" id="Run with VisualVM" order="11" />
       <window_info anchor="right" id="Coverage" order="3" side_tool="true" weight="0.32960597" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="1" weight="0.25" />
       <window_info id="Kotlin Bytecode" order="1" weight="0.14270669" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Debug with VisualVM" order="13" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="bottom" id="Messages" order="7" sideWeight="0.49605057" weight="0.26417527" />
       <window_info anchor="bottom" id="JProfiler" order="12" />
       <window_info id="Database" order="3" weight="0.18322763" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Build" order="10" weight="0.33376288" />
-      <window_info anchor="bottom" id="Run with VisualVM" order="11" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3466495" />
     </layout>
   </component>
@@ -4186,7 +4137,7 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="123" />
+      <option name="time" value="124" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -4243,34 +4194,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.controlsfx/controlsfx/8.40.14/a3b2896b09d8fb1da649f632a30e673a79535e80/controlsfx-8.40.14-sources.jar!/org/controlsfx/control/SegmentedButton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
-          <caret line="162" column="11" selection-start-line="162" selection-start-column="11" selection-end-line="162" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/no.tornado/tornadofx/1.7.15/7a1a9c0e64471e83ca0943aec716dfe2dd1a9754/tornadofx-1.7.15-sources.jar!/tornadofx/Animation.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="421" column="13" selection-start-line="421" selection-start-column="13" selection-end-line="421" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/javafx-src.zip!/javafx/scene/control/ToggleButton.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="90" column="39" selection-start-line="90" selection-start-column="39" selection-end-line="90" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/javafx-src.zip!/javafx/scene/control/Labeled.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="245" column="100" selection-start-line="245" selection-start-column="100" selection-end-line="245" selection-end-column="100" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/javafx-src.zip!/javafx/scene/Node.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="70">
@@ -4355,13 +4278,6 @@
           <folding>
             <element signature="e#34#860#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/no.tornado/tornadofx/1.7.15/7a1a9c0e64471e83ca0943aec716dfe2dd1a9754/tornadofx-1.7.15-sources.jar!/tornadofx/Controls.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="280" column="9" selection-start-line="280" selection-start-column="9" selection-end-line="280" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -4483,13 +4399,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/trigger/TextTrigger.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="21" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/WatchlistView.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="271">
@@ -4511,30 +4420,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/reuters/ReutersWire.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="116" column="11" selection-start-line="116" selection-start-column="11" selection-end-line="116" selection-end-column="11" />
-          <folding>
-            <element signature="e#37#382#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/main/AppSettings.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
           <caret line="2" column="40" lean-forward="true" selection-start-line="2" selection-start-column="40" selection-end-line="2" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Watchlist.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="22" column="37" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
-          <folding>
-            <element signature="e#33#161#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -4569,34 +4458,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/ui/FlashingTableCell.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="930">
-          <caret line="71" column="13" selection-start-line="71" selection-start-column="13" selection-end-line="71" selection-end-column="13" />
-          <folding>
-            <element signature="e#32#369#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="550">
-          <caret line="82" column="21" selection-start-line="82" selection-start-column="21" selection-end-line="82" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.10.0/e99b7b608968f16b07104b93e62cb90701174d0/okhttp-3.10.0-sources.jar!/okhttp3/ConnectionPool.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="260">
           <caret line="89" column="49" lean-forward="true" selection-start-line="89" selection-start-column="49" selection-end-line="89" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.10.0/e99b7b608968f16b07104b93e62cb90701174d0/okhttp-3.10.0-sources.jar!/okhttp3/OkHttpClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9750">
-          <caret line="767" column="33" selection-start-line="767" selection-start-column="33" selection-end-line="767" selection-end-column="33" />
         </state>
       </provider>
     </entry>
@@ -4607,13 +4472,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/Insight.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="557">
-          <caret line="66" column="18" selection-start-line="66" selection-start-column="18" selection-end-line="66" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/no.tornado/tornadofx/1.7.15/7a1a9c0e64471e83ca0943aec716dfe2dd1a9754/tornadofx-1.7.15-sources.jar!/tornadofx/Component.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -4621,10 +4479,111 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/ui/FlashingTableCell.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="930">
+          <caret line="71" column="13" selection-start-line="71" selection-start-column="13" selection-end-line="71" selection-end-column="13" />
+          <folding>
+            <element signature="e#32#369#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/Insight.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="34" column="81" selection-start-line="34" selection-start-column="81" selection-end-line="34" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.10.0/e99b7b608968f16b07104b93e62cb90701174d0/okhttp-3.10.0-sources.jar!/okhttp3/OkHttpClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9750">
+          <caret line="767" column="66" selection-start-line="767" selection-start-column="66" selection-end-line="767" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/trigger/TextTrigger.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="34" selection-start-line="5" selection-start-column="34" selection-end-line="5" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Watchlist.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="37" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
+          <folding>
+            <element signature="e#33#161#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/no.tornado/tornadofx/1.7.15/7a1a9c0e64471e83ca0943aec716dfe2dd1a9754/tornadofx-1.7.15-sources.jar!/tornadofx/Controls.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="133" column="40" lean-forward="true" selection-start-line="133" selection-start-column="40" selection-end-line="133" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.41/dc11619be6c45157a142d3753017544896da8e69/kotlin-stdlib-1.2.41-sources.jar!/kotlin/Enum.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="29" column="21" selection-start-line="29" selection-start-column="21" selection-end-line="29" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.jensd/fontawesomefx-materialdesignfont/1.7.22-4/12feada3c0fbcbb4f3c508d52335fdc481e50551/fontawesomefx-materialdesignfont-1.7.22-4-sources.jar!/de/jensd/fx/glyphs/materialdesignicons/MaterialDesignIconView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="19" column="30" lean-forward="true" selection-start-line="19" selection-start-column="30" selection-end-line="19" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1661#1662#0" expanded="true" />
+            <element signature="e#1694#1695#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/reuters/ReutersWire.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="156" selection-start-line="156" selection-end-line="156" />
+          <folding>
+            <element signature="e#37#382#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/de.jensd/fontawesomefx-materialdesignfont/2.0.26-9.1.2/99de8cc8177b6ec4cc38a0c09cd2bb1164ca8b33/fontawesomefx-materialdesignfont-2.0.26-9.1.2-sources.jar!/de/jensd/fx/glyphs/materialdesignicons/MaterialDesignIcon.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="22" column="51" lean-forward="true" selection-start-line="22" selection-start-column="51" selection-end-line="22" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="269">
+          <caret line="83" column="55" selection-start-line="83" selection-start-column="55" selection-end-line="83" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/javafx-src.zip!/javafx/scene/layout/HBox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="106">
+          <caret line="325" column="5" lean-forward="true" selection-start-line="325" selection-start-column="5" selection-end-line="325" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/ReutersFragment.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="161" column="35" lean-forward="true" selection-start-line="161" selection-start-column="35" selection-end-line="161" selection-end-column="35" />
+        <state relative-caret-position="253">
+          <caret line="114" column="33" lean-forward="true" selection-start-line="114" selection-start-column="33" selection-end-line="114" selection-end-column="33" />
+          <folding>
+            <element signature="e#38#663#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
