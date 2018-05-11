@@ -58,6 +58,7 @@ object HttpClients {
             // See: https://square.github.io/okhttp/3.x/okhttp/okhttp3/OkHttpClient.html
             // and PlatformImpl.exit() docs.
             // Also: https://publicobject.com/2015/01/02/okio-watchdog/
+            //       https://github.com/square/okhttp/issues/3957
             it.dispatcher().executorService().shutdown()
             it.connectionPool().evictAll()
         }
