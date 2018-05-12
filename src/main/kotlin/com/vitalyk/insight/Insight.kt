@@ -30,7 +30,7 @@ class Insight : App(MainView::class, Styles::class) {
         if (!Settings.load(AppSettings) {
             Watchlist.restore(watchlists)
             ReutersWire.loadState(reutersWire)
-        }) alert(Alert.AlertType.ERROR, "Application settings failed to load (corrupted).")
+        }) alert(Alert.AlertType.ERROR, "Application settings failed to load (missing or corrupted).")
 
         // Note: the shutdown hook won"t execute until the OkHttp threads are shut down.
         Settings.saveOnShutdown(AppSettings) {

@@ -38,6 +38,7 @@ object Settings {
         try {
             mapper.readValue(file, (obj as Any)::class.java)
         } catch (e: MismatchedInputException) {
+            e.printStackTrace()
             return false
         }
         block(obj)

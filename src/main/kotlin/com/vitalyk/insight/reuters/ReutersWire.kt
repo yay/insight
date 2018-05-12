@@ -1,5 +1,6 @@
 package com.vitalyk.insight.reuters
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.vitalyk.insight.helpers.objectMapper
 import com.vitalyk.insight.main.httpGet
 import com.vitalyk.insight.trigger.TextTrigger
@@ -10,30 +11,30 @@ import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.util.*
 
-data class Headline(
+data class Story(
     val id: String,
     val headline: String,
-    val dateMillis: String,
+    @JsonProperty("dateMillis")
+    val date: Date,
     val formattedDate: String,
     val url: String,
     val mainPicUrl: String
 )
 
-data class HeadlineAlert(
+data class StoryAlert(
     val date: Date,
-    val headline: Headline,
-    val trigger: TextTrigger
+    val story: Story
 )
 
-typealias HeadlineListener = (headlines: List<Headline>) -> Unit
-typealias AlertListener = (alerts: List<HeadlineAlert>) -> Unit
+typealias StoryListener = (stories: List<Story>) -> Unit
+typealias AlertListener = (alerts: List<StoryAlert>) -> Unit
 
 object ReutersWire {
-    private val mutex = this
+//    private val mutex = this
 
     data class State(
         val triggers: List<TextTrigger>,
-        val alerts: List<HeadlineAlert>
+        val alerts: List<StoryAlert>
     )
 
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -42,7 +43,7 @@ object ReutersWire {
     private const val url = "$baseUrl/assets/jsonWireNews"
 
     private data class Response(
-        val headlines: List<Headline>
+        val headlines: List<Story>
     )
 
     fun saveState(): State = State(
@@ -62,20 +63,20 @@ object ReutersWire {
             val alerts = _alerts
             alerts.clear()
             state.alerts.forEach { alert ->
-                alerts[alert.headline.headline] = alert
+                alerts[alert.story.headline] = alert
             }
         }
     }
 
-    private val headlineListeners = mutableSetOf<HeadlineListener>()
+    private val storyListeners = mutableSetOf<StoryListener>()
 
-    fun addHeadlineListener(listener: HeadlineListener) {
-        headlineListeners.add(listener)
+    fun addStoryListener(listener: StoryListener) {
+        storyListeners.add(listener)
         startFetching()
     }
 
-    fun removeHeadlineListener(listener: HeadlineListener) {
-        headlineListeners.remove(listener)
+    fun removeStoryListener(listener: StoryListener) {
+        storyListeners.remove(listener)
         stopFetching()
     }
 
@@ -103,15 +104,15 @@ object ReutersWire {
         _triggers.remove(trigger)
     }
 
-    // Same stories can reappear in headlines with more updates.
+    // Same stories can reappear with more updates.
     // To prevent alerting the user repeatedly, we keep an ordered map
-    // of headlines to recently triggered alerts. This also allows us
-    // to know at what time the news first surfaced.
+    // of stories to recently triggered alerts. This also allows us
+    // to know at what time the news story first surfaced.
     // If a trigger is recurring, it will result in an alert,
-    // even if the headline is already in the cache, but this will
+    // even if the story is already in the cache, but this will
     // not violate the order of cache items.
     private const val alertCacheSize = 100
-    private val _alerts = linkedMapOf<String, HeadlineAlert>()
+    private val _alerts = linkedMapOf<String, StoryAlert>()
 
     val alerts get() = _alerts.values.reversed()
 
@@ -132,27 +133,29 @@ object ReutersWire {
         try {
             val responseText = httpGet(url)
             val response = objectMapper.readValue(responseText, Response::class.java)
-            val headlines = response.headlines
+            val stories = response.headlines
 
             // Make a local copy of triggers before iteration for thread safety.
             val triggers = _triggers.toList()
-            val newAlerts = mutableListOf<HeadlineAlert>()
-            headlines.forEach { headline ->
-                triggers.forEach {
-                    val text = headline.headline
-                    // Alerts only trigger for the same text once (first time).
-                    if ((it.recurring || text !in _alerts) && it.check(text)) {
+            val newAlerts = mutableListOf<StoryAlert>()
+            stories.forEach { story ->
+                triggers.forEach { trigger ->
+                    val text = story.headline
+                    val storyUpdate = _alerts[text]?.let {
+                        it.story.date != story.date
+                    } ?: false
+                    if ((trigger.recurring && storyUpdate || text !in _alerts) && trigger.check(text)) {
                         // TODO: remove older alerts and keep newer ones, while keeping no more than alertCacheSize
                         if (_alerts.size >= alertCacheSize) _alerts.clear()
-                        val alert = HeadlineAlert(Date(), headline, it)
+                        val alert = StoryAlert(Date(), story)
                         _alerts[text] = alert
                         newAlerts.add(alert)
                     }
                 }
             }
 
-            if (headlines.isNotEmpty())
-                headlineListeners.forEach { it(headlines) }
+            if (stories.isNotEmpty())
+                storyListeners.forEach { it(stories) }
 
             if (newAlerts.isNotEmpty())
                 alertListeners.forEach { it(newAlerts) }
@@ -168,7 +171,7 @@ object ReutersWire {
         val job = fetchJob
         if (job == null || !job.isActive) {
             fetchJob = launch {
-                while (isActive && headlineListeners.isNotEmpty()) {
+                while (isActive && storyListeners.isNotEmpty()) {
                     fetch()
                     delay(updateInterval)
                 }
@@ -177,7 +180,7 @@ object ReutersWire {
     }
 
     private fun stopFetching() {
-        if (headlineListeners.isEmpty() && alertListeners.isEmpty()) {
+        if (storyListeners.isEmpty() && alertListeners.isEmpty()) {
             fetchJob?.cancel()
         }
     }

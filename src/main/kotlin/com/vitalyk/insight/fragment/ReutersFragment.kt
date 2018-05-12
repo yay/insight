@@ -2,10 +2,10 @@ package com.vitalyk.insight.fragment
 
 import com.vitalyk.insight.helpers.browseTo
 import com.vitalyk.insight.helpers.getResourceAudioClip
-import com.vitalyk.insight.reuters.Headline
-import com.vitalyk.insight.reuters.HeadlineAlert
+import com.vitalyk.insight.reuters.Story
+import com.vitalyk.insight.reuters.StoryAlert
 import com.vitalyk.insight.reuters.ReutersWire
-import com.vitalyk.insight.trigger.TextTrigger
+import com.vitalyk.insight.trigger.*
 import com.vitalyk.insight.ui.PlusButton
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView
@@ -26,16 +26,16 @@ import java.util.*
 // https://www.reuters.com/assets/jsonWireNews?startTime=1525694056000
 
 class ReutersFragment : Fragment("Reuters Wire") {
-    val newsList: ListView<Headline> = listview {
+    val newsList: ListView<Story> = listview {
         vgrow = Priority.ALWAYS
         managedProperty().bind(visibleProperty())
 
-        cellCache { headline ->
+        cellCache { story ->
             vbox {
-                label(headline.formattedDate) {
+                label(story.formattedDate) {
                     textFill = Color.GRAY
                 }
-                label(headline.headline) {
+                label(story.headline) {
                     textFill = Color.BLACK
                     isWrapText = true
                     prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
@@ -61,7 +61,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
         }
     }
 
-    val alertList: ListView<HeadlineAlert> = listview {
+    val alertList: ListView<StoryAlert> = listview {
         vgrow = Priority.ALWAYS
         managedProperty().bind(visibleProperty())
         isVisible = false
@@ -73,7 +73,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
                 label(dateFormat.format(alert.date)) {
                     textFill = Color.GRAY
                 }
-                label(alert.headline.headline) {
+                label(alert.story.headline) {
                     textFill = Color.BLACK
                     isWrapText = true
                     prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
@@ -87,7 +87,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
         }
 
         onUserSelect {
-            browseTo(ReutersWire.baseUrl + it.headline.url)
+            browseTo(ReutersWire.baseUrl + it.story.url)
         }
 
         contextmenu {
@@ -113,14 +113,14 @@ class ReutersFragment : Fragment("Reuters Wire") {
                 hbox {
                     alignment = Pos.CENTER_LEFT
                     spacing = 5.0
-                    label(trigger.type.name) {
+                    label(trigger.displayName) {
                         textFill = Color.GRAY
                     }
                     if (trigger.recurring) {
                         this += recurringIcon
                     }
                 }
-                label(trigger.value) {
+                label(trigger.displayValue) {
                     textFill = Color.BLACK
                     isWrapText = true
                     prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
@@ -178,49 +178,52 @@ class ReutersFragment : Fragment("Reuters Wire") {
         val dialog = Dialog<TextTrigger>().apply {
             initOwner(primaryStage)
             title = "New Trigger"
-            headerText = "Enter trigger keywords, a regular expression or a script"
-            isResizable = true
-
-            val recurringProperty = SimpleBooleanProperty(false)
-            val toggleGroup = ToggleGroup()
-            val textArea = TextArea().apply {
-                vgrow = Priority.ALWAYS
-            }
+            headerText = "Enter trigger keywords or a regular expression"
 
             val add = ButtonType("Add", ButtonBar.ButtonData.OK_DONE)
             val cancel = ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE)
 
             dialogPane.buttonTypes.addAll(add, cancel)
 
+            val recurringProperty = SimpleBooleanProperty(false)
+            val toggleGroup = ToggleGroup()
+            val textField = TextField()
+
             dialogPane.content = VBox().apply {
                 hbox {
                     spacing = 10.0
-                    padding = Insets(0.0, 0.0, 10.0, 0.0)
-                    radiobutton("Keywords", toggleGroup) { isSelected = true }
-                    radiobutton("RegEx", toggleGroup)
-                    radiobutton("Script", toggleGroup)
+                    padding = Insets(10.0, 0.0, 20.0, 0.0)
+                    radiobutton("All Keywords", toggleGroup) {
+                        tooltip("Single, comma separated keywords.\n" +
+                            "All keywords must be found.")
+                        isSelected = true
+                    }
+                    radiobutton("Any Keyword", toggleGroup) {
+                        tooltip("Single, comma separated keywords.\n" +
+                            "At least one keyword must be found.")
+                    }
+                    radiobutton("RegEx", toggleGroup) {
+                        tooltip("A regular expression matching something within the text.\n" +
+                            "Use this when keywords are not enough.\n" +
+                            "For example, to match phrases.")
+                    }
                     pane { hgrow = Priority.ALWAYS } // spacer
                     checkbox("Recurring", recurringProperty)
                 }
-                this += textArea
+                this += textField
             }
-
-            var triggerType = TextTrigger.Type.KEYWORDS
-            toggleGroup.selectedToggleProperty().addListener(ChangeListener { _, _, _ ->
-                toggleGroup.selectedToggle?.let {
-                    val index = (it as RadioButton).indexInParent
-                    when (index) {
-                        0 -> triggerType = TextTrigger.Type.KEYWORDS
-                        1 -> triggerType = TextTrigger.Type.REGEX
-                        2 -> triggerType = TextTrigger.Type.SCRIPT
-                    }
-                }
-            })
 
             setResultConverter {
                 val selectedToggle = toggleGroup.selectedToggle
                 if (it == add && selectedToggle != null) {
-                    TextTrigger(textArea.text, triggerType, recurringProperty.value)
+                    val text = textField.text
+                    val isRecurring = recurringProperty.value
+                    val index = (selectedToggle as RadioButton).indexInParent
+                    when (index) {
+                        0 -> AllKeywordsTrigger.of(text, isRecurring)
+                        1 -> AnyKeywordTrigger.of(text, isRecurring)
+                        else -> RegExTrigger.of(text, isRecurring)
+                    }
                 } else {
                     null
                 }
@@ -249,9 +252,9 @@ class ReutersFragment : Fragment("Reuters Wire") {
         updateTriggers()
 
         ReutersWire.apply {
-            addHeadlineListener { headlines ->
+            addStoryListener { stories ->
                 runLater {
-                    newsList.items = headlines.observable()
+                    newsList.items = stories.observable()
                 }
             }
             addAlertListener { _ ->
