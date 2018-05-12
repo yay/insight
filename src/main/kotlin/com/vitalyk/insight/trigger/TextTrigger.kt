@@ -100,22 +100,6 @@ data class RegExTrigger (
     }
 }
 
-val TextTrigger.displayName: String
-    get() = when (this) {
-        is AllKeywordsTrigger -> "All Keywords"
-        is AnyKeywordTrigger -> "Any Keyword"
-        is RegExTrigger -> "Regular Expression"
-        else -> "Unrecognized Trigger"
-    }
-
-val TextTrigger.displayValue: String
-    get() = when (this) {
-        is AllKeywordsTrigger -> keywords.joinToString(", ")
-        is AnyKeywordTrigger -> keywords.joinToString(", ")
-        is RegExTrigger -> regex.pattern
-        else -> "Unrecognized Value"
-    }
-
 // TODO: how to test private functions?
 private fun getWords(text: String) = text
     .toLowerCase()

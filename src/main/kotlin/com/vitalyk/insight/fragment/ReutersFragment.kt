@@ -2,10 +2,14 @@ package com.vitalyk.insight.fragment
 
 import com.vitalyk.insight.helpers.browseTo
 import com.vitalyk.insight.helpers.getResourceAudioClip
+import com.vitalyk.insight.helpers.newYorkTimeZone
+import com.vitalyk.insight.reuters.ReutersWire
 import com.vitalyk.insight.reuters.Story
 import com.vitalyk.insight.reuters.StoryAlert
-import com.vitalyk.insight.reuters.ReutersWire
-import com.vitalyk.insight.trigger.*
+import com.vitalyk.insight.trigger.AllKeywordsTrigger
+import com.vitalyk.insight.trigger.AnyKeywordTrigger
+import com.vitalyk.insight.trigger.RegExTrigger
+import com.vitalyk.insight.trigger.TextTrigger
 import com.vitalyk.insight.ui.PlusButton
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView
@@ -30,10 +34,22 @@ class ReutersFragment : Fragment("Reuters Wire") {
         vgrow = Priority.ALWAYS
         managedProperty().bind(visibleProperty())
 
+        val dateFormat = SimpleDateFormat("HH:mm:ss").apply {
+            timeZone = newYorkTimeZone
+        }
+
         cellCache { story ->
             vbox {
-                label(story.formattedDate) {
-                    textFill = Color.GRAY
+                hbox {
+                    label(story.formattedDate) {
+                        textFill = Color.GRAY
+                    }
+                    pane {
+                        hgrow = Priority.ALWAYS
+                    }
+                    label(dateFormat.format(story.date)) {
+                        textFill = Color.GRAY
+                    }
                 }
                 label(story.headline) {
                     textFill = Color.BLACK
@@ -97,6 +113,22 @@ class ReutersFragment : Fragment("Reuters Wire") {
             }
         }
     }
+
+    private val TextTrigger.displayName: String
+        get() = when (this) {
+            is AllKeywordsTrigger -> "All Keywords"
+            is AnyKeywordTrigger -> "Any Keyword"
+            is RegExTrigger -> "Regular Expression"
+            else -> "Unrecognized Trigger"
+        }
+
+    private val TextTrigger.displayValue: String
+        get() = when (this) {
+            is AllKeywordsTrigger -> keywords.joinToString(", ")
+            is AnyKeywordTrigger -> keywords.joinToString(", ")
+            is RegExTrigger -> regex.pattern
+            else -> "Unrecognized Value"
+        }
 
     val triggerList: ListView<TextTrigger> = listview {
         val listview = this

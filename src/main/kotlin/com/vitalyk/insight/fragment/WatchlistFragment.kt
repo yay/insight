@@ -1,5 +1,6 @@
 package com.vitalyk.insight.fragment
 
+import com.vitalyk.insight.helpers.newYorkTimeZone
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.TopsBean
 import com.vitalyk.insight.iex.Watchlist
@@ -17,9 +18,9 @@ import java.util.*
 class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
 
     var symbol = SimpleStringProperty("")
-    private val newYorkTimeZone = TimeZone.getTimeZone("America/New_York")
-    // "dd MMM HH:mm:ss zzz"
-    private var lastTradeTimeFormatter = SimpleDateFormat("HH:mm:ss")
+    private var lastTradeTimeFormatter = SimpleDateFormat("HH:mm:ss").apply {
+        timeZone = newYorkTimeZone
+    }
     private val priceFormat = "%.2f"
 
     // https://github.com/edvin/tornadofx/wiki/TableView-SmartResize
@@ -85,15 +86,6 @@ class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
         vgrow = Priority.ALWAYS
     }
 
-    var isEasternTime: Boolean = false
-        set(value) {
-            field = value
-            lastTradeTimeFormatter.timeZone = if (value)
-                newYorkTimeZone
-            else
-                TimeZone.getDefault()
-        }
-
     override val root = vbox {
         vgrow = Priority.ALWAYS
 
@@ -106,13 +98,6 @@ class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
             }
             button("Add").action {
                 addSymbol()
-            }
-            togglebutton("Eastern time") {
-                isSelected = false
-                action {
-                    isEasternTime = isSelected
-                    table.refresh()
-                }
             }
         }
 

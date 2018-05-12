@@ -1,6 +1,7 @@
 package com.vitalyk.insight.view
 
 import com.vitalyk.insight.helpers.browseTo
+import com.vitalyk.insight.helpers.newYorkTimeZone
 import com.vitalyk.insight.ui.symbolfield
 import com.vitalyk.insight.ui.toolbox
 import com.vitalyk.insight.yahoo.NewsItem
@@ -22,7 +23,6 @@ import tornadofx.*
 import java.text.SimpleDateFormat
 import java.time.Duration
 import java.time.Instant
-import java.util.*
 
 class NewsFragment : Fragment("News") {
 
@@ -40,7 +40,7 @@ class NewsFragment : Fragment("News") {
         }
     }
     val dateFormatter = SimpleDateFormat("dd MMM HH:mm:ss zzz").apply {
-        timeZone = TimeZone.getTimeZone("America/New_York")
+        timeZone = newYorkTimeZone
     }
 
     val listview: ListView<NewsItem> = listview {

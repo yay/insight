@@ -5,6 +5,9 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.time.temporal.ChronoField
 import java.time.temporal.ChronoUnit
+import java.util.*
+
+val newYorkTimeZone = TimeZone.getTimeZone("America/New_York")
 
 fun getLastWorkDay(zoneId: String = "America/New_York"): LocalDate {
     val now = LocalDate.now(ZoneId.of(zoneId))
