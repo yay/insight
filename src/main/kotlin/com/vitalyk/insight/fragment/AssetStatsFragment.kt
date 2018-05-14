@@ -31,6 +31,8 @@ class AssetStatsFragment : Fragment() {
 
     val sharesOutstanding = Label()
     val float = Label()
+    val insiderPercent = Label()
+    val institutionPercent = Label()
 
     val returnOnEquity = Label()
     val returnOnAssets = Label()
@@ -85,6 +87,14 @@ class AssetStatsFragment : Fragment() {
                                 " minus restricted stock).")
                         }
                         this += float
+                    }
+                    row {
+                        label("Insider Ownership")
+                        this += insiderPercent
+                    }
+                    row {
+                        label("Institutional Ownership")
+                        this += institutionPercent
                     }
 
                     headerRow("Earnings")
@@ -210,6 +220,8 @@ class AssetStatsFragment : Fragment() {
 
                 sharesOutstanding.text = formatNumber(it.sharesOutstanding)
                 float.text = formatNumber(it.float)
+                insiderPercent.text = formatNumber(it.insiderPercent, percent = true)
+                institutionPercent.text = formatNumber(it.institutionPercent, percent = true)
 
                 returnOnEquity.text = formatPercent(it.returnOnEquity)
                 returnOnAssets.text = formatPercent(it.returnOnAssets)

@@ -10,7 +10,6 @@ import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.scene.layout.Priority
 import tornadofx.*
-import java.awt.Color
 import java.text.SimpleDateFormat
 
 // TODO: the app won't shutdown because of some background thread activity

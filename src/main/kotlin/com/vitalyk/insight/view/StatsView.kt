@@ -35,6 +35,9 @@ class StatsView : View("Statistics") {
                     button("Shiller P/E").action {
                         browseTo("http://www.multpl.com/table?f=m")
                     }
+                    button("World Equity Index").action {
+                        browseTo("https://www.cnbc.com/quotes/?symbol=.MIWD00000PUS")
+                    }
 
                     children.forEach {
                         if (it is Button) {
