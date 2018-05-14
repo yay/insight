@@ -34,27 +34,29 @@ class ReutersFragment : Fragment("Reuters Wire") {
             timeZone = newYorkTimeZone
         }
 
-        cellCache { story ->
-            vbox {
-                hbox {
-                    label(story.formattedDate) {
-                        textFill = Color.GRAY
+        cellFormat { story ->
+            graphic = cache {
+                vbox {
+                    hbox {
+                        label(story.formattedDate) {
+                            textFill = Color.GRAY
+                        }
+                        pane {
+                            hgrow = Priority.ALWAYS
+                        }
+                        label(dateFormat.format(story.date)) {
+                            textFill = Color.GRAY
+                        }
                     }
-                    pane {
-                        hgrow = Priority.ALWAYS
-                    }
-                    label(dateFormat.format(story.date)) {
-                        textFill = Color.GRAY
-                    }
-                }
-                label(story.headline) {
-                    textFill = Color.BLACK
-                    isWrapText = true
-                    prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
+                    label(story.headline) {
+                        textFill = Color.BLACK
+                        isWrapText = true
+                        prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
 
-                    style {
-                        font = Font.font("Tahoma", 9.0)
-                        fontWeight = FontWeight.BOLD
+                        style {
+                            font = Font.font("Tahoma", 9.0)
+                            fontWeight = FontWeight.BOLD
+                        }
                     }
                 }
             }
@@ -73,6 +75,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
         }
     }
 
+    var newAlerts: Set<StoryAlert> = emptySet()
     val alertList: ListView<StoryAlert> = listview {
         vgrow = Priority.ALWAYS
         managedProperty().bind(visibleProperty())
@@ -80,19 +83,21 @@ class ReutersFragment : Fragment("Reuters Wire") {
         val dateFormat = SimpleDateFormat("HH:mm:ss zzz - EEE, dd MMM yy")
         dateFormat.timeZone = TimeZone.getTimeZone("America/New_York")
 
-        cellCache { alert ->
-            vbox {
-                label(dateFormat.format(alert.date)) {
-                    textFill = Color.GRAY
-                }
-                label(alert.story.headline) {
-                    textFill = Color.BLACK
-                    isWrapText = true
-                    prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
+        cellFormat { alert ->
+            graphic = cache {
+                vbox {
+                    label(dateFormat.format(alert.date)) {
+                        textFill = Color.GRAY
+                    }
+                    label(alert.story.headline) {
+                        textFill = if (alert in newAlerts) Color.ORANGERED else Color.BLACK
+                        isWrapText = true
+                        prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
 
-                    style {
-                        font = Font.font("Tahoma", 9.0)
-                        fontWeight = FontWeight.BOLD
+                        style {
+                            font = Font.font("Tahoma", 9.0)
+                            fontWeight = FontWeight.BOLD
+                        }
                     }
                 }
             }
@@ -136,23 +141,25 @@ class ReutersFragment : Fragment("Reuters Wire") {
         managedProperty().bind(visibleProperty())
         isVisible = false
 
-        cellCache { trigger ->
-            vbox {
-                hbox {
-                    alignment = Pos.CENTER_LEFT
-                    spacing = 5.0
-                    label(trigger.displayName) {
-                        textFill = Color.GRAY
+        cellFormat { trigger ->
+            graphic = cache {
+                vbox {
+                    hbox {
+                        alignment = Pos.CENTER_LEFT
+                        spacing = 5.0
+                        label(trigger.displayName) {
+                            textFill = Color.GRAY
+                        }
                     }
-                }
-                label(trigger.displayValue) {
-                    textFill = Color.BLACK
-                    isWrapText = true
-                    prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
+                    label(trigger.displayValue) {
+                        textFill = Color.BLACK
+                        isWrapText = true
+                        prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
 
-                    style {
-                        font = Font.font("Tahoma", 9.0)
-                        fontWeight = FontWeight.BOLD
+                        style {
+                            font = Font.font("Tahoma", 9.0)
+                            fontWeight = FontWeight.BOLD
+                        }
                     }
                 }
             }
@@ -238,7 +245,9 @@ class ReutersFragment : Fragment("Reuters Wire") {
                             "For example, to match phrases.")
                     }
                 }
-                this += textField
+                this += textField.apply {
+                    runLater { requestFocus() }
+                }
             }
 
             setResultConverter {
@@ -283,9 +292,10 @@ class ReutersFragment : Fragment("Reuters Wire") {
                     newsList.items = stories.observable()
                 }
             }
-            addAlertListener { _ ->
+            addAlertListener { alerts ->
                 runLater {
                     getResourceAudioClip("/sounds/alerts/chime.wav").play()
+                    newAlerts = alerts
                     updateAlerts()
                 }
             }

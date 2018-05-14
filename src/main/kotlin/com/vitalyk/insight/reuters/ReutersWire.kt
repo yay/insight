@@ -26,8 +26,13 @@ data class StoryAlert(
     val story: Story
 )
 
+// Receives an updated list of latest stories.
 typealias StoryListener = (stories: List<Story>) -> Unit
-typealias AlertListener = (alerts: List<StoryAlert>) -> Unit
+
+// Receives a set of alerts for new stories that satisfied triggers on the latest update.
+// Because it's a set, one can easily check if the alert is a new one
+// or from previous updates.
+typealias AlertListener = (alerts: Set<StoryAlert>) -> Unit
 
 object ReutersWire {
 //    private val mutex = this
@@ -134,7 +139,8 @@ object ReutersWire {
 
             // Make a local copy of triggers before iteration for thread safety.
             val triggers = _triggers.toList()
-            val newAlerts = mutableListOf<StoryAlert>()
+            val alerts = if (alertListeners.isNotEmpty()) linkedSetOf<StoryAlert>() else null
+
             stories.forEach { story ->
                 triggers.forEach { trigger ->
                     val text = story.headline
@@ -147,7 +153,7 @@ object ReutersWire {
                         if (_alerts.size >= alertCacheSize) _alerts.clear()
                         val alert = StoryAlert(Date(), story)
                         _alerts[text] = alert
-                        newAlerts.add(alert)
+                        alerts?.add(alert)
                     }
                 }
             }
@@ -155,8 +161,8 @@ object ReutersWire {
             if (stories.isNotEmpty())
                 storyListeners.forEach { it(stories) }
 
-            if (newAlerts.isNotEmpty())
-                alertListeners.forEach { it(newAlerts) }
+            if (alerts?.isNotEmpty() == true)
+                alertListeners.forEach { it(alerts) }
 
         } catch (e: IOException) {
             logger.warn("Fetching $url failed.")

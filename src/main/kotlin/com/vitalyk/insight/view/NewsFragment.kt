@@ -45,25 +45,27 @@ class NewsFragment : Fragment("News") {
     val listview: ListView<NewsItem> = listview {
         vgrow = Priority.ALWAYS
 
-        cellCache { item ->
-            hbox {
-                alignment = Pos.CENTER_LEFT
-                text(dateFormatter.format(item.date)) {
-                    font = Font.font("Monaco, Menlo, Courier", 12.0)
-                    fill = Color(0.3, 0.3, 0.3, 1.0)
-                }
-                hyperlink(item.headline) {
-                    tooltip(item.url)
-                    action {
-                        browseTo(item.url)
+        cellFormat { item ->
+            graphic = cache {
+                hbox {
+                    alignment = Pos.CENTER_LEFT
+                    text(dateFormatter.format(item.date)) {
+                        font = Font.font("Monaco, Menlo, Courier", 12.0)
+                        fill = Color(0.3, 0.3, 0.3, 1.0)
                     }
-                    contextmenu {
-                        item("Open in browser").action {
+                    hyperlink(item.headline) {
+                        tooltip(item.url)
+                        action {
                             browseTo(item.url)
                         }
-                        item("Copy link").action {
-                            val clipboard = Clipboard.getSystemClipboard()
-                            clipboard.putString(item.url)
+                        contextmenu {
+                            item("Open in browser").action {
+                                browseTo(item.url)
+                            }
+                            item("Copy link").action {
+                                val clipboard = Clipboard.getSystemClipboard()
+                                clipboard.putString(item.url)
+                            }
                         }
                     }
                 }

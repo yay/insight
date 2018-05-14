@@ -64,7 +64,6 @@ class PollingQuoteList(title: String, private val getQuotes: () -> List<Quote>?)
         cellFormat {
             val change = it.change
             val symbol = it.symbol
-            val cell = this
 
 //            tooltip(it.companyName, Circle().apply { radius = 30.0; fill = Color.RED }) {
 //
@@ -78,58 +77,59 @@ class PollingQuoteList(title: String, private val getQuotes: () -> List<Quote>?)
 //                println("${e.target::class}, ${e.source::class}")
 //            }
 
-            graphic = vbox {
-                val changeColor = when {
-                    change > 0.0 -> Color.GREEN
-                    change < 0.0 -> Color.RED
-                    else -> Color.GRAY
-                }
-                hbox {
-                    label(symbol) {
-                        textFill = Color.DODGERBLUE
-                        font = Font.font("Verdana", FontWeight.BOLD, 15.0)
-                        minWidth = 80.0
+            graphic = cache {
+                vbox {
+                    val changeColor = when {
+                        change > 0.0 -> Color.GREEN
+                        change < 0.0 -> Color.RED
+                        else -> Color.GRAY
                     }
-                    if (change == 0.0) {
-                        circle {
-                            radius = 6.0
+                    hbox {
+                        label(symbol) {
+                            textFill = Color.DODGERBLUE
+                            font = Font.font("Verdana", FontWeight.BOLD, 15.0)
+                            minWidth = 80.0
                         }
-                    } else {
-                        path {
-                            moveTo(0.0, 0.0)
-                            lineTo(12.0, 0.0)
-                            lineTo(6.0, 10.0 * if (change > 0) -1.0 else 1.0)
-                            closepath()
+                        if (change == 0.0) {
+                            circle {
+                                radius = 6.0
+                            }
+                        } else {
+                            path {
+                                moveTo(0.0, 0.0)
+                                lineTo(12.0, 0.0)
+                                lineTo(6.0, 10.0 * if (change > 0) -1.0 else 1.0)
+                                closepath()
+                            }
+                        }.apply {
+                            translateX = -8.0
+                            translateY = 3.0
+                            fill = changeColor
+                            stroke = Color.WHITE
+                            strokeWidth = 1.0
                         }
-                    }.apply {
-                        translateX = -8.0
-                        translateY = 3.0
-                        fill = changeColor
-                        stroke = Color.WHITE
-                        strokeWidth = 1.0
+                        label("%.2f".format(change)) {
+                            textFill = changeColor
+                            font = labelFont
+                        }
+                        val changePercent = " (%.2f%%)".format(it.changePercent * 100)
+                        label(changePercent) {
+                            textFill = changeColor
+                            font = labelFont
+                        }
+                        region {
+                            hgrow = Priority.ALWAYS
+                        }
+                        label("${it.latestPrice}") {
+                            font = labelFont
+                            padding = Insets(0.0, 0.0, 0.0, 20.0)
+                        }
                     }
-                    label("%.2f".format(change)) {
-                        textFill = changeColor
-                        font = labelFont
+                    label(it.companyName) {
+                        textFill = Color.GRAY
                     }
-                    val changePercent = " (%.2f%%)".format(it.changePercent * 100)
-                    label(changePercent) {
-                        textFill = changeColor
-                        font = labelFont
-                    }
-                    region {
-                        hgrow = Priority.ALWAYS
-                    }
-                    label("${it.latestPrice}") {
-                        font = labelFont
-                        padding = Insets(0.0, 0.0, 0.0, 20.0)
-                    }
-                }
-                label(it.companyName) {
-                    textFill = Color.GRAY
                 }
             }
-
         }
     }
 
