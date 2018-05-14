@@ -4,7 +4,6 @@ import com.vitalyk.insight.iex.DayChartPointBean
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.toBean
 import com.vitalyk.insight.ui.symbolfield
-import com.vitalyk.insight.ui.toolbox
 import com.vitalyk.insight.yahoo.getDistributionInfo
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
@@ -35,7 +34,7 @@ class SymbolTableView : View("Instrument Data") {
     }
 
     override val root = vbox {
-        toolbox {
+        toolbar {
             button("Back").action {
                 replaceWith(MainView::class)
             }
@@ -58,7 +57,7 @@ class SymbolTableView : View("Instrument Data") {
             button("Chart").action { replaceWith(ChartView::class) }
         }
 
-        toolbox(border = false) {
+        toolbar {
             button("Market Distribution") {
                 action {
                     alert(

@@ -1,7 +1,6 @@
 package com.vitalyk.insight.view
 
 import com.vitalyk.insight.iex.IexSymbols
-import com.vitalyk.insight.ui.toolbox
 import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.LineChart
 import javafx.scene.chart.NumberAxis
@@ -35,7 +34,7 @@ class ChartView : View("Chart") {
     }
 
     override val root = vbox {
-        toolbox {
+        toolbar {
             button("Back") {
                 action {
                     replaceWith(SymbolTableView::class)

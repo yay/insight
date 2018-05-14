@@ -66,7 +66,8 @@ class Insight : App(MainView::class, Styles::class) {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            Settings.parentDir = "/Users/vitalykravchenko/insight-data/"
+            Class.forName("org.h2.Driver")
+            Settings.parentDir = "/Users/vitalykravchenko/insight/"
             launch(Insight::class.java, *args)
         }
     }

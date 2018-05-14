@@ -3,7 +3,6 @@ package com.vitalyk.insight.view
 import com.vitalyk.insight.bond.UsYield
 import com.vitalyk.insight.bond.getUsYieldData
 import com.vitalyk.insight.fragment.InfoFragment
-import com.vitalyk.insight.ui.toolbox
 import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.NumberAxis
 import javafx.scene.control.ScrollBar
@@ -15,7 +14,7 @@ class YieldCurveView : View("Yield Curve") {
     private val dateFormat = SimpleDateFormat("d MMM, yyyy")
     private var data: List<UsYield>? = null
 
-    val toolbox = toolbox {
+    val toolbox = toolbar {
         button("Back").action { replaceWith(SymbolTableView::class) }
         button("Update").action { updateData() }
         button("?").action {

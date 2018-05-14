@@ -2,7 +2,6 @@ package com.vitalyk.insight.view
 
 import com.vitalyk.insight.fragment.WatchlistFragment
 import com.vitalyk.insight.iex.Watchlist
-import com.vitalyk.insight.ui.toolbox
 import javafx.geometry.Orientation
 import javafx.scene.layout.Priority
 import tornadofx.*
@@ -22,7 +21,7 @@ class WatchlistView : View("Watchlists") {
     }
 
     override val root = vbox {
-        toolbox {
+        toolbar {
             button("Main").action { replaceWith(MainView::class) }
         }
         splitpane(Orientation.VERTICAL) {

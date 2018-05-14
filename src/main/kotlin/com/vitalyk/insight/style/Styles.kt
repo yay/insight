@@ -24,6 +24,12 @@ class Styles : Stylesheet() {
                 }
             }
         }
+        toolBar {
+        }
+        splitPane {
+            backgroundInsets += box(0.px)
+            padding = box(0.px)
+        }
     }
 
 }

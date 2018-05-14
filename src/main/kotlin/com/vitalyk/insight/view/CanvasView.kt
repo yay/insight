@@ -1,7 +1,6 @@
 package com.vitalyk.insight.view
 
 import com.vitalyk.insight.chart.CartesianChart
-import com.vitalyk.insight.ui.toolbox
 import javafx.event.EventHandler
 import javafx.scene.canvas.Canvas
 import javafx.scene.layout.Priority
@@ -73,7 +72,7 @@ class MyElem : Region() {
 
 class CanvasView : View("Canvas") {
     override val root = vbox {
-        toolbox {
+        toolbar {
             button("Back").action {
                 replaceWith(SymbolTableView::class)
             }

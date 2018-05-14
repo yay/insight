@@ -183,7 +183,8 @@ class AssetStatsFragment : Fragment() {
                 marketCap.text = formatNumber(it.marketCap)
                 beta.text = formatNumber(it.beta, 4)
 
-                shortInterest.text = formatNumber(it.shortInterest)
+                shortInterest.text = formatNumber(it.shortInterest) +
+                    " or ${"%.2f".format(it.shortInterest.toDouble() / it.float.toDouble() * 100)}% of float"
                 shortDate.text = formatDate(it.shortDate)
 
                 dividendRate.text = formatNumber(it.dividendRate)

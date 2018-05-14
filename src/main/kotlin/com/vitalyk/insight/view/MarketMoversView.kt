@@ -2,7 +2,6 @@ package com.vitalyk.insight.view
 
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.ui.PollingQuoteList
-import com.vitalyk.insight.ui.toolbox
 import javafx.scene.layout.Priority
 import tornadofx.*
 import kotlinx.coroutines.experimental.javafx.JavaFx as UI
@@ -33,7 +32,7 @@ class MarketMoversView : View("Market Movers") {
 //    }
 
     override val root = vbox {
-        toolbox {
+        toolbar {
             button("Main") {
                 action {
                     replaceWith(MainView::class)

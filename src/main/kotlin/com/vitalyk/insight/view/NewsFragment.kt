@@ -3,7 +3,6 @@ package com.vitalyk.insight.view
 import com.vitalyk.insight.helpers.browseTo
 import com.vitalyk.insight.helpers.newYorkTimeZone
 import com.vitalyk.insight.ui.symbolfield
-import com.vitalyk.insight.ui.toolbox
 import com.vitalyk.insight.yahoo.NewsItem
 import com.vitalyk.insight.yahoo.fetchNews
 import com.vitalyk.insight.yahoo.marketIndexes
@@ -72,7 +71,7 @@ class NewsFragment : Fragment("News") {
         }
     }
 
-    val toolbox = toolbox(border = false) {
+    val toolbox = toolbar {
         label("Symbol:")
         symbolfield { fetchSymbolNews(it) }
 

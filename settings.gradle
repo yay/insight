@@ -1,4 +1,3 @@
 rootProject.name = 'insight'
-//include 'generator'
 
 include 'dataviz'

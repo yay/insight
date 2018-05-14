@@ -6,13 +6,12 @@ import com.vitalyk.insight.iex.TopsBean
 import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.iex.toBean
 import com.vitalyk.insight.ui.symbolfield
-import com.vitalyk.insight.ui.toolbox
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.scene.layout.Priority
 import tornadofx.*
+import java.awt.Color
 import java.text.SimpleDateFormat
-import java.util.*
 
 // TODO: the app won't shutdown because of some background thread activity
 class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
@@ -89,7 +88,7 @@ class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
     override val root = vbox {
         vgrow = Priority.ALWAYS
 
-        toolbox(border = false) {
+        toolbar {
             symbolfield(symbol, {
                 promptText = "Add Symbol(s)"
                 minWidth = 120.0

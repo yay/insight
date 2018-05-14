@@ -4,9 +4,8 @@
     <bytecodeTargetLevel>
       <module name="dataviz_main" target="1.8" />
       <module name="dataviz_test" target="1.8" />
-      <module name="generator_main" target="1.8" />
-      <module name="generator_test" target="1.8" />
-      <module name="insight_buildDi" target="1.8" />
+      <module name="h2_main" target="1.8" />
+      <module name="h2_test" target="1.8" />
       <module name="insight_main" target="1.8" />
       <module name="insight_test" target="1.8" />
     </bytecodeTargetLevel>

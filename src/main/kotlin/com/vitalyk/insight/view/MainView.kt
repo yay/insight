@@ -2,13 +2,12 @@ package com.vitalyk.insight.view
 
 import com.vitalyk.insight.fragment.MainWatchlistFragment
 import com.vitalyk.insight.fragment.ReutersFragment
-import com.vitalyk.insight.ui.toolbox
 import javafx.scene.layout.Priority
 import tornadofx.*
 
 class MainView : View("Insight") {
     override val root = vbox {
-        toolbox(border = false) {
+        toolbar {
             button("Symbol Table").action {
                 replaceWith(SymbolTableView::class)
             }

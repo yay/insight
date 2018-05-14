@@ -1,7 +1,6 @@
 package com.vitalyk.insight.view
 
 import com.vitalyk.insight.helpers.browseTo
-import com.vitalyk.insight.ui.toolbox
 import javafx.geometry.Insets
 import javafx.scene.control.Button
 import javafx.scene.layout.Priority
@@ -9,7 +8,7 @@ import tornadofx.*
 
 class StatsView : View("Statistics") {
     override val root = vbox {
-        toolbox(border = false) {
+        toolbar {
             button("Main").action {
                 replaceWith(MainView::class)
             }

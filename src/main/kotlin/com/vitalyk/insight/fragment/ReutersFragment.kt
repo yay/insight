@@ -10,7 +10,6 @@ import com.vitalyk.insight.trigger.AllKeywordsTrigger
 import com.vitalyk.insight.trigger.AnyKeywordTrigger
 import com.vitalyk.insight.trigger.RegExTrigger
 import com.vitalyk.insight.trigger.TextTrigger
-import com.vitalyk.insight.ui.PlusButton
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView
 import javafx.beans.property.SimpleBooleanProperty
@@ -181,7 +180,6 @@ class ReutersFragment : Fragment("Reuters Wire") {
 
     override val root = vbox {
         toolbar {
-            padding = Insets(0.0, 10.0, 0.0, 10.0)
             val toggleGroup = ToggleGroup()
             radiobutton ("News", toggleGroup) { isSelected = true }
             radiobutton("Alerts", toggleGroup)
@@ -195,7 +193,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
                 }
             })
 
-            this += PlusButton("New Trigger...").apply {
+            this += button("+") {
                 action { addTrigger() }
             }
         }
@@ -265,7 +263,6 @@ class ReutersFragment : Fragment("Reuters Wire") {
         val result = dialog.showAndWait()
 
         if (result.isPresent) {
-            println(result.get())
             ReutersWire.addTrigger(result.get())
             updateTriggers()
         }

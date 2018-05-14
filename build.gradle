@@ -79,7 +79,8 @@ dependencies {
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-javafx:0.22.5'
 
     compile 'com.squareup.okhttp3:okhttp:3.10.0'
-    compile 'no.tornado:tornadofx:1.7.15'
+    compile 'com.h2database:h2:1.4.197'
+    compile 'no.tornado:tornadofx:1.7.16'
     // https://bitbucket.org/Jerady/fontawesomefx/src/master/
     // https://github.com/Jerady/fontawesomefx-examples
     compile 'de.jensd:fontawesomefx-materialdesignfont:1.7.22'
