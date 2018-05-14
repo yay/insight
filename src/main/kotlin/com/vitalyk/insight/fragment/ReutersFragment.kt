@@ -10,9 +10,6 @@ import com.vitalyk.insight.trigger.AllKeywordsTrigger
 import com.vitalyk.insight.trigger.AnyKeywordTrigger
 import com.vitalyk.insight.trigger.RegExTrigger
 import com.vitalyk.insight.trigger.TextTrigger
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIcon
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView
-import javafx.beans.property.SimpleBooleanProperty
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.control.*
@@ -139,10 +136,6 @@ class ReutersFragment : Fragment("Reuters Wire") {
         managedProperty().bind(visibleProperty())
         isVisible = false
 
-        val recurringIcon = MaterialDesignIconView(MaterialDesignIcon.REFRESH).apply {
-            glyphSize = 16.0
-        }
-
         cellCache { trigger ->
             vbox {
                 hbox {
@@ -150,9 +143,6 @@ class ReutersFragment : Fragment("Reuters Wire") {
                     spacing = 5.0
                     label(trigger.displayName) {
                         textFill = Color.GRAY
-                    }
-                    if (trigger.recurring) {
-                        this += recurringIcon
                     }
                 }
                 label(trigger.displayValue) {
@@ -226,7 +216,6 @@ class ReutersFragment : Fragment("Reuters Wire") {
 
             dialogPane.buttonTypes.addAll(add, cancel)
 
-            val recurringProperty = SimpleBooleanProperty(false)
             val toggleGroup = ToggleGroup()
             val textField = TextField()
 
@@ -248,8 +237,6 @@ class ReutersFragment : Fragment("Reuters Wire") {
                             "Use this when keywords are not enough.\n" +
                             "For example, to match phrases.")
                     }
-                    spacer {}
-                    checkbox("Recurring", recurringProperty)
                 }
                 this += textField
             }
@@ -258,12 +245,11 @@ class ReutersFragment : Fragment("Reuters Wire") {
                 val selectedToggle = toggleGroup.selectedToggle
                 if (it == add && selectedToggle != null) {
                     val text = textField.text
-                    val isRecurring = recurringProperty.value
                     val index = (selectedToggle as RadioButton).indexInParent
                     when (index) {
-                        0 -> AllKeywordsTrigger.of(text, isRecurring)
-                        1 -> AnyKeywordTrigger.of(text, isRecurring)
-                        else -> RegExTrigger.of(text, isRecurring)
+                        0 -> AllKeywordsTrigger.of(text)
+                        1 -> AnyKeywordTrigger.of(text)
+                        else -> RegExTrigger.of(text)
                     }
                 } else {
                     null

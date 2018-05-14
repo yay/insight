@@ -108,9 +108,6 @@ object ReutersWire {
     // To prevent alerting the user repeatedly, we keep an ordered map
     // of stories to recently triggered alerts. This also allows us
     // to know at what time the news story first surfaced.
-    // If a trigger is recurring, it will result in an alert,
-    // even if the story is already in the cache, but this will
-    // not violate the order of cache items.
     private const val alertCacheSize = 100
     private val _alerts = linkedMapOf<String, StoryAlert>()
 
@@ -141,10 +138,11 @@ object ReutersWire {
             stories.forEach { story ->
                 triggers.forEach { trigger ->
                     val text = story.headline
-                    val storyUpdate = _alerts[text]?.let {
+                    val isNewStory = text !in _alerts
+                    val isStoryUpdate = _alerts[text]?.let {
                         it.story.date != story.date
                     } ?: false
-                    if ((trigger.recurring && storyUpdate || text !in _alerts) && trigger.check(text)) {
+                    if ((isNewStory || isStoryUpdate) && trigger.matches(text)) {
                         // TODO: remove older alerts and keep newer ones, while keeping no more than alertCacheSize
                         if (_alerts.size >= alertCacheSize) _alerts.clear()
                         val alert = StoryAlert(Date(), story)

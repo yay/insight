@@ -21,3 +21,12 @@ javafx.scene.text.Font.getFamilies()
 
 JavaFX CSS does not support comma-separated series of font family names in the
 -fx-font-family property.
+
+Jackson/Kotlin specific:
+`isBooleanProperty` names are serialized as `booleanProperty`
+and then fail to deserialize because the Kotlin object
+has no `booleanProperty` property.
+
+val recurringIcon = MaterialDesignIconView(MaterialDesignIcon.REFRESH).apply {
+    glyphSize = 16.0
+}

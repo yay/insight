@@ -17,28 +17,23 @@ import java.util.regex.PatternSyntaxException
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.WRAPPER_OBJECT, property = "@class")
 interface TextTrigger {
-    // Not using `isRecurring` here because it is serialized as `recurring`
-    // and then fails to  deserialize because the Kotlin object
-    // has no `recurring` property.
-    val recurring: Boolean
-    fun check(text: String): Boolean
+    fun matches(text: String): Boolean
 }
 
 data class AllKeywordsTrigger (
-    val keywords: Set<String>,
-    override val recurring: Boolean
+    val keywords: Set<String>
 ) : TextTrigger {
 
-    override fun check(text: String): Boolean {
+    override fun matches(text: String): Boolean {
         val words = getWords(text)
         return keywords.all { it in words }
     }
 
     companion object {
-        fun of(text: String, recurring: Boolean = false): AllKeywordsTrigger? {
+        fun of(text: String): AllKeywordsTrigger? {
             val keywords = getWords(text)
             return if (keywords.isNotEmpty())
-                AllKeywordsTrigger(keywords, recurring)
+                AllKeywordsTrigger(keywords)
             else
                 null
         }
@@ -46,20 +41,19 @@ data class AllKeywordsTrigger (
 }
 
 data class AnyKeywordTrigger (
-    val keywords: Set<String>,
-    override val recurring: Boolean
+    val keywords: Set<String>
 ) : TextTrigger {
 
-    override fun check(text: String): Boolean {
+    override fun matches(text: String): Boolean {
         val words = getWords(text)
         return keywords.any { it in words }
     }
 
     companion object {
-        fun of(text: String, recurring: Boolean = false): AnyKeywordTrigger? {
+        fun of(text: String): AnyKeywordTrigger? {
             val keywords = getWords(text)
             return if (keywords.isNotEmpty())
-                AnyKeywordTrigger(keywords, recurring)
+                AnyKeywordTrigger(keywords)
             else
                 null
         }
@@ -81,18 +75,17 @@ private class RegExDeserializer : StdDeserializer<Regex>(Regex::class.java) {
 data class RegExTrigger (
     @JsonSerialize(using = RegExSerializer::class)
     @JsonDeserialize(using = RegExDeserializer::class)
-    val regex: Regex,
-    override val recurring: Boolean
+    val regex: Regex
 ) : TextTrigger {
 
-    override fun check(text: String): Boolean {
+    override fun matches(text: String): Boolean {
         return regex.containsMatchIn(text)
     }
 
     companion object {
-        fun of(text: String, recurring: Boolean = false): RegExTrigger? {
+        fun of(text: String): RegExTrigger? {
             return try {
-                RegExTrigger(text.toRegex(), recurring)
+                RegExTrigger(text.toRegex())
             } catch (e: PatternSyntaxException) {
                 null
             }
