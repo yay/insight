@@ -107,8 +107,12 @@ class ReutersFragment : Fragment("Reuters Wire") {
 
         contextmenu {
             item("Clear All").action {
-                ReutersWire.clearAlerts()
-                updateAlerts()
+                alert(Alert.AlertType.CONFIRMATION, "Remove all alerts?") { result ->
+                    if (result == ButtonType.OK) {
+                        ReutersWire.clearAlerts()
+                        updateAlerts()
+                    }
+                }
             }
         }
     }
@@ -172,9 +176,16 @@ class ReutersFragment : Fragment("Reuters Wire") {
                 }
             }
             item("Clear All").action {
-                ReutersWire.clearTriggers()
-                updateTriggers()
+                alert(Alert.AlertType.CONFIRMATION, "Remove all triggers?") { result ->
+                    if (result == ButtonType.OK) {
+                        ReutersWire.clearTriggers()
+                        updateTriggers()
+                    }
+                }
             }
+        }
+
+        onUserSelect {
         }
     }
 
