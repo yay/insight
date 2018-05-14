@@ -8,7 +8,7 @@ import com.vitalyk.insight.reuters.Story
 import com.vitalyk.insight.reuters.StoryAlert
 import com.vitalyk.insight.trigger.AllKeywordsTrigger
 import com.vitalyk.insight.trigger.AnyKeywordTrigger
-import com.vitalyk.insight.trigger.RegExTrigger
+import com.vitalyk.insight.trigger.RegexTrigger
 import com.vitalyk.insight.trigger.TextTrigger
 import javafx.geometry.Insets
 import javafx.geometry.Pos
@@ -35,28 +35,26 @@ class ReutersFragment : Fragment("Reuters Wire") {
         }
 
         cellFormat { story ->
-            graphic = cache {
-                vbox {
-                    hbox {
-                        label(story.formattedDate) {
-                            textFill = Color.GRAY
-                        }
-                        pane {
-                            hgrow = Priority.ALWAYS
-                        }
-                        label(dateFormat.format(story.date)) {
-                            textFill = Color.GRAY
-                        }
+            graphic = vbox {
+                hbox {
+                    label(story.formattedDate) {
+                        textFill = Color.GRAY
                     }
-                    label(story.headline) {
-                        textFill = Color.BLACK
-                        isWrapText = true
-                        prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
+                    pane {
+                        hgrow = Priority.ALWAYS
+                    }
+                    label(dateFormat.format(story.date)) {
+                        textFill = Color.GRAY
+                    }
+                }
+                label(story.headline) {
+                    textFill = Color.BLACK
+                    isWrapText = true
+                    prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
 
-                        style {
-                            font = Font.font("Tahoma", 9.0)
-                            fontWeight = FontWeight.BOLD
-                        }
+                    style {
+                        font = Font.font("Tahoma", 9.0)
+                        fontWeight = FontWeight.BOLD
                     }
                 }
             }
@@ -84,20 +82,18 @@ class ReutersFragment : Fragment("Reuters Wire") {
         dateFormat.timeZone = TimeZone.getTimeZone("America/New_York")
 
         cellFormat { alert ->
-            graphic = cache {
-                vbox {
-                    label(dateFormat.format(alert.date)) {
-                        textFill = Color.GRAY
-                    }
-                    label(alert.story.headline) {
-                        textFill = if (alert in newAlerts) Color.ORANGERED else Color.BLACK
-                        isWrapText = true
-                        prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
+            graphic = vbox {
+                label(dateFormat.format(alert.date)) {
+                    textFill = Color.GRAY
+                }
+                label(alert.story.headline) {
+                    textFill = if (alert in newAlerts) Color.ORANGERED else Color.BLACK
+                    isWrapText = true
+                    prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
 
-                        style {
-                            font = Font.font("Tahoma", 9.0)
-                            fontWeight = FontWeight.BOLD
-                        }
+                    style {
+                        font = Font.font("Tahoma", 9.0)
+                        fontWeight = FontWeight.BOLD
                     }
                 }
             }
@@ -123,7 +119,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
         get() = when (this) {
             is AllKeywordsTrigger -> "All Keywords"
             is AnyKeywordTrigger -> "Any Keyword"
-            is RegExTrigger -> "Regular Expression"
+            is RegexTrigger -> "Regular Expression"
             else -> "Unrecognized Trigger"
         }
 
@@ -131,7 +127,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
         get() = when (this) {
             is AllKeywordsTrigger -> keywords.joinToString(", ")
             is AnyKeywordTrigger -> keywords.joinToString(", ")
-            is RegExTrigger -> regex.pattern
+            is RegexTrigger -> regex.pattern
             else -> "Unrecognized Value"
         }
 
@@ -142,24 +138,22 @@ class ReutersFragment : Fragment("Reuters Wire") {
         isVisible = false
 
         cellFormat { trigger ->
-            graphic = cache {
-                vbox {
-                    hbox {
-                        alignment = Pos.CENTER_LEFT
-                        spacing = 5.0
-                        label(trigger.displayName) {
-                            textFill = Color.GRAY
-                        }
+            graphic = vbox {
+                hbox {
+                    alignment = Pos.CENTER_LEFT
+                    spacing = 5.0
+                    label(trigger.displayName) {
+                        textFill = Color.GRAY
                     }
-                    label(trigger.displayValue) {
-                        textFill = Color.BLACK
-                        isWrapText = true
-                        prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
+                }
+                label(trigger.displayValue) {
+                    textFill = Color.BLACK
+                    isWrapText = true
+                    prefWidth = listview.width
 
-                        style {
-                            font = Font.font("Tahoma", 9.0)
-                            fontWeight = FontWeight.BOLD
-                        }
+                    style {
+                        font = Font.font("Tahoma", 9.0)
+                        fontWeight = FontWeight.BOLD
                     }
                 }
             }
@@ -258,7 +252,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
                     when (index) {
                         0 -> AllKeywordsTrigger.of(text)
                         1 -> AnyKeywordTrigger.of(text)
-                        else -> RegExTrigger.of(text)
+                        else -> RegexTrigger.of(text)
                     }
                 } else {
                     null

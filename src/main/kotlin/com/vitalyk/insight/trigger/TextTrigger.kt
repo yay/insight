@@ -60,21 +60,21 @@ data class AnyKeywordTrigger (
     }
 }
 
-private class RegExSerializer : StdSerializer<Regex>(Regex::class.java) {
+private class RegexSerializer : StdSerializer<Regex>(Regex::class.java) {
     override fun serialize(value: Regex, gen: JsonGenerator, provider: SerializerProvider) {
         gen.writeString(value.pattern)
     }
 }
 
-private class RegExDeserializer : StdDeserializer<Regex>(Regex::class.java) {
+private class RegexDeserializer : StdDeserializer<Regex>(Regex::class.java) {
     override fun deserialize(parser: JsonParser, context: DeserializationContext): Regex {
         return parser.readValueAs(String::class.java).toRegex()
     }
 }
 
-data class RegExTrigger (
-    @JsonSerialize(using = RegExSerializer::class)
-    @JsonDeserialize(using = RegExDeserializer::class)
+data class RegexTrigger (
+    @JsonSerialize(using = RegexSerializer::class)
+    @JsonDeserialize(using = RegexDeserializer::class)
     val regex: Regex
 ) : TextTrigger {
 
@@ -83,9 +83,9 @@ data class RegExTrigger (
     }
 
     companion object {
-        fun of(text: String): RegExTrigger? {
+        fun of(text: String): RegexTrigger? {
             return try {
-                RegExTrigger(text.toRegex())
+                RegexTrigger(text.toRegex())
             } catch (e: PatternSyntaxException) {
                 null
             }
@@ -119,7 +119,17 @@ fun main(args: Array<String>) {
     println(text7)
     println(text8)
 
+    val triggerSet = mutableSetOf<TextTrigger?>()
     val trigger1 = AnyKeywordTrigger.of("trump, drugs")
     val trigger2 = AnyKeywordTrigger.of("trump, drugs")
     println(trigger1 == trigger2)
+    val trigger3 = RegexTrigger.of("[0-9]+")
+    val trigger4 = RegexTrigger.of("[0-9]+")
+    println(trigger3 == trigger4)
+
+    triggerSet.add(trigger1)
+    triggerSet.add(trigger2)
+    triggerSet.add(trigger3)
+    triggerSet.add(trigger4)
+    println(triggerSet.size)
 }
