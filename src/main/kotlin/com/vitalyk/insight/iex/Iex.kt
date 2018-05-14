@@ -730,7 +730,7 @@ object Iex {
     enum class BatchType(val value: String) {
         QUOTE("quote"),
         NEWS("news"),
-        CHART("chart")
+        CHART("yieldChart")
     }
     private val batchTypes = BatchType.values().toSet()
 

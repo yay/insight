@@ -12,7 +12,7 @@ private const val usYieldUrl = "https://www.quandl.com/api/v3/datasets/USTREASUR
 private const val apiKey = "D56KmTLWdnWBzWexFcX2"
 private val apiKeyParam = mapOf("api_key" to apiKey)
 
-data class UsYield(
+data class Yield(
     val date: Date,
     val mo1: Double?,
     val mo3: Double?,
@@ -27,7 +27,7 @@ data class UsYield(
     val yr30: Double?
 )
 
-fun getUsYieldData(): List<UsYield> {
+fun getUsYieldData(): List<Yield> {
     return try {
         httpGet(usYieldUrl, apiKeyParam)
     } catch (e: IOException) {
@@ -42,7 +42,7 @@ fun getUsYieldData(): List<UsYield> {
     } ?: emptyList()
 }
 
-fun getLocalUsYieldData(): List<UsYield> {
+fun getLocalUsYieldData(): List<Yield> {
     val reader = ClassLoader
         .getSystemResourceAsStream("data/bonds/USTREASURY-YIELD.csv")
         .bufferedReader()
@@ -53,10 +53,10 @@ fun getLocalUsYieldData(): List<UsYield> {
     return mapUsYieldRecords(records)
 }
 
-private fun mapUsYieldRecords(records: CSVParser): List<UsYield> {
+private fun mapUsYieldRecords(records: CSVParser): List<Yield> {
     val dateFormat = SimpleDateFormat("yyyy-MM-dd")
     return records.map {
-        UsYield(
+        Yield(
             dateFormat.parse(it.get("Date")),
             it.get("1 MO")?.toDouble(),
             it.get("3 MO")?.toDouble(),

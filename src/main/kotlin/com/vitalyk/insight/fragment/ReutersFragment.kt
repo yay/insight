@@ -224,12 +224,12 @@ class ReutersFragment : Fragment("Reuters Wire") {
                     spacing = 10.0
                     padding = Insets(10.0, 0.0, 20.0, 0.0)
                     radiobutton("All Keywords", toggleGroup) {
-                        tooltip("Single, comma separated keywords.\n" +
+                        tooltip("Single keywords (no phrases).\n" +
                             "All keywords must be found.")
                         isSelected = true
                     }
                     radiobutton("Any Keyword", toggleGroup) {
-                        tooltip("Single, comma separated keywords.\n" +
+                        tooltip("Single keywords (no phrases).\n" +
                             "At least one keyword must be found.")
                     }
                     radiobutton("RegEx", toggleGroup) {

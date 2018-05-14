@@ -165,7 +165,7 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
 
     */
 
-    private val baseUrl: String = "http://chart.finance.yahoo.com/table.csv"
+    private val baseUrl: String = "http://yieldChart.finance.yahoo.com/table.csv"
     private val urlBuilder: HttpUrl.Builder
 
     val connectTimeout: Long = 10
