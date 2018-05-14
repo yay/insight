@@ -30,3 +30,5 @@ has no `booleanProperty` property.
 val recurringIcon = MaterialDesignIconView(MaterialDesignIcon.REFRESH).apply {
     glyphSize = 16.0
 }
+
+https://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html

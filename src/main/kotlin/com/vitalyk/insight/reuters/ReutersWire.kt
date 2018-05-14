@@ -98,7 +98,7 @@ object ReutersWire {
         stopFetching()
     }
 
-    private val _triggers = mutableListOf<TextTrigger>()
+    private val _triggers = mutableSetOf<TextTrigger>()
     val triggers get() = _triggers.toList()
 
     fun addTrigger(trigger: TextTrigger) {

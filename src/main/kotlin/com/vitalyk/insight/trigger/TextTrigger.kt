@@ -118,4 +118,8 @@ fun main(args: Array<String>) {
     println(text6)
     println(text7)
     println(text8)
+
+    val trigger1 = AnyKeywordTrigger.of("trump, drugs")
+    val trigger2 = AnyKeywordTrigger.of("trump, drugs")
+    println(trigger1 == trigger2)
 }
