@@ -237,7 +237,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
                             "Use this when keywords are not enough.\n" +
                             "For example, to match phrases.")
                     }
-                    pane { hgrow = Priority.ALWAYS } // spacer
+                    spacer {}
                     checkbox("Recurring", recurringProperty)
                 }
                 this += textField

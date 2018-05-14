@@ -63,15 +63,27 @@ class AssetStatsFragment : Fragment() {
                         this += marketCap
                     }
                     row {
-                        label("Beta")
+                        label("Beta") {
+                            tooltip("A measure of the volatility of a security\n" +
+                                "in comparison to the market as a whole.\n" +
+                                "Market Change x Beta = Estimated Change")
+                            // A security's beta should only be used when a security
+                            // has a high R-squared value in relation to the benchmark.
+                        }
                         this += beta
                     }
                     row {
-                        label("Shares Outstanding")
+                        label("Shares Outstanding") {
+                            tooltip("Total shares (from IPO, subsequent offerings" +
+                                " and exercise of convertible securities).")
+                        }
                         this += sharesOutstanding
                     }
                     row {
-                        label("Float")
+                        label("Float") {
+                            tooltip("Shares available for trading (outstanding shares" +
+                                " minus restricted stock).")
+                        }
                         this += float
                     }
 
@@ -188,7 +200,7 @@ class AssetStatsFragment : Fragment() {
                 shortDate.text = formatDate(it.shortDate)
 
                 dividendRate.text = formatNumber(it.dividendRate)
-                dividendYield.text = formatNumber(it.dividendYield)
+                dividendYield.text = formatNumber(it.dividendYield, percent = true)
                 exDividendDate.text = formatDate(it.exDividendDate)
 
                 latestEps.text = formatNumber(it.latestEps)
@@ -219,8 +231,9 @@ class AssetStatsFragment : Fragment() {
         return if (date == zeroDate) "--" else dateFormat.format(date)
     }
 
-    private fun formatNumber(value: Double, significand: Int = 2): String {
-        return if (value == 0.0) "--" else "%.${significand}f".format(value)
+    private fun formatNumber(value: Double, significand: Int = 2, percent: Boolean = false): String {
+        val suffix = if (percent) "%%" else ""
+        return if (value == 0.0) "--" else "%.${significand}f$suffix".format(value)
     }
 
     private fun formatNumber(value: Long): String {

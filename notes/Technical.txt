@@ -18,3 +18,6 @@ https://github.com/gradle/gradle/issues/4503
 
 Get installed font families:
 javafx.scene.text.Font.getFamilies()
+
+JavaFX CSS does not support comma-separated series of font family names in the
+-fx-font-family property.
