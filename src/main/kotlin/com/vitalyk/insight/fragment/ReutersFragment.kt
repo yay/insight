@@ -1,5 +1,6 @@
 package com.vitalyk.insight.fragment
 
+import com.vitalyk.insight.helpers.bindVisible
 import com.vitalyk.insight.helpers.browseTo
 import com.vitalyk.insight.helpers.getResourceAudioClip
 import com.vitalyk.insight.helpers.newYorkTimeZone
@@ -30,113 +31,36 @@ import java.util.*
 // https://www.reuters.com/assets/jsonWireNews?startTime=1525694056000
 
 class ReutersFragment : Fragment("Reuters Wire") {
-    val newsList: ListView<Story> = listview {
-        vgrow = Priority.ALWAYS
-
-        val dateFormat = SimpleDateFormat("HH:mm:ss").apply {
-            timeZone = newYorkTimeZone
-        }
-
-        cellFormat { story ->
-            graphic = vbox {
-                hbox {
-                    label(story.formattedDate) {
-                        textFill = Color.GRAY
-                    }
-                    pane {
-                        hgrow = Priority.ALWAYS
-                    }
-                    label(dateFormat.format(story.date)) {
-                        textFill = Color.GRAY
-                    }
-                }
-                label(story.headline) {
-                    textFill = Color.BLACK
-                    isWrapText = true
-                    prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
-
-                    style {
-                        font = Font.font("Tahoma", 9.0)
-                        fontWeight = FontWeight.BOLD
-                    }
-                }
-            }
-        }
-
-        onUserSelect {
-            browseTo(ReutersWire.baseUrl + it.url)
-        }
-
-        contextmenu {
-            item("Copy").action {
-                selectedItem?.apply {
-                    clipboard.putString(headline)
-                }
-            }
-        }
-
-        setOnKeyPressed {
-            when {
-                it.isMetaDown && it.code == KeyCode.F -> searchVisibleProperty.value = true
-                it.code == KeyCode.ESCAPE -> searchVisibleProperty.value = false
-            }
+    val searchTextProperty = SimpleStringProperty("")
+    val showSearchProperty = SimpleBooleanProperty(false).apply {
+        onChange {
+            if (!it) searchTextProperty.value = ""
         }
     }
 
-    val showAlertDetailsProperty = SimpleBooleanProperty(false).apply {
-        onChange { alertList.refresh() }
+
+    val showNewsProperty = SimpleBooleanProperty(true)
+    val newsItems = mutableListOf<Story>().observable()
+    val filteredNewsItems = FilteredList(newsItems).apply {
+        searchTextProperty.onChange { text ->
+            if (text?.isNotBlank() == true) {
+                setPredicate {
+                    it.headline.contains(text, ignoreCase = true)
+                }
+            } else {
+                setPredicate(null)
+            }
+        }
+        val text = searchTextProperty.value
+        if (text?.isNotBlank() == true) setPredicate {
+            it.headline.contains(text, ignoreCase = true)
+        }
     }
+
+    val alertItems = mutableListOf<StoryAlert>().observable()
+    val showAlertsProperty = SimpleBooleanProperty(false)
+    val showAlertDetailsProperty = SimpleBooleanProperty(false)
     var newAlerts: Set<StoryAlert> = emptySet()
-    val alertList: ListView<StoryAlert> = listview {
-        vgrow = Priority.ALWAYS
-        managedProperty().bind(visibleProperty())
-        isVisible = false
-        val dateFormat = SimpleDateFormat("HH:mm:ss zzz - EEE, dd MMM yy")
-        dateFormat.timeZone = TimeZone.getTimeZone("America/New_York")
-
-        cellFormat { alert ->
-            graphic = vbox {
-                if (showAlertDetailsProperty.value) {
-                    label("Triggered: ${dateFormat.format(alert.date)}") {
-                        textFill = Color.GRAY
-                    }
-                    label("Appeared: ${dateFormat.format(alert.story.date)}") {
-                        textFill = Color.GRAY
-                    }
-                }
-                label(alert.story.headline) {
-                    textFill = if (alert in newAlerts) Color.ORANGERED else Color.BLACK
-                    isWrapText = true
-                    prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
-
-                    style {
-                        font = Font.font("Tahoma", 9.0)
-                        fontWeight = FontWeight.BOLD
-                    }
-                }
-            }
-        }
-
-        onUserSelect {
-            browseTo(ReutersWire.baseUrl + it.story.url)
-        }
-
-        contextmenu {
-            item("Clear All").action {
-                alert(Alert.AlertType.CONFIRMATION, "Remove all alerts?") { result ->
-                    if (result == ButtonType.OK) {
-                        ReutersWire.clearAlerts()
-                        updateAlerts()
-                    }
-                }
-            }
-            customitem {
-                content = CheckBox("Details").apply {
-                    bind(showAlertDetailsProperty)
-                }
-            }
-        }
-    }
 
     private val TextTrigger.displayName: String
         get() = when (this) {
@@ -154,79 +78,9 @@ class ReutersFragment : Fragment("Reuters Wire") {
             else -> "Unrecognized Value"
         }
 
-    val triggerList: ListView<TextTrigger> = listview {
-        val listview = this
-        vgrow = Priority.ALWAYS
-        managedProperty().bind(visibleProperty())
-        isVisible = false
+    val showTriggersProperty = SimpleBooleanProperty(false)
+    val triggerItems = mutableListOf<TextTrigger>().observable()
 
-        cellFormat { trigger ->
-            graphic = vbox {
-                hbox {
-                    alignment = Pos.CENTER_LEFT
-                    spacing = 5.0
-                    label(trigger.displayName) {
-                        textFill = Color.GRAY
-                    }
-                }
-                label(trigger.displayValue) {
-                    textFill = Color.BLACK
-                    isWrapText = true
-                    prefWidth = listview.width
-
-                    style {
-                        font = Font.font("Tahoma", 9.0)
-                        fontWeight = FontWeight.BOLD
-                    }
-                }
-            }
-        }
-
-        contextmenu {
-            item("Remove").action {
-                selectedItem?.let {
-                    ReutersWire.removeTrigger(it)
-                    listview.items = ReutersWire.triggers.observable()
-                }
-            }
-            separator()
-            item("Clear All").action {
-                alert(Alert.AlertType.CONFIRMATION, "Remove all triggers?") { result ->
-                    if (result == ButtonType.OK) {
-                        ReutersWire.clearTriggers()
-                        updateTriggers()
-                    }
-                }
-            }
-        }
-
-        onUserSelect {
-        }
-    }
-
-    val searchTextProperty = SimpleStringProperty("")
-    val searchVisibleProperty = SimpleBooleanProperty(false).apply {
-        onChange {
-            if (!it) searchTextProperty.value = ""
-        }
-    }
-
-    val newsBox = vbox {
-        vgrow = Priority.ALWAYS
-        managedProperty().bind(visibleProperty())
-        toolbar {
-            managedProperty().bind(searchVisibleProperty)
-            label("Search:")
-            textfield(searchTextProperty) {
-                hgrow = Priority.ALWAYS
-                setOnKeyPressed {
-                    if (it.code == KeyCode.ESCAPE)
-                        searchVisibleProperty.value = false
-                }
-            }
-        }
-        this += newsList
-    }
 
     override val root = vbox {
         toolbar {
@@ -237,9 +91,9 @@ class ReutersFragment : Fragment("Reuters Wire") {
             toggleGroup.selectedToggleProperty().addListener(ChangeListener { _, _, _ ->
                 toggleGroup.selectedToggle?.let {
                     val index = (it as RadioButton).indexInParent
-                    newsBox.isVisible = index == 0
-                    alertList.isVisible = index == 1
-                    triggerList.isVisible = index == 2
+                    showNewsProperty.value = index == 0
+                    showAlertsProperty.value = index == 1
+                    showTriggersProperty.value = index == 2
                 }
             })
 
@@ -249,9 +103,173 @@ class ReutersFragment : Fragment("Reuters Wire") {
         }
 
         // Only one list is visible at a time.
-        this += newsBox
-        this += alertList
-        this += triggerList
+        vbox {
+            vgrow = Priority.ALWAYS
+            bindVisible(showNewsProperty)
+            toolbar {
+                bindVisible(showSearchProperty)
+                label("Search:")
+                textfield(searchTextProperty) {
+                    hgrow = Priority.ALWAYS
+                    setOnKeyPressed {
+                        if (it.code == KeyCode.ESCAPE)
+                            showSearchProperty.value = false
+                    }
+                }
+            }
+            listview(filteredNewsItems) {
+                vgrow = Priority.ALWAYS
+
+                val dateFormat = SimpleDateFormat("HH:mm:ss").apply {
+                    timeZone = newYorkTimeZone
+                }
+
+                cellFormat { story ->
+                    graphic = vbox {
+                        hbox {
+                            label(story.formattedDate) {
+                                textFill = Color.GRAY
+                            }
+                            pane {
+                                hgrow = Priority.ALWAYS
+                            }
+                            label(dateFormat.format(story.date)) {
+                                textFill = Color.GRAY
+                            }
+                        }
+                        label(story.headline) {
+                            textFill = Color.BLACK
+                            isWrapText = true
+                            prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
+
+                            style {
+                                font = Font.font("Tahoma", 9.0)
+                                fontWeight = FontWeight.BOLD
+                            }
+                        }
+                    }
+                }
+
+                onUserSelect {
+                    browseTo(ReutersWire.baseUrl + it.url)
+                }
+
+                contextmenu {
+                    item("Copy").action {
+                        selectedItem?.apply {
+                            clipboard.putString(headline)
+                        }
+                    }
+                }
+
+                setOnKeyPressed {
+                    when {
+                        it.isMetaDown && it.code == KeyCode.F -> showSearchProperty.value = true
+                        it.code == KeyCode.ESCAPE -> showSearchProperty.value = false
+                    }
+                }
+            }
+        }
+        listview(alertItems) {
+            vgrow = Priority.ALWAYS
+            bindVisible(showAlertsProperty)
+            val dateFormat = SimpleDateFormat("HH:mm:ss zzz - EEE, dd MMM yy")
+            dateFormat.timeZone = TimeZone.getTimeZone("America/New_York")
+
+            showAlertDetailsProperty.onChange { refresh() }
+
+            cellFormat { alert ->
+                graphic = vbox {
+                    label("Triggered: ${dateFormat.format(alert.date)}") {
+                        textFill = Color.GRAY
+                        bindVisible(showAlertDetailsProperty)
+                    }
+                    label("Appeared: ${dateFormat.format(alert.story.date)}") {
+                        textFill = Color.GRAY
+                        bindVisible(showAlertDetailsProperty)
+                    }
+                    label(alert.story.headline) {
+                        textFill = if (alert in newAlerts) Color.ORANGERED else Color.BLACK
+                        isWrapText = true
+                        prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
+
+                        style {
+                            font = Font.font("Tahoma", 9.0)
+                            fontWeight = FontWeight.BOLD
+                        }
+                    }
+                }
+            }
+
+            onUserSelect {
+                browseTo(ReutersWire.baseUrl + it.story.url)
+            }
+
+            contextmenu {
+                item("Clear All").action {
+                    alert(Alert.AlertType.CONFIRMATION, "Remove all alerts?") { result ->
+                        if (result == ButtonType.OK) {
+                            ReutersWire.clearAlerts()
+                            updateAlerts()
+                        }
+                    }
+                }
+                customitem {
+                    content = CheckBox("Details").apply {
+                        bind(showAlertDetailsProperty)
+                    }
+                }
+            }
+        }
+        listview(triggerItems) {
+            val listview = this
+            vgrow = Priority.ALWAYS
+            bindVisible(showTriggersProperty)
+
+            cellFormat { trigger ->
+                graphic = vbox {
+                    hbox {
+                        alignment = Pos.CENTER_LEFT
+                        spacing = 5.0
+                        label(trigger.displayName) {
+                            textFill = Color.GRAY
+                        }
+                    }
+                    label(trigger.displayValue) {
+                        textFill = Color.BLACK
+                        isWrapText = true
+                        prefWidth = listview.width
+
+                        style {
+                            font = Font.font("Tahoma", 9.0)
+                            fontWeight = FontWeight.BOLD
+                        }
+                    }
+                }
+            }
+
+            contextmenu {
+                item("Remove").action {
+                    selectedItem?.let {
+                        ReutersWire.removeTrigger(it)
+                        listview.items = ReutersWire.triggers.observable()
+                    }
+                }
+                separator()
+                item("Clear All").action {
+                    alert(Alert.AlertType.CONFIRMATION, "Remove all triggers?") { result ->
+                        if (result == ButtonType.OK) {
+                            ReutersWire.clearTriggers()
+                            updateTriggers()
+                        }
+                    }
+                }
+            }
+
+            onUserSelect {
+            }
+        }
+
     }
 
     fun addTrigger() {
@@ -317,11 +335,11 @@ class ReutersFragment : Fragment("Reuters Wire") {
     }
 
     fun updateTriggers() {
-        triggerList.items = ReutersWire.triggers.observable()
+        triggerItems.setAll(ReutersWire.triggers)
     }
 
     fun updateAlerts() {
-        alertList.items = ReutersWire.alerts.observable()
+        alertItems.setAll(ReutersWire.alerts)
     }
 
     init {
@@ -331,21 +349,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
         ReutersWire.apply {
             addStoryListener { stories ->
                 runLater {
-                    newsList.items = FilteredList(stories.observable()).apply {
-                        searchTextProperty.onChange { text ->
-                            if (text?.isNotBlank() == true) {
-                                setPredicate {
-                                    it.headline.contains(text, ignoreCase = true)
-                                }
-                            } else {
-                                setPredicate(null)
-                            }
-                        }
-                        val text = searchTextProperty.value
-                        if (text?.isNotBlank() == true) setPredicate {
-                            it.headline.contains(text, ignoreCase = true)
-                        }
-                    }
+                    newsItems.setAll(stories)
                 }
             }
             addAlertListener { alerts ->

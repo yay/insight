@@ -2,6 +2,8 @@ package com.vitalyk.insight.helpers
 
 import com.vitalyk.insight.Insight
 import com.vitalyk.insight.iex.Iex
+import javafx.beans.value.ObservableValue
+import javafx.scene.Node
 import javafx.scene.media.AudioClip
 import java.util.*
 import kotlin.reflect.KClass
@@ -12,6 +14,11 @@ import kotlin.reflect.full.memberProperties
  * E.g. getResourceAudioClip("/sounds/alerts/chime.wav").play()
  */
 fun getResourceAudioClip(path: String) = AudioClip(Insight::class.java.getResource(path).toURI().toString())
+
+fun Node.bindVisible(property: ObservableValue<Boolean>) {
+    managedProperty().bind(property)
+    visibleProperty().bind(property)
+}
 
 private val typeToFxPropertyMap = mapOf(
     "kotlin.Boolean" to "SimpleBooleanProperty",

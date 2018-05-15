@@ -1,5 +1,6 @@
 package com.vitalyk.insight.reuters
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.vitalyk.insight.helpers.objectMapper
 import com.vitalyk.insight.main.httpGet
