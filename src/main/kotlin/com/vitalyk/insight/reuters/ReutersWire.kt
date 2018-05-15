@@ -1,6 +1,5 @@
 package com.vitalyk.insight.reuters
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.vitalyk.insight.helpers.objectMapper
 import com.vitalyk.insight.main.httpGet
@@ -54,10 +53,7 @@ object ReutersWire {
 
     fun saveState(): State = State(
         triggers = triggers,
-        // Not using `alerts` property, as it returns a reversed copy.
-        // Would have to reverse on load as well.
-        // Instead, save and restore alerts in natural order.
-        alerts = _alerts.values.toList()
+        alerts = alerts
     )
 
     fun loadState(state: State?) {
@@ -111,13 +107,12 @@ object ReutersWire {
     }
 
     // Same stories can reappear with more updates.
-    // To prevent alerting the user repeatedly, we keep an ordered map
-    // of stories to recently triggered alerts. This also allows us
-    // to know at what time the news story first surfaced.
+    // To prevent alerting the user repeatedly, we keep a map
+    // of stories to recently triggered alerts.
     private const val alertCacheSize = 100
-    private val _alerts = linkedMapOf<String, StoryAlert>()
+    private val _alerts = mutableMapOf<String, StoryAlert>()
 
-    val alerts get() = _alerts.values.reversed()
+    val alerts get() = _alerts.values.sortedByDescending { it.date }
 
     fun clearAlerts() {
         // TODO: read more about mutexes and concurrency in Java
@@ -150,7 +145,6 @@ object ReutersWire {
                         it.story.date != story.date
                     } ?: false
                     if ((isNewStory || isStoryUpdate) && trigger.matches(text)) {
-                        // TODO: remove older alerts and keep newer ones, while keeping no more than alertCacheSize
                         if (_alerts.size >= alertCacheSize) _alerts.clear()
                         val alert = StoryAlert(Date(), story)
                         _alerts[text] = alert

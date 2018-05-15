@@ -60,7 +60,6 @@ class ReutersFragment : Fragment("Reuters Wire") {
     val alertItems = mutableListOf<StoryAlert>().observable()
     val showAlertsProperty = SimpleBooleanProperty(false)
     val showAlertDetailsProperty = SimpleBooleanProperty(false)
-    var newAlerts: Set<StoryAlert> = emptySet()
 
     private val TextTrigger.displayName: String
         get() = when (this) {
@@ -189,7 +188,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
                         bindVisible(showAlertDetailsProperty)
                     }
                     label(alert.story.headline) {
-                        textFill = if (alert in newAlerts) Color.ORANGERED else Color.BLACK
+                        textFill = Color.BLACK
                         isWrapText = true
                         prefWidthProperty().bind(this@listview.widthProperty().subtract(36))
 
@@ -355,7 +354,6 @@ class ReutersFragment : Fragment("Reuters Wire") {
             addAlertListener { alerts ->
                 runLater {
                     getResourceAudioClip("/sounds/alerts/chime.wav").play()
-                    newAlerts = alerts
                     updateAlerts()
                 }
             }
