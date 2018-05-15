@@ -83,6 +83,9 @@ class ReutersFragment : Fragment("Reuters Wire") {
         }
     }
 
+    val showAlertDetailsProperty = SimpleBooleanProperty(false).apply {
+        onChange { alertList.refresh() }
+    }
     var newAlerts: Set<StoryAlert> = emptySet()
     val alertList: ListView<StoryAlert> = listview {
         vgrow = Priority.ALWAYS
@@ -93,8 +96,13 @@ class ReutersFragment : Fragment("Reuters Wire") {
 
         cellFormat { alert ->
             graphic = vbox {
-                label(dateFormat.format(alert.date)) {
-                    textFill = Color.GRAY
+                if (showAlertDetailsProperty.value) {
+                    label("Triggered: ${dateFormat.format(alert.date)}") {
+                        textFill = Color.GRAY
+                    }
+                    label("Appeared: ${dateFormat.format(alert.story.date)}") {
+                        textFill = Color.GRAY
+                    }
                 }
                 label(alert.story.headline) {
                     textFill = if (alert in newAlerts) Color.ORANGERED else Color.BLACK
@@ -120,6 +128,11 @@ class ReutersFragment : Fragment("Reuters Wire") {
                         ReutersWire.clearAlerts()
                         updateAlerts()
                     }
+                }
+            }
+            customitem {
+                content = CheckBox("Details").apply {
+                    bind(showAlertDetailsProperty)
                 }
             }
         }
@@ -176,6 +189,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
                     listview.items = ReutersWire.triggers.observable()
                 }
             }
+            separator()
             item("Clear All").action {
                 alert(Alert.AlertType.CONFIRMATION, "Remove all triggers?") { result ->
                     if (result == ButtonType.OK) {
