@@ -10,9 +10,13 @@ import com.vitalyk.insight.trigger.AllKeywordsTrigger
 import com.vitalyk.insight.trigger.AnyKeywordTrigger
 import com.vitalyk.insight.trigger.RegexTrigger
 import com.vitalyk.insight.trigger.TextTrigger
+import javafx.beans.property.SimpleBooleanProperty
+import javafx.beans.property.SimpleStringProperty
+import javafx.collections.transformation.FilteredList
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.control.*
+import javafx.scene.input.KeyCode
 import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
@@ -69,6 +73,13 @@ class ReutersFragment : Fragment("Reuters Wire") {
                 selectedItem?.apply {
                     clipboard.putString(headline)
                 }
+            }
+        }
+
+        setOnKeyPressed {
+            when {
+                it.isMetaDown && it.code == KeyCode.F -> searchVisibleProperty.value = true
+                it.code == KeyCode.ESCAPE -> searchVisibleProperty.value = false
             }
         }
     }
@@ -180,6 +191,13 @@ class ReutersFragment : Fragment("Reuters Wire") {
         }
     }
 
+    val searchTextProperty = SimpleStringProperty("")
+    val searchVisibleProperty = SimpleBooleanProperty(false).apply {
+        onChange {
+            if (!it) searchTextProperty.value = ""
+        }
+    }
+
     override val root = vbox {
         toolbar {
             val toggleGroup = ToggleGroup()
@@ -201,7 +219,21 @@ class ReutersFragment : Fragment("Reuters Wire") {
         }
 
         // Only one list is visible at a time.
-        this += newsList
+        vbox {
+            vgrow = Priority.ALWAYS
+            toolbar {
+                managedProperty().bind(searchVisibleProperty)
+                label("Search:")
+                textfield(searchTextProperty) {
+                    hgrow = Priority.ALWAYS
+                    setOnKeyPressed {
+                        if (it.code == KeyCode.ESCAPE)
+                            searchVisibleProperty.value = false
+                    }
+                }
+            }
+            this += newsList
+        }
         this += alertList
         this += triggerList
     }
@@ -233,7 +265,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
                         tooltip("Single keywords (no phrases).\n" +
                             "At least one keyword must be found.")
                     }
-                    radiobutton("RegEx", toggleGroup) {
+                    radiobutton("Regular Expression", toggleGroup) {
                         tooltip("A regular expression matching something within the text.\n" +
                             "Use this when keywords are not enough.\n" +
                             "For example, to match phrases.")
@@ -283,7 +315,21 @@ class ReutersFragment : Fragment("Reuters Wire") {
         ReutersWire.apply {
             addStoryListener { stories ->
                 runLater {
-                    newsList.items = stories.observable()
+                    newsList.items = FilteredList(stories.observable()).apply {
+                        searchTextProperty.onChange { text ->
+                            if (text?.isNotBlank() == true) {
+                                setPredicate {
+                                    it.headline.contains(text, ignoreCase = true)
+                                }
+                            } else {
+                                setPredicate(null)
+                            }
+                        }
+                        val text = searchTextProperty.value
+                        if (text?.isNotBlank() == true) setPredicate {
+                            it.headline.contains(text, ignoreCase = true)
+                        }
+                    }
                 }
             }
             addAlertListener { alerts ->
