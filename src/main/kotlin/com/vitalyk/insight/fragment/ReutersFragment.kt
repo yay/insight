@@ -32,7 +32,6 @@ import java.util.*
 class ReutersFragment : Fragment("Reuters Wire") {
     val newsList: ListView<Story> = listview {
         vgrow = Priority.ALWAYS
-        managedProperty().bind(visibleProperty())
 
         val dateFormat = SimpleDateFormat("HH:mm:ss").apply {
             timeZone = newYorkTimeZone
@@ -198,6 +197,23 @@ class ReutersFragment : Fragment("Reuters Wire") {
         }
     }
 
+    val newsBox = vbox {
+        vgrow = Priority.ALWAYS
+        managedProperty().bind(visibleProperty())
+        toolbar {
+            managedProperty().bind(searchVisibleProperty)
+            label("Search:")
+            textfield(searchTextProperty) {
+                hgrow = Priority.ALWAYS
+                setOnKeyPressed {
+                    if (it.code == KeyCode.ESCAPE)
+                        searchVisibleProperty.value = false
+                }
+            }
+        }
+        this += newsList
+    }
+
     override val root = vbox {
         toolbar {
             val toggleGroup = ToggleGroup()
@@ -207,7 +223,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
             toggleGroup.selectedToggleProperty().addListener(ChangeListener { _, _, _ ->
                 toggleGroup.selectedToggle?.let {
                     val index = (it as RadioButton).indexInParent
-                    newsList.isVisible = index == 0
+                    newsBox.isVisible = index == 0
                     alertList.isVisible = index == 1
                     triggerList.isVisible = index == 2
                 }
@@ -219,21 +235,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
         }
 
         // Only one list is visible at a time.
-        vbox {
-            vgrow = Priority.ALWAYS
-            toolbar {
-                managedProperty().bind(searchVisibleProperty)
-                label("Search:")
-                textfield(searchTextProperty) {
-                    hgrow = Priority.ALWAYS
-                    setOnKeyPressed {
-                        if (it.code == KeyCode.ESCAPE)
-                            searchVisibleProperty.value = false
-                    }
-                }
-            }
-            this += newsList
-        }
+        this += newsBox
         this += alertList
         this += triggerList
     }
