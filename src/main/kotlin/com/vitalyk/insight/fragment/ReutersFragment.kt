@@ -221,7 +221,6 @@ class ReutersFragment : Fragment("Reuters Wire") {
             }
         }
         listview(triggerItems) {
-            val listview = this
             vgrow = Priority.ALWAYS
             bindVisible(showTriggersProperty)
 
@@ -237,7 +236,6 @@ class ReutersFragment : Fragment("Reuters Wire") {
                     label(trigger.displayValue) {
                         textFill = Color.BLACK
                         isWrapText = true
-                        prefWidth = listview.width
 
                         style {
                             font = Font.font("Tahoma", 9.0)
@@ -251,7 +249,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
                 item("Remove").action {
                     selectedItem?.let {
                         ReutersWire.removeTrigger(it)
-                        listview.items = ReutersWire.triggers.observable()
+                        updateTriggers()
                     }
                 }
                 separator()
