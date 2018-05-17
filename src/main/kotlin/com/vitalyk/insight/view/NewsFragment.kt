@@ -106,6 +106,7 @@ class NewsFragment : Fragment("News") {
         isFetching = true
         fetchTimes[symbol] = now
 
+        // TODO: BUG -> same news are displayed for different symbols
         runAsyncWithProgress {
             fetchNews(symbol)
         } ui {

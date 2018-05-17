@@ -3,6 +3,8 @@ package com.vitalyk.insight.iex
 import com.vitalyk.insight.iex.Iex.Tops
 import io.socket.client.IO
 import io.socket.client.Socket
+import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.experimental.launch
 import org.slf4j.LoggerFactory
 
 typealias ChangeListener = (old: Tops?, new: Tops?) -> Unit
@@ -175,21 +177,21 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
             }
 
         // Simulation.
-//        launch {
-//            while (isActive) {
-//                delay(500)
-//                if (map.isNotEmpty()) {
-//                    val tops = tops
-//                    val index = (Math.random() * tops.size).toInt()
-//                    val oldTop = tops[index]
-//                    val top = oldTop.copy(
-//                        bidPrice = oldTop.bidPrice + Math.random() * 5.0,
-//                        askPrice = oldTop.bidPrice + Math.random() * 5.0
-//                    )
-//                    updateMap(top.symbol, top)
-//                }
-//            }
-//        }
+        launch {
+            while (isActive) {
+                delay(1500)
+                map.values.forEach { oldTop ->
+                    if (Math.random() > 0.5) {
+                        val top = oldTop.copy(
+                            bidPrice = oldTop.bidPrice - 0.5 + Math.random() * 1.0,
+                            askPrice = oldTop.bidPrice - 0.5 + Math.random() * 1.0
+                        )
+                        updateMap(top.symbol, top)
+                    }
+                }
+            }
+        }
+
     }
 
     fun disconnect() {

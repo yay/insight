@@ -51,7 +51,7 @@ class EarningsFragment : Fragment("Earnings") {
                         node?.tooltip(it.yearAgo.toString())
                     }
                 }
-                chart.series("Estimated") {
+                chart.series("Estimate") {
                     earnings.forEach { earnings ->
                         earnings.estimatedEps?.let {
                             data(getCategory(earnings), it)

@@ -5,12 +5,17 @@ import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.TopsBean
 import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.iex.toBean
+import com.vitalyk.insight.ui.HighlightTableCell
 import com.vitalyk.insight.ui.symbolfield
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
+import javafx.collections.FXCollections
+import javafx.scene.control.TableColumn
+import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.layout.Priority
 import tornadofx.*
 import java.text.SimpleDateFormat
+import java.util.*
 
 // TODO: the app won't shutdown because of some background thread activity
 class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
@@ -21,8 +26,10 @@ class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
     }
     private val priceFormat = "%.2f"
 
+    val tableItems = FXCollections.observableArrayList<TopsBean>()
+
     // https://github.com/edvin/tornadofx/wiki/TableView-SmartResize
-    val table = tableview(mutableListOf<TopsBean>().observable()) {
+    val table = tableview(tableItems) {
         val table = this
 
         multiSelect()
@@ -35,33 +42,19 @@ class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
             }
         }
         column("Trade Size", TopsBean::lastSaleSizeProperty)
-//        val doubleComparator = Comparator<Double> { a, b ->
-//            when {
-//                a === null && b === null -> 0
-//                a === null -> -1
-//                b === null -> 1
-//                else -> Math.signum(a - b).toInt()
-//            }
-//        }
-//        val col = TableColumn<TopsBean, Double>("Bid1").apply {
-//            setCellFactory {
-//                FlashingTableCell(doubleComparator)
-//            }
-//        }
-//        addColumnInternal(col)
-//        column("Bid", TopsBean::bidPriceProperty) {
-//            setCellFactory {
-//                FlashingTableCell(Comparator { a, b ->
-//                    when {
-//                        a === null && b === null -> 0
-//                        a === null -> -1
-//                        b === null -> 1
-//                        else -> Math.signum(a.toDouble() - b.toDouble()).toInt()
-//                    }
-//                })
-//            }
-//        }
-        column("Bid", TopsBean::bidPriceProperty)
+//        column("Bid", TopsBean::bidPriceProperty)
+        TableColumn<TopsBean, Double>("Bid").apply {
+            cellValueFactory = PropertyValueFactory<TopsBean, Double>("bidPrice")
+//            setCellValueFactory { ReadOnlyObjectWrapper(it.value.bidPrice) }
+            setCellFactory {
+                HighlightTableCell<TopsBean, Double>(
+                    nullsLast<Double>() as Comparator<Double>,
+                    { "%.2f".format(it) }
+                )
+            }
+            table.columns.add(this)
+        }
+
         column("Ask", TopsBean::askPriceProperty)
         column<TopsBean, String>("Spread") {
             val data = it.value
@@ -77,7 +70,7 @@ class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
                 // TODO: removed items sometimes reappear
                 val symbols = table.selectionModel.selectedItems.map { it.symbol }
                 watchlist.removeSymbols(symbols)
-                table.items.removeAll(table.selectionModel.selectedItems)
+                tableItems.removeAll(table.selectionModel.selectedItems)
             }
         }
 
@@ -109,12 +102,12 @@ class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
 
     fun addSymbols(symbols: List<String>) {
         watchlist.addSymbols(symbols).forEach {
-            table.items.add(Iex.Tops(symbol = it).toBean())
+            tableItems.add(Iex.Tops(symbol = it).toBean())
         }
     }
 
     private fun getSymbolIndex(symbol: String): Int {
-        table.items.forEachIndexed { index, topsBean ->
+        tableItems.forEachIndexed { index, topsBean ->
             if (topsBean.symbol == symbol) return index
         }
         return -1
@@ -123,7 +116,7 @@ class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
     private fun replaceItem(tops: Iex.Tops): Int {
         val index = getSymbolIndex(tops.symbol)
         if (index >= 0) {
-            table.items[index] = tops.toBean()
+            tops.toBean(tableItems[index])
         }
         return index
     }
@@ -131,13 +124,13 @@ class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
     private fun replaceOrAddItem(tops: Iex.Tops) {
         val replacedAt = replaceItem(tops)
         if (replacedAt < 0) {
-            table.items.add(tops.toBean())
+            tableItems.add(tops.toBean())
         }
     }
 
     private fun removeSymbol(symbol: String) {
         val index = getSymbolIndex(symbol)
-        if (index >= 0) table.items.removeAt(index)
+        if (index >= 0) tableItems.removeAt(index)
     }
 
 //    override fun onDock() {
@@ -151,7 +144,7 @@ class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
 //    }
 
     private fun refresh() {
-        table.items.setAll(watchlist.tops.map { it.toBean() })
+        tableItems.setAll(watchlist.tops.map { it.toBean() })
     }
 
     init {
