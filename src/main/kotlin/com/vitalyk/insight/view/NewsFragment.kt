@@ -45,7 +45,7 @@ class NewsFragment : Fragment("News") {
         timeZone = newYorkTimeZone
     }
 
-    val toolbarVisible = SimpleBooleanProperty()
+    val toolbarVisible = SimpleBooleanProperty(true)
 
     override val root = vbox {
         toolbar {
