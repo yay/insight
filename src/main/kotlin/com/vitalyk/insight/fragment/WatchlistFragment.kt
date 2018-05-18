@@ -7,16 +7,16 @@ import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.iex.toBean
 import com.vitalyk.insight.ui.HighlightTableCell
 import com.vitalyk.insight.ui.symbolfield
-import javafx.beans.property.SimpleObjectProperty
+import javafx.beans.binding.Bindings
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.FXCollections
 import javafx.scene.control.TableColumn
 import javafx.scene.layout.Priority
 import tornadofx.*
 import java.text.SimpleDateFormat
+import java.util.concurrent.Callable
 
-// TODO: the app won't shutdown because of some background thread activity
-class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
+class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
 
     var symbol = SimpleStringProperty("")
     private var lastTradeTimeFormatter = SimpleDateFormat("HH:mm:ss").apply {
@@ -60,9 +60,16 @@ class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
             }
             table.columns.add(this)
         }
-        column<TopsBean, String>("Spread") {
-            val data = it.value
-            SimpleObjectProperty(priceFormat.format(data.bidPrice - data.askPrice))
+        TableColumn<TopsBean, String>("Spread").apply {
+            setCellValueFactory {
+                Bindings.createStringBinding(Callable {
+                        priceFormat.format(it.value.bidPrice - it.value.askPrice)
+                    },
+                    it.value.bidPriceProperty(),
+                    it.value.askPriceProperty()
+                )
+            }
+            table.columns.add(this)
         }
         column("Volume", TopsBean::volumeProperty)
         column("Bid Size", TopsBean::bidSizeProperty)

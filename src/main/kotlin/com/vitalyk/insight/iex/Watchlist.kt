@@ -177,24 +177,24 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
             }
 
         // Simulation.
-        launch {
-            while (isActive) {
-                delay(1500)
-                map.values.forEach { oldTop ->
-                    if (Math.random() > 0.5) {
-                        val spread = 0.1 + Math.random()
-                        val bid = oldTop.bidPrice - 0.5 + Math.random() * 1.0
-                        val ask = bid + spread
-                        val top = oldTop.copy(
-                            lastSalePrice = bid + Math.random() * spread,
-                            bidPrice = bid,
-                            askPrice = ask
-                        )
-                        updateMap(top.symbol, top)
-                    }
-                }
-            }
-        }
+//        launch {
+//            while (isActive) {
+//                delay(1500)
+//                map.values.forEach { oldTop ->
+//                    if (Math.random() > 0.5) {
+//                        val spread = 0.1 + Math.random()
+//                        val bid = oldTop.bidPrice - 0.5 + Math.random() * 1.0
+//                        val ask = bid + spread
+//                        val top = oldTop.copy(
+//                            lastSalePrice = bid + Math.random() * spread,
+//                            bidPrice = bid,
+//                            askPrice = ask
+//                        )
+//                        updateMap(top.symbol, top)
+//                    }
+//                }
+//            }
+//        }
 
     }
 

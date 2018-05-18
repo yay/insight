@@ -222,7 +222,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
 
             contextmenu {
                 item("Clear All").action {
-                    alert(Alert.AlertType.CONFIRMATION, "Remove all alerts?") { result ->
+                    alert(Alert.AlertType.CONFIRMATION, "Remove all alerts?", owner = primaryStage) { result ->
                         if (result == ButtonType.OK) {
                             ReutersWire.clearAlerts()
                             updateAlerts()
@@ -270,7 +270,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
                 }
                 separator()
                 item("Clear All").action {
-                    alert(Alert.AlertType.CONFIRMATION, "Remove all triggers?") { result ->
+                    alert(Alert.AlertType.CONFIRMATION, "Remove all triggers?", owner = primaryStage) { result ->
                         if (result == ButtonType.OK) {
                             ReutersWire.clearTriggers()
                             updateTriggers()
