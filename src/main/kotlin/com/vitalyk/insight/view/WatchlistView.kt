@@ -28,7 +28,7 @@ class WatchlistView : View("Watchlists") {
             vgrow = Priority.ALWAYS
             this += tabpane
             this += newslist.apply {
-                toolbox.hide()
+                toolbarVisible.set(false)
             }
             setDividerPositions(.6, .4)
 

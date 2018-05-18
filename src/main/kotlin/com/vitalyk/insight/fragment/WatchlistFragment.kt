@@ -7,20 +7,13 @@ import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.iex.toBean
 import com.vitalyk.insight.ui.HighlightTableCell
 import com.vitalyk.insight.ui.symbolfield
-import javafx.beans.property.SimpleDoubleProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
-import javafx.beans.value.ObservableValue
 import javafx.collections.FXCollections
 import javafx.scene.control.TableColumn
-import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.layout.Priority
-import javafx.scene.paint.Color
-import javafx.util.Callback
 import tornadofx.*
-import tornadofx.Stylesheet.Companion.filled
 import java.text.SimpleDateFormat
-import java.util.*
 
 // TODO: the app won't shutdown because of some background thread activity
 class WatchlistFragment(val watchlist: Watchlist) : Fragment() {

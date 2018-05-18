@@ -17,7 +17,7 @@ class MainWatchlistFragment : Fragment() {
 
             this += watchlist
             this += newslist.apply {
-                toolbox.hide()
+                toolbarVisible.set(false)
             }
             setDividerPositions(.7, .3)
 

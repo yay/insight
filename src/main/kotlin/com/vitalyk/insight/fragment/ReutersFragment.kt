@@ -1,6 +1,6 @@
 package com.vitalyk.insight.fragment
 
-import com.vitalyk.insight.helpers.bindVisible
+import com.vitalyk.insight.helpers.bindVisibleAndManaged
 import com.vitalyk.insight.helpers.browseTo
 import com.vitalyk.insight.helpers.getResourceAudioClip
 import com.vitalyk.insight.helpers.newYorkTimeZone
@@ -108,9 +108,9 @@ class ReutersFragment : Fragment("Reuters Wire") {
         // Only one list is visible at a time.
         vbox {
             vgrow = Priority.ALWAYS
-            bindVisible(showNewsProperty)
+            bindVisibleAndManaged(showNewsProperty)
             toolbar {
-                bindVisible(showSearchProperty)
+                bindVisibleAndManaged(showSearchProperty)
                 label("Search:")
                 textfield(searchTextProperty) {
                     hgrow = Priority.ALWAYS
@@ -175,7 +175,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
         }
         listview(alertItems) {
             vgrow = Priority.ALWAYS
-            bindVisible(showAlertsProperty)
+            bindVisibleAndManaged(showAlertsProperty)
             val dateFormat = SimpleDateFormat("HH:mm:ss zzz - EEE, dd MMM yy")
             dateFormat.timeZone = TimeZone.getTimeZone("America/New_York")
 
@@ -191,7 +191,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
                             textFill = Color.GRAY
                             padding = Insets(0.0, 0.0, 0.0, 5.0)
                         }
-                        bindVisible(showAlertDetailsProperty)
+                        bindVisibleAndManaged(showAlertDetailsProperty)
                     }
                     hbox {
                         this += MaterialIconView(MaterialIcon.ACCESS_TIME).apply {
@@ -201,7 +201,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
                             textFill = Color.GRAY
                             padding = Insets(0.0, 0.0, 0.0, 5.0)
                         }
-                        bindVisible(showAlertDetailsProperty)
+                        bindVisibleAndManaged(showAlertDetailsProperty)
                     }
                     label(alert.story.headline) {
                         textFill = Color.BLACK
@@ -238,7 +238,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
         }
         listview(triggerItems) {
             vgrow = Priority.ALWAYS
-            bindVisible(showTriggersProperty)
+            bindVisibleAndManaged(showTriggersProperty)
 
             cellFormat { trigger ->
                 graphic = vbox {
