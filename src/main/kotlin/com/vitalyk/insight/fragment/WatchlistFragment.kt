@@ -5,7 +5,7 @@ import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.TopsBean
 import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.iex.toBean
-import com.vitalyk.insight.ui.HighlightTableCell
+import com.vitalyk.insight.ui.ChangeBlinkTableCell
 import com.vitalyk.insight.ui.symbolfield
 import javafx.beans.binding.Bindings
 import javafx.beans.property.SimpleStringProperty
@@ -36,7 +36,7 @@ class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
         TableColumn<TopsBean, Double>("Last Trade").apply {
             setCellValueFactory { it.value.lastSalePriceProperty().asObject() }
             setCellFactory {
-                HighlightTableCell<TopsBean, Double>(naturalOrder(), { "%.2f".format(it) })
+                ChangeBlinkTableCell<TopsBean, Double>(naturalOrder(), { "%.2f".format(it) })
             }
             table.columns.add(this)
         }
@@ -49,14 +49,14 @@ class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
         TableColumn<TopsBean, Double>("Bid").apply {
             setCellValueFactory { it.value.bidPriceProperty().asObject() }
             setCellFactory {
-                HighlightTableCell<TopsBean, Double>(naturalOrder(), { "%.2f".format(it) })
+                ChangeBlinkTableCell<TopsBean, Double>(naturalOrder(), { "%.2f".format(it) })
             }
             table.columns.add(this)
         }
         TableColumn<TopsBean, Double>("Ask").apply {
             setCellValueFactory { it.value.askPriceProperty().asObject() }
             setCellFactory {
-                HighlightTableCell<TopsBean, Double>(naturalOrder(), { "%.2f".format(it) })
+                ChangeBlinkTableCell<TopsBean, Double>(naturalOrder(), { "%.2f".format(it) })
             }
             table.columns.add(this)
         }

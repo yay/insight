@@ -13,14 +13,14 @@ import javafx.util.Duration
 import java.util.*
 
 
-class FlashingTableCellGraphic(cell: Labeled) : StackPane() {
-    val bgIncrease = Background(BackgroundFill(INCREASE_HIGHLIGHT_COLOR, CornerRadii.EMPTY, Insets.EMPTY))
-    val bgDecrease = Background(BackgroundFill(DECREASE_HIGHLIGHT_COLOR, CornerRadii.EMPTY, Insets.EMPTY))
-    val bgChange = Background(BackgroundFill(HIGHLIGHT_COLOR, CornerRadii.EMPTY, Insets.EMPTY))
+class ChangePulseTableCellGraphic(cell: Labeled) : StackPane() {
+    private val bgIncrease = Background(BackgroundFill(INCREASE_COLOR, CornerRadii.EMPTY, Insets.EMPTY))
+    private val bgDecrease = Background(BackgroundFill(DECREASE_COLOR, CornerRadii.EMPTY, Insets.EMPTY))
+    private val bgChange = Background(BackgroundFill(CHANGE_COLOR, CornerRadii.EMPTY, Insets.EMPTY))
 
-    val background = BorderPane()
-    val labeledText = LabeledText(cell)
-    val transition = FadeTransition(HIGHLIGHT_TIME, background) // animates opacity
+    private val background = BorderPane()
+    private val labeledText = LabeledText(cell)
+    private val transition = FadeTransition(PULSE_TIME, background) // animates opacity
 
     init {
         labeledText.textProperty().bindBidirectional(cell.textProperty())
@@ -53,16 +53,14 @@ class FlashingTableCellGraphic(cell: Labeled) : StackPane() {
     }
 
     companion object {
-//        private val INCREASE_HIGHLIGHT_COLOR = Color(0.80, 1.00, 0.68, 1.00)
-//        private val DECREASE_HIGHLIGHT_COLOR = Color(1.00, 0.75, 0.78, 1.00)
-        private val INCREASE_HIGHLIGHT_COLOR = Color.rgb(0, 255, 0, 0.8)
-        private val DECREASE_HIGHLIGHT_COLOR = Color.rgb(255, 0, 0, 0.8)
-        private val HIGHLIGHT_COLOR = Color.rgb(255, 255, 0, 0.8)
-        private val HIGHLIGHT_TIME = Duration.millis(500.0)
+        private val INCREASE_COLOR = Color(0.802, 1.0, 0.68, 1.0)
+        private val DECREASE_COLOR = Color(1.0, 0.747, 0.782, 1.0)
+        private val CHANGE_COLOR = Color(1.0, 0.917, 0.68, 1.0)
+        private val PULSE_TIME = Duration.millis(500.0)
     }
 }
 
-class FlashingTableCell<S, T>(
+class ChangePulseTableCell<S, T>(
     private val comparator: Comparator<T>? = null,
     private val format: (T) -> String
 ) : TableCell<S, T>() {
@@ -92,8 +90,8 @@ class FlashingTableCell<S, T>(
             text = format(value)
 
             val cellGraphic = tableColumn.properties.getOrPut(tableRow) {
-                FlashingTableCellGraphic(this)
-            } as FlashingTableCellGraphic
+                ChangePulseTableCellGraphic(this)
+            } as ChangePulseTableCellGraphic
             graphic = cellGraphic
 
             val valueChanged = prevValue == null || prevValue.hashCode() != value.hashCode()
