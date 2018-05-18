@@ -11,6 +11,7 @@ class MainWatchlistFragment : Fragment() {
     val newslist = NewsFragment()
 
     override val root = vbox {
+        hgrow = Priority.ALWAYS
         splitpane(Orientation.VERTICAL) {
             vgrow = Priority.ALWAYS
 

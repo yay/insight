@@ -34,6 +34,7 @@ class Styles : Stylesheet() {
         // -fx-selection-bar-non-focused: lightgrey;
 
         // https://gist.github.com/maxd/63691840fc372f22f470
+        // https://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html#cell
 
         tableView {
             tableRowCell {

@@ -43,12 +43,11 @@ class MainView : View("Insight") {
                 }
             }
         }
-        splitpane {
+        hbox {
             vgrow = Priority.ALWAYS
 
             this += ReutersFragment()
             this += MainWatchlistFragment()
-            setDividerPositions(.3, .7)
         }
     }
 }
