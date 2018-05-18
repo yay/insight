@@ -27,9 +27,9 @@ class HighlightTableCell<S, T>(
         } else if (prevValue != value) {
             text = format(value)
 
-            if (comparator == null || prevValue == null) {
+            if (comparator == null) {
                 background = Background(BackgroundFill(HIGHLIGHT_COLOR, CornerRadii.EMPTY, Insets.EMPTY))
-            } else {
+            } else if (prevValue != null) {
                 val compare = comparator.compare(value, prevValue)
                 if (compare > 0) {
                     background = Background(BackgroundFill(INCREASE_HIGHLIGHT_COLOR, CornerRadii.EMPTY, Insets.EMPTY))

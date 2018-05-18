@@ -43,10 +43,7 @@ class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
         TableColumn<TopsBean, Double>("Last Trade").apply {
             setCellValueFactory { it.value.lastSalePriceProperty().asObject() }
             setCellFactory {
-                HighlightTableCell<TopsBean, Double>(
-                    nullsLast<Double>() as Comparator<Double>,
-                    { "%.2f".format(it) }
-                )
+                HighlightTableCell<TopsBean, Double>(naturalOrder(), { "%.2f".format(it) })
             }
             table.columns.add(this)
         }
@@ -59,20 +56,14 @@ class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
         TableColumn<TopsBean, Double>("Bid").apply {
             setCellValueFactory { it.value.bidPriceProperty().asObject() }
             setCellFactory {
-                HighlightTableCell<TopsBean, Double>(
-                    nullsLast<Double>() as Comparator<Double>,
-                    { "%.2f".format(it) }
-                )
+                HighlightTableCell<TopsBean, Double>(naturalOrder(), { "%.2f".format(it) })
             }
             table.columns.add(this)
         }
         TableColumn<TopsBean, Double>("Ask").apply {
             setCellValueFactory { it.value.askPriceProperty().asObject() }
             setCellFactory {
-                HighlightTableCell<TopsBean, Double>(
-                    nullsLast<Double>() as Comparator<Double>,
-                    { "%.2f".format(it) }
-                )
+                HighlightTableCell<TopsBean, Double>(naturalOrder(), { "%.2f".format(it) })
             }
             table.columns.add(this)
         }
