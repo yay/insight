@@ -113,7 +113,7 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
         this.name = name
         addSymbols(symbols)
         connect()
-        simulation()
+//        simulation()
     }
 
     fun isConnected() = socket.connected()

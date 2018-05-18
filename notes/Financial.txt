@@ -66,6 +66,10 @@ Nasdaq Futures (Nasdaq 100): NQ=F
 CBOE Volatility Index (^VIX)
 CBOE Interest Rate 10 Year T No (^TNX)
 
+IWM - iShares Russell 2000 ETF
+QQQ - PowerShares QQQ ETF
+SPY - SPDR S&P 500 ETF
+
 Yield Curve Data
 https://blog.quandl.com/api-for-interest-rate-data
 API key: D56KmTLWdnWBzWexFcX2

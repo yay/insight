@@ -86,7 +86,7 @@ class Styles : Stylesheet() {
                                 Color.TRANSPARENT,
                                 Color.TRANSPARENT
                             )
-                            unsafe("-fx-text-fill", bg.ladder(Stop(0.5, Color.BLACK)))
+//                            unsafe("-fx-text-fill", bg.ladder(Stop(0.5, Color.BLACK)))
                             // TODO: why this style overrides the value set in ChangeBlinkTableCell?
 //                            textFill = bg.ladder(Stop(0.5, Color.BLACK))
                         }
