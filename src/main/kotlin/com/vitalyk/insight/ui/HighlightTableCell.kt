@@ -34,8 +34,10 @@ class HighlightTableCell<S, T>(
                     val compare = comparator.compare(value, prevValue)
                     if (compare > 0) {
                         background = Background(BackgroundFill(INCREASE_HIGHLIGHT_COLOR, CornerRadii.EMPTY, Insets.EMPTY))
+                        textFill = Color.GREEN
                     } else if (compare < 0) {
                         background = Background(BackgroundFill(DECREASE_HIGHLIGHT_COLOR, CornerRadii.EMPTY, Insets.EMPTY))
+                        textFill = Color(0.86, 0.18, 0.09, 1.00)
                     }
                 } else {
                     background = Background(BackgroundFill(HIGHLIGHT_COLOR, CornerRadii.EMPTY, Insets.EMPTY))
@@ -51,9 +53,11 @@ class HighlightTableCell<S, T>(
     companion object {
 //        private val INCREASE_HIGHLIGHT_COLOR = Color(0.80, 1.00, 0.68, 1.00)
 //        private val DECREASE_HIGHLIGHT_COLOR = Color(1.00, 0.75, 0.78, 1.00)
-        private val INCREASE_HIGHLIGHT_COLOR = Color.rgb(0, 255, 0, 0.8)
-        private val DECREASE_HIGHLIGHT_COLOR = Color.rgb(255, 0, 0, 0.8)
-        private val HIGHLIGHT_COLOR = Color.rgb(255, 255, 0, 0.8)
-        private val HIGHLIGHT_TIME = 1000
+//        private val INCREASE_HIGHLIGHT_COLOR = Color(0.67, 0.82, 0.36, 1.00)
+        private val INCREASE_HIGHLIGHT_COLOR = Color(0.51, 0.78, 0.53, 1.00)
+//        private val DECREASE_HIGHLIGHT_COLOR = Color(0.95, 0.35, 0.29, 1.00)
+        private val DECREASE_HIGHLIGHT_COLOR = Color(0.99, 0.54, 0.42, 1.00)
+        private val HIGHLIGHT_COLOR = Color(0.97, 0.78, 0.18, 1.00)
+        private const val HIGHLIGHT_TIME = 1000
     }
 }

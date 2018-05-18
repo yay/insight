@@ -7,13 +7,18 @@ import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.iex.toBean
 import com.vitalyk.insight.ui.HighlightTableCell
 import com.vitalyk.insight.ui.symbolfield
+import javafx.beans.property.SimpleDoubleProperty
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
+import javafx.beans.value.ObservableValue
 import javafx.collections.FXCollections
 import javafx.scene.control.TableColumn
 import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.layout.Priority
+import javafx.scene.paint.Color
+import javafx.util.Callback
 import tornadofx.*
+import tornadofx.Stylesheet.Companion.filled
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,17 +40,8 @@ class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
         multiSelect()
 
         column("Symbol", TopsBean::symbolProperty)
-        column("Last Trade", TopsBean::lastSalePriceProperty)
-        column("Trade Time", TopsBean::lastSaleTimeProperty).cellFormat {
-            if (it != null) {
-                text = lastTradeTimeFormatter.format(it)
-            }
-        }
-        column("Trade Size", TopsBean::lastSaleSizeProperty)
-//        column("Bid", TopsBean::bidPriceProperty)
-        TableColumn<TopsBean, Double>("Bid").apply {
-            cellValueFactory = PropertyValueFactory<TopsBean, Double>("bidPrice")
-//            setCellValueFactory { ReadOnlyObjectWrapper(it.value.bidPrice) }
+        TableColumn<TopsBean, Double>("Last Trade").apply {
+            setCellValueFactory { it.value.lastSalePriceProperty().asObject() }
             setCellFactory {
                 HighlightTableCell<TopsBean, Double>(
                     nullsLast<Double>() as Comparator<Double>,
@@ -54,8 +50,32 @@ class WatchlistFragment(val watchlist: Watchlist) : Fragment() {
             }
             table.columns.add(this)
         }
-
-        column("Ask", TopsBean::askPriceProperty)
+        column("Trade Time", TopsBean::lastSaleTimeProperty).cellFormat {
+            if (it != null) {
+                text = lastTradeTimeFormatter.format(it)
+            }
+        }
+        column("Trade Size", TopsBean::lastSaleSizeProperty)
+        TableColumn<TopsBean, Double>("Bid").apply {
+            setCellValueFactory { it.value.bidPriceProperty().asObject() }
+            setCellFactory {
+                HighlightTableCell<TopsBean, Double>(
+                    nullsLast<Double>() as Comparator<Double>,
+                    { "%.2f".format(it) }
+                )
+            }
+            table.columns.add(this)
+        }
+        TableColumn<TopsBean, Double>("Ask").apply {
+            setCellValueFactory { it.value.askPriceProperty().asObject() }
+            setCellFactory {
+                HighlightTableCell<TopsBean, Double>(
+                    nullsLast<Double>() as Comparator<Double>,
+                    { "%.2f".format(it) }
+                )
+            }
+            table.columns.add(this)
+        }
         column<TopsBean, String>("Spread") {
             val data = it.value
             SimpleObjectProperty(priceFormat.format(data.bidPrice - data.askPrice))
