@@ -6,7 +6,7 @@ import javafx.scene.control.Button
 import javafx.scene.layout.Priority
 import tornadofx.*
 
-class StatsView : View("Statistics") {
+class EconomyView : View("Economy") {
     override val root = vbox {
         toolbar {
             button("Main").action {

@@ -18,8 +18,8 @@ class MainView : View("Insight") {
                 replaceWith(SymbolTableView::class)
             }
             button("Research").action { replaceWith(ResearchView::class) }
-            button("Watchlists").action { replaceWith(WatchlistView::class) }
-            button("Stats").action { replaceWith(StatsView::class) }
+//            button("Watchlists").action { replaceWith(WatchlistView::class) }
+            button("Economy").action { replaceWith(EconomyView::class) }
             button("Movers").action { replaceWith(MarketMoversView::class) }
             button("News").action { replaceWith(NewsView::class) }
 

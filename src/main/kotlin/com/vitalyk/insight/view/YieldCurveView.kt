@@ -15,7 +15,7 @@ class YieldCurveView : View("Yield Curve") {
     private var data: List<Yield>? = null
 
     val toolbox = toolbar {
-        button("Back").action { replaceWith(SymbolTableView::class) }
+        button("Back").action { replaceWith(EconomyView::class) }
         button("Update").action { updateData() }
         button("?").action {
             find(InfoFragment::class.java).setInfo("Yield Curve", """
