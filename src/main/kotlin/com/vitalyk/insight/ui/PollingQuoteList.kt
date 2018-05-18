@@ -77,57 +77,55 @@ class PollingQuoteList(title: String, private val getQuotes: () -> List<Quote>?)
 //                println("${e.target::class}, ${e.source::class}")
 //            }
 
-            graphic = cache {
-                vbox {
-                    val changeColor = when {
-                        change > 0.0 -> Color.GREEN
-                        change < 0.0 -> Color.RED
-                        else -> Color.GRAY
+            graphic = vbox {
+                val changeColor = when {
+                    change > 0.0 -> Color.GREEN
+                    change < 0.0 -> Color.RED
+                    else -> Color.GRAY
+                }
+                hbox {
+                    label(symbol) {
+                        textFill = Color.DODGERBLUE
+                        font = Font.font("Verdana", FontWeight.BOLD, 15.0)
+                        minWidth = 80.0
                     }
-                    hbox {
-                        label(symbol) {
-                            textFill = Color.DODGERBLUE
-                            font = Font.font("Verdana", FontWeight.BOLD, 15.0)
-                            minWidth = 80.0
+                    if (change == 0.0) {
+                        circle {
+                            radius = 6.0
                         }
-                        if (change == 0.0) {
-                            circle {
-                                radius = 6.0
-                            }
-                        } else {
-                            path {
-                                moveTo(0.0, 0.0)
-                                lineTo(12.0, 0.0)
-                                lineTo(6.0, 10.0 * if (change > 0) -1.0 else 1.0)
-                                closepath()
-                            }
-                        }.apply {
-                            translateX = -8.0
-                            translateY = 3.0
-                            fill = changeColor
-                            stroke = Color.WHITE
-                            strokeWidth = 1.0
+                    } else {
+                        path {
+                            moveTo(0.0, 0.0)
+                            lineTo(12.0, 0.0)
+                            lineTo(6.0, 10.0 * if (change > 0) -1.0 else 1.0)
+                            closepath()
                         }
-                        label("%.2f".format(change)) {
-                            textFill = changeColor
-                            font = labelFont
-                        }
-                        val changePercent = " (%.2f%%)".format(it.changePercent * 100)
-                        label(changePercent) {
-                            textFill = changeColor
-                            font = labelFont
-                        }
-                        region {
-                            hgrow = Priority.ALWAYS
-                        }
-                        label("${it.latestPrice}") {
-                            font = labelFont
-                            padding = Insets(0.0, 0.0, 0.0, 20.0)
-                        }
+                    }.apply {
+                        translateX = -8.0
+                        translateY = 3.0
+                        fill = changeColor
+                        stroke = Color.WHITE
+                        strokeWidth = 1.0
                     }
-                    label(it.companyName) {
-                        textFill = Color.GRAY
+                    label("%.2f".format(change)) {
+                        textFill = changeColor
+                        font = labelFont
                     }
+                    val changePercent = " (%.2f%%)".format(it.changePercent * 100)
+                    label(changePercent) {
+                        textFill = changeColor
+                        font = labelFont
+                    }
+                    region {
+                        hgrow = Priority.ALWAYS
+                    }
+                    label("${it.latestPrice}") {
+                        font = labelFont
+                        padding = Insets(0.0, 0.0, 0.0, 20.0)
+                    }
+                }
+                label(it.companyName) {
+                    textFill = Color.GRAY
                 }
             }
         }
