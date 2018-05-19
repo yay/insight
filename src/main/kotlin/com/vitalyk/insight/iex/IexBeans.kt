@@ -64,86 +64,45 @@ fun DayChartPoint.toBean(bean: DayChartPointBean) = bean.let {
     it.vwap = vwap
 }
 
-
 class TopsBean {
-    val _symbolProperty = SimpleStringProperty()
-    fun symbolProperty() = _symbolProperty
-    var symbol: String
-        get() = _symbolProperty.get()
-        set(value) = _symbolProperty.set(value)
+    val symbolProperty = SimpleStringProperty()
+    var symbol by symbolProperty
 
+    val marketPercentProperty = SimpleDoubleProperty()
+    var marketPercent by marketPercentProperty
 
-    val _marketPercentProperty = SimpleDoubleProperty()
-    fun marketPercentProperty() = _marketPercentProperty
-    var marketPercent: Double
-        get() = _marketPercentProperty.get()
-        set(value) = _marketPercentProperty.set(value)
+    val bidSizeProperty = SimpleIntegerProperty()
+    var bidSize by bidSizeProperty
 
-    val _bidSizeProperty = SimpleIntegerProperty()
-    fun bidSizeProperty() = _bidSizeProperty
-    var bidSize: Int
-        get() = _bidSizeProperty.get()
-        set(value) = _bidSizeProperty.set(value)
+    val bidPriceProperty = SimpleDoubleProperty()
+    var bidPrice by bidPriceProperty
 
-    val _bidPriceProperty = SimpleDoubleProperty()
-    fun bidPriceProperty() = _bidPriceProperty
-    var bidPrice: Double
-        get() = _bidPriceProperty.get()
-        set(value) = _bidPriceProperty.set(value)
+    val askSizeProperty = SimpleIntegerProperty()
+    var askSize by askSizeProperty
 
-    val _askSizeProperty = SimpleIntegerProperty()
-    fun askSizeProperty() = _askSizeProperty
-    var askSize: Int
-        get() = _askSizeProperty.get()
-        set(value) = _askSizeProperty.set(value)
+    val askPriceProperty = SimpleDoubleProperty()
+    var askPrice by askPriceProperty
 
-    val _askPriceProperty = SimpleDoubleProperty()
-    fun askPriceProperty() = _askPriceProperty
-    var askPrice: Double
-        get() = _askPriceProperty.get()
-        set(value) = _askPriceProperty.set(value)
+    val volumeProperty = SimpleLongProperty()
+    var volume by volumeProperty
 
-    val _volumeProperty = SimpleLongProperty()
-    fun volumeProperty() = _volumeProperty
-    var volume: Long
-        get() = _volumeProperty.get()
-        set(value) = _volumeProperty.set(value)
+    val lastSalePriceProperty = SimpleDoubleProperty()
+    var lastSalePrice by lastSalePriceProperty
 
-    val _lastSalePriceProperty = SimpleDoubleProperty()
-    fun lastSalePriceProperty() = _lastSalePriceProperty
-    var lastSalePrice: Double
-        get() = _lastSalePriceProperty.get()
-        set(value) = _lastSalePriceProperty.set(value)
+    val lastSaleSizeProperty = SimpleIntegerProperty()
+    var lastSaleSize by lastSaleSizeProperty
 
-    val _lastSaleSizeProperty = SimpleIntegerProperty()
-    fun lastSaleSizeProperty() = _lastSaleSizeProperty
-    var lastSaleSize: Int
-        get() = _lastSaleSizeProperty.get()
-        set(value) = _lastSaleSizeProperty.set(value)
+    val lastSaleTimeProperty = SimpleObjectProperty<Date>()
+    var lastSaleTime by lastSaleTimeProperty
 
-    val _lastSaleTimeProperty = SimpleObjectProperty<Date>()
-    fun lastSaleTimeProperty() = _lastSaleTimeProperty
-    var lastSaleTime: Date
-        get() = _lastSaleTimeProperty.get()
-        set(value) = _lastSaleTimeProperty.set(value)
+    val lastUpdatedProperty = SimpleObjectProperty<Date>()
+    var lastUpdated by lastUpdatedProperty
 
-    val _lastUpdatedProperty = SimpleObjectProperty<Date>()
-    fun lastUpdatedProperty() = _lastUpdatedProperty
-    var lastUpdated: Date
-        get() = _lastUpdatedProperty.get()
-        set(value) = _lastUpdatedProperty.set(value)
+    val sectorProperty = SimpleStringProperty()
+    var sector by sectorProperty
 
-    val _sectorProperty = SimpleStringProperty()
-    fun sectorProperty() = _sectorProperty
-    var sector: String
-        get() = _sectorProperty.get()
-        set(value) = _sectorProperty.set(value)
-
-    val _securityTypeProperty = SimpleStringProperty()
-    fun securityTypeProperty() = _securityTypeProperty
-    var securityType: String
-        get() = _securityTypeProperty.get()
-        set(value) = _securityTypeProperty.set(value)
+    val securityTypeProperty = SimpleStringProperty()
+    var securityType by securityTypeProperty
 }
 
 fun Iex.Tops.toBean(bean: TopsBean): TopsBean {

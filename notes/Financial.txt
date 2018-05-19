@@ -69,6 +69,7 @@ CBOE Interest Rate 10 Year T No (^TNX)
 IWM - iShares Russell 2000 ETF
 QQQ - PowerShares QQQ ETF
 SPY - SPDR S&P 500 ETF
+IEF - iShares 7-10 Year Treasury Bond ETF
 
 Yield Curve Data
 https://blog.quandl.com/api-for-interest-rate-data

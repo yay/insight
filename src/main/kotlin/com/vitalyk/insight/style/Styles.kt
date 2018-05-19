@@ -1,6 +1,7 @@
 package com.vitalyk.insight.style
 
 import javafx.scene.paint.Color
+import javafx.scene.paint.Color.TRANSPARENT
 import javafx.scene.paint.Stop
 import tornadofx.*
 
@@ -80,12 +81,8 @@ class Styles : Stylesheet() {
                         backgroundColor = multi(bg, bg.desaturate(), bg)
                         backgroundInsets = multi(box(0.px), box(1.px), box(2.px))
                         tableCell {
-                            borderColor += box(
-                                Color.TRANSPARENT,
-                                bg.desaturate(),
-                                Color.TRANSPARENT,
-                                Color.TRANSPARENT
-                            )
+//                            borderColor += box(TRANSPARENT, bg.desaturate(), TRANSPARENT, TRANSPARENT)
+                            borderColor += box(TRANSPARENT, Color(0.929, 0.929, 0.929, 1.0), TRANSPARENT, TRANSPARENT)
 //                            unsafe("-fx-text-fill", bg.ladder(Stop(0.5, Color.BLACK)))
                             // TODO: why this style overrides the value set in ChangeBlinkTableCell?
 //                            textFill = bg.ladder(Stop(0.5, Color.BLACK))

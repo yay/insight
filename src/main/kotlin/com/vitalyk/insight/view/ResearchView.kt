@@ -55,10 +55,11 @@ class ResearchView : View("Research") {
             while (isActive) {
                 delay(1000)
                 runLater {
-                    val symbol = clipboard.string
-                    if (symbol in IexSymbols && symbol != clipboardSymbol) {
-                        clipboardSymbol = symbol
-                        fetch(symbol)
+                    clipboard.string?.let {
+                        if (it in IexSymbols && it != clipboardSymbol) {
+                            clipboardSymbol = it
+                            fetch(it)
+                        }
                     }
                 }
             }

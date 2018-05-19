@@ -18,11 +18,13 @@ import java.util.concurrent.Callable
 
 class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
 
+    private val priceFormat = "%.2f"
+    private val priceFormatter = { price: Double -> priceFormat.format(price) }
+
     var symbol = SimpleStringProperty("")
     private var lastTradeTimeFormatter = SimpleDateFormat("HH:mm:ss").apply {
         timeZone = newYorkTimeZone
     }
-    private val priceFormat = "%.2f"
 
     val tableItems = FXCollections.observableArrayList<TopsBean>()
 
@@ -34,9 +36,9 @@ class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
 
         column("Symbol", TopsBean::symbolProperty)
         TableColumn<TopsBean, Double>("Last Trade").apply {
-            setCellValueFactory { it.value.lastSalePriceProperty().asObject() }
+            setCellValueFactory { it.value.lastSalePriceProperty.asObject() }
             setCellFactory {
-                ChangeBlinkTableCell<TopsBean, Double>(naturalOrder(), { "%.2f".format(it) })
+                ChangeBlinkTableCell<TopsBean, Double>(naturalOrder(), priceFormatter)
             }
             table.columns.add(this)
         }
@@ -47,16 +49,16 @@ class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
         }
         column("Trade Size", TopsBean::lastSaleSizeProperty)
         TableColumn<TopsBean, Double>("Bid").apply {
-            setCellValueFactory { it.value.bidPriceProperty().asObject() }
+            setCellValueFactory { it.value.bidPriceProperty.asObject() }
             setCellFactory {
-                ChangeBlinkTableCell<TopsBean, Double>(naturalOrder(), { "%.2f".format(it) })
+                ChangeBlinkTableCell<TopsBean, Double>(naturalOrder(), priceFormatter)
             }
             table.columns.add(this)
         }
         TableColumn<TopsBean, Double>("Ask").apply {
-            setCellValueFactory { it.value.askPriceProperty().asObject() }
+            setCellValueFactory { it.value.askPriceProperty.asObject() }
             setCellFactory {
-                ChangeBlinkTableCell<TopsBean, Double>(naturalOrder(), { "%.2f".format(it) })
+                ChangeBlinkTableCell<TopsBean, Double>(naturalOrder(), priceFormatter)
             }
             table.columns.add(this)
         }
@@ -65,8 +67,8 @@ class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
                 Bindings.createStringBinding(Callable {
                         priceFormat.format(it.value.bidPrice - it.value.askPrice)
                     },
-                    it.value.bidPriceProperty(),
-                    it.value.askPriceProperty()
+                    it.value.bidPriceProperty,
+                    it.value.askPriceProperty
                 )
             }
             table.columns.add(this)
@@ -160,12 +162,12 @@ class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
 
     init {
         watchlist.addListener { old, new ->
-            if (new != null) {
+            if (new != null) runLater {
                 val selected = table.selectionModel.selectedIndices.toList()
                 replaceOrAddItem(new)
                 selected.forEach { table.selectionModel.select(it) }
-            } else {
-                removeSymbol(old!!.symbol)
+            } else if (old != null) runLater {
+                removeSymbol(old.symbol)
             }
         }
         refresh()

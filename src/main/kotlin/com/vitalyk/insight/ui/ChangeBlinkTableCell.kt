@@ -21,29 +21,38 @@ class ChangeBlinkTableCell<S, T>(
 
         super.updateItem(value, empty)
 
+        val rowObject = tableRow?.item
+        val oldRowObject = tableColumn.properties[tableRow]
+
         if (empty || value == null) {
             text = null
             graphic = null
         } else if (prevValue != value) {
             text = format(value)
 
-            if (comparator == null) {
-                background = Background(BackgroundFill(CHANGE_COLOR, CornerRadii.EMPTY, Insets.EMPTY))
-            } else if (prevValue != null) {
-                val compare = comparator.compare(value, prevValue)
-                if (compare > 0) {
-                    background = Background(BackgroundFill(INCREASE_COLOR, CornerRadii.EMPTY, Insets.EMPTY))
-                    textFill = Color.GREEN
-                } else if (compare < 0) {
-                    background = Background(BackgroundFill(DECREASE_COLOR, CornerRadii.EMPTY, Insets.EMPTY))
-                    textFill = Color(0.86, 0.18, 0.09, 1.00)
+            // TableView reuses rows, so row object may not be the same.
+            if (rowObject == oldRowObject) {
+                if (comparator == null) {
+                    background = Background(BackgroundFill(CHANGE_COLOR, CornerRadii.EMPTY, Insets.EMPTY))
+                } else if (prevValue != null) {
+                    val compare = comparator.compare(value, prevValue)
+                    if (compare > 0) {
+                        background = Background(BackgroundFill(INCREASE_COLOR, CornerRadii.EMPTY, Insets.EMPTY))
+                        textFill = Color.GREEN
+                    } else if (compare < 0) {
+                        background = Background(BackgroundFill(DECREASE_COLOR, CornerRadii.EMPTY, Insets.EMPTY))
+                        textFill = Color(0.86, 0.18, 0.09, 1.00)
+                    }
                 }
             }
+
             launch {
                 delay(BLINK_TIME)
                 Platform.runLater { background = null }
             }
         }
+
+        tableColumn.properties[tableRow] = rowObject
     }
 
     companion object {
