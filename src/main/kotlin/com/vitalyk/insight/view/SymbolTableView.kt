@@ -1,5 +1,6 @@
 package com.vitalyk.insight.view
 
+import com.vitalyk.insight.fragment.DayChartFragment
 import com.vitalyk.insight.iex.DayChartPointBean
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.toBean
@@ -20,7 +21,8 @@ class SymbolTableView : Fragment("Instrument Data") {
     lateinit var symbolTable: TableView<DayChartPointBean>
     lateinit var rangeCombo: ComboBox<Iex.Range>
 
-    val dataPoints = mutableListOf<DayChartPointBean>().observable()
+    private var dataPoints = emptyList<Iex.DayChartPoint>()
+    val dataBeans = mutableListOf<DayChartPointBean>().observable()
     var symbol = SimpleStringProperty("AAPL")
     var range = SimpleObjectProperty(Iex.Range.Y)
 
@@ -28,9 +30,10 @@ class SymbolTableView : Fragment("Instrument Data") {
         val symbol = symbol.value
         val range = range.value
         runAsyncWithProgress {
-            Iex.getDayChart(symbol, range)?.map { it.toBean() } ?: emptyList()
+            Iex.getDayChart(symbol, range) ?: emptyList()
         } ui {
-            dataPoints.setAll(it)
+            dataPoints = it
+            dataBeans.setAll(it.map { it.toBean() })
         }
     }
 
@@ -46,7 +49,7 @@ class SymbolTableView : Fragment("Instrument Data") {
                 setOnAction { updateSymbolTable() }
             }
             button("Chart").action {
-                find(ChartView::class).let {
+                find(DayChartFragment::class).let {
                     it.updateChart(symbol.value, dataPoints)
                     replaceWith(it)
                 }
@@ -74,7 +77,7 @@ class SymbolTableView : Fragment("Instrument Data") {
         }
 
         val dateFormat = SimpleDateFormat("dd MMM, yy")
-        symbolTable = tableview(dataPoints) {
+        symbolTable = tableview(dataBeans) {
             column("Date", DayChartPointBean::dateProperty) {
                 cellFormat {
                     if (it != null) text = dateFormat.format(it)

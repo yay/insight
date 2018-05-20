@@ -85,6 +85,35 @@ class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
                 watchlist.removeSymbols(symbols)
                 tableItems.removeAll(table.selectionModel.selectedItems)
             }
+            menu("Chart") {
+                Iex.Range.values().forEach { range ->
+                    item(range.value.name).action {
+                        selectedItem?.let { selectedItem ->
+                            runAsync {
+                                Iex.getDayChart(selectedItem.symbol, range) ?: emptyList()
+                            } ui { points ->
+                                find(DayChartFragment::class).let {
+                                    it.updateChart(selectedItem.symbol, points)
+                                    it.openModal()
+                                }
+                            }
+                        }
+                    }
+                }
+                separator()
+                item("Minute").action {
+                    selectedItem?.let { selectedItem ->
+                        runAsync {
+                            Iex.getMinuteChart(selectedItem.symbol, "20180518") ?: emptyList()
+                        } ui { points ->
+                            find(MinuteChartFragment::class).let {
+                                it.updateChart(selectedItem.symbol, points)
+                                it.openModal()
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         vgrow = Priority.ALWAYS

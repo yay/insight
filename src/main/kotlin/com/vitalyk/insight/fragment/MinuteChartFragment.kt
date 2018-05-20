@@ -1,16 +1,13 @@
-package com.vitalyk.insight.view
+package com.vitalyk.insight.fragment
 
-import com.vitalyk.insight.iex.DayChartPointBean
+import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.IexSymbols
-import javafx.collections.ObservableList
 import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.NumberAxis
 import javafx.scene.layout.Priority
 import tornadofx.*
-import java.text.SimpleDateFormat
-import com.vitalyk.insight.style.Styles as styles
 
-class ChartView : Fragment("Chart") {
+class MinuteChartFragment : Fragment("Minute Chart") {
 
     private var chart = linechart(null, CategoryAxis(), NumberAxis().apply{
         isForceZeroInRange = false
@@ -18,18 +15,16 @@ class ChartView : Fragment("Chart") {
         animated = false
         createSymbols = false
         isLegendVisible = false
+        minWidth = 900.0
+        minHeight = 600.0
         vgrow = Priority.ALWAYS
     }
 
     override val root = vbox {
-        toolbar {
-            button("Back").action { replaceWith(SymbolTableView::class) }
-        }
-
         this += chart
     }
 
-    fun updateChart(symbol: String, points: ObservableList<DayChartPointBean>) {
+    fun updateChart(symbol: String, points: List<Iex.MinuteChartPoint>) {
         chart.apply {
             title = "$symbol - ${IexSymbols.name(symbol) ?: "Unknown symbol"}"
             val showGridLines = points.count() < 100
@@ -37,9 +32,15 @@ class ChartView : Fragment("Chart") {
             verticalGridLinesVisible = showGridLines
 
             series(symbol) {
-                val dateFormat = SimpleDateFormat("d MMM, yyyy")
                 points.forEach {
-                    data(dateFormat.format(it.date), it.close)
+                    // TODO: what's the difference between `close` and `marketClose`?
+                    // TODO: why can they be zero? is this because there were not trades that minute?
+                    if (it.close != 0.0) {
+                        data(it.label, it.close)
+                    }
+//                    else if (it.marketClose != 0.0) {
+//                        data(it.label, it.marketClose)
+//                    }
                 }
             }
         }

@@ -10,7 +10,7 @@ class NewsWatchlistFragment(watchlist: Watchlist) : Fragment() {
 
     constructor(name: String) : this(Watchlist.getOrPut(name))
 
-    val watchlistFragment = WatchlistFragment(watchlist)
+    val listFragment = WatchlistFragment(watchlist)
     val newsFragment = NewsFragment()
 
     override val root = vbox {
@@ -18,13 +18,13 @@ class NewsWatchlistFragment(watchlist: Watchlist) : Fragment() {
         splitpane(Orientation.VERTICAL) {
             vgrow = Priority.ALWAYS
 
-            this += watchlistFragment
+            this += listFragment
             this += newsFragment.apply {
                 toolbarVisible.set(false)
             }
             setDividerPositions(.7, .3)
 
-            watchlistFragment.table.onSelectionChange { data ->
+            listFragment.table.onSelectionChange { data ->
                 // May not be on FxApplicationThread here.
                 if (data != null)
                     runLater {

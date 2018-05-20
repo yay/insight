@@ -605,6 +605,17 @@ object Iex {
         val vwap: Double
     )
 
+    interface ChartPoint {
+        val open: Double
+        val high: Double
+        val low: Double
+        val close: Double
+    }
+
+    interface VolumeChartPoint : ChartPoint {
+        val volume: Long
+    }
+
     // https://www.investopedia.com/terms/v/vwap.asp
     data class DayChartPoint(
         val date: Date,
@@ -624,9 +635,9 @@ object Iex {
 
     data class MinuteChartPoint(
         @JsonDeserialize(using = LocalDateDeserializer::class)
-        val date: LocalDate,
-        val minute: String,
-        val label: String,
+        val date: LocalDate, // "20180518"
+        val minute: String,  // "09:30"
+        val label: String,   // "09:30 AM"
         val high: Double,
         val low: Double,
         val average: Double,
