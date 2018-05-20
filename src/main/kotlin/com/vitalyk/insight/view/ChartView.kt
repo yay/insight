@@ -1,6 +1,8 @@
 package com.vitalyk.insight.view
 
+import com.vitalyk.insight.iex.DayChartPointBean
 import com.vitalyk.insight.iex.IexSymbols
+import javafx.collections.ObservableList
 import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.NumberAxis
 import javafx.scene.layout.Priority
@@ -10,7 +12,6 @@ import com.vitalyk.insight.style.Styles as styles
 
 class ChartView : Fragment("Chart") {
 
-    val symbolTableView = find(SymbolTableView::class)
     private var chart = linechart(null, CategoryAxis(), NumberAxis().apply{
         isForceZeroInRange = false
     }) {
@@ -20,38 +21,27 @@ class ChartView : Fragment("Chart") {
         vgrow = Priority.ALWAYS
     }
 
-    override fun onDock() {
-        val symbol = symbolTableView.symbol.value
-        val items = symbolTableView.symbolTable.items
+    override val root = vbox {
+        toolbar {
+            button("Back").action { replaceWith(SymbolTableView::class) }
+        }
 
+        this += chart
+    }
+
+    fun updateChart(symbol: String, points: ObservableList<DayChartPointBean>) {
         chart.apply {
             title = "$symbol - ${IexSymbols.name(symbol) ?: "Unknown symbol"}"
-            val showGridLines = items.count() < 100
+            val showGridLines = points.count() < 100
             isHorizontalGridLinesVisible = showGridLines
             verticalGridLinesVisible = showGridLines
 
             series(symbol) {
                 val dateFormat = SimpleDateFormat("d MMM, yyyy")
-                items.forEach {
+                points.forEach {
                     data(dateFormat.format(it.date), it.close)
                 }
             }
         }
-    }
-
-    override fun onUndock() {
-        chart.data.clear()
-    }
-
-    override val root = vbox {
-        toolbar {
-            button("Back") {
-                action {
-                    replaceWith(SymbolTableView::class)
-                }
-            }
-        }
-
-        this += chart
     }
 }

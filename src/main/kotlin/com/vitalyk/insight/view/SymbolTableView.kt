@@ -45,7 +45,12 @@ class SymbolTableView : Fragment("Instrument Data") {
                 // TODO: ComboBoxBase could have `action` extension as well
                 setOnAction { updateSymbolTable() }
             }
-            button("Chart").action { replaceWith(ChartView::class) }
+            button("Chart").action {
+                find(ChartView::class).let {
+                    it.updateChart(symbol.value, dataPoints)
+                    replaceWith(it)
+                }
+            }
         }
 
         toolbar {
