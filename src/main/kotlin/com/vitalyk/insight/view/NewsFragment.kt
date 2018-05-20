@@ -48,6 +48,7 @@ class NewsFragment : Fragment("News") {
     val toolbarVisible = SimpleBooleanProperty(true)
 
     override val root = vbox {
+        vgrow = Priority.ALWAYS
         toolbar {
             label("Symbol:")
             symbolfield { fetchSymbolNews(it) }
