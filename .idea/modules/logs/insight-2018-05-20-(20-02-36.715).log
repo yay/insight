@@ -1,0 +1,2 @@
+20:02:36.760 [main] ERROR Iex - Request failed. Not Found:
+https://api.iextrading.com/1.0/stock/ABRACADABRA/chart/1m (Iex.kt:69)

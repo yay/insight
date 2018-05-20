@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="296155b2-79af-4b19-b6a4-d5102d45abea" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/Insight.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/Insight.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/MarketMoversView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/MarketMoversView.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/NewsView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/NewsView.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/SymbolTableView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/SymbolTableView.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/kotlin/com/vitalyk/insight/iex/IexTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/com/vitalyk/insight/iex/IexTest.kt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/dataviz/.gradle/" />
@@ -73,7 +68,7 @@
     </system>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.46024224">
+    <splitter split-orientation="horizontal" split-proportion="0.47235388">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="Database.kt" pinned="false" current-in-tab="false">
@@ -121,8 +116,8 @@
           <file leaf-file-name="Iex.kt" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="236">
-                  <caret line="831" column="9" lean-forward="true" selection-start-line="831" selection-start-column="9" selection-end-line="831" selection-end-column="9" />
+                <state relative-caret-position="280">
+                  <caret line="78" column="5" lean-forward="true" selection-start-line="78" selection-start-column="5" selection-end-line="78" selection-end-column="5" />
                   <folding>
                     <element signature="e#33#1219#0" expanded="true" />
                   </folding>
@@ -133,8 +128,8 @@
           <file leaf-file-name="IexTest.kt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/test/kotlin/com/vitalyk/insight/iex/IexTest.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="240">
-                  <caret line="16" column="10" lean-forward="true" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+                <state relative-caret-position="601">
+                  <caret line="213" column="21" lean-forward="true" selection-start-line="213" selection-start-column="21" selection-end-line="213" selection-end-column="21" />
                   <folding>
                     <element signature="e#33#211#0" expanded="true" />
                   </folding>
@@ -287,7 +282,7 @@
           <file leaf-file-name="Insight.kt" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/Insight.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="755">
+                <state relative-caret-position="770">
                   <caret line="71" column="12" selection-start-line="71" selection-start-column="12" selection-end-line="71" selection-end-column="12" />
                   <folding>
                     <element signature="e#29#640#0" expanded="true" />
@@ -309,10 +304,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>.items</find>
-      <find>observ</find>
-      <find>visibl</find>
-      <find>layout</find>
       <find>bindVi</find>
       <find>cache {</find>
       <find>owner</find>
@@ -339,6 +330,10 @@
       <find>action</find>
       <find>getmin</find>
       <find>lastbu</find>
+      <find>date</find>
+      <find>ismarkethours</find>
+      <find>gettops</find>
+      <find>gettrades</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/h2/src/test/org</dir>
@@ -974,8 +969,8 @@
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/MarketMoversView.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/NewsView.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/Insight.kt" />
-        <option value="$PROJECT_DIR$/src/test/kotlin/com/vitalyk/insight/iex/IexTest.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt" />
+        <option value="$PROJECT_DIR$/src/test/kotlin/com/vitalyk/insight/iex/IexTest.kt" />
       </list>
     </option>
   </component>
@@ -989,7 +984,7 @@
     <option name="x" value="-1920" />
     <option name="y" value="-70" />
     <option name="width" value="1920" />
-    <option name="height" value="1057" />
+    <option name="height" value="1053" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -1327,7 +1322,7 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1920" y="-70" width="1920" height="1057" extended-state="6" />
+    <frame x="-1920" y="-70" width="1920" height="1053" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -1753,16 +1748,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/Insight.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="755">
-          <caret line="71" column="12" selection-start-line="71" selection-start-column="12" selection-end-line="71" selection-end-column="12" />
-          <folding>
-            <element signature="e#29#640#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/src.zip!/java/time/Instant.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="347">
@@ -1770,10 +1755,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/Insight.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="770">
+          <caret line="71" column="12" selection-start-line="71" selection-start-column="12" selection-end-line="71" selection-end-column="12" />
+          <folding>
+            <element signature="e#29#640#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/kotlin/com/vitalyk/insight/iex/IexTest.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="10" lean-forward="true" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
+        <state relative-caret-position="601">
+          <caret line="213" column="21" lean-forward="true" selection-start-line="213" selection-start-column="21" selection-end-line="213" selection-end-column="21" />
           <folding>
             <element signature="e#33#211#0" expanded="true" />
           </folding>
@@ -1782,8 +1777,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="831" column="9" lean-forward="true" selection-start-line="831" selection-start-column="9" selection-end-line="831" selection-end-column="9" />
+        <state relative-caret-position="280">
+          <caret line="78" column="5" lean-forward="true" selection-start-line="78" selection-start-column="5" selection-end-line="78" selection-end-column="5" />
           <folding>
             <element signature="e#33#1219#0" expanded="true" />
           </folding>

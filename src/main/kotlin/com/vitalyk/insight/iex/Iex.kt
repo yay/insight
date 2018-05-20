@@ -78,17 +78,6 @@ object Iex {
         }
     }
 
-    fun isWeekend(): Boolean {
-        val day = LocalDate.now(ZoneId.of("America/New_York")).dayOfWeek
-        return day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY
-    }
-
-    fun isMarketHours(): Boolean {
-        val datetime = LocalDateTime.now(ZoneId.of("America/New_York"))
-        val day = datetime.dayOfWeek
-        return day != DayOfWeek.SATURDAY && day != DayOfWeek.SUNDAY && datetime.hour in 8..18
-    }
-
     // Mapper instances are fully thread-safe provided that ALL configuration of the
     // instance occurs before ANY read or write calls.
     private val mapper = jacksonObjectMapper().apply {
@@ -955,8 +944,6 @@ object Iex {
     // If no symbols are specified, will return data for all symbols.
     // The data is ~2MB uncompressed and is throttled at one request per second.
     fun getTops(symbols: List<String>? = null): List<Tops>? {
-        if (isWeekend()) return emptyList()
-
         val params = if (symbols != null && symbols.isNotEmpty()) {
             mapOf("symbols" to symbols.joinToString(","))
         } else emptyMap()
@@ -988,8 +975,6 @@ object Iex {
 
     // https://iextrading.com/developer/docs/#trades
     fun getTrades(symbol: String, last: Int = 20): List<Trade>? {
-        if (isWeekend()) return emptyList()
-
         val params = mapOf(
             "symbols" to symbol,
             "last" to last.toString()

@@ -4,6 +4,10 @@ import com.vitalyk.insight.helpers.getLastWorkDay
 import com.vitalyk.insight.main.HttpClients
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 
@@ -16,6 +20,17 @@ internal class IexTest {
 
     init {
         Iex.setOkHttpClient(HttpClients.main)
+    }
+
+    fun isWeekend(): Boolean {
+        val day = LocalDate.now(ZoneId.of("America/New_York")).dayOfWeek
+        return day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY
+    }
+
+    fun isMarketHours(): Boolean {
+        val datetime = LocalDateTime.now(ZoneId.of("America/New_York"))
+        val day = datetime.dayOfWeek
+        return day != DayOfWeek.SATURDAY && day != DayOfWeek.SUNDAY && datetime.hour in 8..18
     }
 
     @Test
@@ -151,7 +166,7 @@ internal class IexTest {
 
     @Test
     fun getTops() {
-        if (Iex.isWeekend()) return
+        if (isWeekend()) return
 
         val tops = Iex.getTops(listOf(symbol1, symbol2))
         assertEquals(2, tops?.size)
@@ -184,7 +199,7 @@ internal class IexTest {
 
     @Test
     fun getDepth() {
-        if (!Iex.isMarketHours()) return
+        if (!isMarketHours()) return
 
         Iex.getDepth(symbol3)
     }
@@ -197,7 +212,7 @@ internal class IexTest {
 
     @Test
     fun getTrades() {
-        if (Iex.isWeekend()) return
+        if (isWeekend()) return
 
         val trades = Iex.getTrades(symbol2, last = 10)
         assertEquals(10, trades?.size)
