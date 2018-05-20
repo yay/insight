@@ -21,10 +21,7 @@ import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
-import java.time.DayOfWeek
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneId
+import java.time.*
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -730,7 +727,7 @@ object Iex {
     enum class BatchType(val value: String) {
         QUOTE("quote"),
         NEWS("news"),
-        CHART("yieldChart")
+        CHART("chart")
     }
     private val batchTypes = BatchType.values().toSet()
 

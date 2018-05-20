@@ -7,7 +7,6 @@ import com.vitalyk.insight.ui.symbolfield
 import com.vitalyk.insight.yahoo.getDistributionInfo
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
-import javafx.collections.FXCollections
 import javafx.scene.Node
 import javafx.scene.control.Alert
 import javafx.scene.control.ComboBox
@@ -21,7 +20,7 @@ class SymbolTableView : Fragment("Instrument Data") {
     lateinit var symbolTable: TableView<DayChartPointBean>
     lateinit var rangeCombo: ComboBox<Iex.Range>
 
-    val dataPoints = FXCollections.observableArrayList<DayChartPointBean>()
+    val dataPoints = mutableListOf<DayChartPointBean>().observable()
     var symbol = SimpleStringProperty("AAPL")
     var range = SimpleObjectProperty(Iex.Range.Y)
 
