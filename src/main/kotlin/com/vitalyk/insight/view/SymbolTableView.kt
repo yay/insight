@@ -35,49 +35,35 @@ class SymbolTableView : View("Instrument Data") {
 
     override val root = vbox {
         toolbar {
-            button("Back").action {
-                replaceWith(MainView::class)
-            }
-
+            button("Back").action { replaceWith(MainView::class) }
             label("Symbol:")
             symbolfield(symbol) {
                 updateSymbolTable()
             }
-            button("Go") {
-                action {
-                    updateSymbolTable()
-                }
-            }
-
+            button("Go").action { updateSymbolTable() }
             label("Period:")
             rangeCombo = combobox(range, Iex.Range.values().toList().observable()) {
+                // TODO: ComboBoxBase could have `action` extension as well
                 setOnAction { updateSymbolTable() }
             }
-
             button("Chart").action { replaceWith(ChartView::class) }
         }
 
         toolbar {
-            button("Market Distribution") {
-                action {
-                    alert(
-                        Alert.AlertType.INFORMATION,
-                        "Market Distribution Days",
-                        getDistributionInfo()
-                    )
-                }
+            button("Market Distribution").action {
+                alert(
+                    Alert.AlertType.INFORMATION,
+                    "Market Distribution Days",
+                    getDistributionInfo()
+                )
             }
-
-            button("Symbol Distribution") {
-                action {
-                    alert(
-                        Alert.AlertType.INFORMATION,
-                        "${symbol.value} Distribution Days",
-                        getDistributionInfo(setOf(symbol.value))
-                    )
-                }
+            button("Symbol Distribution").action {
+                alert(
+                    Alert.AlertType.INFORMATION,
+                    "${symbol.value} Distribution Days",
+                    getDistributionInfo(setOf(symbol.value))
+                )
             }
-
             button("Canvas").action {
                 replaceWith(CanvasView::class)
             }

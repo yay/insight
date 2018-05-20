@@ -6,7 +6,7 @@ import javafx.scene.layout.Priority
 import tornadofx.*
 import kotlinx.coroutines.experimental.javafx.JavaFx as UI
 
-class MarketMoversView : View("Market Movers") {
+class MarketMoversView : Fragment("Market Movers") {
     val quoteLists = listOf(
         PollingQuoteList("Most active", Iex::getMostActive),
         PollingQuoteList("Gainers", Iex::getGainers),

@@ -741,7 +741,9 @@ object Iex {
         YTD(RangeValue("ytd", "YTD")),
         M6(RangeValue("6m", "6 Months")),
         M3(RangeValue("3m", "3 Months")),
-        M(RangeValue("1m", "1 Month"))
+        M(RangeValue("1m", "1 Month"));
+
+        override fun toString(): String = value.name
     }
 
     data class RangeValue(

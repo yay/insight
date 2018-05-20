@@ -8,7 +8,7 @@ import tornadofx.*
 import java.text.SimpleDateFormat
 import com.vitalyk.insight.style.Styles as styles
 
-class ChartView : View("Chart") {
+class ChartView : Fragment("Chart") {
 
     val symbolTableView = find(SymbolTableView::class)
     private var chart = linechart(null, CategoryAxis(), NumberAxis().apply{

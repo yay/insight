@@ -5,7 +5,7 @@ import javafx.scene.layout.Priority
 import tornadofx.*
 
 
-class NewsView : View("Headlines") {
+class NewsView : Fragment("Headlines") {
 
     lateinit var tabPane: TabPane
 
