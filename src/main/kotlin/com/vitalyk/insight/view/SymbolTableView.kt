@@ -7,6 +7,7 @@ import com.vitalyk.insight.ui.symbolfield
 import com.vitalyk.insight.yahoo.getDistributionInfo
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
+import javafx.collections.FXCollections
 import javafx.scene.Node
 import javafx.scene.control.Alert
 import javafx.scene.control.ComboBox
@@ -15,21 +16,22 @@ import javafx.scene.layout.Priority
 import tornadofx.*
 import java.text.SimpleDateFormat
 
-class SymbolTableView : View("Instrument Data") {
+class SymbolTableView : Fragment("Instrument Data") {
 
     lateinit var symbolTable: TableView<DayChartPointBean>
     lateinit var rangeCombo: ComboBox<Iex.Range>
 
+    val dataPoints = FXCollections.observableArrayList<DayChartPointBean>()
     var symbol = SimpleStringProperty("AAPL")
     var range = SimpleObjectProperty(Iex.Range.Y)
 
     private fun Node.updateSymbolTable() {
+        val symbol = symbol.value
+        val range = range.value
         runAsyncWithProgress {
-            Iex.getDayChart(symbol.value, range.value)?.map { point ->
-                point.toBean()
-            } ?: emptyList()
-        } ui { items ->
-            symbolTable.items = items.observable()
+            Iex.getDayChart(symbol, range)?.map { it.toBean() } ?: emptyList()
+        } ui {
+            dataPoints.setAll(it)
         }
     }
 
@@ -37,9 +39,7 @@ class SymbolTableView : View("Instrument Data") {
         toolbar {
             button("Back").action { replaceWith(MainView::class) }
             label("Symbol:")
-            symbolfield(symbol) {
-                updateSymbolTable()
-            }
+            symbolfield(symbol) { updateSymbolTable() }
             button("Go").action { updateSymbolTable() }
             label("Period:")
             rangeCombo = combobox(range, Iex.Range.values().toList().observable()) {
@@ -70,11 +70,10 @@ class SymbolTableView : View("Instrument Data") {
         }
 
         val dateFormat = SimpleDateFormat("dd MMM, yy")
-        symbolTable = tableview(listOf<DayChartPointBean>().observable()) {
+        symbolTable = tableview(dataPoints) {
             column("Date", DayChartPointBean::dateProperty) {
                 cellFormat {
-                    if (it != null)
-                        text = dateFormat.format(it)
+                    if (it != null) text = dateFormat.format(it)
                 }
             }
             column("Open", DayChartPointBean::openProperty)
@@ -91,10 +90,4 @@ class SymbolTableView : View("Instrument Data") {
             vgrow = Priority.ALWAYS
         }
     }
-
-    init {
-        primaryStage.minWidth = 900.0
-        primaryStage.minHeight = 600.0
-    }
-
 }

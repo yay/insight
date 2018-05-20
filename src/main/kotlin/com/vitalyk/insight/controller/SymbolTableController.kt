@@ -7,12 +7,11 @@ import javafx.scene.control.ComboBox
 import javafx.scene.control.DatePicker
 import com.vitalyk.insight.yahoo.DataFrequency
 import com.vitalyk.insight.yahoo.YahooData
-import com.vitalyk.insight.view.SymbolTableView
 import tornadofx.*
 
 class SymbolTableController : Controller() {
 
-    val view: SymbolTableView by inject()
+//    val view: SymbolTableView by inject()
 
     fun fetchData(node: Node, symbol: String) {
 
@@ -30,7 +29,7 @@ class SymbolTableController : Controller() {
             val points = it.map { point ->
                 point.toBean()
             }
-            view.symbolTable.items = points.observable()
+//            view.symbolTable.items = points.observable()
         }
     }
 

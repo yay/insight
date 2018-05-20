@@ -21,6 +21,9 @@ import java.util.logging.Logger
 class Insight : App(MainView::class, Styles::class) {
 
     override fun start(stage: Stage) {
+
+        stage.minWidth = 900.0
+        stage.minHeight = 600.0
 //        Thread.setDefaultUncaughtExceptionHandler { _, e ->
 //            System.err.println(e.message)
 //        }
