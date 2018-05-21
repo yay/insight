@@ -1,10 +1,7 @@
 package com.vitalyk.insight.fragment
 
 import com.vitalyk.insight.helpers.newYorkTimeZone
-import com.vitalyk.insight.iex.Iex
-import com.vitalyk.insight.iex.TopsBean
-import com.vitalyk.insight.iex.Watchlist
-import com.vitalyk.insight.iex.toBean
+import com.vitalyk.insight.iex.*
 import com.vitalyk.insight.ui.ChangeBlinkTableCell
 import com.vitalyk.insight.ui.symbolfield
 import javafx.beans.binding.Bindings
@@ -19,6 +16,7 @@ import java.util.concurrent.Callable
 class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
 
     private val priceFormat = "%.2f"
+    private val percentFormat = "%.2f%%"
     private val priceFormatter = { price: Double -> priceFormat.format(price) }
 
     var symbol = SimpleStringProperty("")
@@ -35,6 +33,18 @@ class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
         multiSelect()
 
         column("Symbol", TopsBean::symbolProperty)
+        TableColumn<TopsBean, String>("% Change").apply {
+            setCellValueFactory {
+                Bindings.createStringBinding(Callable {
+                    val prevDayClose = IexSymbols.previousDay(it.value.symbol)?.close
+                    if (prevDayClose != null)
+                        percentFormat.format((it.value.lastSalePrice / prevDayClose - 1.0) * 100.0)
+                    else
+                        "--"
+                }, it.value.lastSalePriceProperty)
+            }
+            table.columns.add(this)
+        }
         TableColumn<TopsBean, Double>("Last Trade").apply {
             setCellValueFactory { it.value.lastSalePriceProperty.asObject() }
             setCellFactory {
@@ -78,6 +88,8 @@ class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
         column("Ask Size", TopsBean::askSizeProperty)
         column("Sector", TopsBean::sectorProperty)
 
+        // TODO: add "change since last close" column
+
         contextmenu {
             item("Remove").action {
                 // TODO: removed items sometimes reappear
@@ -103,6 +115,8 @@ class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
                 separator()
                 item("Minute").action {
                     selectedItem?.let { selectedItem ->
+                        // TODO: can find out trading days by looking at chart data
+                        // for VOO or SPY for example
                         runAsync {
                             Iex.getMinuteChart(selectedItem.symbol, "20180518") ?: emptyList()
                         } ui { points ->

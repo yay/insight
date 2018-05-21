@@ -805,12 +805,18 @@ object Iex {
     fun getIexVolume() = getQuotes("/stock/market/list/iexvolume")
     fun getIexPercent() = getQuotes("/stock/market/list/iexpercent")
 
+    /**
+     * Returns previous day price data for the given symbol.
+     */
     fun getPreviousDay(symbol: String): PreviousDay? {
         return fetch("$baseUrl/stock/$symbol/previous")?.let {
             mapper.readValue(it, PreviousDay::class.java)
         }
     }
 
+    /**
+     * Returns previous day price data for the whole market.
+     */
     fun getPreviousDay(): Map<String, PreviousDay>? {
         return fetch("$baseUrl/stock/market/previous")?.let {
             mapper.readValue(it, previousDayMapType)

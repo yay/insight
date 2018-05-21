@@ -22,6 +22,8 @@ class Styles : Stylesheet() {
         listCell {
             and(selected) {
                 label {
+                    // TODO: set the label fill to white when selected
+                    // TODO: but when deselected, resets it to BLACK until cell updates
                     textFill = Color.WHITE
                 }
             }
