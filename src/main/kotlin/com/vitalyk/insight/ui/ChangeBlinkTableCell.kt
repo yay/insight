@@ -21,8 +21,9 @@ class ChangeBlinkTableCell<S, T>(
 
         super.updateItem(value, empty)
 
-        val rowObject = tableRow?.item
-        val oldRowObject = tableColumn.properties[tableRow]
+        val row = tableRow
+        val rowObject = row?.item
+        val oldRowObject = tableColumn.properties[row]
 
         if (empty || value == null) {
             text = null
@@ -37,11 +38,11 @@ class ChangeBlinkTableCell<S, T>(
                 } else if (prevValue != null) {
                     val compare = comparator.compare(value, prevValue)
                     if (compare > 0) {
-                        background = Background(BackgroundFill(INCREASE_COLOR, CornerRadii.EMPTY, Insets.EMPTY))
-                        textFill = Color.GREEN
+                        background = Background(BackgroundFill(INCREASE_COLOR_BG, CornerRadii.EMPTY, Insets.EMPTY))
+                        textFill = INCREASE_COLOR_TEXT
                     } else if (compare < 0) {
-                        background = Background(BackgroundFill(DECREASE_COLOR, CornerRadii.EMPTY, Insets.EMPTY))
-                        textFill = Color(0.86, 0.18, 0.09, 1.00)
+                        background = Background(BackgroundFill(DECREASE_COLOR_BG, CornerRadii.EMPTY, Insets.EMPTY))
+                        textFill = DECREASE_COLOR_TEXT
                     }
                 }
             }
@@ -52,12 +53,14 @@ class ChangeBlinkTableCell<S, T>(
             }
         }
 
-        tableColumn.properties[tableRow] = rowObject
+        tableColumn.properties[row] = rowObject
     }
 
     companion object {
-        private val INCREASE_COLOR = Color(0.802, 1.0, 0.68, 1.0)
-        private val DECREASE_COLOR = Color(1.0, 0.747, 0.782, 1.0)
+        private val INCREASE_COLOR_TEXT = Color.GREEN
+        private val DECREASE_COLOR_TEXT = Color(0.86, 0.18, 0.09, 1.0)
+        private val INCREASE_COLOR_BG = Color(0.802, 1.0, 0.68, 1.0)
+        private val DECREASE_COLOR_BG = Color(1.0, 0.747, 0.782, 1.0)
         private val CHANGE_COLOR = Color(1.0, 0.917, 0.68, 1.0)
         private const val BLINK_TIME = 1000
     }

@@ -61,14 +61,19 @@ Yahoo Finance futures symbols:
 S&P Futures (E-Mini S&P 500): ES=F
 Dow Futures (E-mini Dow ($5) Futures): YM=F
 Nasdaq Futures (Nasdaq 100): NQ=F
+Natural Gas Futures: NG=F
 
 
 CBOE Volatility Index (^VIX)
 CBOE Interest Rate 10 Year T No (^TNX)
 
-IWM - iShares Russell 2000 ETF
-QQQ - PowerShares QQQ ETF
-SPY - SPDR S&P 500 ETF
+SPY - SPDR S&P 500
+DIA - SPDR Dow Jones Industrial Average
+QQQ - PowerShares QQQ Trust (tracks Nasdaq 100 Index)
+MDY - SPDR S&P Midcap 400
+IWM - iShares Russell 2000 (small caps)
+IFA - iShares MSCI EAFE (developed markets: UK, France, German, Japan, ...)
+EEM - iShares MSCI Emerging Markets (China, Korea, Taiwan, Brazil, ...)
 IEF - iShares 7-10 Year Treasury Bond ETF
 
 Yield Curve Data

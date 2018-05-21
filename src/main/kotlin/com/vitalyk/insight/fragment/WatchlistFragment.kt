@@ -3,9 +3,11 @@ package com.vitalyk.insight.fragment
 import com.vitalyk.insight.helpers.newYorkTimeZone
 import com.vitalyk.insight.iex.*
 import com.vitalyk.insight.ui.ChangeBlinkTableCell
+import com.vitalyk.insight.ui.PercentChangeTableCell
 import com.vitalyk.insight.ui.symbolfield
 import javafx.beans.binding.Bindings
 import javafx.beans.property.SimpleStringProperty
+import javafx.beans.value.ObservableValue
 import javafx.collections.FXCollections
 import javafx.scene.control.TableColumn
 import javafx.scene.layout.Priority
@@ -32,17 +34,19 @@ class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
 
         multiSelect()
 
+        // TODO: right-align most cells
         column("Symbol", TopsBean::symbolProperty)
-        TableColumn<TopsBean, String>("% Change").apply {
+        TableColumn<TopsBean, Double>("% Change").apply {
             setCellValueFactory {
-                Bindings.createStringBinding(Callable {
+                Bindings.createDoubleBinding(Callable {
                     val prevDayClose = IexSymbols.previousDay(it.value.symbol)?.close
                     if (prevDayClose != null)
-                        percentFormat.format((it.value.lastSalePrice / prevDayClose - 1.0) * 100.0)
+                        it.value.lastSalePrice / prevDayClose - 1.0
                     else
-                        "--"
-                }, it.value.lastSalePriceProperty)
+                        0.0
+                }, it.value.lastSalePriceProperty) as ObservableValue<Double>
             }
+            setCellFactory { PercentChangeTableCell<TopsBean>() }
             table.columns.add(this)
         }
         TableColumn<TopsBean, Double>("Last Trade").apply {
