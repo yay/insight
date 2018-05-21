@@ -61,14 +61,16 @@ class SymbolTableView : Fragment("Instrument Data") {
                 alert(
                     Alert.AlertType.INFORMATION,
                     "Market Distribution Days",
-                    getDistributionInfo()
+                    getDistributionInfo(),
+                    owner = primaryStage
                 )
             }
             button("Symbol Distribution").action {
                 alert(
                     Alert.AlertType.INFORMATION,
                     "${symbol.value} Distribution Days",
-                    getDistributionInfo(setOf(symbol.value))
+                    getDistributionInfo(setOf(symbol.value)),
+                    owner = primaryStage
                 )
             }
             button("Canvas").action {
