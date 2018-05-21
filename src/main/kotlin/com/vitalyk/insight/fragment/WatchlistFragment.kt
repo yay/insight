@@ -44,7 +44,7 @@ class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
                         it.value.lastSalePrice / prevDayClose - 1.0
                     else
                         0.0
-                }, it.value.lastSalePriceProperty) as ObservableValue<Double>
+                }, it.value.lastSalePriceProperty, IexSymbols.previousDayReady) as ObservableValue<Double>
             }
             setCellFactory { PercentChangeTableCell<TopsBean>() }
             table.columns.add(this)
