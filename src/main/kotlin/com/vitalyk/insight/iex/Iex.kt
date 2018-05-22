@@ -735,6 +735,8 @@ object Iex {
         val iexLastUpdated: Date?,
         val delayedPrice: Double,
         val delayedPriceTime: Date,
+        val extendedPrice: Double,
+        val extendedPriceTime: Date?,
         val previousClose: Double,
         val change: Double,
         val changePercent: Double,
