@@ -2,6 +2,7 @@ package com.vitalyk.insight.view
 
 import com.vitalyk.insight.fragment.NewsWatchlistFragment
 import com.vitalyk.insight.fragment.ReutersFragment
+import com.vitalyk.insight.helpers.browseTo
 import com.vitalyk.insight.helpers.newYorkZoneId
 import com.vitalyk.insight.iex.Watchlist
 import javafx.beans.property.SimpleStringProperty
@@ -22,8 +23,17 @@ class MainView : View("Insight") {
             button("Research").action { replaceWith(ResearchView::class) }
 //            button("Watchlists").action { replaceWith(WatchlistView::class) }
             button("Economy").action { replaceWith(EconomyView::class) }
-            button("Movers").action { replaceWith(MarketMoversView::class) }
-            button("News").action { replaceWith(NewsView::class) }
+            button("Movers").action {
+                browseTo("https://www.fool.com/market-movers/")
+            }
+            button("After-Hours").action {
+
+            }
+            button("Pre-Market").action {
+
+            }
+//            button("Quotes").action { replaceWith(MarketMoversView::class) }
+//            button("News").action { replaceWith(NewsView::class) }
 
             spacer {}
 

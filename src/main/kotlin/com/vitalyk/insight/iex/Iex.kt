@@ -693,7 +693,7 @@ object Iex {
         val marketOpen: Double,
         val marketClose: Double,
         val changeOverTime: Double,
-        val marketChangeOverTime: Double
+        val marketChangeOverTime: Double  // 15-min delayed
     )
 
     data class Batch(
@@ -713,6 +713,7 @@ object Iex {
         CLOSE
     }
 
+    // https://iextrading.com/developer/docs/#quote
     data class Quote(
         val symbol: String,
         val companyName: String,
@@ -740,9 +741,9 @@ object Iex {
         val previousClose: Double,
         val change: Double,
         val changePercent: Double,
-        val iexMarketPercent: Double?,
-        val iexVolume: Long?,
-        val avgTotalVolume: Long,
+        val iexMarketPercent: Double?, // IEX’s percentage of the market in the stock
+        val iexVolume: Long?,          // Shares traded in the stock on IEX
+        val avgTotalVolume: Long,      // 30 day average volume on all markets
         val iexBidPrice: Double?,
         val iexBidSize: Long?,
         val iexAskPrice: Double?,

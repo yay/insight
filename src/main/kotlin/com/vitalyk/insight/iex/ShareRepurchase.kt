@@ -11,9 +11,13 @@ fun main(args: Array<String>) {
 
 fun calculateNewPrice(symbol: String, dollarBuybackAmount: Long) = runBlocking {
     Iex.setOkHttpClient(HttpClients.main)
-    val previous = async { Iex.getPreviousDay(symbol) }.await()
-    val earnings = async { Iex.getEarnings(symbol) }.await()
-    val stats = async { Iex.getAssetStats(symbol) }.await()
+    val previousJob = async { Iex.getPreviousDay(symbol) }
+    val earningsJob = async { Iex.getEarnings(symbol) }
+    val statsJob = async { Iex.getAssetStats(symbol) }
+
+    val previous = previousJob.await()
+    val earnings = earningsJob.await()
+    val stats = statsJob.await()
 
     if (previous != null && earnings != null && stats != null) {
         // EPS = net income / outstanding shares
