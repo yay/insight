@@ -8,6 +8,7 @@ import javafx.geometry.Orientation
 import javafx.geometry.Pos
 import javafx.scene.control.Label
 import javafx.scene.layout.GridPane
+import javafx.scene.layout.Pane
 import javafx.scene.text.FontWeight
 import tornadofx.*
 import java.time.LocalDate
@@ -18,6 +19,7 @@ class AssetStatsFragment : Fragment() {
     val beta = Label()
 
     val shortInterest = Label()
+    val shortInterestPct = Label()
     val shortDate = Label()
 
     val dividendRate = Label()
@@ -129,14 +131,16 @@ class AssetStatsFragment : Fragment() {
                         this += exDividendDate
                     }
 
-                    headerRow("Short Interest")
+                    headerRow("Short Interest") {
+                        this += shortDate
+                    }
                     row {
                         label("Shares short")
                         this += shortInterest
                     }
                     row {
-                        label("As of")
-                        this += shortDate
+                        label("% of Shares Outstanding")
+                        this += shortInterestPct
                     }
 
                     headerRow("Management Effectiveness")
@@ -187,7 +191,7 @@ class AssetStatsFragment : Fragment() {
         }
     }
 
-    fun GridPane.headerRow(title: String) = row {
+    fun GridPane.headerRow(title: String, op: Pane.() -> Unit = {}) = row {
         label(title) {
             padding = Insets(10.0, 0.0, 5.0, 0.0)
             style {
@@ -195,6 +199,7 @@ class AssetStatsFragment : Fragment() {
                 fontWeight = FontWeight.BOLD
             }
         }
+        op(this)
     }
 
     fun fetch(symbol: String) {
@@ -206,8 +211,8 @@ class AssetStatsFragment : Fragment() {
                 beta.text = formatNumber(it.beta, 4)
 
                 val shortInterestRatio = it.shortInterest.toDouble() / it.sharesOutstanding.toDouble()
-                shortInterest.text = formatNumber(it.shortInterest) +
-                    ", ${"%.2f".format(shortInterestRatio * 100)}% of Shares Outstanding"
+                shortInterest.text = formatNumber(it.shortInterest)
+                shortInterestPct.text = formatPercent(shortInterestRatio * 100.0)
                 shortDate.text = formatDate(it.shortDate)
 
                 dividendRate.text = formatNumber(it.dividendRate)
@@ -249,16 +254,25 @@ class AssetStatsFragment : Fragment() {
 
     private fun formatNumber(value: Double, significand: Int = 2, percent: Boolean = false): String {
         val suffix = if (percent) "%%" else ""
-        return if (value == 0.0) "--" else "%.${significand}f$suffix".format(value)
+        return when {
+            value == 0.0 || value.isNaN() -> "--"
+            else -> "%.${significand}f$suffix".format(value)
+        }
     }
 
     private fun formatNumber(value: Long): String {
-        return if (value == 0L) "--" else value.toReadableNumber()
+        return when (value) {
+            0L -> "--"
+            else -> value.toReadableNumber()
+        }
     }
 
     private fun formatNumber(value: Int) = formatNumber(value.toLong())
 
-    private fun formatPercent(value: Double, times: Double = 1.0): String {
-        return if (value == 0.0) "--" else "%.2f%%".format(value * times)
+    private fun formatPercent(value: Double): String {
+        return when {
+            value == 0.0 || value.isNaN() -> "--"
+            else -> "%.2f%%".format(value)
+        }
     }
 }
