@@ -32,3 +32,11 @@ val recurringIcon = MaterialDesignIconView(MaterialDesignIcon.REFRESH).apply {
 }
 
 https://docs.oracle.com/javafx/2/api/javafx/scene/doc-files/cssref.html
+
+val utcEpoch = Instant.EPOCH.atZone(ZoneOffset.UTC)
+
+LocalDateTime can't be deserialized from timestamps. Need to use ZonedDateTime
+for that.
+ZonedDateTime can't be deserialized from "yyyy-MM-dd HH:mm:ss.S"
+LocalDate can't be serialized (objectMapper.writeValueAsString) because of the
+`Unsupported field: HourOfDay` exception.

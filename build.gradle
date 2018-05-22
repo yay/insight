@@ -100,9 +100,9 @@ dependencies {
     compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.5'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.9.5'
     // https://github.com/FasterXML/jackson-modules-java8
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.5' // Java 8 Date/Time
+//    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.5' // Optional
 //    compile 'com.fasterxml.jackson.module:jackson-module-parameter-names:2.9.5'
-//    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.5'
-//    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.5'
 
     // logback-classic implements the SLF4J API, allows to switch between logback, log4j, JUL
     compile 'ch.qos.logback:logback-classic:1.2.3'

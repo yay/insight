@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import com.fasterxml.jackson.databind.type.CollectionType
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import okhttp3.HttpUrl
@@ -72,9 +73,40 @@ object Iex {
         }
     }
 
-    private class LocalDateDeserializer : StdDeserializer<LocalDate>(LocalDate::class.java) {
+    private class LocalIsoDateDeserializer : StdDeserializer<LocalDate>(LocalDate::class.java) {
         override fun deserialize(parser: JsonParser, context: DeserializationContext): LocalDate {
             return LocalDate.parse(parser.readValueAs(String::class.java), DateTimeFormatter.BASIC_ISO_DATE)
+        }
+    }
+
+    private class LocalDateDeserializer : StdDeserializer<LocalDate>(LocalDate::class.java) {
+        override fun deserialize(parser: JsonParser, context: DeserializationContext): LocalDate? {
+            val str = parser.readValueAs(String::class.java)
+            return when (str) {
+                "null", "0" -> null
+                else -> LocalDate.parse(str, formatter)
+            }
+        }
+        companion object {
+            private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        }
+    }
+
+    /**
+     * Deserializer for dates like "2018-05-11 00:00:00.0".
+     */
+    private class LocalDateDiscardTimeDeserializer : StdDeserializer<LocalDate>(LocalDate::class.java) {
+        override fun deserialize(parser: JsonParser, context: DeserializationContext): LocalDate? {
+            val str = parser.readValueAs(String::class.java)
+            return when {
+                str == "null" || str == "0" -> null
+                str.length == 10 -> LocalDate.parse(str, dateFormatter)
+                else -> LocalDate.parse(str, dateTimeFormatter)
+            }
+        }
+        companion object {
+            private val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")
+            private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         }
     }
 
@@ -82,6 +114,7 @@ object Iex {
     // instance occurs before ANY read or write calls.
     private val mapper = jacksonObjectMapper().apply {
         enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE)
+        registerModule(JavaTimeModule())
     }
 
     private fun String.toJsonNode(): JsonNode? {
@@ -283,15 +316,20 @@ object Iex {
         val week52low: Double = 0.0,
         val week52change: Double = 0.0,
         val shortInterest: Long = 0L,
-        val shortDate: Date = Date(0),
+        @JsonDeserialize(using = LocalDateDeserializer::class)
+        @JsonFormat(pattern = "yyyy-MM-dd")
+        val shortDate: LocalDate? = null,
         val dividendRate: Double = 0.0,
         val dividendYield: Double = 0.0,
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.S")
-        val exDividendDate: Date = Date(0),
+        @JsonDeserialize(using = LocalDateDiscardTimeDeserializer::class)
+        @JsonFormat(pattern = "yyyy-MM-dd")
+        val exDividendDate: LocalDate? = null,
         @JsonProperty("latestEPS")
         val latestEps: Double = 0.0, // Most recent quarter (MRQ)
         @JsonProperty("latestEPSDate")
-        val latestEpsDate: Date = Date(0),
+        @JsonDeserialize(using = LocalDateDeserializer::class)
+        @JsonFormat(pattern = "yyyy-MM-dd")
+        val latestEpsDate: LocalDate? = null,
         val sharesOutstanding: Long = 0L,
         val float: Long = 0L,
         val returnOnEquity: Double = 0.0, // Trailing twelve months (TTM)
@@ -634,7 +672,7 @@ object Iex {
     )
 
     data class MinuteChartPoint(
-        @JsonDeserialize(using = LocalDateDeserializer::class)
+        @JsonDeserialize(using = LocalIsoDateDeserializer::class)
         val date: LocalDate, // "20180518"
         val minute: String,  // "09:30"
         val label: String,   // "09:30 AM"

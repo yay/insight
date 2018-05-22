@@ -10,8 +10,8 @@ import javafx.scene.control.Label
 import javafx.scene.layout.GridPane
 import javafx.scene.text.FontWeight
 import tornadofx.*
-import java.text.SimpleDateFormat
-import java.util.*
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class AssetStatsFragment : Fragment() {
     val marketCap = Label()
@@ -205,8 +205,9 @@ class AssetStatsFragment : Fragment() {
                 marketCap.text = formatNumber(it.marketCap)
                 beta.text = formatNumber(it.beta, 4)
 
+                val shortInterestRatio = it.shortInterest.toDouble() / it.sharesOutstanding.toDouble()
                 shortInterest.text = formatNumber(it.shortInterest) +
-                    ", ${"%.2f".format(it.shortInterest.toDouble() / it.float.toDouble() * 100)}% of float"
+                    ", ${"%.2f".format(shortInterestRatio * 100)}% of Shares Outstanding"
                 shortDate.text = formatDate(it.shortDate)
 
                 dividendRate.text = formatNumber(it.dividendRate)
@@ -237,10 +238,13 @@ class AssetStatsFragment : Fragment() {
         }
     }
 
-    private val dateFormat = SimpleDateFormat("E MMM dd, yy")
-    private val zeroDate = Date(0)
-    private fun formatDate(date: Date): String {
-        return if (date == zeroDate) "--" else dateFormat.format(date)
+    private val dateTimeFormatter = DateTimeFormatter.ofPattern("E MMM dd, yy")
+
+    private fun formatDate(date: LocalDate?): String {
+        return when (date) {
+            null -> "--"
+            else -> date.format(dateTimeFormatter)
+        }
     }
 
     private fun formatNumber(value: Double, significand: Int = 2, percent: Boolean = false): String {

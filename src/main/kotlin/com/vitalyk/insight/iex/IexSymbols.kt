@@ -7,7 +7,7 @@ import kotlinx.coroutines.experimental.launch
 
 object IexSymbols {
     private var symbolMap = mapOf<String, Symbol>()
-    private var prevDayMap = mapOf<String, PreviousDay>()
+    private var previousDayMap = mapOf<String, PreviousDay>()
 
     // TODO: find a better way to do this without the JavaFx dependency
     val previousDayReady = SimpleBooleanProperty(false)
@@ -19,8 +19,10 @@ object IexSymbols {
             }
         }
         launch {
-            Iex.getPreviousDay()?.let { prevDayMap = it }
-            previousDayReady.value = true
+            Iex.getPreviousDay()?.let {
+                previousDayMap = it
+                previousDayReady.set(true)
+            }
         }
     }
 
@@ -47,7 +49,7 @@ object IexSymbols {
     // Given the exact ticker, returns the associated symbol.
     fun find(symbol: String): Symbol? = symbolMap[symbol]
 
-    fun previousDay(symbol: String): PreviousDay? = prevDayMap[symbol]
+    fun previousDay(symbol: String): PreviousDay? = previousDayMap[symbol]
 
     // Given the ticker, returns the name of the asset.
     fun name(symbol: String): String? = find(symbol)?.name
