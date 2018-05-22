@@ -26,12 +26,6 @@ class MainView : View("Insight") {
             button("Movers").action {
                 browseTo("https://www.fool.com/market-movers/")
             }
-            button("After-Hours").action {
-
-            }
-            button("Pre-Market").action {
-
-            }
 //            button("Quotes").action { replaceWith(MarketMoversView::class) }
 //            button("News").action { replaceWith(NewsView::class) }
 

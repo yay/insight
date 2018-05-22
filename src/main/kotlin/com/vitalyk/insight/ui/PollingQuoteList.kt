@@ -2,7 +2,6 @@ package com.vitalyk.insight.ui
 
 import com.vitalyk.insight.fragment.AssetProfileFragment
 import com.vitalyk.insight.fragment.DayChartFragment
-import com.vitalyk.insight.fragment.MinuteChartFragment
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.Iex.Quote
 import javafx.geometry.Insets
