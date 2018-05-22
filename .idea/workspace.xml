@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="296155b2-79af-4b19-b6a4-d5102d45abea" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/ShareRepurchase.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/AssetStatsFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/AssetStatsFragment.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/WatchlistFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/WatchlistFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/IexSymbols.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/IexSymbols.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/ShortInterest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/ShortInterest.kt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/dataviz/.gradle/" />
     <ignored path="$PROJECT_DIR$/dataviz/build/" />
@@ -70,14 +70,17 @@
     </system>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5017618">
+    <splitter split-orientation="horizontal" split-proportion="0.48343903">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file leaf-file-name="IexSymbols.kt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/IexSymbols.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="45">
-                  <caret line="3" column="41" lean-forward="true" selection-start-line="3" selection-start-column="41" selection-end-line="3" selection-end-column="41" />
+                <state relative-caret-position="150">
+                  <caret line="10" column="18" lean-forward="true" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
+                  <folding>
+                    <element signature="e#33#218#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -85,19 +88,46 @@
           <file leaf-file-name="ShortInterest.kt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/ShortInterest.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="75">
-                  <caret line="5" column="46" lean-forward="true" selection-start-line="5" selection-start-column="46" selection-end-line="5" selection-end-column="46" />
+                <state relative-caret-position="197">
+                  <caret line="40" column="53" lean-forward="true" selection-start-line="40" selection-start-column="53" selection-end-line="40" selection-end-column="53" />
+                  <folding>
+                    <element signature="e#33#397#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="WatchlistFragment.kt" pinned="false" current-in-tab="true">
+          <file leaf-file-name="ShareRepurchase.kt" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/ShareRepurchase.kt">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="105">
+                  <caret line="7" column="31" lean-forward="true" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
+                  <folding>
+                    <element signature="e#33#172#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="WatchlistFragment.kt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/WatchlistFragment.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="170">
-                  <caret line="40" column="39" lean-forward="true" selection-start-line="40" selection-start-column="39" selection-end-line="40" selection-end-column="39" />
+                <state relative-caret-position="-454">
+                  <caret line="20" column="79" lean-forward="true" selection-start-line="20" selection-start-column="79" selection-end-line="20" selection-end-column="79" />
                   <folding>
                     <element signature="e#38#602#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="AssetStatsFragment.kt" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/AssetStatsFragment.kt">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="107">
+                  <caret line="246" column="13" lean-forward="true" selection-start-line="246" selection-start-column="13" selection-end-line="246" selection-end-column="13" />
+                  <folding>
+                    <element signature="e#38#626#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -106,19 +136,10 @@
           <file leaf-file-name="IexBeans.kt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/IexBeans.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="450">
-                  <caret line="118" column="11" lean-forward="true" selection-start-line="118" selection-start-column="11" selection-end-line="118" selection-end-column="11" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="PercentChangeTableCell.kt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/ui/PercentChangeTableCell.kt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="330">
-                  <caret line="22" column="48" lean-forward="true" selection-start-line="22" selection-start-column="48" selection-end-line="22" selection-end-column="48" />
+                <state relative-caret-position="30">
+                  <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
                   <folding>
-                    <element signature="e#32#128#0" expanded="true" />
+                    <element signature="e#33#150#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -137,18 +158,6 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Settings.kt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/main/Settings.kt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="30">
-                  <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-                  <folding>
-                    <element signature="e#34#183#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
           <file leaf-file-name="Tips.txt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/notes/Tips.txt">
               <provider selected="true" editor-type-id="text-editor">
@@ -161,25 +170,28 @@
           <file leaf-file-name="Technical.txt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/notes/Technical.txt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="525">
-                  <caret line="35" column="28" selection-start-line="35" selection-start-column="15" selection-end-line="35" selection-end-column="28" />
+                <state relative-caret-position="285">
+                  <caret line="19" column="36" lean-forward="true" selection-start-line="19" selection-start-column="36" selection-end-line="19" selection-end-column="36" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Iex.kt" pinned="false" current-in-tab="false">
+          <file leaf-file-name="Iex.kt" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="151">
-                  <caret line="631" column="26" selection-start-line="631" selection-start-column="26" selection-end-line="631" selection-end-column="26" />
+                <state relative-caret-position="263">
+                  <caret line="886" column="19" selection-start-line="886" selection-start-column="19" selection-end-line="886" selection-end-column="19" />
+                  <folding>
+                    <element signature="e#33#1189#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="Watchlist.kt" pinned="false" current-in-tab="true">
+          <file leaf-file-name="Watchlist.kt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Watchlist.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="358">
+                <state relative-caret-position="1710">
                   <caret line="114" column="17" lean-forward="true" selection-start-line="114" selection-start-column="17" selection-end-line="114" selection-end-column="17" />
                   <folding>
                     <element signature="e#33#252#0" expanded="true" />
@@ -201,9 +213,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>: Date</find>
-      <find>Tops</find>
-      <find>shortDate&quot; :</find>
       <find>america/new</find>
       <find>assets</find>
       <find>zeroDate</find>
@@ -231,6 +240,9 @@
       <find>print</find>
       <find>alcoa</find>
       <find>previousday</find>
+      <find>percentFormat</find>
+      <find>createStringBinding(Callable</find>
+      <find>getearnings</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/h2/src/test/org</dir>
@@ -238,8 +250,8 @@
       <dir>/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/ext/jfxrt.jar!/javafx</dir>
       <dir>$USER_HOME$/.gradle/caches/modules-2/files-2.1/no.tornado/tornadofx/1.7.16/11a4b4636b390f582e61cf7b6cf25024712d2e47/tornadofx-1.7.16.jar</dir>
       <dir>$PROJECT_DIR$/src</dir>
-      <dir>$PROJECT_DIR$/src/main</dir>
       <dir>$PROJECT_DIR$/src/main/kotlin</dir>
+      <dir>$PROJECT_DIR$/src/main</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -826,7 +838,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/helpers/Time.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/ui/Builders.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/bond/Quandl.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/trigger/TextTrigger.kt" />
@@ -871,12 +882,13 @@
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/IexBeans.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/helpers/Json.kt" />
         <option value="$PROJECT_DIR$/notes/Technical.txt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/AssetStatsFragment.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/ShortInterest.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/IexSymbols.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/WatchlistFragment.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Watchlist.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/WatchlistFragment.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/AssetStatsFragment.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/ShareRepurchase.kt" />
       </list>
     </option>
   </component>
@@ -886,7 +898,7 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds">
     <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="873" />
@@ -899,8 +911,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -952,6 +962,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -977,7 +989,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Kotlin.com.vitalyk.insight.Insight">
+  <component name="RunManager" selected="Kotlin.com.vitalyk.insight.iex.ShareRepurchaseKt">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
     </configuration>
@@ -1024,29 +1036,6 @@
       </option>
       <patterns />
     </configuration>
-    <configuration name="IexTest.getBatchMany" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="insight_test" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.vitalyk.insight.iex.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.vitalyk.insight.iex" />
-      <option name="MAIN_CLASS_NAME" value="com.vitalyk.insight.iex.IexTest" />
-      <option name="METHOD_NAME" value="getBatchMany" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <patterns />
-    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -1073,6 +1062,16 @@
       <option name="MAIN_CLASS_NAME" value="com.vitalyk.insight.Insight" />
       <option name="WORKING_DIRECTORY" />
     </configuration>
+    <configuration name="com.vitalyk.insight.iex.ShareRepurchaseKt" type="JetRunConfigurationType" factoryName="Kotlin" temporary="true" nameIsGenerated="true">
+      <module name="insight_main" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.vitalyk.insight.iex.ShareRepurchaseKt" />
+      <option name="WORKING_DIRECTORY" />
+    </configuration>
     <configuration name="com.vitalyk.insight.iex.ShortInterestKt" type="JetRunConfigurationType" factoryName="Kotlin" temporary="true" nameIsGenerated="true">
       <module name="insight_main" />
       <option name="VM_PARAMETERS" />
@@ -1086,17 +1085,17 @@
     <list>
       <item itemvalue="Gradle.insight [build]" />
       <item itemvalue="JUnit.IexTest" />
-      <item itemvalue="JUnit.IexTest.getBatchMany" />
       <item itemvalue="Kotlin.com.vitalyk.insight.Insight" />
       <item itemvalue="Kotlin.com.vitalyk.insight.iex.ShortInterestKt" />
+      <item itemvalue="Kotlin.com.vitalyk.insight.iex.ShareRepurchaseKt" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Kotlin.com.vitalyk.insight.iex.ShareRepurchaseKt" />
+        <item itemvalue="Gradle.insight [build]" />
         <item itemvalue="Kotlin.com.vitalyk.insight.Insight" />
         <item itemvalue="Kotlin.com.vitalyk.insight.iex.ShortInterestKt" />
-        <item itemvalue="Gradle.insight [build]" />
         <item itemvalue="JUnit.IexTest" />
-        <item itemvalue="JUnit.IexTest.getBatchMany" />
       </list>
     </recent_temporary>
   </component>
@@ -1121,7 +1120,7 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="873" extended-state="6" />
+    <frame x="0" y="23" width="1440" height="873" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -1129,11 +1128,12 @@
       <window_info anchor="right" id="Palette&#9;" order="0" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info id="Maven Projects" order="5" weight="0.16240682" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.36469072" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.29252577" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3273196" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.31829897" />
       <window_info id="Designer" order="0" />
       <window_info content_ui="combo" id="Project" order="2" weight="0.16842847" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32708332" />
       <window_info id="Gradle" order="4" weight="0.14430244" />
       <window_info id="Structure" order="3" side_tool="true" weight="0.25" />
       <window_info id="Ant Build" order="6" weight="0.24960506" />
@@ -1147,7 +1147,6 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Build" order="7" weight="0.32916668" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32708332" />
     </layout>
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -1213,34 +1212,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/MinuteChartFragment.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="36" lean-forward="true" selection-start-line="5" selection-start-column="36" selection-end-line="5" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/DayChartFragment.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="38" column="59" selection-start-line="38" selection-start-column="59" selection-end-line="38" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/no.tornado/tornadofx/1.7.16/83c9e9d4b80211c31a9ac0f7a5fe998645f8e0fc/tornadofx-1.7.16-sources.jar!/tornadofx/Dialogs.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="28" column="52" selection-start-line="28" selection-start-column="52" selection-end-line="28" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/yahoo/Distribution.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="33" column="46" lean-forward="true" selection-start-line="33" selection-start-column="46" selection-end-line="33" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/no.tornado/tornadofx/1.7.16/83c9e9d4b80211c31a9ac0f7a5fe998645f8e0fc/tornadofx-1.7.16-sources.jar!/tornadofx/Nodes.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="392">
@@ -1276,13 +1247,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="171">
           <caret line="111" column="52" selection-start-line="111" selection-start-column="52" selection-end-line="111" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/javafx-src.zip!/javafx/beans/binding/Bindings.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="164" column="23" lean-forward="true" selection-start-line="164" selection-start-column="23" selection-end-line="164" selection-end-column="23" />
         </state>
       </provider>
     </entry>
@@ -1435,13 +1399,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/kotlin/com/vitalyk/insight/iex/IexTest.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="30" lean-forward="true" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/src.zip!/java/time/ZonedDateTime.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -1453,27 +1410,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="186">
           <caret line="89" column="62" selection-start-line="89" selection-start-column="62" selection-end-line="89" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/notes/Financial.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/notes/Technical.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" column="28" selection-start-line="35" selection-start-column="15" selection-end-line="35" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/notes/Tips.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="26" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
         </state>
       </provider>
     </entry>
@@ -1491,16 +1427,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/main/Settings.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-          <folding>
-            <element signature="e#34#183#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/short_interest.json" />
     <entry file="file://$PROJECT_DIR$/data/mini_short_interest.json" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/src.zip!/java/util/Collection.java">
@@ -1514,16 +1440,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/AssetStatsFragment.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="225" selection-start-line="225" selection-end-line="225" />
-          <folding>
-            <element signature="e#38#502#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.41/dc11619be6c45157a142d3753017544896da8e69/kotlin-stdlib-1.2.41-sources.jar!/kotlin/util/Standard.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="185">
@@ -1531,24 +1447,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/ShortInterest.kt">
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Watchlist.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="46" lean-forward="true" selection-start-line="5" selection-start-column="46" selection-end-line="5" selection-end-column="46" />
+        <state relative-caret-position="1710">
+          <caret line="114" column="17" lean-forward="true" selection-start-line="114" selection-start-column="17" selection-end-line="114" selection-end-column="17" />
+          <folding>
+            <element signature="e#33#252#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/IexSymbols.kt">
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/main/Settings.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="41" lean-forward="true" selection-start-line="3" selection-start-column="41" selection-end-line="3" selection-end-column="41" />
+        <state relative-caret-position="30">
+          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+          <folding>
+            <element signature="e#34#183#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/notes/Financial.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/ui/PercentChangeTableCell.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="48" lean-forward="true" selection-start-line="22" selection-start-column="48" selection-end-line="22" selection-end-column="48" />
+        <state relative-caret-position="120">
+          <caret line="8" column="10" lean-forward="true" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
           <folding>
             <element signature="e#32#128#0" expanded="true" />
           </folding>
@@ -1557,34 +1486,130 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/IexBeans.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="118" column="11" lean-forward="true" selection-start-line="118" selection-start-column="11" selection-end-line="118" selection-end-column="11" />
+        <state relative-caret-position="30">
+          <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+          <folding>
+            <element signature="e#33#150#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt">
+    <entry file="file://$PROJECT_DIR$/notes/Tips.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="631" column="26" selection-start-line="631" selection-start-column="26" selection-end-line="631" selection-end-column="26" />
+        <state relative-caret-position="75">
+          <caret line="5" column="26" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/notes/Technical.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="36" lean-forward="true" selection-start-line="19" selection-start-column="36" selection-end-line="19" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/kotlin/com/vitalyk/insight/iex/IexTest.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="39">
+          <caret line="81" column="9" lean-forward="true" selection-start-line="81" selection-start-column="9" selection-end-line="81" selection-end-column="9" />
+          <folding>
+            <element signature="e#33#364#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/IexSymbols.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="18" lean-forward="true" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
+          <folding>
+            <element signature="e#33#218#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/javafx-src.zip!/javafx/scene/control/Label.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="76" column="7" lean-forward="true" selection-start-line="76" selection-start-column="7" selection-end-line="76" selection-end-column="7" />
+          <folding>
+            <element signature="e#1673#1674#0" expanded="true" />
+            <element signature="e#1701#1702#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/javafx-src.zip!/javafx/beans/binding/Bindings.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="361" column="7" lean-forward="true" selection-start-line="361" selection-start-column="7" selection-end-line="361" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/javafx-src.zip!/javafx/beans/property/Property.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="92" column="7" lean-forward="true" selection-start-line="92" selection-start-column="7" selection-end-line="92" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/javafx-src.zip!/javafx/util/converter/NumberStringConverter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="36" column="20" lean-forward="true" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="20" />
+          <folding>
+            <element signature="e#908#909#0" expanded="true" />
+            <element signature="e#949#950#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/WatchlistFragment.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="40" column="39" lean-forward="true" selection-start-line="40" selection-start-column="39" selection-end-line="40" selection-end-column="39" />
+        <state relative-caret-position="-454">
+          <caret line="20" column="79" lean-forward="true" selection-start-line="20" selection-start-column="79" selection-end-line="20" selection-end-column="79" />
           <folding>
             <element signature="e#38#602#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Watchlist.kt">
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/AssetStatsFragment.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="358">
-          <caret line="114" column="17" lean-forward="true" selection-start-line="114" selection-start-column="17" selection-end-line="114" selection-end-column="17" />
+        <state relative-caret-position="107">
+          <caret line="246" column="13" lean-forward="true" selection-start-line="246" selection-start-column="13" selection-end-line="246" selection-end-column="13" />
           <folding>
-            <element signature="e#33#252#0" expanded="true" />
+            <element signature="e#38#626#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/ShortInterest.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="40" column="53" lean-forward="true" selection-start-line="40" selection-start-column="53" selection-end-line="40" selection-end-column="53" />
+          <folding>
+            <element signature="e#33#397#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="263">
+          <caret line="886" column="19" selection-start-line="886" selection-start-column="19" selection-end-line="886" selection-end-column="19" />
+          <folding>
+            <element signature="e#33#1189#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/ShareRepurchase.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="31" lean-forward="true" selection-start-line="7" selection-start-column="31" selection-end-line="7" selection-end-column="31" />
+          <folding>
+            <element signature="e#33#172#0" expanded="true" />
           </folding>
         </state>
       </provider>

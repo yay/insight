@@ -18,7 +18,6 @@ import java.util.concurrent.Callable
 class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
 
     private val priceFormat = "%.2f"
-    private val percentFormat = "%.2f%%"
     private val priceFormatter = { price: Double -> priceFormat.format(price) }
 
     var symbol = SimpleStringProperty("")
