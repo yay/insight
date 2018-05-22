@@ -9,7 +9,10 @@ import javafx.beans.binding.Bindings
 import javafx.beans.property.SimpleStringProperty
 import javafx.beans.value.ObservableValue
 import javafx.collections.FXCollections
+import javafx.scene.control.ContextMenu
+import javafx.scene.control.Menu
 import javafx.scene.control.TableColumn
+import javafx.scene.control.TableView
 import javafx.scene.layout.Priority
 import tornadofx.*
 import java.text.SimpleDateFormat

@@ -51,7 +51,7 @@ class SymbolTableView : Fragment("Instrument Data") {
             button("Chart").action {
                 find(DayChartFragment::class).let {
                     it.updateChart(symbol.value, dataPoints)
-                    replaceWith(it)
+                    it.openModal()
                 }
             }
         }

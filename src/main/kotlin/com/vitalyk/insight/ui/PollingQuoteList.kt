@@ -1,6 +1,9 @@
 package com.vitalyk.insight.ui
 
 import com.vitalyk.insight.fragment.AssetProfileFragment
+import com.vitalyk.insight.fragment.DayChartFragment
+import com.vitalyk.insight.fragment.MinuteChartFragment
+import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.Iex.Quote
 import javafx.geometry.Insets
 import javafx.geometry.Pos
@@ -57,6 +60,22 @@ class PollingQuoteList(title: String, private val getQuotes: () -> List<Quote>?)
             item("Profile").action {
                 selectedItem?.apply {
                     AssetProfileFragment.show(symbol)
+                }
+            }
+            menu("Chart") {
+                Iex.Range.values().forEach { range ->
+                    item(range.value.name).action {
+                        selectedItem?.let { selectedItem ->
+                            runAsync {
+                                Iex.getDayChart(selectedItem.symbol, range) ?: emptyList()
+                            } ui { points ->
+                                find(DayChartFragment::class).let {
+                                    it.updateChart(selectedItem.symbol, points)
+                                    it.openModal()
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
