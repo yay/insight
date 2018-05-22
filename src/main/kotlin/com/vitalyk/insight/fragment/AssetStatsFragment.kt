@@ -3,8 +3,6 @@ package com.vitalyk.insight.fragment
 import com.vitalyk.insight.helpers.toReadableNumber
 import com.vitalyk.insight.iex.Iex.AssetStats
 import com.vitalyk.insight.iex.Iex.getAssetStats
-import javafx.beans.binding.Bindings
-import javafx.beans.property.SimpleDoubleProperty
 import javafx.geometry.Insets
 import javafx.geometry.Orientation
 import javafx.geometry.Pos
@@ -12,12 +10,9 @@ import javafx.scene.control.Label
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Pane
 import javafx.scene.text.FontWeight
-import javafx.util.StringConverter
-import javafx.util.converter.NumberStringConverter
 import tornadofx.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.concurrent.Callable
 
 class AssetStatsFragment : Fragment() {
     val marketCap = Label()
