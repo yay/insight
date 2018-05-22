@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.vitalyk.insight.helpers.objectMapper
 import com.vitalyk.insight.helpers.toPrettyJson
+import com.vitalyk.insight.helpers.toReadableNumber
 import com.vitalyk.insight.helpers.writeToFile
 import com.vitalyk.insight.main.HttpClients
 import kotlinx.coroutines.experimental.async
@@ -14,7 +15,7 @@ import java.time.*
 private const val filePath = "./data/short_interest.json"
 
 fun main(args: Array<String>) {
-    shortInterest()
+//    shortInterest()
     miniShortInterest()
 }
 
@@ -26,10 +27,11 @@ fun miniShortInterest() {
             val shortInterestPct = it.shortInterest.toDouble() / it.sharesOutstanding.toDouble()
             object {
                 val shortInterest = "%.2f%%".format(shortInterestPct * 100)
+                val shortDate = it.shortDate
                 val symbol = it.symbol
                 val name = it.companyName
                 @JsonFormat(pattern = "MMM dd, yy")
-                val date = it.shortDate
+                val marketCap = it.marketCap.toReadableNumber()
             }
         }
         .toPrettyJson()
@@ -59,6 +61,8 @@ fun shortInterest() {
                     it
                 else
                     null
+            }.filter {
+                it.marketCap > 1000_000_000
             }.sortedByDescending {
                 it.shortInterest.toDouble() / it.sharesOutstanding.toDouble()
             }
