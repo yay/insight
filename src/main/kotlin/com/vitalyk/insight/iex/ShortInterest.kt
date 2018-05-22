@@ -1,26 +1,22 @@
 package com.vitalyk.insight.iex
 
 import com.fasterxml.jackson.annotation.JsonFormat
-import com.fasterxml.jackson.module.kotlin.readValue
-import com.vitalyk.insight.helpers.objectMapper
 import com.vitalyk.insight.helpers.toPrettyJson
 import com.vitalyk.insight.helpers.toReadableNumber
 import com.vitalyk.insight.helpers.writeToFile
 import com.vitalyk.insight.main.HttpClients
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
-import java.io.File
-import java.time.*
+import java.time.LocalDate
 
 private const val filePath = "./data/short_interest.json"
 
 fun main(args: Array<String>) {
-//    shortInterest()
-    miniShortInterest()
+    shortInterest()
 }
 
-fun miniShortInterest() {
-    val list = objectMapper.readValue<List<Iex.AssetStats>>(File(filePath))
+fun miniShortInterest(list: List<Iex.AssetStats>) {
+//    val list = objectMapper.readValue<List<Iex.AssetStats>>(File(filePath))
 
     list
         .map {
@@ -68,6 +64,8 @@ fun shortInterest() {
             }
 
             list.toPrettyJson().writeToFile(filePath)
+
+            miniShortInterest(list)
         }
     }
 }

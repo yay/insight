@@ -37,14 +37,15 @@ class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
         // TODO: right-align most cells
         column("Symbol", TopsBean::symbolProperty)
         TableColumn<TopsBean, Double>("% Change").apply {
-            setCellValueFactory {
+            setCellValueFactory { column ->
+                val data = column.value
                 Bindings.createDoubleBinding(Callable {
-                    val prevDayClose = IexSymbols.previousDay(it.value.symbol)?.close
-                    if (prevDayClose != null)
-                        it.value.lastSalePrice / prevDayClose - 1.0
+                    val prevDayClose = IexSymbols.previousDay(data.symbol)?.close
+                    if (prevDayClose != null && prevDayClose > 0 && data.lastSalePrice > 0)
+                        data.lastSalePrice / prevDayClose - 1.0
                     else
                         0.0
-                }, it.value.lastSalePriceProperty, IexSymbols.previousDayReady) as ObservableValue<Double>
+                }, data.lastSalePriceProperty) as ObservableValue<Double>
             }
             setCellFactory { PercentChangeTableCell<TopsBean>() }
             table.columns.add(this)

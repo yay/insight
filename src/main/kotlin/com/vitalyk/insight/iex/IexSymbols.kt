@@ -2,15 +2,11 @@ package com.vitalyk.insight.iex
 
 import com.vitalyk.insight.iex.Iex.PreviousDay
 import com.vitalyk.insight.iex.Iex.Symbol
-import javafx.beans.property.SimpleBooleanProperty
 import kotlinx.coroutines.experimental.launch
 
 object IexSymbols {
     private var symbolMap = mapOf<String, Symbol>()
     private var previousDayMap = mapOf<String, PreviousDay>()
-
-    // TODO: find a better way to do this without the JavaFx dependency
-    val previousDayReady = SimpleBooleanProperty(false)
 
     fun update() {
         launch {
@@ -21,7 +17,6 @@ object IexSymbols {
         launch {
             Iex.getPreviousDay()?.let {
                 previousDayMap = it
-                previousDayReady.set(true)
             }
         }
     }
