@@ -42,35 +42,33 @@ fun filterShortInterest(stats: List<AssetStats>, quotes: Map<String, Quote>) {
         .writeToFile("./data/filtered_short_interest.json")
 }
 
-fun getShortInterest() {
-    runBlocking {
-        val monthAgo = LocalDate.now().minusMonths(1)
-        Iex.getSymbols()?.let {
-            // Quote fetching will run concurrently with stats fetching,
-            // and when both are fetched, the filtering function will be called.
-            val quoteJob = async { getQuotes(it) }
+fun getShortInterest() = runBlocking {
+    val monthAgo = LocalDate.now().minusMonths(1)
+    Iex.getSymbols()?.let {
+        // Quote fetching will run concurrently with stats fetching,
+        // and when both are fetched, the filtering function will be called.
+        val quoteJob = async { getQuotes(it) }
 
-            val list = it.map {
-                async {
-                    Iex.getAssetStats(it.symbol)
-                }
-            }.mapNotNull {
-                it.await()
-            }.mapNotNull {
-                val shortDate = it.shortDate
-                if (it.shortInterest > 0 && it.sharesOutstanding > 0 &&
-                    shortDate != null && shortDate.isAfter(monthAgo))
-                    it
-                else
-                    null
-            }.sortedByDescending {
-                it.shortInterest.toDouble() / it.sharesOutstanding.toDouble()
+        val list = it.map {
+            async {
+                Iex.getAssetStats(it.symbol)
             }
-
-            list.toPrettyJson().writeToFile("./data/short_interest.json")
-
-            filterShortInterest(list, quoteJob.await())
+        }.mapNotNull {
+            it.await()
+        }.mapNotNull {
+            val shortDate = it.shortDate
+            if (it.shortInterest > 0 && it.sharesOutstanding > 0 &&
+                shortDate != null && shortDate.isAfter(monthAgo))
+                it
+            else
+                null
+        }.sortedByDescending {
+            it.shortInterest.toDouble() / it.sharesOutstanding.toDouble()
         }
+
+        list.toPrettyJson().writeToFile("./data/short_interest.json")
+
+        filterShortInterest(list, quoteJob.await())
     }
 }
 
