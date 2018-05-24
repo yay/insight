@@ -97,6 +97,9 @@ class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
 
         // TODO: add "change since last close" column
 
+        // TODO: com.sun.javafx.scene.control.skin.VirtualFlow addTrailingCells warning:
+        // INFO: index exceeds maxCellCount. Check size calculations for class javafx.scene.control.TableRow
+
         contextmenu {
             item("Remove").action {
                 // TODO: removed items sometimes reappear

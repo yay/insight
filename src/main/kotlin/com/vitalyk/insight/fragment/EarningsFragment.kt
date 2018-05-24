@@ -75,7 +75,9 @@ class EarningsFragment : Fragment("Earnings") {
                             datum.node?.apply {
                                 val data = earnings[index]
                                 if (isActual)
-                                    tooltip("${dateFormat.format(data.epsReportDate)} (${data.announceTime})")
+                                    tooltip(
+                                        dateFormat.format(data.epsReportDate) +
+                                            (data.announceTime?.let { " ($it)" } ?: ""))
 
                                 val text = Text(datum.yValue.toString()).apply {
                                     font = Font("Tahoma", labelFontSize)

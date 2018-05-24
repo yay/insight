@@ -97,6 +97,7 @@ class YieldCurveView : View("Yield Curve") {
         val yr10 = rec.yr10
         if (yr2 != null && yr10 != null)
             title += "\n10-year minus 2-year spread: %.2f%%".format(yr10 - yr2)
+
         yieldChart.let { chart ->
             chart.title = title
             chart.data.clear()

@@ -265,7 +265,7 @@ object Iex {
         val consensusEps: Double,
         @JsonProperty("estimatedEPS")
         val estimatedEps: Double?,
-        val announceTime: String,
+        val announceTime: String?,
         val numberOfEstimates: Int,
         @JsonProperty("EPSSurpriseDollar")
         val epsSurpriseDollar: Double,

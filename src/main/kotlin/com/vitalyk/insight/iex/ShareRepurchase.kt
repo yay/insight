@@ -30,9 +30,10 @@ fun calculateNewPrice(symbol: String, dollarBuybackAmount: Long) = runBlocking {
         val newEPS = netIncome / sharesAfterBuyback
         val newPrice = newEPS * currentPE
 
-        println("ttmEPS: $ttmEPS")
+        println("ttm EPS: $ttmEPS")
         println("Current P/E: $currentPE")
         println("Shares Outstanding: $sharesOutstanding")
+        println("New EPS: $newEPS")
         println("New Price: $newPrice")
     }
 }
