@@ -63,7 +63,7 @@ class YieldCurveView : View("Yield Curve") {
     override val root = vbox {
         this += toolbox
         this += yieldChart
-        this += spreadChart
+//        this += spreadChart
         this += scrollBar
     }
 
@@ -92,18 +92,23 @@ class YieldCurveView : View("Yield Curve") {
     }
 
     fun updateYieldChart(rec: Yield) {
-        yieldChart.title = dateFormat.format(rec.date)
+        var title = dateFormat.format(rec.date)
+        val yr2 = rec.yr2
+        val yr10 = rec.yr10
+        if (yr2 != null && yr10 != null)
+            title += "\n10-year minus 2-year spread: %.2f%%".format(yr10 - yr2)
+        yieldChart.title = title
         yieldChart.data.clear()
         yieldChart.series("Yield Curve") {
-            rec.mo1?.let { data("${Yield::mo1.name}\n${rec.mo3}%", it) }
-            data("${Yield::mo3.name}\n${rec.mo3}%", rec.mo3 ?: 0.0)
-            data("${Yield::mo6.name}\n${rec.mo6}%", rec.mo6 ?: 0.0)
-            data("${Yield::yr1.name}\n${rec.yr1}%", rec.yr1 ?: 0.0)
-            data("${Yield::yr2.name}\n${rec.yr2}%", rec.yr2 ?: 0.0)
-            data("${Yield::yr3.name}\n${rec.yr3}%", rec.yr3 ?: 0.0)
-            data("${Yield::yr5.name}\n${rec.yr5}%", rec.yr5 ?: 0.0)
-            data("${Yield::yr7.name}\n${rec.yr7}%", rec.yr7 ?: 0.0)
-            data("${Yield::yr10.name}\n${rec.yr10}%", rec.yr10 ?: 0.0)
+            rec.mo1?.let { data("${Yield::mo1.name}\n$it%", it) }
+            rec.mo3?.let { data("${Yield::mo3.name}\n$it%", it) }
+            rec.mo6?.let { data("${Yield::mo6.name}\n$it%", it) }
+            rec.yr1?.let { data("${Yield::yr1.name}\n$it%", it) }
+            rec.yr2?.let { data("${Yield::yr2.name}\n$it%", it) }
+            rec.yr3?.let { data("${Yield::yr3.name}\n$it%", it) }
+            rec.yr5?.let { data("${Yield::yr5.name}\n$it%", it) }
+            rec.yr7?.let { data("${Yield::yr7.name}\n$it%", it) }
+            rec.yr10?.let { data("${Yield::yr10.name}\n$it%", it) }
             rec.yr20?.let { data("${Yield::yr20.name}\n$it%", it) }
             rec.yr30?.let { data("${Yield::yr30.name}\n$it%", it) }
         }

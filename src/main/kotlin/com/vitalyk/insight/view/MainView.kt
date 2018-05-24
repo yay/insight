@@ -17,9 +17,7 @@ import java.time.format.DateTimeFormatter
 class MainView : View("Insight") {
     override val root = vbox {
         toolbar {
-            button("Symbol Table").action {
-                replaceWith(SymbolTableView::class)
-            }
+            button("Symbol Table").action { replaceWith(SymbolTableView::class) }
             button("Research").action { replaceWith(ResearchView::class) }
 //            button("Watchlists").action { replaceWith(WatchlistView::class) }
             button("Economy").action { replaceWith(EconomyView::class) }

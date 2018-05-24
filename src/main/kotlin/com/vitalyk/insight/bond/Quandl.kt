@@ -14,17 +14,17 @@ private val apiKeyParam = mapOf("api_key" to apiKey)
 
 data class Yield(
     val date: Date,
-    val mo1: Double?,
-    val mo3: Double?,
-    val mo6: Double?,
-    val yr1: Double?,
-    val yr2: Double?,
-    val yr3: Double?,
-    val yr5: Double?,
-    val yr7: Double?,
-    val yr10: Double?,
-    val yr20: Double?,
-    val yr30: Double?
+    val mo1: Double? = null,
+    val mo3: Double? = null ,
+    val mo6: Double? = null,
+    val yr1: Double? = null,
+    val yr2: Double? = null,
+    val yr3: Double? = null,
+    val yr5: Double? = null,
+    val yr7: Double? = null,
+    val yr10: Double? = null,
+    val yr20: Double? = null,
+    val yr30: Double? = null
 )
 
 fun getUsYieldData(): List<Yield> {
