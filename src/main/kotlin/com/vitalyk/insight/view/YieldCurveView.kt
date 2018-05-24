@@ -97,29 +97,33 @@ class YieldCurveView : View("Yield Curve") {
         val yr10 = rec.yr10
         if (yr2 != null && yr10 != null)
             title += "\n10-year minus 2-year spread: %.2f%%".format(yr10 - yr2)
-        yieldChart.title = title
-        yieldChart.data.clear()
-        yieldChart.series("Yield Curve") {
-            rec.mo1?.let { data("${Yield::mo1.name}\n$it%", it) }
-            rec.mo3?.let { data("${Yield::mo3.name}\n$it%", it) }
-            rec.mo6?.let { data("${Yield::mo6.name}\n$it%", it) }
-            rec.yr1?.let { data("${Yield::yr1.name}\n$it%", it) }
-            rec.yr2?.let { data("${Yield::yr2.name}\n$it%", it) }
-            rec.yr3?.let { data("${Yield::yr3.name}\n$it%", it) }
-            rec.yr5?.let { data("${Yield::yr5.name}\n$it%", it) }
-            rec.yr7?.let { data("${Yield::yr7.name}\n$it%", it) }
-            rec.yr10?.let { data("${Yield::yr10.name}\n$it%", it) }
-            rec.yr20?.let { data("${Yield::yr20.name}\n$it%", it) }
-            rec.yr30?.let { data("${Yield::yr30.name}\n$it%", it) }
+        yieldChart.let { chart ->
+            chart.title = title
+            chart.data.clear()
+            chart.series("Yield Curve") {
+                rec.mo1?.let { data("${Yield::mo1.name}\n$it%", it) }
+                rec.mo3?.let { data("${Yield::mo3.name}\n$it%", it) }
+                rec.mo6?.let { data("${Yield::mo6.name}\n$it%", it) }
+                rec.yr1?.let { data("${Yield::yr1.name}\n$it%", it) }
+                rec.yr2?.let { data("${Yield::yr2.name}\n$it%", it) }
+                rec.yr3?.let { data("${Yield::yr3.name}\n$it%", it) }
+                rec.yr5?.let { data("${Yield::yr5.name}\n$it%", it) }
+                rec.yr7?.let { data("${Yield::yr7.name}\n$it%", it) }
+                rec.yr10?.let { data("${Yield::yr10.name}\n$it%", it) }
+                rec.yr20?.let { data("${Yield::yr20.name}\n$it%", it) }
+                rec.yr30?.let { data("${Yield::yr30.name}\n$it%", it) }
+            }
         }
     }
 
     fun updateSpreadChart(yields: List<Yield>) {
-        spreadChart.title = "10-year minus 2-year yield curve spread"
-        spreadChart.data.clear()
-        spreadChart.series("10y") {
-            yields.forEach {
-                data(dateFormat.format(it.date), (it.yr10 ?: 0.0) - (it.yr2 ?: 0.0))
+        spreadChart.let { chart ->
+            chart.title = "10-year minus 2-year yield curve spread"
+            chart.data.clear()
+            chart.series("10y") {
+                yields.forEach {
+                    data(dateFormat.format(it.date), (it.yr10 ?: 0.0) - (it.yr2 ?: 0.0))
+                }
             }
         }
     }
