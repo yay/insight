@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/dataviz/dataviz.iml" filepath="$PROJECT_DIR$/.idea/modules/dataviz/dataviz.iml" group="dataviz" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/dataviz/dataviz_main.iml" filepath="$PROJECT_DIR$/.idea/modules/dataviz/dataviz_main.iml" group="dataviz" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/dataviz/dataviz_test.iml" filepath="$PROJECT_DIR$/.idea/modules/dataviz/dataviz_test.iml" group="dataviz" />
       <module fileurl="file://$PROJECT_DIR$/insight.iml" filepath="$PROJECT_DIR$/insight.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/insight_main.iml" filepath="$PROJECT_DIR$/.idea/modules/insight_main.iml" group="insight" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/insight_test.iml" filepath="$PROJECT_DIR$/.idea/modules/insight_test.iml" group="insight" />
