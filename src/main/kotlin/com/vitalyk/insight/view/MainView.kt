@@ -24,6 +24,20 @@ class MainView : View("Insight") {
             button("Movers").action {
                 browseTo("https://www.fool.com/market-movers/")
             }
+//            button("Notify").action {
+//                // notification("Title", "Message") {
+//                //     showAndWait()
+//                // }
+//                // notification("Urgent", "Act now!").show()
+//                // notification("Title", "Message").action {
+//                // }
+//                val tray = TrayNotification().apply {
+//                    title = "Hello"
+//                    message = "Vitaly"
+//                    notification = Notifications.INFORMATION
+//                    showAndWait()
+//                }
+//            }
 //            button("Quotes").action { replaceWith(MarketMoversView::class) }
 //            button("News").action { replaceWith(NewsView::class) }
 

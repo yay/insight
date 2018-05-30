@@ -1,5 +1,6 @@
 package com.vitalyk.insight.view
 
+import com.sun.javaws.exceptions.InvalidArgumentException
 import com.vitalyk.insight.bond.Yield
 import com.vitalyk.insight.bond.getUsYieldData
 import com.vitalyk.insight.fragment.InfoFragment
@@ -9,6 +10,7 @@ import javafx.scene.control.ScrollBar
 import javafx.scene.layout.Priority
 import tornadofx.*
 import java.text.SimpleDateFormat
+import java.util.*
 
 class YieldCurveView : View("Yield Curve") {
     private val dateFormat = SimpleDateFormat("d MMM, yyyy")
@@ -49,6 +51,8 @@ class YieldCurveView : View("Yield Curve") {
         animated = false
         createSymbols = false
         isLegendVisible = false
+        isHorizontalGridLinesVisible = false
+        verticalGridLinesVisible = false
         vgrow = Priority.ALWAYS
     }
 
@@ -63,8 +67,8 @@ class YieldCurveView : View("Yield Curve") {
     override val root = vbox {
         this += toolbox
         this += yieldChart
-//        this += spreadChart
         this += scrollBar
+        this += spreadChart
     }
 
     override fun onDock() {
@@ -87,7 +91,7 @@ class YieldCurveView : View("Yield Curve") {
                 value = 0.0
             }
             updateYieldChart(it[0])
-//            updateSpreadChart(it)
+            updateSpreadChart(it)
         }
     }
 
@@ -118,14 +122,52 @@ class YieldCurveView : View("Yield Curve") {
     }
 
     fun updateSpreadChart(yields: List<Yield>) {
+        data class YieldSpread(
+            val date: Date,
+            val spread: Double
+        )
         spreadChart.let { chart ->
             chart.title = "10-year minus 2-year yield curve spread"
             chart.data.clear()
             chart.series("10y") {
-                yields.forEach {
-                    data(dateFormat.format(it.date), (it.yr10 ?: 0.0) - (it.yr2 ?: 0.0))
+                val spreads = yields.aggregate(500, {
+                    YieldSpread(it.last().date, it.sumByDouble { (it.yr10 ?: 0.0) - (it.yr2 ?: 0.0) } / it.size.toDouble() )
+                })
+                spreads.forEach {
+                    data(dateFormat.format(it.date), it.spread)
                 }
             }
         }
     }
+}
+
+fun <T, R> List<T>.aggregate(count: Int, transform: (List<T>) -> R): List<R> {
+    if (count <= 0) throw InvalidArgumentException(arrayOf("'count' should be greater than zero."))
+    val size = size
+    val step: Int = Math.max(1, size / count)
+    val list = mutableListOf<R>()
+    var i = 0
+    while (i < size) {
+        val mean = transform(slice(i until Math.min(i + step, size)))
+        list.add(0, mean)
+        i += step
+    }
+    return list
+}
+
+fun main(args: Array<String>) {
+    val list = listOf(2, 8, 4, 6, 7, 3)
+    val result1 = list.aggregate(3, { it.average() })
+    println(result1)
+    val result2 = list.aggregate(2, { it.average() })
+    println(result2)
+    val result3 = list.aggregate(1, { it.average() })
+    println(result3)
+    val result4 = list.aggregate(6, { it.average() })
+    println(result4)
+    val result5 = list.aggregate(4, { it.average() })
+    println(result5)
+    val list2 = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)
+    val result6 = list2.aggregate(4, { it.average() })
+    println(result6)
 }

@@ -42,6 +42,7 @@ class EarningsFragment : Fragment("Earnings") {
             Iex.getEarnings(symbol)
         } ui {
             (it?.earnings ?: emptyList()).asReversed().let { earnings ->
+                val chart = chart
                 chart.data.clear()
 
                 chart.series("Year Ago") {

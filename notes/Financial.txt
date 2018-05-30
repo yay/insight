@@ -62,6 +62,7 @@ S&P Futures (E-Mini S&P 500): ES=F
 Dow Futures (E-mini Dow ($5) Futures): YM=F
 Nasdaq Futures (Nasdaq 100): NQ=F
 Natural Gas Futures: NG=F
+Gold Futures: GC=F
 
 
 CBOE Volatility Index (^VIX)

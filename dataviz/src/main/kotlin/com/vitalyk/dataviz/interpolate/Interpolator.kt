@@ -1,4 +1,4 @@
-package dataviz.interpolate
+package com.vitalyk.dataviz.interpolate
 
 typealias Reinterpolator<T> = (Double) -> T
 typealias Deinterpolator<T> = (T) -> Double
@@ -12,12 +12,12 @@ typealias PiecewiseDeinterpolatorFactory<T> =
     (List<T>, List<Double>, DeinterpolatorFactory<T>, ReinterpolatorFactory<Double>) -> Deinterpolator<T>
 
 
-fun interpolateNumber(a: Double, b: Double): (Double) -> Double {
+fun interpolateNumber(a: Double, b: Double): Reinterpolator<Double> {
     val d = b - a
     return { t -> a + d * t }
 }
 
-fun interpolateRound(a: Double, b: Double): (Double) -> Double {
+fun interpolateRound(a: Double, b: Double): Reinterpolator<Double> {
     val d = b - a
     return { t -> Math.round(a + d * t).toDouble() }
 }

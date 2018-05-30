@@ -1,7 +1,7 @@
-package dataviz.scale
+package com.vitalyk.dataviz.scale
 
-import dataviz.array.bisect
-import dataviz.interpolate.*
+import com.vitalyk.dataviz.array.bisect
+import com.vitalyk.dataviz.interpolate.*
 import java.util.*
 
 abstract class ContinuousScale<R>(
@@ -65,20 +65,16 @@ abstract class ContinuousScale<R>(
             }
         }
 
-    open fun domain(d: List<Double>): ContinuousScale<R> {
+    fun domain(d: List<Double>) {
         domain.clear()
         domain.addAll(d)
         rescale()
-
-        return this
     }
 
-    open fun range(r: List<R>): ContinuousScale<R> {
+    fun range(r: List<R>) {
         range.clear()
         range.addAll(r)
         rescale()
-
-        return this
     }
 
     override operator fun invoke(d: Double): R {

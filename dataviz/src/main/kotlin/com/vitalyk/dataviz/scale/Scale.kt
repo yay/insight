@@ -1,4 +1,4 @@
-package dataviz.scale
+package com.vitalyk.dataviz.scale
 
 interface Scale<D, out R> {
     val domain: List<D>

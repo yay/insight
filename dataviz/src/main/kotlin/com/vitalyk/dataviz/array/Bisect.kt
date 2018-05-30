@@ -1,4 +1,4 @@
-package dataviz.array
+package com.vitalyk.dataviz.array
 
 import java.util.Comparator
 
