@@ -2,18 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="296155b2-79af-4b19-b6a4-d5102d45abea" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/array/Bisect.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/array/Ticks.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/axis/Axis.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/chart/CartesianChart.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/examples/axis.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/interpolate/Interpolator.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/scale/ContinuousScale.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/scale/LinearScale.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/scale/Scale.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/YieldCurveView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/YieldCurveView.kt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/dataviz/.gradle/" />
     <ignored path="$PROJECT_DIR$/dataviz/build/" />
@@ -78,14 +68,14 @@
     </system>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5412262">
+    <splitter split-orientation="horizontal" split-proportion="0.572234">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="YieldCurveView.kt" pinned="false" current-in-tab="false">
+          <file leaf-file-name="YieldCurveView.kt" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/YieldCurveView.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="137">
-                  <caret line="107" column="41" lean-forward="true" selection-start-line="107" selection-start-column="41" selection-end-line="107" selection-end-column="41" />
+                <state relative-caret-position="512">
+                  <caret line="196" column="34" selection-start-line="196" selection-start-column="34" selection-end-line="196" selection-end-column="34" />
                   <folding>
                     <element signature="e#34#434#0" expanded="true" />
                   </folding>
@@ -96,7 +86,7 @@
           <file leaf-file-name="EarningsFragment.kt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/EarningsFragment.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="390">
+                <state relative-caret-position="15">
                   <caret line="26" column="58" selection-start-line="26" selection-start-column="58" selection-end-line="26" selection-end-column="58" />
                   <folding>
                     <element signature="e#38#291#0" expanded="true" />
@@ -108,20 +98,11 @@
           <file leaf-file-name="ShareRepurchase.kt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/ShareRepurchase.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="240">
-                  <caret line="16" column="54" selection-start-line="16" selection-start-column="54" selection-end-line="16" selection-end-column="54" />
+                <state relative-caret-position="270">
+                  <caret line="18" column="38" lean-forward="true" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
                   <folding>
                     <element signature="e#33#172#0" expanded="true" />
                   </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="settings.gradle" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/settings.gradle">
-              <provider selected="true" editor-type-id="text-editor">
-                <state>
-                  <caret column="28" selection-start-column="28" selection-end-column="28" />
                 </state>
               </provider>
             </entry>
@@ -130,7 +111,7 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="CanvasView.kt" pinned="false" current-in-tab="false">
+          <file leaf-file-name="CanvasView.kt" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/CanvasView.kt">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="30">
@@ -145,7 +126,7 @@
           <file leaf-file-name="CartesianChart.kt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/chart/CartesianChart.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="165">
+                <state relative-caret-position="60">
                   <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
                   <folding>
                     <element signature="e#35#284#0" expanded="true" />
@@ -154,7 +135,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="MainView.kt" pinned="false" current-in-tab="true">
+          <file leaf-file-name="MainView.kt" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/MainView.kt">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="60">
@@ -180,8 +161,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>venuevolume</find>
-      <find>thread</find>
       <find>marketAverage</find>
       <find>avgTotalVolume</find>
       <find>latestSource</find>
@@ -195,7 +174,7 @@
       <find>previousClose</find>
       <find>marketCap</find>
       <find>reuter</find>
-      <find />
+      <find>index exceeds maxCellCount</find>
       <find>announceTime</find>
       <find>size</find>
       <find>GC=F</find>
@@ -203,13 +182,15 @@
       <find>bisect</find>
       <find>domain</find>
       <find>InvalidArgumentException</find>
-      <find />
+      <find>object {</find>
       <find>gridl</find>
       <find>isHorizontalGridLinesVisible</find>
       <find>add</find>
       <find>interpolateNumber</find>
       <find>reinterpolatorFactory</find>
       <find>deinterpolatorFactory</find>
+      <find>shortYieldChart</find>
+      <find>500</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/h2/src/test/org</dir>
@@ -255,10 +236,6 @@
               <ExternalProjectPojo>
                 <option name="name" value="insight" />
                 <option name="path" value="$PROJECT_DIR$" />
-              </ExternalProjectPojo>
-              <ExternalProjectPojo>
-                <option name="name" value=":dataviz" />
-                <option name="path" value="$PROJECT_DIR$/dataviz" />
               </ExternalProjectPojo>
             </list>
           </value>
@@ -331,7 +308,7 @@
                 <option name="name" value="processResources" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Displays the tasks runnable from root project 'insight' (some of the displayed tasks may belong to subprojects)." />
+                <option name="description" value="Displays the tasks runnable from root project 'insight'." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="tasks" />
               </ExternalTaskPojo>
@@ -434,159 +411,18 @@
             </list>
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/dataviz">
-          <value>
-            <list>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the components produced by project ':dataviz'. [incubating]" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="components" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles and tests this project and all projects that depend on it." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="buildDependents" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the sub-projects of project ':dataviz'." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="projects" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles main classes." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="classes" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the dependent components of components in project ':dataviz'. [incubating]" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="dependentComponents" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays all buildscript dependencies declared in project ':dataviz'." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="buildEnvironment" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles test classes." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="testClasses" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Generates Javadoc API documentation for the main source code." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="javadoc" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles a jar archive containing the main classes." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="jar" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the configuration model of project ':dataviz'. [incubating]" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="model" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Processes main resources." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="processResources" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the tasks runnable from project ':dataviz'." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="tasks" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Runs the unit tests." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="test" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Compiles main Java source." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="compileJava" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Compiles the source set 'test'.kotlin." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="compileTestKotlin" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the insight into a specific dependency in project ':dataviz'." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="dependencyInsight" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Runs all checks." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="check" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles the outputs of this project." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="assemble" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Deletes the build directory." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="clean" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Compiles test Java source." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="compileTestJava" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays all dependencies declared in project ':dataviz'." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="dependencies" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Processes test resources." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="processTestResources" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays a help message." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="help" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Compiles the source set 'main'.kotlin." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="compileKotlin" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles and tests this project." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="build" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Assembles and tests this project and all projects it depends on." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="buildNeeded" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="description" value="Displays the properties of project ':dataviz'." />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
-                <option name="name" value="properties" />
-              </ExternalTaskPojo>
-            </list>
-          </value>
-        </entry>
       </map>
     </option>
     <option name="modificationStamps">
       <map>
         <entry key="$USER_HOME$/Desktop/DemoFX" value="1487166188000" />
         <entry key="$USER_HOME$/Desktop/kool" value="2973376708000" />
-        <entry key="$PROJECT_DIR$" value="7623162281000" />
+        <entry key="$PROJECT_DIR$" value="6098830913000" />
         <entry key="$PROJECT_DIR$/.gradle" value="0" />
         <entry key="$PROJECT_DIR$/build.gradle" value="1684274668" />
         <entry key="$PROJECT_DIR$/dataviz/build.gradle" value="0" />
         <entry key="$PROJECT_DIR$/gradle.properties" value="0" />
-        <entry key="$PROJECT_DIR$/settings.gradle" value="3488764687" />
+        <entry key="$PROJECT_DIR$/settings.gradle" value="1404388146" />
         <entry key="$PROJECT_DIR$/../../stocks" value="2963865381000" />
       </map>
     </option>
@@ -857,11 +693,11 @@
         <option value="$PROJECT_DIR$/src/test/kotlin/com/vitalyk/insight/helpers/ListKtTest.java" />
         <option value="$PROJECT_DIR$/src/test/kotlin/com/vitalyk/insight/helpers/ListKtTest.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/helpers/List.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/YieldCurveView.kt" />
         <option value="$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/axis/Axis.kt" />
         <option value="$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/scale/Scale.kt" />
         <option value="$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/scale/LinearScale.kt" />
         <option value="$PROJECT_DIR$/settings.gradle" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/YieldCurveView.kt" />
       </list>
     </option>
   </component>
@@ -871,7 +707,7 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="873" />
@@ -892,71 +728,6 @@
             <path>
               <item name="insight" type="b2602c69:ProjectViewProjectNode" />
               <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
-              <item name="insight" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
-              <item name="insight" type="462c0819:PsiDirectoryNode" />
-              <item name="helpers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
-              <item name="insight" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
-              <item name="insight" type="462c0819:PsiDirectoryNode" />
-              <item name="helpers" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -1083,16 +854,6 @@
       </option>
       <patterns />
     </configuration>
-    <configuration name="com.vitalyk.dataviz.axis.AxisKt" type="JetRunConfigurationType" factoryName="Kotlin" temporary="true" nameIsGenerated="true">
-      <module name="dataviz_main" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="MAIN_CLASS_NAME" value="com.vitalyk.dataviz.axis.AxisKt" />
-      <option name="WORKING_DIRECTORY" />
-    </configuration>
     <configuration name="com.vitalyk.insight.Insight" type="JetRunConfigurationType" factoryName="Kotlin" temporary="true" nameIsGenerated="true">
       <module name="insight_main" />
       <option name="VM_PARAMETERS" />
@@ -1142,15 +903,13 @@
       <item itemvalue="JUnit.ListKtTest.aggregate" />
       <item itemvalue="JUnit.ListKtTest" />
       <item itemvalue="Kotlin.com.vitalyk.insight.Insight" />
-      <item itemvalue="Kotlin.com.vitalyk.dataviz.axis.AxisKt" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Kotlin.com.vitalyk.insight.Insight" />
-        <item itemvalue="Kotlin.com.vitalyk.dataviz.axis.AxisKt" />
+        <item itemvalue="Gradle.insight [build]" />
         <item itemvalue="JUnit.ListKtTest.aggregate" />
         <item itemvalue="JUnit.ListKtTest" />
-        <item itemvalue="Gradle.insight [build]" />
       </list>
     </recent_temporary>
   </component>
@@ -1187,7 +946,7 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="873" extended-state="0" />
+    <frame x="0" y="23" width="1440" height="873" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -1195,12 +954,11 @@
       <window_info anchor="right" id="Palette&#9;" order="0" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info id="Maven Projects" order="5" weight="0.15429173" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.41237113" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32635984" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.31618434" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.33376288" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32603094" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.31572166" />
       <window_info id="Designer" order="0" />
-      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.16490486" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32633787" />
+      <window_info content_ui="combo" id="Project" order="2" weight="0.1430585" />
       <window_info id="Gradle" order="4" weight="0.14430244" />
       <window_info id="Structure" order="3" side_tool="true" weight="0.25" />
       <window_info id="Ant Build" order="6" weight="0.16587678" />
@@ -1214,6 +972,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Build" order="7" weight="0.32916668" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32633787" />
     </layout>
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -1294,20 +1053,7 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.41/dc11619be6c45157a142d3753017544896da8e69/kotlin-stdlib-1.2.41-sources.jar!/kotlin/jvm/annotations/JvmPlatformAnnotations.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="62" column="41" lean-forward="true" selection-start-line="62" selection-start-column="41" selection-end-line="62" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/array/Bisect.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="8" selection-start-line="4" selection-start-column="8" selection-end-line="4" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/array/Bisect.kt" />
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/DayChartFragment.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -1366,31 +1112,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/chart/CartesianChart.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="31" lean-forward="true" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/array/Ticks.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="20" lean-forward="true" selection-start-line="5" selection-start-column="20" selection-end-line="5" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/chart/CartesianChart.kt" />
+    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/array/Ticks.kt" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/javaws.jar!/com/sun/javaws/exceptions/InvalidArgumentException.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
           <caret line="14" column="31" lean-forward="true" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/bond/Quandl.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="16" column="28" lean-forward="true" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="28" />
         </state>
       </provider>
     </entry>
@@ -1497,9 +1224,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="134" column="25" selection-start-line="134" selection-start-column="25" selection-end-line="134" selection-end-column="25" />
-          <folding>
-            <element signature="e#33#1197#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1510,13 +1234,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/examples/axis.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="17" column="43" selection-start-line="17" selection-start-column="43" selection-end-line="17" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/examples/axis.kt" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/javafx-src.zip!/com/sun/javafx/tk/Toolkit.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="242">
@@ -1528,9 +1246,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="245">
           <caret line="296" column="48" selection-start-line="296" selection-start-column="48" selection-end-line="296" selection-end-column="48" />
-          <folding>
-            <element signature="e#11315#11316#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1548,33 +1263,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/CanvasView.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-          <folding>
-            <element signature="e#34#339#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/interpolate/Interpolator.kt" />
+    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/scale/ContinuousScale.kt" />
+    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/axis/Axis.kt" />
+    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/scale/Scale.kt" />
+    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/scale/LinearScale.kt" />
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/YieldCurveView.kt">
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="107" column="41" lean-forward="true" selection-start-line="107" selection-start-column="41" selection-end-line="107" selection-end-column="41" />
-          <folding>
-            <element signature="e#34#434#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/EarningsFragment.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="58" selection-start-line="26" selection-start-column="58" selection-end-line="26" selection-end-column="58" />
-          <folding>
-            <element signature="e#38#291#0" expanded="true" />
-          </folding>
+        <state>
+          <caret column="28" selection-start-column="28" selection-end-column="28" />
         </state>
       </provider>
     </entry>
@@ -1588,16 +1288,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/interpolate/Interpolator.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="29" lean-forward="true" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/chart/CartesianChart.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
+        <state relative-caret-position="60">
           <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
           <folding>
             <element signature="e#35#284#0" expanded="true" />
@@ -1605,60 +1298,57 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/scale/ContinuousScale.kt">
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/CanvasView.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+        <state relative-caret-position="30">
+          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
           <folding>
-            <element signature="e#35#134#0" expanded="true" />
+            <element signature="e#34#339#0" expanded="true" />
           </folding>
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/axis/Axis.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="20" column="18" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
-          <folding>
-            <element signature="e#34#300#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/scale/Scale.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="29" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/scale/LinearScale.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="26" lean-forward="true" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
-          <folding>
-            <element signature="e#35#156#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/ShareRepurchase.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="54" selection-start-line="16" selection-start-column="54" selection-end-line="16" selection-end-column="54" />
+        <state relative-caret-position="270">
+          <caret line="18" column="38" lean-forward="true" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
           <folding>
             <element signature="e#33#172#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/settings.gradle">
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/EarningsFragment.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="28" selection-start-column="28" selection-end-column="28" />
+        <state relative-caret-position="15">
+          <caret line="26" column="58" selection-start-line="26" selection-start-column="58" selection-end-line="26" selection-end-column="58" />
+          <folding>
+            <element signature="e#38#291#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.41/dc11619be6c45157a142d3753017544896da8e69/kotlin-stdlib-1.2.41-sources.jar!/kotlin/reflect/KCallable.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="32" column="27" lean-forward="true" selection-start-line="32" selection-start-column="27" selection-end-line="32" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/bond/Quandl.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="15" column="19" lean-forward="true" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/YieldCurveView.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="512">
+          <caret line="196" column="34" selection-start-line="196" selection-start-column="34" selection-end-line="196" selection-end-column="34" />
+          <folding>
+            <element signature="e#34#434#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

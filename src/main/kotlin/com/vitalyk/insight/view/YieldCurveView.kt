@@ -45,6 +45,15 @@ class YieldCurveView : View("Yield Curve") {
         createSymbols = false
         isLegendVisible = false
         vgrow = Priority.ALWAYS
+        hgrow = Priority.ALWAYS
+    }
+
+    val sliceSize = 60
+    val shortYieldChart = linechart(null, CategoryAxis(), NumberAxis()) {
+        animated = false
+        createSymbols = false
+        vgrow = Priority.ALWAYS
+        hgrow = Priority.ALWAYS
     }
 
     val spreadChart = linechart(null, CategoryAxis(), NumberAxis()) {
@@ -54,9 +63,10 @@ class YieldCurveView : View("Yield Curve") {
         isHorizontalGridLinesVisible = false
         verticalGridLinesVisible = false
         vgrow = Priority.ALWAYS
+        hgrow = Priority.ALWAYS
     }
 
-    val scrollBar = ScrollBar().apply {
+    val yieldScrollBar = ScrollBar().apply {
         isDisable = true
         valueProperty().onChange {
             val index = it.toInt()
@@ -64,11 +74,32 @@ class YieldCurveView : View("Yield Curve") {
         }
     }
 
+    val shortYieldScrollBar = ScrollBar().apply {
+        isDisable = true
+        valueProperty().onChange {
+            val index = it.toInt()
+            data?.let { updateShortYieldChart(it.slice(index .. index + sliceSize).asReversed()) }
+        }
+    }
+
     override val root = vbox {
         this += toolbox
-        this += yieldChart
-        this += scrollBar
-        this += spreadChart
+        hbox {
+            vbox {
+                this += yieldChart
+                this += yieldScrollBar
+
+                this += spreadChart
+
+                hgrow = Priority.ALWAYS
+            }
+            vbox {
+                this += shortYieldChart
+                this += shortYieldScrollBar
+                hgrow = Priority.ALWAYS
+            }
+            vgrow = Priority.ALWAYS
+        }
     }
 
     override fun onDock() {
@@ -80,17 +111,24 @@ class YieldCurveView : View("Yield Curve") {
 
     fun updateData() {
         toolbox.runAsyncWithProgress {
-            scrollBar.isDisable = true
+            yieldScrollBar.isDisable = true
             getUsYieldData()
         } ui {
             data = it
-            scrollBar.apply {
+            yieldScrollBar.apply {
                 isDisable = false
                 min = 0.0
                 max = (it.count() - 1).toDouble()
                 value = 0.0
             }
+            shortYieldScrollBar.apply {
+                isDisable = false
+                min = 0.0
+                max = (it.count() - 1 - sliceSize).toDouble()
+                value = 0.0
+            }
             updateYieldChart(it[0])
+            updateShortYieldChart(it.slice(0..sliceSize).asReversed())
             updateSpreadChart(it)
         }
     }
@@ -121,6 +159,32 @@ class YieldCurveView : View("Yield Curve") {
         }
     }
 
+    fun updateShortYieldChart(records: List<Yield>) {
+        shortYieldChart.let { chart ->
+            chart.title = title
+            chart.data.clear()
+            chart.series("2-year") {
+                records.forEach { rec ->
+                    rec.yr2?.let { data(dateFormat.format(rec.date), it) }
+                }
+            }
+            chart.series("10-year") {
+                records.forEach { rec ->
+                    rec.yr10?.let { data(dateFormat.format(rec.date), it) }
+                }
+            }
+            chart.series("Spread") {
+                records.forEach { rec ->
+                    val yr2 = rec.yr2
+                    val yr10 = rec.yr10
+                    if (yr2 != null && yr10 != null) {
+                        data(dateFormat.format(rec.date), yr10 - yr2)
+                    }
+                }
+            }
+        }
+    }
+
     fun updateSpreadChart(yields: List<Yield>) {
         data class YieldSpread(
             val date: Date,
@@ -129,6 +193,9 @@ class YieldCurveView : View("Yield Curve") {
         spreadChart.let { chart ->
             chart.title = "10-year minus 2-year yield curve spread"
             chart.data.clear()
+            chart.style {
+                strokeWidth = 1.px
+            }
             chart.series("10y") {
                 val spreads = yields.aggregate(500, {
                     YieldSpread(it.last().date, it.sumByDouble { (it.yr10 ?: 0.0) - (it.yr2 ?: 0.0) } / it.size.toDouble() )
