@@ -6,6 +6,7 @@ import io.socket.client.Socket
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import org.slf4j.LoggerFactory
+import java.io.IOException
 
 typealias ChangeListener = (old: Tops?, new: Tops?) -> Unit
 
@@ -175,6 +176,7 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
             }
             .on(Socket.EVENT_DISCONNECT) {
                 logger.debug("Watchlist disconnected: ${map.keys}")
+                throw IOException("Watchlist $name disconnected.")
             }
     }
 
