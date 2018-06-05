@@ -3,10 +3,15 @@ package com.vitalyk.insight.iex
 import com.vitalyk.insight.iex.Iex.Tops
 import io.socket.client.IO
 import io.socket.client.Socket
+import javafx.scene.control.Alert
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import org.slf4j.LoggerFactory
+import tornadofx.*
 import java.io.IOException
+import java.time.Duration
+import java.time.Instant
+import java.time.LocalDateTime
 
 typealias ChangeListener = (old: Tops?, new: Tops?) -> Unit
 
@@ -165,7 +170,10 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
         return old
     }
 
+    private var connectTime: Instant? = null
+
     fun connect() {
+        connectTime = Instant.now()
         socket
             .on(Socket.EVENT_MESSAGE) { params ->
                 val tops = Iex.parseTops(params.first() as String)
@@ -176,9 +184,46 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
             }
             .on(Socket.EVENT_DISCONNECT) {
                 logger.debug("Watchlist disconnected: ${map.keys}")
-                throw IOException("Watchlist $name disconnected.")
+                val minutesConnected = Duration.between(connectTime, Instant.now()).toMinutes()
+                socket.off()
+                connect()
+                throw IOException("Watchlist $name disconnected. Connected for $minutesConnected minutes. Reconnecting...")
             }
     }
+
+    /*
+    java.lang.Error: java.io.IOException: Watchlist Main disconnected.
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1155)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.io.IOException: Watchlist Main disconnected.
+	at com.vitalyk.insight.iex.Watchlist$connect$2.call(Watchlist.kt:179)
+	at io.socket.emitter.Emitter.emit(Emitter.java:117)
+	at io.socket.client.Socket.access$601(Socket.java:24)
+	at io.socket.client.Socket$5.run(Socket.java:186)
+	at io.socket.thread.EventThread.exec(EventThread.java:55)
+	at io.socket.client.Socket.emit(Socket.java:182)
+	at io.socket.client.Socket.onclose(Socket.java:275)
+	at io.socket.client.Socket.access$200(Socket.java:24)
+	at io.socket.client.Socket$2$3.call(Socket.java:126)
+	at io.socket.emitter.Emitter.emit(Emitter.java:117)
+	at io.socket.client.Manager.onclose(Manager.java:553)
+	at io.socket.client.Manager.access$1500(Manager.java:30)
+	at io.socket.client.Manager$6.call(Manager.java:397)
+	at io.socket.emitter.Emitter.emit(Emitter.java:117)
+	at io.socket.engineio.client.Socket.onClose(Socket.java:862)
+	at io.socket.engineio.client.Socket.onError(Socket.java:821)
+	at io.socket.engineio.client.Socket.access$900(Socket.java:36)
+	at io.socket.engineio.client.Socket$4.call(Socket.java:340)
+	at io.socket.emitter.Emitter.emit(Emitter.java:117)
+	at io.socket.engineio.client.Transport.onError(Transport.java:64)
+	at io.socket.engineio.client.transports.WebSocket.access$400(WebSocket.java:24)
+	at io.socket.engineio.client.transports.WebSocket$1$5.run(WebSocket.java:107)
+	at io.socket.thread.EventThread$2.run(EventThread.java:80)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	... 2 more
+
+     */
 
     fun simulation() {
         launch {
