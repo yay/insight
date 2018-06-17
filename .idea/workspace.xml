@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+    <list id="30aabaf9-6d95-4d80-adbf-bbdacf4dc477" name="Revert: Cleanup." comment="" />
     <list default="true" id="296155b2-79af-4b19-b6a4-d5102d45abea" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_common_1_2_50.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_reflect_1_2_41.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_reflect_1_2_50.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_1_2_41.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_1_2_50.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generator/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/generator/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/chart/CartesianChart.kt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Watchlist.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Watchlist.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/CanvasView.kt" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/dataviz/.gradle/" />
     <ignored path="$PROJECT_DIR$/dataviz/build/" />
@@ -68,50 +76,14 @@
     </system>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.4702475">
+    <splitter split-orientation="horizontal" split-proportion="0.42987248">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="YieldCurveView.kt" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/YieldCurveView.kt">
+          <file leaf-file-name="Watchlist.kt" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Watchlist.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="195">
-                  <caret line="117" column="34" lean-forward="true" selection-start-line="117" selection-start-column="34" selection-end-line="117" selection-end-column="34" />
-                  <folding>
-                    <element signature="e#34#434#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="EarningsFragment.kt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/EarningsFragment.kt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="795">
-                  <caret line="60" column="17" selection-start-line="60" selection-start-column="17" selection-end-line="60" selection-end-column="17" />
-                  <folding>
-                    <element signature="e#38#291#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="ShareRepurchase.kt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/ShareRepurchase.kt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="165">
-                  <caret line="13" column="27" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
-                  <folding>
-                    <element signature="e#33#172#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Algorithm.kt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/dv/Algorithm.kt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="345">
-                  <caret line="23" column="20" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
+                <state relative-caret-position="105">
+                  <caret line="7" column="30" lean-forward="true" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
                 </state>
               </provider>
             </entry>
@@ -119,68 +91,14 @@
         </leaf>
       </split-first>
       <split-second>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file leaf-file-name="CanvasView.kt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/CanvasView.kt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="285">
-                  <caret line="27" column="40" selection-start-line="27" selection-start-column="40" selection-end-line="27" selection-end-column="40" />
-                  <folding>
-                    <element signature="e#34#339#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="CartesianChart.kt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/chart/CartesianChart.kt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="495">
-                  <caret line="40" column="42" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
-                  <folding>
-                    <element signature="e#35#284#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
+        <leaf>
           <file leaf-file-name="Watchlist.kt" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Watchlist.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="210">
-                  <caret line="174" column="19" lean-forward="true" selection-start-line="174" selection-start-column="19" selection-end-line="174" selection-end-column="19" />
+                <state relative-caret-position="227">
+                  <caret line="132" column="5" lean-forward="true" selection-start-line="132" selection-start-column="5" selection-end-line="132" selection-end-column="5" />
                   <folding>
-                    <element signature="e#33#310#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Emitter.java" pinned="false" current-in-tab="false">
-            <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.socket/engine.io-client/1.0.0/1c1cc12afc81c9d70b3eb436186189b1c56a1fc1/engine.io-client-1.0.0-sources.jar!/io/socket/emitter/Emitter.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="718">
-                  <caret line="57" column="21" selection-start-line="57" selection-start-column="21" selection-end-line="57" selection-end-column="21" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="Iex.kt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="707">
-                  <caret line="718" column="32" selection-start-line="718" selection-start-column="32" selection-end-line="718" selection-end-column="32" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="MainView.kt" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/MainView.kt">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="60">
-                  <caret line="16" column="34" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
-                  <folding>
-                    <element signature="e#34#582#0" expanded="true" />
+                    <element signature="e#33#778#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -200,11 +118,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>previousClose</find>
-      <find>marketCap</find>
-      <find>reuter</find>
-      <find>index exceeds maxCellCount</find>
-      <find>announceTime</find>
       <find>size</find>
       <find>GC=F</find>
       <find>=F</find>
@@ -230,6 +143,11 @@
       <find>launch</find>
       <find>.on(</find>
       <find>removeliste</find>
+      <find>41</find>
+      <find>2.41</find>
+      <find>compile</find>
+      <find>compileKotlin</find>
+      <find>contain</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/h2/src/test/org</dir>
@@ -253,12 +171,12 @@
   <component name="GradleLocalSettings">
     <option name="myGradleHomes">
       <map>
-        <entry key="$PROJECT_DIR$" value="/usr/local/Cellar/gradle/4.7/libexec" />
+        <entry key="$PROJECT_DIR$" value="/usr/local/Cellar/gradle/4.8/libexec" />
       </map>
     </option>
     <option name="myGradleVersions">
       <map>
-        <entry key="$PROJECT_DIR$" value="4.7" />
+        <entry key="$PROJECT_DIR$" value="4.8" />
       </map>
     </option>
     <option name="availableProjects">
@@ -295,6 +213,10 @@
                 <option name="description" value="Assembles and tests this project and all projects that depend on it." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="buildDependents" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="inspectClassesForKotlinIC" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Displays the sub-projects of root project 'insight'." />
@@ -450,15 +372,160 @@
             </list>
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/dataviz">
+          <value>
+            <list>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the components produced by project ':dataviz'. [incubating]" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="components" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles and tests this project and all projects that depend on it." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="buildDependents" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="inspectClassesForKotlinIC" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the sub-projects of project ':dataviz'." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="projects" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles main classes." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="classes" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the dependent components of components in project ':dataviz'. [incubating]" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="dependentComponents" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays all buildscript dependencies declared in project ':dataviz'." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="buildEnvironment" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles test classes." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="testClasses" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Generates Javadoc API documentation for the main source code." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="javadoc" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles a jar archive containing the main classes." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="jar" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the configuration model of project ':dataviz'. [incubating]" />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="model" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Processes main resources." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="processResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the tasks runnable from project ':dataviz'." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="tasks" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs the unit tests." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="test" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Compiles main Java source." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="compileJava" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Compiles the source set 'test'.kotlin." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="compileTestKotlin" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the insight into a specific dependency in project ':dataviz'." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="dependencyInsight" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Runs all checks." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="check" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles the outputs of this project." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="assemble" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Deletes the build directory." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="clean" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Compiles test Java source." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="compileTestJava" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays all dependencies declared in project ':dataviz'." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="dependencies" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Processes test resources." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="processTestResources" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays a help message." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="help" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Compiles the source set 'main'.kotlin." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="compileKotlin" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles and tests this project." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="build" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Assembles and tests this project and all projects it depends on." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="buildNeeded" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="description" value="Displays the properties of project ':dataviz'." />
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/dataviz" />
+                <option name="name" value="properties" />
+              </ExternalTaskPojo>
+            </list>
+          </value>
+        </entry>
       </map>
     </option>
     <option name="modificationStamps">
       <map>
         <entry key="$USER_HOME$/Desktop/DemoFX" value="1487166188000" />
         <entry key="$USER_HOME$/Desktop/kool" value="2973376708000" />
-        <entry key="$PROJECT_DIR$" value="6098830913000" />
+        <entry key="$PROJECT_DIR$" value="6106950533000" />
         <entry key="$PROJECT_DIR$/.gradle" value="0" />
-        <entry key="$PROJECT_DIR$/build.gradle" value="1684274668" />
+        <entry key="$PROJECT_DIR$/build.gradle" value="1340099891" />
         <entry key="$PROJECT_DIR$/dataviz/build.gradle" value="0" />
         <entry key="$PROJECT_DIR$/gradle.properties" value="0" />
         <entry key="$PROJECT_DIR$/settings.gradle" value="1404388146" />
@@ -477,29 +544,24 @@
                       <ExternalModuleBuildClasspathPojo>
                         <option name="entries">
                           <list>
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/1.2.41/b4b0b8422809558b6f8be302d36ad223c9d715f5/kotlin-gradle-plugin-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/1.2.41/18587320bcaffacd1fca5bda7fe0e3e63acc4d30/kotlin-gradle-plugin-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/1.2.41/ad3c6987e041c37983dbf798d11fb30ccbbd2b6f/kotlin-gradle-plugin-api-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/1.2.41/b02a60e83beaa777c13562fd3e9612ea1963091d/kotlin-gradle-plugin-api-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.41/dc11619be6c45157a142d3753017544896da8e69/kotlin-stdlib-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.41/7e34f009642702250bccd9e5255866f408962a05/kotlin-stdlib-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/1.2.41/7da15dbc72cdae97ed4760bc70693393b134dc78/kotlin-compiler-embeddable-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/1.2.41/e439cfdc216b070ebd454da892447f5dca96a934/kotlin-compiler-embeddable-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-annotation-processing-gradle/1.2.41/8ac5ef3be550378c36c419606f075f5007297f52/kotlin-annotation-processing-gradle-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-annotation-processing-gradle/1.2.41/870d8f3b110200303a07d4bbfc7bf9066669203b/kotlin-annotation-processing-gradle-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.2.41/6926ea357237058db2823f8f388009ccb8f11035/kotlin-android-extensions-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.2.41/10100eedfe2e26b9cf18b850d997b42d02af7500/kotlin-android-extensions-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-runner/1.2.41/b0e604633bacf585fd493d37138918853ad1eecc/kotlin-compiler-runner-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-runner/1.2.41/c2bd43e2bf7d6f26e47fbdca79502b62fe130696/kotlin-compiler-runner-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.2.41/2b440a2b5eb92330251e22fb7b097613796160e3/kotlin-reflect-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.2.41/e4d6728a4fa55dbfb510aeea25c072c7c51d94/kotlin-reflect-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.2.41/f60225c5404573dcb8434ad509b98bacfb13bea3/kotlin-script-runtime-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.2.41/e291b12913910c260ce878f9a76c84203cf710a1/kotlin-script-runtime-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-build-common/1.2.41/dcf158bd432f0b0bf7e92c670646e1bafd5d934c/kotlin-build-common-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-build-common/1.2.41/3ca2f7f659163dfdb9f180b64e9964c7c176c171/kotlin-build-common-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-client/1.2.41/6b269dda00ff49a17c7f3223be6c8e64a9a4a606/kotlin-daemon-client-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-client/1.2.41/b9cb88843eeba0f43542daa00c7949e40e9e2852/kotlin-daemon-client-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/5991ca87ef1fb5544943d9abc5a9a37583fabe03/annotations-13.0-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/1.2.50/394a460c1b9aef772b97ffdb16cf8fdcc31e2d82/kotlin-gradle-plugin-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/1.2.50/29eeaaf8cbfeabf00db1864584878643f0afc879/kotlin-gradle-plugin-api-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.50/66d47b004c5b8a1d2d1df9e463187390ed741316/kotlin-stdlib-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/1.2.50/6bf096d7a201b8734583b25d90dc3a70fa768628/kotlin-compiler-embeddable-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-annotation-processing-gradle/1.2.50/807f7d867857a69a010455c9f67767055f54351/kotlin-annotation-processing-gradle-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.2.50/a5309d96fd097320a75947d2e9673a86c948f605/kotlin-android-extensions-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-runner/1.2.50/369976f847653cb5c2c4008e872939f633e8fee7/kotlin-compiler-runner-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.2.50/9fab8887f91c8e17cce1a7522f45dc25976e57b9/kotlin-reflect-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-common/1.2.50/21153667cc03f6d39ce8355b7d96aca8e07a5c7b/kotlin-scripting-common-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-compiler/1.2.50/ae501a0d0650e702c7612e3f3cf1793c6e33a646/kotlin-scripting-compiler-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-gradle/1.2.50/a8297d5daa12f8950959ce209d70f14dddfc5491/kotlin-scripting-gradle-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.2.50/f7f5f9ae0344c2d14ca41ca740d17143ba2ed3bc/kotlin-script-runtime-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-build-common/1.2.50/21469f24e2f9ed51790536e0e7aed02d74ed9401/kotlin-build-common-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-client/1.2.50/3945d8aae64c257a0c8b5027c65f846728e9a093/kotlin-daemon-client-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core/0.20/5f3fa9b5b2dc9cfc0d9358d5b2cab154d590a564/kotlinx-coroutines-core-0.20.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-jvm/1.2.50/c67d7f91d20e22e8dda8101cad1e673d37f86bf9/kotlin-scripting-jvm-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-misc/1.2.50/665845d3490908f847d8991a495849784fc83d4/kotlin-scripting-misc-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.2.50/6b19a2fcc29d34878b3aab33fd5fcf70458a73df/kotlin-stdlib-common-1.2.50.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar" />
                           </list>
                         </option>
@@ -512,29 +574,24 @@
                       <ExternalModuleBuildClasspathPojo>
                         <option name="entries">
                           <list>
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/1.2.41/b4b0b8422809558b6f8be302d36ad223c9d715f5/kotlin-gradle-plugin-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/1.2.41/18587320bcaffacd1fca5bda7fe0e3e63acc4d30/kotlin-gradle-plugin-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/1.2.41/ad3c6987e041c37983dbf798d11fb30ccbbd2b6f/kotlin-gradle-plugin-api-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/1.2.41/b02a60e83beaa777c13562fd3e9612ea1963091d/kotlin-gradle-plugin-api-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.41/dc11619be6c45157a142d3753017544896da8e69/kotlin-stdlib-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.41/7e34f009642702250bccd9e5255866f408962a05/kotlin-stdlib-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/1.2.41/7da15dbc72cdae97ed4760bc70693393b134dc78/kotlin-compiler-embeddable-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/1.2.41/e439cfdc216b070ebd454da892447f5dca96a934/kotlin-compiler-embeddable-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-annotation-processing-gradle/1.2.41/8ac5ef3be550378c36c419606f075f5007297f52/kotlin-annotation-processing-gradle-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-annotation-processing-gradle/1.2.41/870d8f3b110200303a07d4bbfc7bf9066669203b/kotlin-annotation-processing-gradle-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.2.41/6926ea357237058db2823f8f388009ccb8f11035/kotlin-android-extensions-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.2.41/10100eedfe2e26b9cf18b850d997b42d02af7500/kotlin-android-extensions-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-runner/1.2.41/b0e604633bacf585fd493d37138918853ad1eecc/kotlin-compiler-runner-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-runner/1.2.41/c2bd43e2bf7d6f26e47fbdca79502b62fe130696/kotlin-compiler-runner-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.2.41/2b440a2b5eb92330251e22fb7b097613796160e3/kotlin-reflect-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.2.41/e4d6728a4fa55dbfb510aeea25c072c7c51d94/kotlin-reflect-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.2.41/f60225c5404573dcb8434ad509b98bacfb13bea3/kotlin-script-runtime-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.2.41/e291b12913910c260ce878f9a76c84203cf710a1/kotlin-script-runtime-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-build-common/1.2.41/dcf158bd432f0b0bf7e92c670646e1bafd5d934c/kotlin-build-common-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-build-common/1.2.41/3ca2f7f659163dfdb9f180b64e9964c7c176c171/kotlin-build-common-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-client/1.2.41/6b269dda00ff49a17c7f3223be6c8e64a9a4a606/kotlin-daemon-client-1.2.41-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-client/1.2.41/b9cb88843eeba0f43542daa00c7949e40e9e2852/kotlin-daemon-client-1.2.41.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/5991ca87ef1fb5544943d9abc5a9a37583fabe03/annotations-13.0-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/1.2.50/394a460c1b9aef772b97ffdb16cf8fdcc31e2d82/kotlin-gradle-plugin-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/1.2.50/29eeaaf8cbfeabf00db1864584878643f0afc879/kotlin-gradle-plugin-api-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.50/66d47b004c5b8a1d2d1df9e463187390ed741316/kotlin-stdlib-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/1.2.50/6bf096d7a201b8734583b25d90dc3a70fa768628/kotlin-compiler-embeddable-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-annotation-processing-gradle/1.2.50/807f7d867857a69a010455c9f67767055f54351/kotlin-annotation-processing-gradle-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.2.50/a5309d96fd097320a75947d2e9673a86c948f605/kotlin-android-extensions-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-runner/1.2.50/369976f847653cb5c2c4008e872939f633e8fee7/kotlin-compiler-runner-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.2.50/9fab8887f91c8e17cce1a7522f45dc25976e57b9/kotlin-reflect-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-common/1.2.50/21153667cc03f6d39ce8355b7d96aca8e07a5c7b/kotlin-scripting-common-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-compiler/1.2.50/ae501a0d0650e702c7612e3f3cf1793c6e33a646/kotlin-scripting-compiler-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-gradle/1.2.50/a8297d5daa12f8950959ce209d70f14dddfc5491/kotlin-scripting-gradle-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.2.50/f7f5f9ae0344c2d14ca41ca740d17143ba2ed3bc/kotlin-script-runtime-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-build-common/1.2.50/21469f24e2f9ed51790536e0e7aed02d74ed9401/kotlin-build-common-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-client/1.2.50/3945d8aae64c257a0c8b5027c65f846728e9a093/kotlin-daemon-client-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core/0.20/5f3fa9b5b2dc9cfc0d9358d5b2cab154d590a564/kotlinx-coroutines-core-0.20.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-jvm/1.2.50/c67d7f91d20e22e8dda8101cad1e673d37f86bf9/kotlin-scripting-jvm-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-misc/1.2.50/665845d3490908f847d8991a495849784fc83d4/kotlin-scripting-misc-1.2.50.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.2.50/6b19a2fcc29d34878b3aab33fd5fcf70458a73df/kotlin-stdlib-common-1.2.50.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar" />
                           </list>
                         </option>
@@ -582,80 +639,82 @@
               <option name="name" value="insight" />
               <option name="projectBuildClasspath">
                 <list>
-                  <option value="/usr/local/opt/gradle/libexec/lib/ant-1.9.9.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/ant-launcher-1.9.9.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-base-services-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-base-services-groovy-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-build-cache-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-build-option-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-cli-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-core-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-core-api-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-docs-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-installation-beacon-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-jvm-services-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-kotlin-dsl-0.16.3.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-kotlin-dsl-tooling-builders-0.16.3.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-kotlin-dsl-tooling-models-0.16.3.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-launcher-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-logging-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-messaging-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-model-core-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-model-groovy-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-native-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-persistent-cache-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-process-services-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-resources-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-runtime-api-info-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-tooling-api-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-wrapper-4.7.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/ant-1.9.11.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/ant-launcher-1.9.11.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-base-services-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-base-services-groovy-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-build-cache-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-build-option-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-cli-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-core-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-core-api-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-docs-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-installation-beacon-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-jvm-services-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-kotlin-dsl-0.17.5.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-kotlin-dsl-provider-plugins-0.17.5.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-kotlin-dsl-provider-spi-0.17.5.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-kotlin-dsl-tooling-builders-0.17.5.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-kotlin-dsl-tooling-models-0.17.5.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-launcher-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-logging-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-messaging-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-model-core-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-model-groovy-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-native-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-persistent-cache-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-process-services-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-resources-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-runtime-api-info-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-tooling-api-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/gradle-wrapper-4.8.jar" />
                   <option value="/usr/local/opt/gradle/libexec/lib/groovy-all-2.4.12.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-announce-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-antlr-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-build-cache-http-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-build-comparison-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-build-init-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-code-quality-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-composite-builds-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-dependency-management-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-diagnostics-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-ear-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-ide-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-ide-native-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-ide-play-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-ivy-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-jacoco-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-javascript-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-language-groovy-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-language-java-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-language-jvm-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-language-native-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-language-scala-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-maven-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-osgi-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-platform-base-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-platform-jvm-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-platform-native-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-platform-play-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-plugin-development-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-plugin-use-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-plugins-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-publish-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-reporting-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-resources-gcs-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-resources-http-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-resources-s3-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-resources-sftp-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-scala-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-signing-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-test-kit-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-testing-base-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-testing-junit-platform-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-testing-jvm-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-testing-native-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-tooling-api-builders-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-version-control-4.7.jar" />
-                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-workers-4.7.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-announce-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-antlr-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-build-cache-http-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-build-comparison-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-build-init-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-code-quality-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-composite-builds-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-dependency-management-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-diagnostics-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-ear-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-ide-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-ide-native-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-ide-play-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-ivy-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-jacoco-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-javascript-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-language-groovy-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-language-java-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-language-jvm-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-language-native-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-language-scala-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-maven-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-osgi-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-platform-base-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-platform-jvm-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-platform-native-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-platform-play-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-plugin-development-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-plugin-use-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-plugins-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-publish-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-reporting-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-resources-gcs-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-resources-http-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-resources-s3-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-resources-sftp-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-scala-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-signing-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-test-kit-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-testing-base-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-testing-junit-platform-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-testing-jvm-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-testing-native-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-tooling-api-builders-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-version-control-4.8.jar" />
+                  <option value="/usr/local/opt/gradle/libexec/lib/plugins/gradle-workers-4.8.jar" />
                   <option value="/usr/local/opt/gradle/libexec/lib/plugins/ivy-2.2.0.jar" />
                   <option value="$PROJECT_DIR$/buildSrc/src/main/java" />
                   <option value="$PROJECT_DIR$/buildSrc/src/main/groovy" />
@@ -686,9 +745,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/NewsFragment.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/MainWatchlistFragment.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/NewsWatchlistFragment.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/ChartView.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/DayChartView.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/DayChartFragment.kt" />
@@ -698,7 +754,6 @@
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/ui/ChangeBlinkTableCell.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/ui/PercentChangeTableCell.kt" />
         <option value="$PROJECT_DIR$/data/short_interest.json" />
-        <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/IexBeans.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/helpers/Json.kt" />
         <option value="$PROJECT_DIR$/notes/Technical.txt" />
@@ -718,7 +773,6 @@
         <option value="$PROJECT_DIR$/notes/Financial.txt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/MainView.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/ShareRepurchase.kt" />
-        <option value="$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/interpolate/Interpolator.kt" />
         <option value="$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/scale/ContinuousScale.kt" />
         <option value="$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/examples/axis.kt" />
         <option value="$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/array/Ticks.kt" />
@@ -730,13 +784,18 @@
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/helpers/List.kt" />
         <option value="$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/axis/Axis.kt" />
         <option value="$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/scale/Scale.kt" />
-        <option value="$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/scale/LinearScale.kt" />
-        <option value="$PROJECT_DIR$/settings.gradle" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/YieldCurveView.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/dv/Algorithm.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/Insight.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Watchlist.kt" />
+        <option value="$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/interpolate/Interpolator.kt" />
+        <option value="$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/scale/LinearScale.kt" />
+        <option value="$PROJECT_DIR$/generator/build.gradle" />
+        <option value="$PROJECT_DIR$/build.gradle" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/chart/CartesianChart.kt" />
+        <option value="$PROJECT_DIR$/settings.gradle" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/CanvasView.kt" />
       </list>
     </option>
   </component>
@@ -746,11 +805,10 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-1909" />
-    <option name="y" value="-65" />
-    <option name="width" value="1894" />
-    <option name="height" value="1047" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1920" />
+    <option name="height" value="1053" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -760,14 +818,53 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="insight" type="b2602c69:ProjectViewProjectNode" />
               <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
+              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
+              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+            </path>
+            <path>
+              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
+              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
+              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+              <item name="insight" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
+              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
+              <item name="insight" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
@@ -905,6 +1002,16 @@
       <option name="MAIN_CLASS_NAME" value="com.vitalyk.insight.Insight" />
       <option name="WORKING_DIRECTORY" />
     </configuration>
+    <configuration name="com.vitalyk.insight.chart.CartesianChartKt" type="JetRunConfigurationType" factoryName="Kotlin" temporary="true" nameIsGenerated="true">
+      <module name="insight_main" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.vitalyk.insight.chart.CartesianChartKt" />
+      <option name="WORKING_DIRECTORY" />
+    </configuration>
     <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
       <module name="dataviz" />
       <option name="filePath" />
@@ -944,10 +1051,12 @@
       <item itemvalue="JUnit.ListKtTest.aggregate" />
       <item itemvalue="JUnit.ListKtTest" />
       <item itemvalue="Kotlin.com.vitalyk.insight.Insight" />
+      <item itemvalue="Kotlin.com.vitalyk.insight.chart.CartesianChartKt" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Kotlin.com.vitalyk.insight.Insight" />
+        <item itemvalue="Kotlin.com.vitalyk.insight.chart.CartesianChartKt" />
         <item itemvalue="Gradle.insight [build]" />
         <item itemvalue="JUnit.ListKtTest.aggregate" />
         <item itemvalue="JUnit.ListKtTest" />
@@ -987,19 +1096,22 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1920" y="-70" width="1920" height="1057" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="23" width="1920" height="1053" extended-state="0" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info id="Cargo" order="9" weight="0.14481306" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.27092052" />
       <window_info anchor="right" id="Palette&#9;" order="0" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info id="Maven Projects" order="5" weight="0.15429173" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.333682" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32603094" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.31485355" />
+      <window_info id="Kotlin Bytecode" order="8" weight="0.1943128" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.33263597" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3253138" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.31458333" />
       <window_info id="Designer" order="0" />
-      <window_info content_ui="combo" id="Project" order="2" weight="0.13389711" />
+      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.13270143" />
+      <window_info anchor="bottom" id="Build" order="7" weight="0.32916668" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32633787" />
       <window_info id="Gradle" order="4" weight="0.14430244" />
       <window_info id="Structure" order="3" side_tool="true" weight="0.25" />
       <window_info id="Ant Build" order="6" weight="0.16587678" />
@@ -1007,14 +1119,10 @@
       <window_info id="Favorites" order="1" side_tool="true" />
       <window_info id="Coverage" order="7" weight="0.26329648" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info id="Kotlin Bytecode" order="8" weight="0.2501762" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="1" weight="0.4" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.27092052" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Build" order="7" weight="0.32916668" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32633787" />
     </layout>
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -1058,7 +1166,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="15" />
+      <option name="time" value="16" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -1095,61 +1203,10 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/javafx-src.zip!/javafx/scene/layout/Region.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="1168" column="22" selection-start-line="1168" selection-start-column="22" selection-end-line="1168" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/javafx-src.zip!/javafx/scene/Node.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="2775" column="48" selection-start-line="2775" selection-start-column="48" selection-end-line="2775" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/javafx-src.zip!/javafx/scene/layout/GridPane.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="883" column="22" selection-start-line="883" selection-start-column="22" selection-end-line="883" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/chart/CartesianChart.kt" />
-    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/array/Ticks.kt" />
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/javaws.jar!/com/sun/javaws/exceptions/InvalidArgumentException.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="14" column="31" lean-forward="true" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.41/dc11619be6c45157a142d3753017544896da8e69/kotlin-stdlib-1.2.41-sources.jar!/kotlin/collections/ReversedViews.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="55" column="66" lean-forward="true" selection-start-line="55" selection-start-column="66" selection-end-line="55" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.41/dc11619be6c45157a142d3753017544896da8e69/kotlin-stdlib-1.2.41-sources.jar!/generated/_Ranges.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="757" column="58" lean-forward="true" selection-start-line="757" selection-start-column="58" selection-end-line="757" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.41/dc11619be6c45157a142d3753017544896da8e69/kotlin-stdlib-1.2.41-sources.jar!/kotlin/collections/TypeAliases.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="67" selection-start-line="7" selection-start-column="67" selection-end-line="7" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.41/dc11619be6c45157a142d3753017544896da8e69/kotlin-stdlib-1.2.41-sources.jar!/kotlin/collections/Collections.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="108" column="60" lean-forward="true" selection-start-line="108" selection-start-column="60" selection-end-line="108" selection-end-column="60" />
         </state>
       </provider>
     </entry>
@@ -1224,7 +1281,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/examples/axis.kt" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/javafx-src.zip!/com/sun/javafx/tk/Toolkit.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="242">
@@ -1253,31 +1309,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/interpolate/Interpolator.kt" />
     <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/scale/ContinuousScale.kt" />
     <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/axis/Axis.kt" />
     <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/scale/Scale.kt" />
-    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/scale/LinearScale.kt" />
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/settings.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="28" selection-start-column="28" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/MainView.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="16" column="34" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
-          <folding>
-            <element signature="e#34#582#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.41/dc11619be6c45157a142d3753017544896da8e69/kotlin-stdlib-1.2.41-sources.jar!/kotlin/reflect/KCallable.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="250">
@@ -1296,33 +1330,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="305">
           <caret line="37" column="21" lean-forward="true" selection-start-line="37" selection-start-column="21" selection-end-line="37" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/dv/Algorithm.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="20" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/ShareRepurchase.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="13" column="27" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
-          <folding>
-            <element signature="e#33#172#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/EarningsFragment.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="795">
-          <caret line="60" column="17" selection-start-line="60" selection-start-column="17" selection-end-line="60" selection-end-column="17" />
-          <folding>
-            <element signature="e#38#291#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1347,43 +1354,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/CanvasView.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="27" column="40" selection-start-line="27" selection-start-column="40" selection-end-line="27" selection-end-column="40" />
-          <folding>
-            <element signature="e#34#339#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/chart/CartesianChart.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="40" column="42" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
-          <folding>
-            <element signature="e#35#284#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="707">
-          <caret line="718" column="32" selection-start-line="718" selection-start-column="32" selection-end-line="718" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/YieldCurveView.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="117" column="34" lean-forward="true" selection-start-line="117" selection-start-column="34" selection-end-line="117" selection-end-column="34" />
-          <folding>
-            <element signature="e#34#434#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/src.zip!/java/time/Duration.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="297">
@@ -1398,20 +1368,187 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.41/dc11619be6c45157a142d3753017544896da8e69/kotlin-stdlib-1.2.41-sources.jar!/kotlin/collections/Collections.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1035">
+          <caret line="83" column="61" lean-forward="true" selection-start-line="83" selection-start-column="61" selection-end-line="83" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.socket/engine.io-client/1.0.0/1c1cc12afc81c9d70b3eb436186189b1c56a1fc1/engine.io-client-1.0.0-sources.jar!/io/socket/emitter/Emitter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="718">
-          <caret line="57" column="21" selection-start-line="57" selection-start-column="21" selection-end-line="57" selection-end-column="21" />
+        <state relative-caret-position="960">
+          <caret line="69" column="37" selection-start-line="69" selection-start-column="37" selection-end-line="69" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/generator/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="55" selection-start-line="8" selection-start-column="55" selection-end-line="8" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.2.50/d3189b4b8c72c7f3a327e3c21dca8dbcba267359/kotlin-stdlib-common-1.2.50-sources.jar!/kotlin/collections/Sets.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="295">
+          <caret line="56" column="27" lean-forward="true" selection-start-line="56" selection-start-column="27" selection-end-line="56" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.50/9ec9cf82e5e18d990a4b4fb3b5763cd3637b6d63/kotlin-stdlib-1.2.50-sources.jar!/kotlin/Primitives.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="747" column="13" selection-start-line="747" selection-start-column="13" selection-end-line="747" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.50/9ec9cf82e5e18d990a4b4fb3b5763cd3637b6d63/kotlin-stdlib-1.2.50-sources.jar!/kotlin/ranges/RangesJVM.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="17" column="31" lean-forward="true" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.2.50/d3189b4b8c72c7f3a327e3c21dca8dbcba267359/kotlin-stdlib-common-1.2.50-sources.jar!/kotlin/ranges/Ranges.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="708">
+          <caret line="61" column="45" lean-forward="true" selection-start-line="61" selection-start-column="45" selection-end-line="61" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/dv/Algorithm.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="30" column="52" selection-start-line="30" selection-start-column="52" selection-end-line="30" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/EarningsFragment.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="421">
+          <caret line="73" column="69" selection-start-line="73" selection-start-column="69" selection-end-line="73" selection-end-column="69" />
+          <folding>
+            <element signature="e#38#291#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/YieldCurveView.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="117" column="34" lean-forward="true" selection-start-line="117" selection-start-column="34" selection-end-line="117" selection-end-column="34" />
+          <folding>
+            <element signature="e#34#434#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/ShareRepurchase.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="43" selection-start-line="9" selection-start-column="43" selection-end-line="9" selection-end-column="43" />
+          <folding>
+            <element signature="e#33#172#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2085">
+          <caret line="139" column="25" lean-forward="true" selection-start-line="139" selection-start-column="25" selection-end-line="139" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/MainView.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="46" column="33" lean-forward="true" selection-start-line="46" selection-start-column="33" selection-end-line="46" selection-end-column="33" />
+          <folding>
+            <element signature="e#34#582#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="59" lean-forward="true" selection-start-line="14" selection-start-column="59" selection-end-line="14" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/scale/LinearScale.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="46" selection-start-line="24" selection-start-column="46" selection-end-line="24" selection-end-column="46" />
+          <folding>
+            <element signature="e#35#156#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/array/Ticks.kt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/array/Bisect.kt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/chart/CartesianChart.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="31" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="31" />
+          <folding>
+            <element signature="e#35#196#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/interpolate/Interpolator.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="53" selection-start-line="11" selection-start-column="53" selection-end-line="11" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="28" selection-start-column="28" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dataviz/src/main/kotlin/com/vitalyk/dataviz/examples/axis.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="16" column="31" lean-forward="true" selection-start-line="16" selection-start-column="31" selection-end-line="16" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/chart/CartesianChart.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+          <folding>
+            <element signature="e#35#284#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/CanvasView.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="26" column="24" selection-start-line="26" selection-start-column="24" selection-end-line="26" selection-end-column="24" />
+          <folding>
+            <element signature="e#34#339#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Watchlist.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="174" column="19" lean-forward="true" selection-start-line="174" selection-start-column="19" selection-end-line="174" selection-end-column="19" />
-          <folding>
-            <element signature="e#33#310#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="105">
+          <caret line="7" column="30" lean-forward="true" selection-start-line="7" selection-start-column="30" selection-end-line="7" selection-end-column="30" />
         </state>
       </provider>
     </entry>
