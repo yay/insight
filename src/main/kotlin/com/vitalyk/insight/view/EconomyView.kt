@@ -26,6 +26,9 @@ class EconomyView : View("Economy") {
                     button("U.S. Yield Curve").action {
                         replaceWith(YieldCurveView::class)
                     }
+                    button("Central Banks").action {
+                        browseTo("https://www.investing.com/central-banks/")
+                    }
                     button("Employment (BLS)").action {
                         browseTo("https://www.bls.gov/news.release/empsit.nr0.htm")
                     }

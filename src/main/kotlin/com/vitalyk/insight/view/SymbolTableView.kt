@@ -73,9 +73,6 @@ class SymbolTableView : Fragment("Instrument Data") {
                     owner = primaryStage
                 )
             }
-            button("Canvas").action {
-                replaceWith(CanvasView::class)
-            }
         }
 
         val dateFormat = SimpleDateFormat("dd MMM, yy")
