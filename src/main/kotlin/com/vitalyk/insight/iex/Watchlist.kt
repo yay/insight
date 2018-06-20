@@ -6,22 +6,8 @@ import io.socket.client.Socket
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import org.slf4j.LoggerFactory
-import java.io.IOException
-import java.time.Duration
 import java.time.Instant
-import kotlin.collections.List
-import kotlin.collections.contains
-import kotlin.collections.emptyList
-import kotlin.collections.filter
-import kotlin.collections.first
-import kotlin.collections.forEach
-import kotlin.collections.isNotEmpty
-import kotlin.collections.joinToString
-import kotlin.collections.map
-import kotlin.collections.mutableMapOf
-import kotlin.collections.mutableSetOf
 import kotlin.collections.set
-import kotlin.collections.toList
 
 typealias ChangeListener = (old: Tops?, new: Tops?) -> Unit
 

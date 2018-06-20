@@ -6,7 +6,6 @@ import com.vitalyk.insight.fragment.ReutersFragment
 import com.vitalyk.insight.helpers.browseTo
 import com.vitalyk.insight.helpers.newYorkZoneId
 import com.vitalyk.insight.iex.Watchlist
-import com.vitalyk.insight.main.appLogger
 import com.vitalyk.insight.main.getAppLog
 import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.TabPane

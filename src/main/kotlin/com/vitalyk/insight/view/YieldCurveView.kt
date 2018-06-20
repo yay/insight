@@ -197,9 +197,9 @@ class YieldCurveView : View("Yield Curve") {
                 strokeWidth = 1.px
             }
             chart.series("10y") {
-                val spreads = yields.aggregate(500, {
+                val spreads = yields.aggregate(500) {
                     YieldSpread(it.last().date, it.sumByDouble { (it.yr10 ?: 0.0) - (it.yr2 ?: 0.0) } / it.size.toDouble() )
-                })
+                }
                 spreads.forEach {
                     data(dateFormat.format(it.date), it.spread)
                 }
