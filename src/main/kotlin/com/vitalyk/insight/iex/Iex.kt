@@ -622,7 +622,7 @@ object Iex {
     )
 
     data class LastTrade(
-        val symbol: String?,
+        val symbol: String,
         val price: Double,
         val size: Int,
         val time: Date
@@ -741,6 +741,8 @@ object Iex {
         val previousClose: Double = 0.0,
         val change: Double = 0.0,
         val changePercent: Double = 0.0,
+        val extendedChange: Double = 0.0,
+        val extendedChangePercent: Double = 0.0,
         val iexMarketPercent: Double = 0.0, // IEX’s percentage of the market in the stock
         val iexVolume: Long = 0,            // Shares traded in the stock on IEX
         val avgTotalVolume: Long = 0,       // 30 day average volume on all markets
