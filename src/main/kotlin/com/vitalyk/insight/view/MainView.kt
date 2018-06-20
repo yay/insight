@@ -1,10 +1,13 @@
 package com.vitalyk.insight.view
 
+import com.vitalyk.insight.fragment.InfoFragment
 import com.vitalyk.insight.fragment.NewsWatchlistFragment
 import com.vitalyk.insight.fragment.ReutersFragment
 import com.vitalyk.insight.helpers.browseTo
 import com.vitalyk.insight.helpers.newYorkZoneId
 import com.vitalyk.insight.iex.Watchlist
+import com.vitalyk.insight.main.appLogger
+import com.vitalyk.insight.main.getAppLog
 import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.TabPane
 import javafx.scene.layout.Priority
@@ -23,6 +26,11 @@ class MainView : View("Insight") {
             button("Economy").action { replaceWith(EconomyView::class) }
             button("Movers").action {
                 browseTo("https://www.fool.com/market-movers/")
+            }
+            button("Log").action {
+                getAppLog()?.apply {
+                    find(InfoFragment::class.java).setInfo("App Log", readText()).openModal()
+                }
             }
 //            button("Notify").action {
 //                // notification("Title", "Message") {

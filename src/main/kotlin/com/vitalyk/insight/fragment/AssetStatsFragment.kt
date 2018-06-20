@@ -255,7 +255,7 @@ class AssetStatsFragment : Fragment() {
     private fun formatNumber(value: Double, significand: Int = 2, percent: Boolean = false): String {
         val suffix = if (percent) "%%" else ""
         return when {
-            value == 0.0 || value.isNaN() -> "--"
+            value == 0.0 || value.isNaN() || value.isInfinite() -> "--"
             else -> "%.${significand}f$suffix".format(value)
         }
     }
@@ -271,7 +271,7 @@ class AssetStatsFragment : Fragment() {
 
     private fun formatPercent(value: Double): String {
         return when {
-            value == 0.0 || value.isNaN() -> "--"
+            value == 0.0 || value.isNaN() || value.isInfinite() -> "--"
             else -> "%.2f%%".format(value)
         }
     }

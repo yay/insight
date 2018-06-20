@@ -30,3 +30,12 @@ Sarepta Therapeutics (SRPT)
 SailPoint Technologies (SAIL)
 58.com  (WUBA)
 Arena Pharmaceuticals (ARNA)
+
+
+
+Implement screener:
+- change from open (record snapshot of all open prices)
+- change from close (record snapshot of all close prices)
+- news section (why up/down?)
+
+Implement long-term earnings view.

@@ -9,10 +9,7 @@ import javafx.beans.binding.Bindings
 import javafx.beans.property.SimpleStringProperty
 import javafx.beans.value.ObservableValue
 import javafx.collections.FXCollections
-import javafx.scene.control.ContextMenu
-import javafx.scene.control.Menu
 import javafx.scene.control.TableColumn
-import javafx.scene.control.TableView
 import javafx.scene.layout.Priority
 import tornadofx.*
 import java.text.SimpleDateFormat
@@ -38,7 +35,7 @@ class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
 
         // TODO: right-align most cells
         column("Symbol", TopsBean::symbolProperty)
-        TableColumn<TopsBean, Double>("% Change").apply {
+        columns += TableColumn<TopsBean, Double>("% Change").apply {
             setCellValueFactory { column ->
                 val data = column.value
                 Bindings.createDoubleBinding(Callable {
@@ -50,7 +47,6 @@ class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
                 }, data.lastSalePriceProperty) as ObservableValue<Double>
             }
             setCellFactory { PercentChangeTableCell<TopsBean>() }
-            table.columns.add(this)
         }
         TableColumn<TopsBean, Double>("Last Trade").apply {
             setCellValueFactory { it.value.lastSalePriceProperty.asObject() }
@@ -65,19 +61,17 @@ class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
             }
         }
         column("Trade Size", TopsBean::lastSaleSizeProperty)
-        TableColumn<TopsBean, Double>("Bid").apply {
+        columns += TableColumn<TopsBean, Double>("Bid").apply {
             setCellValueFactory { it.value.bidPriceProperty.asObject() }
             setCellFactory {
                 ChangeBlinkTableCell<TopsBean, Double>(naturalOrder(), priceFormatter)
             }
-            table.columns.add(this)
         }
-        TableColumn<TopsBean, Double>("Ask").apply {
+        columns += TableColumn<TopsBean, Double>("Ask").apply {
             setCellValueFactory { it.value.askPriceProperty.asObject() }
             setCellFactory {
                 ChangeBlinkTableCell<TopsBean, Double>(naturalOrder(), priceFormatter)
             }
-            table.columns.add(this)
         }
         TableColumn<TopsBean, String>("Spread").apply {
             setCellValueFactory {
