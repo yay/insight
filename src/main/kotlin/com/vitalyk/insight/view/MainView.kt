@@ -26,6 +26,7 @@ class MainView : View("Insight") {
             button("Movers").action {
                 browseTo("https://www.fool.com/market-movers/")
             }
+            button("Screener").action { replaceWith(ScreenerView::class) }
             button("Log").action {
                 getAppLog()?.apply {
                     find(InfoFragment::class.java).setInfo("App Log", readText()).openModal()

@@ -1,9 +1,7 @@
 package com.vitalyk.insight.helpers
 
 import com.vitalyk.insight.Insight
-import com.vitalyk.insight.iex.Iex
 import javafx.beans.property.Property
-import javafx.beans.value.ObservableValue
 import javafx.scene.Node
 import javafx.scene.media.AudioClip
 import java.util.*
@@ -86,7 +84,7 @@ fun getFxBeanDefinition(klass: KClass<*>): String {
 
 fun main(args: Array<String>) {
 //    println(getFxBeanDefinition(Iex.AssetStats::class))
-    println(getToFxBeanAltDefinition(Iex.AssetStats::class))
+//    println(getToFxBeanAltDefinition(Iex.AssetStats::class))
 }
 
 // Takes a data class and creates a table view creation code

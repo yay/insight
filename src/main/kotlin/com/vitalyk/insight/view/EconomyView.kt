@@ -35,6 +35,9 @@ class EconomyView : View("Economy") {
                     button("Unemployment (FRED)").action {
                         browseTo("https://fred.stlouisfed.org/series/UNRATE")
                     }
+                    button("Savings rate").action {
+                        browseTo("https://tradingeconomics.com/united-states/personal-savings")
+                    }
                     button("Shiller P/E").action {
                         browseTo("http://www.multpl.com/table?f=m")
                     }

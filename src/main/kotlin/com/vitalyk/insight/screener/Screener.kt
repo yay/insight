@@ -12,7 +12,7 @@ import kotlinx.coroutines.experimental.runBlocking
 data class ChangeSinceClose(
     val symbol: String,
     val close: Double,  // previous close
-    val price: Double,
+    val price: Double,  // current price
     val change: Double, // price/close ratio
     val changePercent: Double
 )
@@ -38,7 +38,7 @@ fun getChangeSinceClose(): List<ChangeSinceClose> {
         }
     }
 
-    return changes.sortedBy { it.change }
+    return changes.sortedByDescending { it.change }
 }
 
 fun getChangeSinceOpen() {
@@ -64,10 +64,10 @@ fun getDailyHighCount() {
 fun main(args: Array<String>) = runBlocking {
     Iex.setOkHttpClient(HttpClients.main)
 
-    val symbolMap = Iex.getSymbols()?.let { it.map { it.symbol to it }.toMap() } ?: emptyMap()
-    val quotes = symbolMap.map { entry ->
-        async { Iex.getQuote(entry.key) }
-    }.mapNotNull { it.await() }.map { it.symbol to it }.toMap()
+//    val symbolMap = Iex.getSymbols()?.let { it.map { it.symbol to it }.toMap() } ?: emptyMap()
+//    val quotes = symbolMap.map { entry ->
+//        async { Iex.getQuote(entry.key) }
+//    }.mapNotNull { it.await() }.map { it.symbol to it }.toMap()
 
     getChangeSinceClose().forEach {
         println(it)
