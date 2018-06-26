@@ -17,8 +17,6 @@ class DayChartFragment : Fragment("Daily Chart") {
         animated = false
         createSymbols = false
         isLegendVisible = false
-        minWidth = 900.0
-        minHeight = 600.0
         vgrow = Priority.ALWAYS
     }
 

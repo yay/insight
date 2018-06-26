@@ -1,5 +1,6 @@
 package com.vitalyk.insight.view
 
+import com.vitalyk.insight.fragment.AssetProfileFragment
 import com.vitalyk.insight.fragment.DayChartFragment
 import com.vitalyk.insight.helpers.toPrettyJson
 import com.vitalyk.insight.helpers.toReadableNumber
@@ -12,8 +13,8 @@ import com.vitalyk.insight.screener.getChangeSinceClose
 import javafx.beans.property.SimpleDoubleProperty
 import javafx.beans.property.SimpleLongProperty
 import javafx.beans.property.SimpleStringProperty
-import javafx.collections.transformation.FilteredList
 import javafx.event.EventHandler
+import javafx.geometry.Orientation
 import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.TextFormatter
@@ -78,42 +79,78 @@ private fun getChangeSinceCloseView() = VBox().apply {
             }
         }
         spacer { }
-        label("${items.size} results")
+        val upCount = items.count { it.changePercent >= 0.0 }
+        val downCount = items.size - upCount
+        label("${items.size} results, $upCount up, $downCount down")
     }
 
-    tableview(filteredItems) {
+    fun showChart(symbol: String, range: Iex.Range) {
+        runAsync {
+            Iex.getDayChart(symbol, range) ?: emptyList()
+        } ui { points ->
+            find(DayChartFragment::class).let {
+                it.updateChart(symbol, points)
+                it.openModal()
+            }
+        }
+    }
+
+    val chartBox = VBox()
+    val profileFragment = AssetProfileFragment()
+    val profileBox = VBox().apply {
+        this += profileFragment
+    }
+
+    splitpane {
         vgrow = Priority.ALWAYS
 
-        column("Symbol", ChangeSinceCloseBean::symbol)
-        column("Change %", ChangeSinceCloseBean::changePercent).cellFormat {
-            text = "%.2f".format(it)
-        }
-        column("Close", ChangeSinceCloseBean::close)
-        column("Price", ChangeSinceCloseBean::price)
-        column("Change", ChangeSinceCloseBean::change).cellFormat {
-            text = "%.2f".format(it)
-        }
-        column("Mkt Cap", ChangeSinceCloseBean::marketCap).cellFormat {
-            text = it.toReadableNumber()
-        }
+        tableview(filteredItems) {
+            vgrow = Priority.ALWAYS
 
-        contextmenu {
-            menu("Chart") {
-                Iex.Range.values().forEach { range ->
-                    item(range.value.name).action {
-                        selectedItem?.let { selectedItem ->
-                            runAsync {
-                                Iex.getDayChart(selectedItem.symbol, range) ?: emptyList()
-                            } ui { points ->
-                                find(DayChartFragment::class).let {
-                                    it.updateChart(selectedItem.symbol, points)
-                                    it.openModal()
-                                }
-                            }
+            column("Symbol", ChangeSinceCloseBean::symbol)
+            column("Change %", ChangeSinceCloseBean::changePercent).cellFormat {
+                text = "%.2f".format(it)
+            }
+            column("Close", ChangeSinceCloseBean::close)
+            column("Price", ChangeSinceCloseBean::price)
+            column("Change", ChangeSinceCloseBean::change).cellFormat {
+                text = "%.2f".format(it)
+            }
+            column("Mkt Cap", ChangeSinceCloseBean::marketCap).cellFormat {
+                text = it.toReadableNumber()
+            }
+
+            contextmenu {
+                item("Quick Chart").action {
+                    selectedItem?.let { showChart(it.symbol, Iex.Range.M3) }
+                }
+                menu("Chart") {
+                    Iex.Range.values().forEach { range ->
+                        item(range.value.name).action {
+                            selectedItem?.let { showChart(it.symbol, range) }
                         }
                     }
                 }
             }
+
+            onUserSelect {
+                val symbol = it.symbol
+                val chart = DayChartFragment()
+                chartBox.children.clear()
+                chartBox += chart
+
+                runAsync {
+                    Iex.getDayChart(symbol, Iex.Range.M3) ?: emptyList()
+                } ui { points ->
+                    chart.updateChart(symbol, points)
+                }
+
+                profileFragment.fetch(symbol)
+            }
+        }
+        splitpane(orientation = Orientation.VERTICAL) {
+            this += chartBox
+            this += profileBox
         }
     }
 }
