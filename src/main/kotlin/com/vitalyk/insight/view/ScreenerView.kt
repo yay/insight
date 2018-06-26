@@ -121,9 +121,6 @@ private fun getChangeSinceCloseView() = VBox().apply {
             }
 
             contextmenu {
-                item("Quick Chart").action {
-                    selectedItem?.let { showChart(it.symbol, Iex.Range.M3) }
-                }
                 menu("Chart") {
                     Iex.Range.values().forEach { range ->
                         item(range.value.name).action {

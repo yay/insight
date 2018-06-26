@@ -8,13 +8,16 @@ import com.vitalyk.insight.helpers.newYorkZoneId
 import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.main.getAppLog
 import com.vitalyk.insight.screener.getAdvancersDecliners
-import com.vitalyk.insight.screener.getBreadth
+import com.vitalyk.insight.screener.getHighsLows
 import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.TabPane
 import javafx.scene.layout.Priority
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import tornadofx.*
+import java.time.DayOfWeek
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
@@ -53,6 +56,16 @@ class MainView : View("Insight") {
 
             spacer {}
 
+            // Simplistic check
+            fun isMarketHours(): Boolean {
+                val datetime = LocalDateTime.now(ZoneId.of("America/New_York"))
+                val day = datetime.dayOfWeek
+                val isWeekend = day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY
+                val hour = datetime.hour
+                val minute = datetime.minute
+                return !isWeekend && (hour > 9 || (hour == 9 && minute >= 30)) && hour < 16
+            }
+
             val advancerProperty = SimpleStringProperty()
             label(advancerProperty) {
                 tooltip("Advancers / Decliners")
@@ -63,9 +76,11 @@ class MainView : View("Insight") {
                 }
                 launch {
                     while(isActive) {
-                        getAdvancersDecliners()?.let {
-                            val msg = "${it.advancerCount} ↑ / ${it.declinerCount} ↓"
-                            runLater { advancerProperty.value = msg }
+                        if (isMarketHours()) {
+                            getAdvancersDecliners()?.let {
+                                val msg = "${it.advancerCount} ↑ / ${it.declinerCount} ↓"
+                                runLater { advancerProperty.value = msg }
+                            }
                         }
                         delay(1000 * 60)
                     }
@@ -82,9 +97,11 @@ class MainView : View("Insight") {
                 }
                 launch {
                     while(isActive) {
-                        getBreadth()?.let {
-                            val msg = "${it.highCount} ↑ / ${it.lowCount} ↓"
-                            runLater { breadthProperty.value = msg }
+                        if (isMarketHours()) {
+                            getHighsLows()?.let {
+                                val msg = "${it.highCount} ↑ / ${it.lowCount} ↓"
+                                runLater { breadthProperty.value = msg }
+                            }
                         }
                         delay(1000 * 60)
                     }

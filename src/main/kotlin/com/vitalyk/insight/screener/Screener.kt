@@ -50,12 +50,12 @@ fun getChangeSinceClose(minClose: Double = 2.0, minCap: Long = 500_000_000): Lis
 }
 
 // The number of new 52-week highs and lows today
-data class Breadth(
+data class HighsLows(
     val highCount: Int,
     val lowCount: Int
 )
 
-fun getBreadth(): Breadth? {
+fun getHighsLows(): HighsLows? {
     val lastTrades = Iex.getLastTrade()?.map { it.symbol to it }?.toMap()
     val stats = loadAssetStatsJson()
 
@@ -71,7 +71,7 @@ fun getBreadth(): Breadth? {
                 if (trade.price < stat.week52low) lowCount++
             }
         }
-        Breadth(highCount, lowCount)
+        HighsLows(highCount, lowCount)
     } else null
 }
 
