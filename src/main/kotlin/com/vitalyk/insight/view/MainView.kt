@@ -13,6 +13,7 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.TabPane
 import javafx.scene.layout.Priority
 import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.experimental.javafx.JavaFx
 import kotlinx.coroutines.experimental.launch
 import tornadofx.*
 import java.time.DayOfWeek
@@ -74,12 +75,12 @@ class MainView : View("Insight") {
                     borderColor = multi(box(c("#000")))
                     borderWidth = multi(box(1.px))
                 }
-                launch {
+                launch(JavaFx) {
                     while(isActive) {
                         if (isMarketHours()) {
                             getAdvancersDecliners()?.let {
                                 val msg = "${it.advancerCount} ↑ / ${it.declinerCount} ↓"
-                                runLater { advancerProperty.value = msg }
+                                advancerProperty.value = msg
                             }
                         }
                         delay(1000 * 60)
@@ -95,12 +96,12 @@ class MainView : View("Insight") {
                     borderColor = multi(box(c("#000")))
                     borderWidth = multi(box(1.px))
                 }
-                launch {
+                launch(JavaFx) {
                     while(isActive) {
                         if (isMarketHours()) {
                             getHighsLows()?.let {
                                 val msg = "${it.highCount} ↑ / ${it.lowCount} ↓"
-                                runLater { breadthProperty.value = msg }
+                                breadthProperty.value = msg
                             }
                         }
                         delay(1000 * 60)
@@ -114,14 +115,12 @@ class MainView : View("Insight") {
                 style {
                     fontFamily = "Menlo"
                 }
-                launch {
+                launch(JavaFx) {
                     while (isActive) {
                         delay(1000)
-                        runLater {
-                            timeProperty.value = ZonedDateTime
-                                .now(newYorkZoneId)
-                                .format(timeFormatter)
-                        }
+                        timeProperty.value = ZonedDateTime
+                            .now(newYorkZoneId)
+                            .format(timeFormatter)
                     }
                 }
             }
