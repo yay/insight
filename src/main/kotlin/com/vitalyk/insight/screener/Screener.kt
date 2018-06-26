@@ -49,6 +49,57 @@ fun getChangeSinceClose(minClose: Double = 2.0, minCap: Long = 500_000_000): Lis
     return changes.sortedByDescending { it.change }
 }
 
+// The number of new 52-week highs and lows today
+data class Breadth(
+    val highCount: Int,
+    val lowCount: Int
+)
+
+fun getBreadth(): Breadth? {
+    val lastTrades = Iex.getLastTrade()?.map { it.symbol to it }?.toMap()
+    val stats = loadAssetStatsJson()
+
+    var highCount = 0
+    var lowCount = 0
+
+    return if (lastTrades != null && stats != null) {
+        lastTrades.forEach {
+            val symbol = it.key
+            val trade = it.value
+            stats[symbol]?.let { stat ->
+                if (trade.price > stat.week52high) highCount++
+                if (trade.price < stat.week52low) lowCount++
+            }
+        }
+        Breadth(highCount, lowCount)
+    } else null
+}
+
+data class AdvancersDecliners(
+    val advancerCount: Int,
+    val declinerCount: Int
+)
+
+fun getAdvancersDecliners(): AdvancersDecliners? {
+    val prevCloses = Iex.getPreviousDay()
+    val lastTrades = Iex.getLastTrade()?.map { it.symbol to it }?.toMap()
+
+    var advancerCount = 0
+    var declinerCount = 0
+
+    return if (prevCloses != null && lastTrades != null) {
+        lastTrades.forEach {
+            val symbol = it.key
+            val last = it.value
+            prevCloses[symbol]?.let { prev ->
+                if (last.price > prev.close) advancerCount++
+                if (last.price <= prev.close) declinerCount++
+            }
+        }
+        AdvancersDecliners(advancerCount, declinerCount)
+    } else null
+}
+
 fun getChangeSinceOpen() {
 
 }

@@ -7,6 +7,8 @@ import com.vitalyk.insight.helpers.browseTo
 import com.vitalyk.insight.helpers.newYorkZoneId
 import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.main.getAppLog
+import com.vitalyk.insight.screener.getAdvancersDecliners
+import com.vitalyk.insight.screener.getBreadth
 import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.TabPane
 import javafx.scene.layout.Priority
@@ -50,6 +52,44 @@ class MainView : View("Insight") {
 //            button("News").action { replaceWith(NewsView::class) }
 
             spacer {}
+
+            val advancerProperty = SimpleStringProperty()
+            label(advancerProperty) {
+                tooltip("Advancers / Decliners")
+                style {
+                    padding = box(5.px)
+                    borderColor = multi(box(c("#000")))
+                    borderWidth = multi(box(1.px))
+                }
+                launch {
+                    while(isActive) {
+                        getAdvancersDecliners()?.let {
+                            val msg = "${it.advancerCount} ↑ / ${it.declinerCount} ↓"
+                            runLater { advancerProperty.value = msg }
+                        }
+                        delay(1000 * 60)
+                    }
+                }
+            }
+
+            val breadthProperty = SimpleStringProperty()
+            label(breadthProperty) {
+                tooltip("New 52-week highs and lows")
+                style {
+                    padding = box(5.px)
+                    borderColor = multi(box(c("#000")))
+                    borderWidth = multi(box(1.px))
+                }
+                launch {
+                    while(isActive) {
+                        getBreadth()?.let {
+                            val msg = "${it.highCount} ↑ / ${it.lowCount} ↓"
+                            runLater { breadthProperty.value = msg }
+                        }
+                        delay(1000 * 60)
+                    }
+                }
+            }
 
             val timeProperty = SimpleStringProperty()
             label(timeProperty) {
