@@ -63,6 +63,16 @@ class EconomyView : View("Economy") {
                     button("Earnings Calendar").action {
                         browseTo("http://hosting.briefing.com/cschwab/Calendars/EarningsCalendar5Weeks.htm")
                     }
+                    button("IPO Lockup Expirations") {
+                        tooltip("""
+                            A lock-up agreement is a legally binding contract between the underwriters
+                            and insiders of a company prohibiting these individuals from selling any shares
+                            of stock for a specified period of time. Lock-up periods typically last 180 days.
+                        """.trimIndent())
+                        action {
+                            browseTo("https://www.marketbeat.com/ipos/lockup-expirations/")
+                        }
+                    }
 
                     children.forEach {
                         if (it is Button) {

@@ -6,6 +6,7 @@ import java.io.IOException
 /**
  * Writes the string to a file with the specified `pathname`, creating all parent
  * directories in the process.
+ * For example: "Hello".writeToFile("./memo.txt")
  * @param  pathname  A pathname string
  * @throws  SecurityException
  * @throws  IOException

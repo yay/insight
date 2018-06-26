@@ -1,15 +1,27 @@
 package com.vitalyk.insight.view
 
 import com.vitalyk.insight.fragment.DayChartFragment
+import com.vitalyk.insight.helpers.toPrettyJson
+import com.vitalyk.insight.helpers.toReadableNumber
+import com.vitalyk.insight.helpers.writeToFile
 import com.vitalyk.insight.iex.Iex
+import com.vitalyk.insight.main.AppSettings
 import com.vitalyk.insight.screener.ChangeSinceClose
+import com.vitalyk.insight.screener.getAssetStats
 import com.vitalyk.insight.screener.getChangeSinceClose
 import javafx.beans.property.SimpleDoubleProperty
+import javafx.beans.property.SimpleLongProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.transformation.FilteredList
+import javafx.event.EventHandler
+import javafx.scene.control.Button
+import javafx.scene.control.Label
 import javafx.scene.control.TextFormatter
+import javafx.scene.input.MouseEvent
 import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
+import kotlinx.coroutines.experimental.channels.actor
+import kotlinx.coroutines.experimental.javafx.JavaFx
 import tornadofx.*
 
 class ChangeSinceCloseBean {
@@ -27,6 +39,9 @@ class ChangeSinceCloseBean {
 
     val changePercentProperty = SimpleDoubleProperty()
     var changePercent by changePercentProperty
+
+    val marketCapProperty = SimpleLongProperty()
+    var marketCap by marketCapProperty
 }
 
 fun ChangeSinceClose.toFxBean(): ChangeSinceCloseBean =
@@ -37,6 +52,7 @@ fun ChangeSinceClose.toFxBean(): ChangeSinceCloseBean =
         it.close = close
         it.change = change
         it.changePercent = changePercent
+        it.marketCap = marketCap
         it
     }
 
@@ -61,6 +77,8 @@ private fun getChangeSinceCloseView() = VBox().apply {
                 }
             }
         }
+        spacer { }
+        label("${items.size} results")
     }
 
     tableview(filteredItems) {
@@ -74,6 +92,9 @@ private fun getChangeSinceCloseView() = VBox().apply {
         column("Price", ChangeSinceCloseBean::price)
         column("Change", ChangeSinceCloseBean::change).cellFormat {
             text = "%.2f".format(it)
+        }
+        column("Mkt Cap", ChangeSinceCloseBean::marketCap).cellFormat {
+            text = it.toReadableNumber()
         }
 
         contextmenu {
@@ -105,8 +126,30 @@ class ScreenerView : View("Screener") {
             button("Change since close").action {
                 if (children.size > 1)
                     vbox.children.last().removeFromParent()
-                vbox += getChangeSinceCloseView()
+                runAsyncWithProgress {
+                    getChangeSinceCloseView()
+                } ui {
+                    vbox += it
+                }
             }
+            val statProgressLabel = Label()
+            fun Button.onClickActor(action: suspend (MouseEvent) -> Unit) {
+                val eventActor = actor<MouseEvent>(JavaFx) {
+                    for (event in channel) action(event)
+                }
+                onMouseClicked = EventHandler { event ->
+                    eventActor.offer(event)
+                }
+            }
+            button("Fetch stats") {
+                onClickActor {
+                    val stats = getAssetStats { done, total ->
+                        runLater { statProgressLabel.text = "$done / $total" }
+                    }
+                    stats.toPrettyJson().writeToFile(AppSettings.Paths.assetStats)
+                }
+            }
+            this += statProgressLabel
         }
     }
 }
