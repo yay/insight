@@ -60,7 +60,7 @@ private fun getChangeSinceCloseView() = VBox().apply {
     vgrow = Priority.ALWAYS
 
     val items = getChangeSinceClose().map { it.toFxBean() }.observable()
-    val filteredItems = FilteredList(items)
+    val filteredItems = SortedFilteredList(items)
 
     toolbar {
         textfield {
@@ -72,7 +72,7 @@ private fun getChangeSinceCloseView() = VBox().apply {
             }
 
             textProperty().onChange { value ->
-                filteredItems.setPredicate {
+                filteredItems.predicate = {
                     value != null && it.symbol.startsWith(value)
                 }
             }
