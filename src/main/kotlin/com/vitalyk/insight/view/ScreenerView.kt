@@ -15,9 +15,7 @@ import javafx.beans.property.SimpleLongProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.event.EventHandler
 import javafx.geometry.Orientation
-import javafx.scene.control.Button
-import javafx.scene.control.Label
-import javafx.scene.control.TextFormatter
+import javafx.scene.control.*
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
@@ -78,6 +76,27 @@ private fun getChangeSinceCloseView() = VBox().apply {
                 }
             }
         }
+
+        val toggleGroup = ToggleGroup()
+        radiobutton ("500M+", toggleGroup) { isSelected = true }
+        radiobutton("5B+", toggleGroup)
+        radiobutton("50B+", toggleGroup)
+        toggleGroup.selectedToggleProperty().addListener(ChangeListener { _, _, _ ->
+            toggleGroup.selectedToggle?.let {
+                val index = toggleGroup.toggles.indexOf(it)
+                val minCap = when (index) {
+                    1 -> 5_000_000_000
+                    2 -> 50_000_000_000
+                    else -> 500_000_000
+                }
+                // TODO: toggles don't work if tableview is sorted by some column
+                // other than market cap
+                filteredItems.predicate = {
+                    it.marketCap >= minCap
+                }
+            }
+        })
+
         spacer { }
         val upCount = items.count { it.changePercent >= 0.0 }
         val downCount = items.size - upCount

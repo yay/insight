@@ -93,7 +93,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
             radiobutton("Triggers", toggleGroup)
             toggleGroup.selectedToggleProperty().addListener(ChangeListener { _, _, _ ->
                 toggleGroup.selectedToggle?.let {
-                    val index = (it as RadioButton).indexInParent
+                    val index = toggleGroup.toggles.indexOf(it)
                     showNewsProperty.value = index == 0
                     showAlertsProperty.value = index == 1
                     showTriggersProperty.value = index == 2
@@ -327,7 +327,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
                 val selectedToggle = toggleGroup.selectedToggle
                 if (it == add && selectedToggle != null) {
                     val text = textField.text
-                    val index = (selectedToggle as RadioButton).indexInParent
+                    val index = toggleGroup.toggles.indexOf(selectedToggle)
                     when (index) {
                         0 -> AllKeywordsTrigger.of(text)
                         1 -> AnyKeywordTrigger.of(text)
