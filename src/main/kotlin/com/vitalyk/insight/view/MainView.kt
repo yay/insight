@@ -96,8 +96,8 @@ class MainView : View("Insight") {
                 style {
                     padding = box(5.px)
                 }
-                val stats = loadAssetStatsJson()
                 launch(JavaFx) {
+                    val stats = loadAssetStatsJson()
                     while(isActive) {
                         if (isMarketHours()) {
                             getHighsLows(stats)?.let {
