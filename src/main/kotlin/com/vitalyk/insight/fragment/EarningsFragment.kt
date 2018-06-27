@@ -1,5 +1,6 @@
 package com.vitalyk.insight.fragment
 
+import com.vitalyk.insight.helpers.browseTo
 import com.vitalyk.insight.iex.Iex
 import javafx.geometry.Bounds
 import javafx.scene.chart.CategoryAxis
@@ -12,6 +13,12 @@ import java.text.SimpleDateFormat
 class EarningsFragment : Fragment("Earnings") {
     private val chart = barchart("Earnings", CategoryAxis(), NumberAxis()) {
         animated = false
+
+        contextmenu {
+            item("Earnings Calendar").action {
+                browseTo("http://hosting.briefing.com/cschwab/Calendars/EarningsCalendar5Weeks.htm")
+            }
+        }
     }
 
     private val chartLabels = mutableListOf<Text>()

@@ -8,14 +8,16 @@ import com.vitalyk.insight.helpers.writeToFile
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.main.AppSettings
 import com.vitalyk.insight.screener.ChangeSinceClose
-import com.vitalyk.insight.screener.getAssetStats
 import com.vitalyk.insight.screener.getChangeSinceClose
 import javafx.beans.property.SimpleDoubleProperty
 import javafx.beans.property.SimpleLongProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.event.EventHandler
 import javafx.geometry.Orientation
-import javafx.scene.control.*
+import javafx.scene.control.Button
+import javafx.scene.control.Label
+import javafx.scene.control.TextFormatter
+import javafx.scene.control.ToggleGroup
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
@@ -172,6 +174,7 @@ private fun getChangeSinceCloseView() = VBox().apply {
 }
 
 class ScreenerView : View("Screener") {
+
     override val root = vbox {
         val vbox = this
         toolbar {
@@ -186,23 +189,25 @@ class ScreenerView : View("Screener") {
                 }
             }
             val statProgressLabel = Label()
-            fun Button.onClickActor(action: suspend (MouseEvent) -> Unit) {
-                val eventActor = actor<MouseEvent>(JavaFx) {
-                    for (event in channel) action(event)
-                }
-                onMouseClicked = EventHandler { event ->
-                    eventActor.offer(event)
-                }
-            }
+
             button("Fetch stats") {
                 onClickActor {
-                    val stats = getAssetStats { done, total ->
-                        runLater { statProgressLabel.text = "$done / $total" }
-                    }
-                    stats.toPrettyJson().writeToFile(AppSettings.Paths.assetStats)
+                    isDisable = true
+                    Iex.getAssetStatsAsync().toPrettyJson()
+                        .writeToFile(AppSettings.Paths.assetStats)
+                    isDisable = false
                 }
             }
             this += statProgressLabel
+        }
+    }
+
+    private fun Button.onClickActor(action: suspend (MouseEvent) -> Unit) {
+        val eventActor = actor<MouseEvent>(JavaFx) {
+            for (event in channel) action(event)
+        }
+        onMouseClicked = EventHandler { event ->
+            eventActor.offer(event)
         }
     }
 }

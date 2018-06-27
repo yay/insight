@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import kotlinx.coroutines.experimental.async
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -827,6 +828,14 @@ object Iex {
             // https://github.com/iexg/IEX-API/issues/29
             mapper.readValue(it.replace("\"NaN\"", "0"), AssetStats::class.java)
         }
+    }
+
+    suspend fun getAssetStatsAsync(): Map<String, Iex.AssetStats> {
+        val symbolMap = Iex.getSymbols()?.let { it.map { it.symbol to it }.toMap() } ?: emptyMap()
+        return symbolMap.map { async { getAssetStats(it.key) } }
+            .mapNotNull { it.await() }
+            .map { it.symbol to it }
+            .toMap()
     }
 
     fun getQuote(symbol: String): Quote? {

@@ -2,9 +2,9 @@ package com.vitalyk.insight.screener
 
 import com.vitalyk.insight.helpers.objectMapper
 import com.vitalyk.insight.iex.Iex
+import com.vitalyk.insight.iex.IexSymbols
 import com.vitalyk.insight.main.AppSettings
 import com.vitalyk.insight.main.HttpClients
-import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
 import java.io.File
 
@@ -25,6 +25,7 @@ fun getChangeSinceClose(minClose: Double = 2.0, minCap: Long = 500_000_000): Lis
     val prevCloses = Iex.getPreviousDay()
     val lastTrades = Iex.getLastTrade()?.map { it.symbol to it }?.toMap()
     val stats = loadAssetStatsJson()
+    val blacklist = IexSymbols.blacklist
 
     val changes = mutableListOf<ChangeSinceClose>()
     if (prevCloses != null && lastTrades != null && stats != null) {
@@ -37,7 +38,7 @@ fun getChangeSinceClose(minClose: Double = 2.0, minCap: Long = 500_000_000): Lis
                 val cap = stats[symbol]?.marketCap
                 val isExpensiveEnough = price > 0.0 && close >= minClose
                 val isBigEnough = cap != null && cap >= minCap
-                if (isExpensiveEnough && isBigEnough) {
+                if (isExpensiveEnough && isBigEnough && symbol !in blacklist) {
                     val change = price / close
                     val changePct = (change - 1.0) * 100.0
                     changes.add(ChangeSinceClose(symbol, close, price, change, changePct, cap!!))
@@ -55,9 +56,8 @@ data class HighsLows(
     val lowCount: Int
 )
 
-fun getHighsLows(): HighsLows? {
+fun getHighsLows(stats: Map<String, Iex.AssetStats>?): HighsLows? {
     val lastTrades = Iex.getLastTrade()?.map { it.symbol to it }?.toMap()
-    val stats = loadAssetStatsJson()
 
     var highCount = 0
     var lowCount = 0
@@ -118,22 +118,6 @@ fun getNewLows() {
 
 fun getDailyHighCount() {
 
-}
-
-suspend fun getAssetStats(progress: ((done: Int, total: Int) -> Unit)? = null): Map<String, Iex.AssetStats> {
-    val symbolMap = Iex.getSymbols()?.let { it.map { it.symbol to it }.toMap() } ?: emptyMap()
-    val total = symbolMap.size
-    var done = 0
-    return symbolMap.map { entry ->
-        if (progress != null)
-            async {
-                val stat = Iex.getAssetStats(entry.key)
-                progress(++done, total)
-                stat
-            }
-        else
-            async { Iex.getAssetStats(entry.key) }
-    }.mapNotNull { it.await() }.map { it.symbol to it }.toMap()
 }
 
 private val assetStatsMapType = objectMapper.typeFactory.constructMapType(

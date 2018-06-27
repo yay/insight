@@ -8,6 +8,8 @@ object IexSymbols {
     private var symbolMap = mapOf<String, Symbol>()
     private var previousDayMap = mapOf<String, PreviousDay>()
 
+    val blacklist = setOf("WINS")
+
     fun update() {
         launch {
             Iex.getSymbols()?.let {

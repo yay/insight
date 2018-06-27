@@ -9,6 +9,7 @@ import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.main.getAppLog
 import com.vitalyk.insight.screener.getAdvancersDecliners
 import com.vitalyk.insight.screener.getHighsLows
+import com.vitalyk.insight.screener.loadAssetStatsJson
 import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.TabPane
 import javafx.scene.layout.Priority
@@ -33,6 +34,9 @@ class MainView : View("Insight") {
                 browseTo("https://www.fool.com/market-movers/")
             }
             button("Screener").action { replaceWith(ScreenerView::class) }
+            button("TradingView Screener").action {
+                browseTo("https://www.tradingview.com/screener/")
+            }
             button("Log").action {
                 getAppLog()?.apply {
                     find(InfoFragment::class.java).setInfo("App Log", readText()).openModal()
@@ -72,8 +76,6 @@ class MainView : View("Insight") {
                 tooltip("Advancers / Decliners")
                 style {
                     padding = box(5.px)
-                    borderColor = multi(box(c("#000")))
-                    borderWidth = multi(box(1.px))
                 }
                 launch(JavaFx) {
                     while(isActive) {
@@ -93,13 +95,12 @@ class MainView : View("Insight") {
                 tooltip("New 52-week highs and lows")
                 style {
                     padding = box(5.px)
-                    borderColor = multi(box(c("#000")))
-                    borderWidth = multi(box(1.px))
                 }
+                val stats = loadAssetStatsJson()
                 launch(JavaFx) {
                     while(isActive) {
                         if (isMarketHours()) {
-                            getHighsLows()?.let {
+                            getHighsLows(stats)?.let {
                                 val msg = "${it.highCount} ↑ / ${it.lowCount} ↓"
                                 breadthProperty.value = msg
                             }
