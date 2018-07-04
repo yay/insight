@@ -12,10 +12,10 @@ import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
 import java.time.LocalDate
 
-fun main(args: Array<String>) {
-    Iex.setOkHttpClient(HttpClients.main)
-    getShortInterest()
-}
+//fun main(args: Array<String>) {
+//    Iex.setOkHttpClient(HttpClients.main)
+//    getShortInterest()
+//}
 
 fun filterShortInterest(stats: List<AssetStats>, quotes: Map<String, Quote>) {
     stats
