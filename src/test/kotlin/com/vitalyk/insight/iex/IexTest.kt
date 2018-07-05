@@ -18,9 +18,7 @@ internal class IexTest {
     val symbol3 = "NFLX"
     val badSymbol = "ABRACADABRA"
 
-    init {
-        Iex.setOkHttpClient(HttpClients.main)
-    }
+    val iex = Iex(HttpClients.main)
 
     fun isWeekend(): Boolean {
         val day = LocalDate.now(ZoneId.of("America/New_York")).dayOfWeek
@@ -35,47 +33,47 @@ internal class IexTest {
 
     @Test
     fun getCompany() {
-        val company = Iex.getCompany(symbol1)
+        val company = iex.getCompany(symbol1)
         assertEquals(symbol1, company?.symbol, "Should fetch the right symbol.")
     }
 
     @Test
     fun getAssetStats() {
-        val stats = Iex.getAssetStats(symbol1)
+        val stats = iex.getAssetStats(symbol1)
         assertEquals(symbol1, stats?.symbol, "Should fetch the right symbol.")
     }
 
     @Test
     fun getMostActive() {
-        Iex.getMostActive()
+        iex.getMostActive()
     }
 
     @Test
     fun getGainers() {
-        Iex.getGainers()
+        iex.getGainers()
     }
 
     @Test
     fun getLosers() {
-        Iex.getLosers()
+        iex.getLosers()
     }
 
     @Test
     fun getIexVolume() {
-        Iex.getIexVolume()
+        iex.getIexVolume()
     }
 
     @Test
     fun getIexPercent() {
-        Iex.getIexPercent()
+        iex.getIexPercent()
     }
 
     @Test
     fun getDayChart() {
-        val chartPoints1 = Iex.getDayChart(symbol2, Iex.Range.M)
+        val chartPoints1 = iex.getDayChart(symbol2, Iex.Range.M)
         assertEquals(true, chartPoints1?.isNotEmpty())
 
-        val chartPoints2 = Iex.getDayChart(badSymbol, Iex.Range.M)
+        val chartPoints2 = iex.getDayChart(badSymbol, Iex.Range.M)
         assertEquals(null, chartPoints2)
     }
 
@@ -84,7 +82,7 @@ internal class IexTest {
         // Note: doesn't account for holidays.
         val lastWorkDay = getLastWorkDay()
         val dateString = lastWorkDay.format(DateTimeFormatter.ofPattern("yyyyMMdd"))
-        val chartPoints = Iex.getMinuteChart(symbol1, dateString)
+        val chartPoints = iex.getMinuteChart(symbol1, dateString)
         assertEquals(true, chartPoints?.isNotEmpty())
 
         chartPoints?.let {
@@ -97,70 +95,70 @@ internal class IexTest {
 
     @Test
     fun getDividends() {
-        Iex.getDividends(symbol1)
+        iex.getDividends(symbol1)
     }
 
     @Test
     fun getEarnings() {
-        Iex.getEarnings(symbol3)
+        iex.getEarnings(symbol3)
     }
 
     @Test
     fun getPeers() {
-        Iex.getPeers(symbol3)
+        iex.getPeers(symbol3)
     }
 
     @Test
     fun getVolumeByVenue() {
-        Iex.getVolumeByVenue(symbol2)
+        iex.getVolumeByVenue(symbol2)
     }
 
     @Test
     fun getLogoData() {
-        Iex.getLogoData(symbol3)
+        iex.getLogoData(symbol3)
     }
 
     @Test
     fun getFinancials() {
-        Iex.getFinancials(symbol1)
+        iex.getFinancials(symbol1)
     }
 
     @Test
     fun getSpread() {
-        Iex.getSpread(symbol2)
+        iex.getSpread(symbol2)
     }
 
     @Test
     fun getOHLC() {
-        Iex.getOHLC(symbol3)
+        iex.getOHLC(symbol3)
     }
 
     @Test
     fun getSplits() {
-        Iex.getSplits(symbol1, Iex.Range.Y5)
+        iex.getSplits(symbol1, Iex.Range.Y5)
     }
 
     @Test
     fun getSymbols() {
-        Iex.getSymbols()
+        iex.getSymbols()
     }
 
     @Test
     fun getBatchOne() {
-        Iex.getBatch(symbol1)
+        iex.getBatch(symbol1)
     }
 
     @Test
     fun getBatchMany() {
-        Iex.getBatch(listOf(symbol1, symbol2, symbol3))
+        iex.getBatch(listOf(symbol1, symbol2, symbol3))
     }
 
     @Test
     fun getLastTrade() {
-        val lastTrades = Iex.getLastTrade(listOf(symbol1, symbol2))
+        val lastTrades = iex.getLastTrade(listOf(symbol1, symbol2))
         assertEquals(2, lastTrades?.size)
 
-        val allLastTrades = Iex.getLastTrade()
+        val allLastTrades = iex.getLastTrade()
         assertEquals(true, allLastTrades != null && allLastTrades.size > 8000)
     }
 
@@ -168,10 +166,10 @@ internal class IexTest {
     fun getTops() {
         if (isWeekend()) return
 
-        val tops = Iex.getTops(listOf(symbol1, symbol2))
+        val tops = iex.getTops(listOf(symbol1, symbol2))
         assertEquals(2, tops?.size)
 
-        val allTops = Iex.getTops()
+        val allTops = iex.getTops()
         assertEquals(true, allTops != null && allTops.size > 8000)
     }
 
@@ -201,30 +199,30 @@ internal class IexTest {
     fun getDepth() {
         if (!isMarketHours()) return
 
-        Iex.getDepth(symbol3)
+        iex.getDepth(symbol3)
     }
 
     @Test
     fun getBook() {
-        Iex.getBook(symbol1)
-        assertEquals(null, Iex.getBook(badSymbol))
+        iex.getBook(symbol1)
+        assertEquals(null, iex.getBook(badSymbol))
     }
 
     @Test
     fun getTrades() {
         if (isWeekend()) return
 
-        val trades = Iex.getTrades(symbol2, last = 10)
+        val trades = iex.getTrades(symbol2, last = 10)
         assertEquals(10, trades?.size)
     }
 
     @Test
     fun getIntradayStats() {
-        Iex.getIntradayStats()
+        iex.getIntradayStats()
     }
 
     @Test
     fun getRecordsStats() {
-        Iex.getRecordsStats()
+        iex.getRecordsStats()
     }
 }

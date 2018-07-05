@@ -2,6 +2,7 @@ package com.vitalyk.insight.fragment
 
 import com.vitalyk.insight.helpers.newYorkTimeZone
 import com.vitalyk.insight.iex.*
+import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.ui.ChangeBlinkTableCell
 import com.vitalyk.insight.ui.PercentChangeTableCell
 import com.vitalyk.insight.ui.symbolfield
@@ -17,6 +18,7 @@ import java.util.concurrent.Callable
 
 class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
 
+    private val iex = Iex(HttpClients.main)
     private val priceFormat = "%.2f"
     private val priceFormatter = { price: Double -> priceFormat.format(price) }
 
@@ -106,7 +108,7 @@ class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
                     item(range.value.name).action {
                         selectedItem?.let { selectedItem ->
                             runAsync {
-                                Iex.getDayChart(selectedItem.symbol, range) ?: emptyList()
+                                iex.getDayChart(selectedItem.symbol, range) ?: emptyList()
                             } ui { points ->
                                 find(DayChartFragment::class).let {
                                     it.updateChart(selectedItem.symbol, points)
@@ -122,7 +124,7 @@ class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
                         // TODO: can find out trading days by looking at chart data
                         // for VOO or SPY for example
                         runAsync {
-                            Iex.getMinuteChart(selectedItem.symbol, "20180518") ?: emptyList()
+                            iex.getMinuteChart(selectedItem.symbol, "20180518") ?: emptyList()
                         } ui { points ->
                             find(MinuteChartFragment::class).let {
                                 it.updateChart(selectedItem.symbol, points)

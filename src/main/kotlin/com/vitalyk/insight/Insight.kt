@@ -1,7 +1,5 @@
 package com.vitalyk.insight
 
-import com.vitalyk.insight.iex.Iex
-import com.vitalyk.insight.iex.IexSymbols
 import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.main.AppSettings
 import com.vitalyk.insight.main.HttpClients
@@ -28,8 +26,6 @@ class Insight : App(MainView::class, Styles::class) {
 //            System.err.println(e.message)
 //        }
 
-        Iex.setOkHttpClient(HttpClients.main)
-
         if (!Settings.load(AppSettings) {
             Watchlist.restore(watchlists)
             ReutersWire.loadState(reutersWire)
@@ -50,8 +46,6 @@ class Insight : App(MainView::class, Styles::class) {
         //    appScheduler.start()
         //
         //    scheduleEndOfDayFetcher(appScheduler)
-
-        IexSymbols.update()
 
         IO.setDefaultOkHttpWebSocketFactory(HttpClients.main)
 

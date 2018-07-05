@@ -2,6 +2,7 @@ package com.vitalyk.insight.fragment
 
 import com.vitalyk.insight.helpers.browseTo
 import com.vitalyk.insight.iex.Iex
+import com.vitalyk.insight.main.HttpClients
 import javafx.geometry.Bounds
 import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.NumberAxis
@@ -46,7 +47,8 @@ class EarningsFragment : Fragment("Earnings") {
 
     fun fetch(symbol: String) {
         runAsync {
-            Iex.getEarnings(symbol)
+            val iex = Iex(HttpClients.main)
+            iex.getEarnings(symbol)
         } ui {
             (it?.earnings ?: emptyList()).asReversed().let { earnings ->
                 val chart = chart

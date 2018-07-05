@@ -21,9 +21,9 @@ data class ChangeSinceClose(
     val marketCap: Long
 )
 
-fun getChangeSinceClose(minClose: Double = 2.0, minCap: Long = 500_000_000): List<ChangeSinceClose> {
-    val prevCloses = Iex.getPreviousDay()
-    val lastTrades = Iex.getLastTrade()?.map { it.symbol to it }?.toMap()
+fun getChangeSinceClose(iex: Iex, minClose: Double = 2.0, minCap: Long = 500_000_000): List<ChangeSinceClose> {
+    val prevCloses = iex.getPreviousDay()
+    val lastTrades = iex.getLastTrade()?.map { it.symbol to it }?.toMap()
     val stats = loadAssetStatsJson()
     val blacklist = IexSymbols.blacklist
 
@@ -56,8 +56,8 @@ data class HighsLows(
     val lowCount: Int
 )
 
-fun getHighsLows(stats: Map<String, Iex.AssetStats>?): HighsLows? {
-    val lastTrades = Iex.getLastTrade()?.map { it.symbol to it }?.toMap()
+fun getHighsLows(iex: Iex, stats: Map<String, Iex.AssetStats>?): HighsLows? {
+    val lastTrades = iex.getLastTrade()?.map { it.symbol to it }?.toMap()
 
     var highCount = 0
     var lowCount = 0
@@ -80,9 +80,9 @@ data class AdvancersDecliners(
     val declinerCount: Int
 )
 
-fun getAdvancersDecliners(): AdvancersDecliners? {
-    val prevCloses = Iex.getPreviousDay()
-    val lastTrades = Iex.getLastTrade()?.map { it.symbol to it }?.toMap()
+fun getAdvancersDecliners(iex: Iex): AdvancersDecliners? {
+    val prevCloses = iex.getPreviousDay()
+    val lastTrades = iex.getLastTrade()?.map { it.symbol to it }?.toMap()
 
     var advancerCount = 0
     var declinerCount = 0
@@ -131,9 +131,9 @@ fun loadAssetStatsJson(): Map<String, Iex.AssetStats>? {
 }
 
 fun main(args: Array<String>) = runBlocking {
-    Iex.setOkHttpClient(HttpClients.main)
+    val iex = Iex(HttpClients.main)
 
-    getChangeSinceClose().forEach {
+    getChangeSinceClose(iex).forEach {
         println(it)
     }
 }

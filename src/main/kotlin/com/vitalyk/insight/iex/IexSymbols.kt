@@ -2,24 +2,21 @@ package com.vitalyk.insight.iex
 
 import com.vitalyk.insight.iex.Iex.PreviousDay
 import com.vitalyk.insight.iex.Iex.Symbol
-import kotlinx.coroutines.experimental.launch
+import com.vitalyk.insight.main.HttpClients
 
 object IexSymbols {
     private var symbolMap = mapOf<String, Symbol>()
     private var previousDayMap = mapOf<String, PreviousDay>()
+    private val iex = Iex(HttpClients.main)
 
     val blacklist = setOf("WINS")
 
-    fun update() {
-        launch {
-            Iex.getSymbols()?.let {
-                symbolMap = it.map { it.symbol to it }.toMap()
-            }
+    init {
+        iex.getSymbols()?.let {
+            symbolMap = it.map { it.symbol to it }.toMap()
         }
-        launch {
-            Iex.getPreviousDay()?.let {
-                previousDayMap = it
-            }
+        iex.getPreviousDay()?.let {
+            previousDayMap = it
         }
     }
 

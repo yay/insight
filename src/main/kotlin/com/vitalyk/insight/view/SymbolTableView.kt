@@ -4,6 +4,7 @@ import com.vitalyk.insight.fragment.DayChartFragment
 import com.vitalyk.insight.iex.DayChartPointBean
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.toBean
+import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.ui.symbolfield
 import com.vitalyk.insight.yahoo.getDistributionInfo
 import javafx.beans.property.SimpleObjectProperty
@@ -20,6 +21,7 @@ class SymbolTableView : Fragment("Instrument Data") {
 
     lateinit var symbolTable: TableView<DayChartPointBean>
     lateinit var rangeCombo: ComboBox<Iex.Range>
+    private val iex = Iex(HttpClients.main)
 
     private var dataPoints = emptyList<Iex.DayChartPoint>()
     val dataBeans = mutableListOf<DayChartPointBean>().observable()
@@ -30,7 +32,7 @@ class SymbolTableView : Fragment("Instrument Data") {
         val symbol = symbol.value
         val range = range.value
         runAsyncWithProgress {
-            Iex.getDayChart(symbol, range) ?: emptyList()
+            iex.getDayChart(symbol, range) ?: emptyList()
         } ui {
             dataPoints = it
             dataBeans.setAll(it.map { it.toBean() })

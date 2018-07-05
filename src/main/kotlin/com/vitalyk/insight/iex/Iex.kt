@@ -32,14 +32,46 @@ import java.util.*
 // We throttle endpoints by IP, but you should be able to achieve over 100 requests per second.
 // https://iextrading.com/developer/docs/
 
-object Iex {
-    private lateinit var client: OkHttpClient
-    private const val baseUrl = "https://api.iextrading.com/1.0"
-    private val logger by lazy { LoggerFactory.getLogger(this::class.simpleName) }
+class Iex(private val httpClient: OkHttpClient) {
+    companion object {
+        private const val baseUrl = "https://api.iextrading.com/1.0"
 
-    fun setOkHttpClient(client: OkHttpClient) {
-        this.client = client
+        // Mapper instances are fully thread-safe provided that ALL configuration of the
+        // instance occurs before ANY read or write calls.
+        private val mapper = jacksonObjectMapper().apply {
+            enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE)
+            registerModule(JavaTimeModule())
+        }
+
+        // http://www.baeldung.com/jackson-collection-array
+        private val listTypes = listOf(
+            String::class.java,
+            Symbol::class.java,
+            Quote::class.java,
+            Tops::class.java,
+            LastTrade::class.java,
+            DayChartPoint::class.java,
+            MinuteChartPoint::class.java,
+            NewsStory::class.java,
+            Dividend::class.java,
+            Spread::class.java,
+            Split::class.java,
+            VenueVolume::class.java
+        ).map { it to it.toListType() }.toMap()
+
+        private fun Class<*>.toListType(): CollectionType =
+            mapper.typeFactory.constructCollectionType(List::class.java, this)
+
+        private val previousDayMapType = mapper.typeFactory.constructMapType(
+            Map::class.java,
+            String::class.java, PreviousDay::class.java
+        )
+
+        fun parseTops(json: String): Tops = mapper.readValue(json, Tops::class.java)
+        fun parseQuote(json: String): Quote = mapper.readValue(json, Quote::class.java)
     }
+
+    private val logger by lazy { LoggerFactory.getLogger(this::class.simpleName) }
 
     private fun fetch(url: String, params: Map<String, String?> = emptyMap()): String? {
         val httpUrl = (HttpUrl.parse(url) ?: throw IllegalArgumentException("Bad URL: $url"))
@@ -50,7 +82,7 @@ object Iex {
             }.build()
         val request = Request.Builder().url(httpUrl).build()
         val response = try {
-            client.newCall(request).execute()
+            httpClient.newCall(request).execute()
         } catch (e: ConnectException) {
             logger.warn("${e.message}:\n$httpUrl")
             null
@@ -111,13 +143,6 @@ object Iex {
         }
     }
 
-    // Mapper instances are fully thread-safe provided that ALL configuration of the
-    // instance occurs before ANY read or write calls.
-    private val mapper = jacksonObjectMapper().apply {
-        enable(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE)
-        registerModule(JavaTimeModule())
-    }
-
     private fun String.toJsonNode(): JsonNode? {
         return try {
             mapper.readTree(this)
@@ -127,30 +152,6 @@ object Iex {
             null
         }
     }
-
-    // http://www.baeldung.com/jackson-collection-array
-    private val listTypes = listOf(
-        String::class.java,
-        Symbol::class.java,
-        Quote::class.java,
-        Tops::class.java,
-        LastTrade::class.java,
-        DayChartPoint::class.java,
-        MinuteChartPoint::class.java,
-        NewsStory::class.java,
-        Dividend::class.java,
-        Spread::class.java,
-        Split::class.java,
-        VenueVolume::class.java
-    ).map { it to it.toListType() }.toMap()
-
-    private fun Class<*>.toListType(): CollectionType =
-        mapper.typeFactory.constructCollectionType(List::class.java, this)
-
-    private val previousDayMapType = mapper.typeFactory.constructMapType(
-        Map::class.java,
-        String::class.java, PreviousDay::class.java
-    )
 
     // Refers to the common issue type of the stock.
     enum class IssueType {
@@ -181,7 +182,8 @@ object Iex {
         val description: String,
         val CEO: String,
         val issueType: IssueType,
-        val sector: String
+        val sector: String,
+        val tags: List<String>
     )
 
     data class Tops(
@@ -764,7 +766,8 @@ object Iex {
         val source: String,
         val url: String,
         val summary: String,
-        val related: String
+        val related: String,
+        val image: String
     )
 
     // The names should match the individual endpoint names. Limited to 10 types.
@@ -831,7 +834,7 @@ object Iex {
     }
 
     suspend fun getAssetStatsAsync(): Map<String, Iex.AssetStats> {
-        val symbolMap = Iex.getSymbols()?.let { it.map { it.symbol to it }.toMap() } ?: emptyMap()
+        val symbolMap = getSymbols()?.let { it.map { it.symbol to it }.toMap() } ?: emptyMap()
         return symbolMap.map { async { getAssetStats(it.key) } }
             .mapNotNull { it.await() }
             .map { it.symbol to it }
@@ -1021,9 +1024,6 @@ object Iex {
             mapper.readValue(it, listTypes[Tops::class.java])
         }
     }
-
-    fun parseTops(json: String): Tops = mapper.readValue(json, Tops::class.java)
-    fun parseQuote(json: String): Quote = mapper.readValue(json, Quote::class.java)
 
     // https://iextrading.com/developer/docs/#deep
     fun getDepth(symbol: String): Depth? {

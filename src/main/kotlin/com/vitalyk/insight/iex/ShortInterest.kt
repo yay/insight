@@ -7,7 +7,6 @@ import com.vitalyk.insight.helpers.writeToFile
 import com.vitalyk.insight.iex.Iex.AssetStats
 import com.vitalyk.insight.iex.Iex.Quote
 import com.vitalyk.insight.iex.Iex.Symbol
-import com.vitalyk.insight.main.HttpClients
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
 import java.time.LocalDate
@@ -42,16 +41,16 @@ fun filterShortInterest(stats: List<AssetStats>, quotes: Map<String, Quote>) {
         .writeToFile("./data/filtered_short_interest.json")
 }
 
-fun getShortInterest() = runBlocking {
+fun getShortInterest(iex: Iex) = runBlocking {
     val monthAgo = LocalDate.now().minusMonths(1)
-    Iex.getSymbols()?.let {
+    iex.getSymbols()?.let {
         // Quote fetching will run concurrently with stats fetching,
         // and when both are fetched, the filtering function will be called.
-        val quoteJob = async { getQuotes(it) }
+        val quoteJob = async { getQuotes(iex, it) }
 
         val list = it.map {
             async {
-                Iex.getAssetStats(it.symbol)
+                iex.getAssetStats(it.symbol)
             }
         }.mapNotNull {
             it.await()
@@ -72,10 +71,10 @@ fun getShortInterest() = runBlocking {
     }
 }
 
-suspend fun getQuotes(symbols: List<Symbol>): Map<String, Quote> {
+suspend fun getQuotes(iex: Iex, symbols: List<Symbol>): Map<String, Quote> {
     return symbols.map {
         async {
-            Iex.getQuote(it.symbol)
+            iex.getQuote(it.symbol)
         }
     }.mapNotNull {
         it.await()

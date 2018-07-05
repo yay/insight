@@ -4,6 +4,7 @@ import com.vitalyk.insight.fragment.AssetProfileFragment
 import com.vitalyk.insight.fragment.DayChartFragment
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.Iex.Quote
+import com.vitalyk.insight.main.HttpClients
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.chart.CategoryAxis
@@ -40,6 +41,7 @@ class QuoteChart : Fragment() {
 
 class PollingQuoteList(title: String, private val getQuotes: () -> List<Quote>?) : Fragment(title) {
     private var updateJob: Job? = null
+    private val iex = Iex(HttpClients.main)
 
     val titleLabel = label(title) {
         alignment = Pos.CENTER
@@ -66,7 +68,7 @@ class PollingQuoteList(title: String, private val getQuotes: () -> List<Quote>?)
                     item(range.value.name).action {
                         selectedItem?.let { selectedItem ->
                             runAsync {
-                                Iex.getDayChart(selectedItem.symbol, range) ?: emptyList()
+                                iex.getDayChart(selectedItem.symbol, range) ?: emptyList()
                             } ui { points ->
                                 find(DayChartFragment::class).let {
                                     it.updateChart(selectedItem.symbol, points)

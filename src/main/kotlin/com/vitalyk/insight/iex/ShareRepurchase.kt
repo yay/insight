@@ -11,10 +11,10 @@ import kotlinx.coroutines.experimental.runBlocking
 //}
 
 fun calculateNewPrice(symbol: String, dollarBuybackAmount: Long) = runBlocking {
-    Iex.setOkHttpClient(HttpClients.main)
-    val previousJob = async { Iex.getPreviousDay(symbol) }
-    val earningsJob = async { Iex.getEarnings(symbol) }
-    val statsJob = async { Iex.getAssetStats(symbol) }
+    val iex = Iex(HttpClients.main)
+    val previousJob = async { iex.getPreviousDay(symbol) }
+    val earningsJob = async { iex.getEarnings(symbol) }
+    val statsJob = async { iex.getAssetStats(symbol) }
 
     val previous = previousJob.await()
     val earnings = earningsJob.await()

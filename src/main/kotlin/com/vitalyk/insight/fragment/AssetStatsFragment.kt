@@ -1,8 +1,9 @@
 package com.vitalyk.insight.fragment
 
 import com.vitalyk.insight.helpers.toReadableNumber
+import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.Iex.AssetStats
-import com.vitalyk.insight.iex.Iex.getAssetStats
+import com.vitalyk.insight.main.HttpClients
 import javafx.geometry.Insets
 import javafx.geometry.Orientation
 import javafx.geometry.Pos
@@ -204,7 +205,8 @@ class AssetStatsFragment : Fragment() {
 
     fun fetch(symbol: String) {
         runAsync {
-            getAssetStats(symbol)
+            val iex = Iex(HttpClients.main)
+            iex.getAssetStats(symbol)
         } ui {
             (it ?: AssetStats()).let {
                 marketCap.text = formatNumber(it.marketCap)

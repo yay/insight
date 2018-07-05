@@ -3,7 +3,7 @@ package com.vitalyk.insight.iex
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
 
-fun averagePE() {
+fun averagePE(iex: Iex) {
     val sp500 = listOf(
         "ABT", "ABBV", "ACN", "ACE", "ADBE", "ADT", "AAP", "AES", "AET", "AFL",
         "AMG", "A", "GAS", "APD", "ARG", "AKAM", "AA", "AGN", "ALXN", "ALLE",
@@ -61,7 +61,7 @@ fun averagePE() {
         var pe = 0.0
         var count = 0
         sp500.map {
-            async { println(it); Iex.getQuote(it) }
+            async { println(it); iex.getQuote(it) }
         }.map { it.await() }.forEach {
             if (it != null) {
                 if (it.peRatio > 0) {
@@ -79,11 +79,11 @@ fun averagePE() {
     // Using the list of S&P 500 from mid-2015 and IEX API to fetch the data,
     // average PE for S&P 500 stocks is 25.74.
     runBlocking {
-        Iex.getSymbols()?.let {
+        iex.getSymbols()?.let {
             var pe = 0.0
             var count = 0
             it.map {
-                async { println(it.symbol); Iex.getQuote(it.symbol) }
+                async { println(it.symbol); iex.getQuote(it.symbol) }
             }.map { it.await() }.forEach {
                 if (it != null) {
                     if (it.peRatio > 0) {

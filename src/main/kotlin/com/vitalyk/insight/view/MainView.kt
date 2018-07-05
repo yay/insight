@@ -5,7 +5,9 @@ import com.vitalyk.insight.fragment.NewsWatchlistFragment
 import com.vitalyk.insight.fragment.ReutersFragment
 import com.vitalyk.insight.helpers.browseTo
 import com.vitalyk.insight.helpers.newYorkZoneId
+import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.Watchlist
+import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.main.getAppLog
 import com.vitalyk.insight.screener.getAdvancersDecliners
 import com.vitalyk.insight.screener.getHighsLows
@@ -24,6 +26,8 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 class MainView : View("Insight") {
+    private val iex = Iex(HttpClients.main)
+
     override val root = vbox {
         toolbar {
             button("Symbol Table").action { replaceWith(SymbolTableView::class) }
@@ -80,7 +84,7 @@ class MainView : View("Insight") {
                 launch(JavaFx) {
                     while(isActive) {
                         if (isMarketHours()) {
-                            getAdvancersDecliners()?.let {
+                            getAdvancersDecliners(iex)?.let {
                                 val msg = "${it.advancerCount} ↑ / ${it.declinerCount} ↓"
                                 advancerProperty.value = msg
                             }
@@ -100,7 +104,7 @@ class MainView : View("Insight") {
                     val stats = loadAssetStatsJson()
                     while(isActive) {
                         if (isMarketHours()) {
-                            getHighsLows(stats)?.let {
+                            getHighsLows(iex, stats)?.let {
                                 val msg = "${it.highCount} ↑ / ${it.lowCount} ↓"
                                 breadthProperty.value = msg
                             }

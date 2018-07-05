@@ -7,6 +7,7 @@ import com.vitalyk.insight.helpers.toReadableNumber
 import com.vitalyk.insight.helpers.writeToFile
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.main.AppSettings
+import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.screener.ChangeSinceClose
 import com.vitalyk.insight.screener.getChangeSinceClose
 import javafx.beans.property.SimpleDoubleProperty
@@ -57,10 +58,10 @@ fun ChangeSinceClose.toFxBean(): ChangeSinceCloseBean =
         it
     }
 
-private fun getChangeSinceCloseView() = VBox().apply {
+private fun getChangeSinceCloseView(iex: Iex) = VBox().apply {
     vgrow = Priority.ALWAYS
 
-    val items = getChangeSinceClose().map { it.toFxBean() }.observable()
+    val items = getChangeSinceClose(iex).map { it.toFxBean() }.observable()
     val filteredItems = SortedFilteredList(items)
 
     toolbar {
@@ -107,7 +108,7 @@ private fun getChangeSinceCloseView() = VBox().apply {
 
     fun showChart(symbol: String, range: Iex.Range) {
         runAsync {
-            Iex.getDayChart(symbol, range) ?: emptyList()
+            iex.getDayChart(symbol, range) ?: emptyList()
         } ui { points ->
             find(DayChartFragment::class).let {
                 it.updateChart(symbol, points)
@@ -158,7 +159,7 @@ private fun getChangeSinceCloseView() = VBox().apply {
                 chartBox += chart
 
                 runAsync {
-                    Iex.getDayChart(symbol, Iex.Range.M3) ?: emptyList()
+                    iex.getDayChart(symbol, Iex.Range.M3) ?: emptyList()
                 } ui { points ->
                     chart.updateChart(symbol, points)
                 }
@@ -175,6 +176,8 @@ private fun getChangeSinceCloseView() = VBox().apply {
 
 class ScreenerView : View("Screener") {
 
+    private val iex = Iex(HttpClients.main)
+
     override val root = vbox {
         val vbox = this
         toolbar {
@@ -183,7 +186,7 @@ class ScreenerView : View("Screener") {
                 if (children.size > 1)
                     vbox.children.last().removeFromParent()
                 runAsyncWithProgress {
-                    getChangeSinceCloseView()
+                    getChangeSinceCloseView(iex)
                 } ui {
                     vbox += it
                 }
@@ -193,7 +196,7 @@ class ScreenerView : View("Screener") {
             button("Fetch stats") {
                 onClickActor {
                     isDisable = true
-                    Iex.getAssetStatsAsync().toPrettyJson()
+                    iex.getAssetStatsAsync().toPrettyJson()
                         .writeToFile(AppSettings.Paths.assetStats)
                     isDisable = false
                 }
