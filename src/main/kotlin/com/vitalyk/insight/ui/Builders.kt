@@ -1,15 +1,16 @@
 package com.vitalyk.insight.ui
 
 import com.vitalyk.insight.iex.IexSymbols
+import de.jensd.fx.glyphs.materialicons.MaterialIcon
+import de.jensd.fx.glyphs.materialicons.MaterialIconView
 import javafx.beans.value.ObservableValue
 import javafx.event.EventHandler
 import javafx.event.EventTarget
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.geometry.Side
-import javafx.scene.control.ContextMenu
-import javafx.scene.control.TextField
-import javafx.scene.control.TextFormatter
+import javafx.scene.Node
+import javafx.scene.control.*
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.HBox
 import javafx.scene.paint.Color
@@ -17,6 +18,8 @@ import javafx.scene.paint.CycleMethod
 import javafx.scene.paint.LinearGradient
 import javafx.scene.paint.Stop
 import tornadofx.*
+import java.awt.Desktop
+import java.net.URI
 
 fun EventTarget.toolbox(border: Boolean = true, op: HBox.() -> Unit = {}): HBox {
     val hbox = HBox().apply {
@@ -98,4 +101,23 @@ fun EventTarget.symbolfield(property: ObservableValue<String>? = null,
     promptText = "Enter Symbol"
 
     op(this)
+}
+
+
+fun ToolBar.browsebutton(text: String = "", url: String, op: Button.() -> Unit = {}) = Button(text).also {
+    it.graphic = MaterialIconView(MaterialIcon.EXPLORE).apply {
+        glyphSize = 16.0
+    }
+    items += it
+    it.action { Desktop.getDesktop().browse(URI(url)) }
+    op(it)
+}
+
+fun EventTarget.browsebutton(text: String = "", url: String, op: Button.() -> Unit = {}) = Button(text).also {
+    it.graphic = MaterialIconView(MaterialIcon.EXPLORE).apply {
+        glyphSize = 16.0
+    }
+    it.action { Desktop.getDesktop().browse(URI(url)) }
+    addChildIfPossible(it)
+    op(it)
 }

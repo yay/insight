@@ -3,7 +3,6 @@ package com.vitalyk.insight.view
 import com.vitalyk.insight.fragment.InfoFragment
 import com.vitalyk.insight.fragment.NewsWatchlistFragment
 import com.vitalyk.insight.fragment.ReutersFragment
-import com.vitalyk.insight.helpers.browseTo
 import com.vitalyk.insight.helpers.newYorkZoneId
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.Watchlist
@@ -12,6 +11,7 @@ import com.vitalyk.insight.main.getAppLog
 import com.vitalyk.insight.screener.getAdvancersDecliners
 import com.vitalyk.insight.screener.getHighsLows
 import com.vitalyk.insight.screener.loadAssetStatsJson
+import com.vitalyk.insight.ui.browsebutton
 import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.TabPane
 import javafx.scene.layout.Priority
@@ -34,13 +34,9 @@ class MainView : View("Insight") {
             button("Research").action { replaceWith(ResearchView::class) }
 //            button("Watchlists").action { replaceWith(WatchlistView::class) }
             button("Economy").action { replaceWith(EconomyView::class) }
-            button("Movers").action {
-                browseTo("https://www.fool.com/market-movers/")
-            }
+            browsebutton("Movers", "https://www.fool.com/market-movers/")
             button("Screener").action { replaceWith(ScreenerView::class) }
-            button("TradingView Screener").action {
-                browseTo("https://www.tradingview.com/screener/")
-            }
+            browsebutton("TradingView Screener", "https://www.tradingview.com/screener/")
             button("Log").action {
                 getAppLog()?.apply {
                     find(InfoFragment::class.java).setInfo("App Log", readText()).openModal()
