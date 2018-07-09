@@ -4,6 +4,7 @@ import com.vitalyk.insight.fragment.InfoFragment
 import com.vitalyk.insight.fragment.NewsWatchlistFragment
 import com.vitalyk.insight.fragment.ReutersFragment
 import com.vitalyk.insight.helpers.newYorkZoneId
+import com.vitalyk.insight.helpers.toReadableNumber
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.main.HttpClients
@@ -73,15 +74,17 @@ class MainView : View("Insight") {
 
             val advancerProperty = SimpleStringProperty()
             label(advancerProperty) {
-                tooltip("Advancers / Decliners")
+                val minPrice = 5.0
+                tooltip("Advancers / Decliners\nMin price: $$minPrice")
                 style {
                     padding = box(5.px)
                 }
                 launch(JavaFx) {
                     while(isActive) {
                         if (isMarketHours()) {
-                            getAdvancersDecliners(iex)?.let {
-                                val msg = "${it.advancerCount} ↑ / ${it.declinerCount} ↓"
+                            // Ignore penny stocks:
+                            getAdvancersDecliners(iex, minPrice)?.let {
+                                val msg = "${it.advancerCount} adv / ${it.declinerCount} dec"
                                 advancerProperty.value = msg
                             }
                         }
@@ -92,16 +95,22 @@ class MainView : View("Insight") {
 
             val breadthProperty = SimpleStringProperty()
             label(breadthProperty) {
-                tooltip("New 52-week highs and lows")
+                val minCap = 200_000_000L
+                tooltip("New 52-week highs and lows\nMin market cap: ${minCap.toReadableNumber()}")
                 style {
                     padding = box(5.px)
                 }
                 launch(JavaFx) {
-                    val stats = loadAssetStatsJson()
-                    while(isActive) {
+                    var stats: Map<String, Iex.AssetStats>? = null
+                    while (isActive) {
                         if (isMarketHours()) {
+                            if (stats == null) {
+                                stats = loadAssetStatsJson()?.filter {
+                                    it.value.marketCap >= minCap
+                                }
+                            }
                             getHighsLows(iex, stats)?.let {
-                                val msg = "${it.highCount} ↑ / ${it.lowCount} ↓"
+                                val msg = "${it.highCount} hi / ${it.lowCount} lo"
                                 breadthProperty.value = msg
                             }
                         }

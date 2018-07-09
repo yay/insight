@@ -192,7 +192,6 @@ class ScreenerView : View("Screener") {
 
             val statProgressLabel = Label()
             button("Fetch stats").onClickActor {
-                isDisable = true
                 val counterActor = actor<Int>(JavaFx) {
                     var counter = 0
                     for (total in channel) {
@@ -201,7 +200,6 @@ class ScreenerView : View("Screener") {
                 }
                 iex.getAssetStatsWithProgress(counterActor).toPrettyJson()
                     .writeToFile(AppSettings.Paths.assetStats)
-                isDisable = false
             }
             this += statProgressLabel
         }

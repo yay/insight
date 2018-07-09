@@ -7,6 +7,7 @@ import com.vitalyk.insight.main.AppSettings
 import com.vitalyk.insight.main.HttpClients
 import kotlinx.coroutines.experimental.runBlocking
 import java.io.File
+import kotlin.math.min
 
 // Change since previous day close
 // Change since this day open
@@ -80,7 +81,7 @@ data class AdvancersDecliners(
     val declinerCount: Int
 )
 
-fun getAdvancersDecliners(iex: Iex): AdvancersDecliners? {
+fun getAdvancersDecliners(iex: Iex, minPrice: Double = 0.0): AdvancersDecliners? {
     val prevCloses = iex.getPreviousDay()
     val lastTrades = iex.getLastTrade()?.map { it.symbol to it }?.toMap()
 
@@ -92,8 +93,11 @@ fun getAdvancersDecliners(iex: Iex): AdvancersDecliners? {
             val symbol = it.key
             val last = it.value
             prevCloses[symbol]?.let { prev ->
-                if (last.price > prev.close) advancerCount++
-                if (last.price <= prev.close) declinerCount++
+                val lastPrice = last.price
+                if (lastPrice >= minPrice) {
+                    if (lastPrice > prev.close) advancerCount++
+                    if (lastPrice <= prev.close) declinerCount++
+                }
             }
         }
         AdvancersDecliners(advancerCount, declinerCount)
