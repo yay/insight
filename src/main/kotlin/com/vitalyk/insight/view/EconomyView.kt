@@ -1,6 +1,5 @@
 package com.vitalyk.insight.view
 
-import com.vitalyk.insight.helpers.browseTo
 import com.vitalyk.insight.ui.browsebutton
 import javafx.geometry.Insets
 import javafx.scene.control.Button

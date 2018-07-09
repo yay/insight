@@ -16,6 +16,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.channels.SendChannel
+import kotlinx.coroutines.experimental.channels.actor
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -825,6 +827,9 @@ class Iex(private val httpClient: OkHttpClient) {
         }
     }
 
+    /**
+     * Fetches stats for the specified symbol.
+     */
     fun getAssetStats(symbol: String): AssetStats? {
         return fetch("$baseUrl/stock/$symbol/stats")?.let {
             // The returned JSON here can use `"NaN"` for values:
@@ -833,10 +838,33 @@ class Iex(private val httpClient: OkHttpClient) {
         }
     }
 
-    suspend fun getAssetStatsAsync(): Map<String, Iex.AssetStats> {
+    /**
+     * Asynchronously fetches stats for all symbols.
+     */
+    suspend fun getAssetStatsAsync(): Map<String, AssetStats> {
         val symbolMap = getSymbols()?.let { it.map { it.symbol to it }.toMap() } ?: emptyMap()
         return symbolMap.map { async { getAssetStats(it.key) } }
             .mapNotNull { it.await() }
+            .map { it.symbol to it }
+            .toMap()
+    }
+
+    /**
+     * Asynchronously fetches stats for all symbols and sends a total number of requests
+     * to the `counter` channel each time a request completes. For example:
+     *
+     *     val counterActor = actor<Int>(UI) {
+     *         var counter = 0
+     *         for (total in channel) {
+     *             progressLabel.text = "${++counter} / $total"
+     *         }
+     *     }
+     */
+    suspend fun getAssetStatsWithProgress(counter: SendChannel<Int>): Map<String, AssetStats> {
+        val symbolMap = getSymbols()?.let { it.map { it.symbol to it }.toMap() } ?: emptyMap()
+        val total = symbolMap.size
+        return symbolMap.map { async { getAssetStats(it.key) } }
+            .mapNotNull { it.await().also { counter.send(total) } }
             .map { it.symbol to it }
             .toMap()
     }

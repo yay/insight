@@ -34,8 +34,8 @@ class MainView : View("Insight") {
             button("Research").action { replaceWith(ResearchView::class) }
 //            button("Watchlists").action { replaceWith(WatchlistView::class) }
             button("Economy").action { replaceWith(EconomyView::class) }
-            browsebutton("Movers", "https://www.fool.com/market-movers/")
             button("Screener").action { replaceWith(ScreenerView::class) }
+            browsebutton("Movers", "https://www.fool.com/market-movers/")
             browsebutton("TradingView Screener", "https://www.tradingview.com/screener/")
             button("Log").action {
                 getAppLog()?.apply {

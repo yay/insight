@@ -9,14 +9,16 @@ import javafx.event.EventTarget
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.geometry.Side
-import javafx.scene.Node
 import javafx.scene.control.*
 import javafx.scene.input.KeyCode
+import javafx.scene.input.MouseEvent
 import javafx.scene.layout.HBox
 import javafx.scene.paint.Color
 import javafx.scene.paint.CycleMethod
 import javafx.scene.paint.LinearGradient
 import javafx.scene.paint.Stop
+import kotlinx.coroutines.experimental.channels.actor
+import kotlinx.coroutines.experimental.javafx.JavaFx
 import tornadofx.*
 import java.awt.Desktop
 import java.net.URI
@@ -120,4 +122,17 @@ fun EventTarget.browsebutton(text: String = "", url: String, op: Button.() -> Un
     it.action { Desktop.getDesktop().browse(URI(url)) }
     addChildIfPossible(it)
     op(it)
+}
+
+/**
+ * Performs the given action when the button is clicked, while ignoring subsequent
+ * clicks until the action completes.
+ */
+fun Button.onClickActor(action: suspend (MouseEvent) -> Unit) {
+    val eventActor = actor<MouseEvent>(JavaFx) {
+        for (event in channel) action(event)
+    }
+    onMouseClicked = EventHandler { event ->
+        eventActor.offer(event)
+    }
 }

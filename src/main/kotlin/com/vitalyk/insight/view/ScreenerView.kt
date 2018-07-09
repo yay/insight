@@ -10,16 +10,14 @@ import com.vitalyk.insight.main.AppSettings
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.screener.ChangeSinceClose
 import com.vitalyk.insight.screener.getChangeSinceClose
+import com.vitalyk.insight.ui.onClickActor
 import javafx.beans.property.SimpleDoubleProperty
 import javafx.beans.property.SimpleLongProperty
 import javafx.beans.property.SimpleStringProperty
-import javafx.event.EventHandler
 import javafx.geometry.Orientation
-import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.control.TextFormatter
 import javafx.scene.control.ToggleGroup
-import javafx.scene.input.MouseEvent
 import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
 import kotlinx.coroutines.experimental.channels.actor
@@ -191,26 +189,21 @@ class ScreenerView : View("Screener") {
                     vbox += it
                 }
             }
-            val statProgressLabel = Label()
 
-            button("Fetch stats") {
-                onClickActor {
-                    isDisable = true
-                    iex.getAssetStatsAsync().toPrettyJson()
-                        .writeToFile(AppSettings.Paths.assetStats)
-                    isDisable = false
+            val statProgressLabel = Label()
+            button("Fetch stats").onClickActor {
+                isDisable = true
+                val counterActor = actor<Int>(JavaFx) {
+                    var counter = 0
+                    for (total in channel) {
+                        statProgressLabel.text = "${++counter} / $total"
+                    }
                 }
+                iex.getAssetStatsWithProgress(counterActor).toPrettyJson()
+                    .writeToFile(AppSettings.Paths.assetStats)
+                isDisable = false
             }
             this += statProgressLabel
-        }
-    }
-
-    private fun Button.onClickActor(action: suspend (MouseEvent) -> Unit) {
-        val eventActor = actor<MouseEvent>(JavaFx) {
-            for (event in channel) action(event)
-        }
-        onMouseClicked = EventHandler { event ->
-            eventActor.offer(event)
         }
     }
 }
