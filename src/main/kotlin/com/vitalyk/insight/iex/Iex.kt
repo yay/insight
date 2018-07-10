@@ -851,7 +851,7 @@ class Iex(private val httpClient: OkHttpClient) {
     }
 
     /**
-     * Asynchronously fetches stats for all symbols and sends a total number of requests
+     * Asynchronously fetches stats for all symbols and sends the total number of requests
      * to the `counter` channel each time a request completes. For example:
      *
      *     val counterActor = actor<Int>(UI) {
