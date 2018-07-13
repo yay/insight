@@ -238,10 +238,12 @@ class PollingQuoteList(title: String, private val getQuotes: () -> List<Quote>?)
     fun startUpdating() {
         updateJob.apply {
             if (this == null || !this.isActive || (this.isActive && this.cancel())) {
-                updateJob = launch(JavaFx) {
+                updateJob = launch {
                     while (this.isActive && root.isVisible && root.parent != null) {
                         val quotes = async { getQuotes() }.await()
-                        updateQuotes(quotes)
+                        runLater {
+                            updateQuotes(quotes)
+                        }
                         delay(1000L)
                     }
                 }

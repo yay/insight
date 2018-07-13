@@ -3,6 +3,7 @@ package com.vitalyk.insight.view
 import com.vitalyk.insight.fragment.InfoFragment
 import com.vitalyk.insight.fragment.NewsWatchlistFragment
 import com.vitalyk.insight.fragment.ReutersFragment
+import com.vitalyk.insight.helpers.getResourceAudioClip
 import com.vitalyk.insight.helpers.newYorkZoneId
 import com.vitalyk.insight.helpers.toReadableNumber
 import com.vitalyk.insight.iex.Iex
@@ -37,7 +38,7 @@ class MainView : View("Insight") {
             button("Economy").action { replaceWith(EconomyView::class) }
             button("Screener").action { replaceWith(ScreenerView::class) }
             browsebutton("Movers", "https://www.fool.com/market-movers/")
-            browsebutton("TradingView Screener", "https://www.tradingview.com/screener/")
+            browsebutton("Screener", "https://www.tradingview.com/screener/")
             button("Log").action {
                 getAppLog()?.apply {
                     find(InfoFragment::class.java).setInfo("App Log", readText()).openModal()
@@ -79,13 +80,16 @@ class MainView : View("Insight") {
                 style {
                     padding = box(5.px)
                 }
-                launch(JavaFx) {
-                    while(isActive) {
+                launch {
+                    while (isActive) {
                         if (isMarketHours()) {
                             // Ignore penny stocks:
+                            getResourceAudioClip("/sounds/alerts/coin.wav").play()
                             getAdvancersDecliners(iex, minPrice)?.let {
                                 val msg = "${it.advancerCount} adv / ${it.declinerCount} dec"
-                                advancerProperty.value = msg
+                                runLater {
+                                    advancerProperty.value = msg
+                                }
                             }
                         }
                         delay(1000 * 60)
@@ -100,7 +104,7 @@ class MainView : View("Insight") {
                 style {
                     padding = box(5.px)
                 }
-                launch(JavaFx) {
+                launch {
                     var stats: Map<String, Iex.AssetStats>? = null
                     while (isActive) {
                         if (isMarketHours()) {
@@ -111,7 +115,9 @@ class MainView : View("Insight") {
                             }
                             getHighsLows(iex, stats)?.let {
                                 val msg = "${it.highCount} hi / ${it.lowCount} lo"
-                                breadthProperty.value = msg
+                                runLater {
+                                    breadthProperty.value = msg
+                                }
                             }
                         }
                         delay(1000 * 60)
@@ -125,12 +131,15 @@ class MainView : View("Insight") {
                 style {
                     fontFamily = "Menlo"
                 }
-                launch(JavaFx) {
+                launch {
                     while (isActive) {
                         delay(1000)
-                        timeProperty.value = ZonedDateTime
+                        val timeStr = ZonedDateTime
                             .now(newYorkZoneId)
                             .format(timeFormatter)
+                        runLater {
+                            timeProperty.value = timeStr
+                        }
                     }
                 }
             }
