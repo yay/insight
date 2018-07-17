@@ -3,7 +3,6 @@ package com.vitalyk.insight.view
 import com.vitalyk.insight.fragment.InfoFragment
 import com.vitalyk.insight.fragment.NewsWatchlistFragment
 import com.vitalyk.insight.fragment.ReutersFragment
-import com.vitalyk.insight.helpers.getResourceAudioClip
 import com.vitalyk.insight.helpers.newYorkZoneId
 import com.vitalyk.insight.helpers.toReadableNumber
 import com.vitalyk.insight.iex.Iex
@@ -18,7 +17,6 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.scene.control.TabPane
 import javafx.scene.layout.Priority
 import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.javafx.JavaFx
 import kotlinx.coroutines.experimental.launch
 import tornadofx.*
 import java.time.DayOfWeek
@@ -75,7 +73,7 @@ class MainView : View("Insight") {
 
             val advancerProperty = SimpleStringProperty()
             label(advancerProperty) {
-                val minPrice = 5.0
+                val minPrice = 5.0 // Ignore penny stocks
                 tooltip("Advancers / Decliners\nMin price: $$minPrice")
                 style {
                     padding = box(5.px)
@@ -83,8 +81,6 @@ class MainView : View("Insight") {
                 launch {
                     while (isActive) {
                         if (isMarketHours()) {
-                            // Ignore penny stocks:
-                            getResourceAudioClip("/sounds/alerts/coin.wav").play()
                             getAdvancersDecliners(iex, minPrice)?.let {
                                 val msg = "${it.advancerCount} adv / ${it.declinerCount} dec"
                                 runLater {

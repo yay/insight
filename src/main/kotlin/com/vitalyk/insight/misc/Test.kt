@@ -15,7 +15,7 @@ class TestView : View("Interpolation") {
         primaryStage.minHeight = 600.0
 
 
-        with(root) {
+        with (root) {
 
             val dataX = mutableListOf<Double>()
             val dataY = mutableListOf<Double>()
@@ -59,7 +59,7 @@ class TestView : View("Interpolation") {
                 ctx.lineWidth = 3.0
 
                 ctx.beginPath()
-                for (i in 0..count - 1) {
+                for (i in 0 until count) {
                     val x0 = scaleX.toRange(dataX[i])
                     val y0 = scaleY.toRange(dataY[i])
                     val x1 = scaleX.toRange(dataX[i])

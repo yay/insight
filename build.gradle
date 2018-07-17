@@ -69,6 +69,7 @@ subprojects {
 dependencies {
 //    kapt project(":generator")
 //    compileOnly project(":generator")
+    compile project(":viz")
 
     // Add whatever jars are in lib folder as dependencies.
     compile fileTree(dir: 'lib', include: ['*.jar'])
