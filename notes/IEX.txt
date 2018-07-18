@@ -1,0 +1,21 @@
+The 1D chart is updated every minute with real time data, and back filled with 15 minute data.
+So a 1D chart will be complete by 4:15 ET. OHLC endpoint should be complete a little after 4pm.
+Some exchanges report official close later than 4pm.
+There are cases where the official close could go as long as 5pm ET before being published.
+
+The first availability of the data for the current day in a daily chart (e.g. 1 month period) should be 11pm ET.
+
+Full day coverage for US equities means 4am-8pm ET.
+Right now our systems at IEX are only online from 8am-5pm ET,
+so we only publish prices during those hours.
+
+IEX will continue to provide real time pricing from 8-5pm.
+For 4am-8am and 5pm-8pm, we have to stick to 15 min delayed for now.
+Very few places display real time pricing after regular market hours due to very thin trading.
+Real time pricing can also get very expensive not only for us to distribute,
+but for you the user if you need to do anything with the data.
+We are looking into as many options as possible while trying to keep the cost and legal paperwork
+to a minimum for our users.
+
+Crypto API: https://github.com/iexg/IEX-API/issues/402
+IEX API v2: https://github.com/iexg/IEX-API/issues/403

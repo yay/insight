@@ -7,7 +7,6 @@ import com.vitalyk.insight.main.Settings
 import com.vitalyk.insight.reuters.ReutersWire
 import com.vitalyk.insight.style.Styles
 import com.vitalyk.insight.view.MainView
-import com.vitalyk.viz.scale.scaleLinear
 import io.socket.client.IO
 import io.socket.engineio.client.Socket
 import javafx.scene.control.Alert

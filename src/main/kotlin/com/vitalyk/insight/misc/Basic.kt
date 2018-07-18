@@ -50,12 +50,12 @@ class BasicApp: Application() {
 
                 primaryStage.widthProperty().addListener { observable, oldValue, newValue ->
                     this.width = newValue.toDouble()
-                    renderChart(ctx, it)
+//                    renderChart(ctx, it)
                 }
-                primaryStage.heightProperty().addListener { observable, oldValue, newValue ->
-                    this.height = newValue.toDouble()
-                    renderChart(ctx, it)
-                }
+//                primaryStage.heightProperty().addListener { observable, oldValue, newValue ->
+//                    this.height = newValue.toDouble()
+//                    renderChart(ctx, it)
+//                }
             }
         }
 
@@ -72,7 +72,8 @@ fun renderChart(ctx: GraphicsContext, points: List<Iex.DayChartPoint>) {
     val minY = points.minBy { it.low }?.low ?: 0.0
     val maxY = points.maxBy { it.high }?.high ?: 1.0
 
-    ctx.clearRect(0.0, 0.0, ctx.canvas.width, ctx.canvas.height)
+//    ctx.fill = Color.WHITE
+//    ctx.fillRect(0.0, 0.0, ctx.canvas.width, ctx.canvas.height)
 
 //    ctx.fill = Color.WHITE
 //    ctx.fillRect(0.0, 0.0, ctx.canvas.width, ctx.canvas.height)
