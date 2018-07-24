@@ -191,17 +191,33 @@ class ScreenerView : View("Screener") {
             }
 
             val statProgressLabel = Label()
+            val companyProgressLabel = Label()
+
             button("Fetch stats").onClickActor {
-                val counterActor = actor<Int>(JavaFx) {
+                val statsCounter = actor<Int>(JavaFx) {
                     var counter = 0
                     for (total in channel) {
-                        statProgressLabel.text = "${++counter} / $total"
+                        statProgressLabel.text = "Stats: ${++counter} / $total"
                     }
                 }
-                iex.getAssetStatsWithProgress(counterActor).toPrettyJson()
+                iex.mapSymbolsWithProgress(iex::getAssetStats, statsCounter)
+                    .toPrettyJson()
                     .writeToFile(AppSettings.Paths.assetStats)
             }
             this += statProgressLabel
+
+            button("Fetch companies").onClickActor {
+                val companyCounter = actor<Int>(JavaFx) {
+                    var counter = 0
+                    for (total in channel) {
+                        companyProgressLabel.text = "Companies: ${++counter} / $total"
+                    }
+                }
+                iex.mapSymbolsWithProgress(iex::getCompany, companyCounter)
+                    .toPrettyJson()
+                    .writeToFile(AppSettings.Paths.companyInfo)
+            }
+            this += companyProgressLabel
         }
     }
 }

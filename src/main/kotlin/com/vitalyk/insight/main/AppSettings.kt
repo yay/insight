@@ -10,6 +10,7 @@ object AppSettings {
     object Paths {
         var storage = "./storage"
         var assetStats = "$storage/AssetStats.json"
+        var companyInfo = "$storage/CompanyInfo.json"
         var dailyData = "$storage/stock_daily"
         var intradayData = "$storage/stock_intraday"
         var summary = "$storage/stock_summary"

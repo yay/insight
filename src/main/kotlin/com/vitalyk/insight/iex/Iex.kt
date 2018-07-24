@@ -818,11 +818,44 @@ class Iex(private val httpClient: OkHttpClient) {
         val iexId: String // Unique ID applied by Iex to track securities through symbol changes.
     )
 
+    /**
+     * Asynchronously fetches stats for all symbols and sends the total number of requests
+     * to the `counter` channel each time a request completes. For example:
+     *
+     *     val counterActor = actor<Int>(UI) {
+     *         var counter = 0
+     *         for (total in channel) {
+     *             progressLabel.text = "${++counter} / $total"
+     *         }
+     *     }
+     *     val companies = iex.mapSymbolsWithProgress(iex::getCompany, counterActor)
+     */
+    suspend fun <T : Any> mapSymbolsWithProgress(fn: (String) -> T?, counter: SendChannel<Int>): Map<String, T> {
+        val symbolMap = getSymbols()?.let { it.map { it.symbol to it }.toMap() } ?: emptyMap()
+        val total = symbolMap.size
+        return symbolMap
+            .map { (symbol, _) ->
+                async {
+                    val data = fn(symbol)
+                    if (data != null) Pair(symbol, data) else null
+                }
+            }
+            .mapNotNull { it.await().also { counter.send(total) } }
+            .map { it.first to it.second }
+            .toMap()
+    }
+
     // TODO: implement https://iextrading.com/developer/docs/#market
 
     fun getCompany(symbol: String): Company? {
         return fetch("$baseUrl/stock/$symbol/company")?.let {
-            mapper.readValue(it, Company::class.java)
+            try {
+                mapper.readValue(it, Company::class.java)
+            } catch (e: MissingKotlinParameterException) {
+                // For some symbols company name, sector, etc. will be null.
+                logger.warn(symbol + ": " + e.msg)
+                null
+            }
         }
     }
 
