@@ -8,6 +8,8 @@ import kotlinx.coroutines.experimental.runBlocking
 //fun main(args: Array<String>) {
 //    // On May 21, 2018 showed that Micron can now be valued at $65/share.
 //    calculateNewPrice("MU", 10_000_000_000)
+//    // QCOM - no NXP purchase, target 90
+//    // AVGO - no QCOM purchase, target 270
 //}
 
 fun calculateNewPrice(symbol: String, dollarBuybackAmount: Long) = runBlocking {

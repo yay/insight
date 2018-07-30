@@ -207,6 +207,7 @@ class ScreenerView : View("Screener") {
             this += statProgressLabel
 
             button("Fetch companies").onClickActor {
+                // TODO: it seems like only one (stats or companies) can run at a time
                 val companyCounter = actor<Int>(JavaFx) {
                     var counter = 0
                     for (total in channel) {

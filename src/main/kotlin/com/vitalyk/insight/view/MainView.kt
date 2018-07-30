@@ -9,6 +9,7 @@ import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.main.getAppLog
+import com.vitalyk.insight.main.httpGet
 import com.vitalyk.insight.screener.getAdvancersDecliners
 import com.vitalyk.insight.screener.getHighsLows
 import com.vitalyk.insight.screener.loadAssetStatsJson
@@ -18,7 +19,10 @@ import javafx.scene.control.TabPane
 import javafx.scene.layout.Priority
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
+import org.jsoup.Jsoup
+import org.jsoup.parser.Parser
 import tornadofx.*
+import java.io.IOException
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -41,6 +45,27 @@ class MainView : View("Insight") {
                 getAppLog()?.apply {
                     find(InfoFragment::class.java).setInfo("App Log", readText()).openModal()
                 }
+            }
+            button("DePorre").action {
+                val rssFeed = "https://realmoney.thestreet.com/node/3203/feed"
+                data class Story(
+                    val title: String,
+                    val link: String
+                )
+                try { httpGet(rssFeed) } catch (e: IOException) { null }?.let {
+                    val items = Jsoup.parse(it, "", Parser.xmlParser()).select("item")
+                    Story(
+                        items.select("title").first().text(),
+                        items.select("link").first().text()
+                    )
+                }?.let { story ->
+                    try { httpGet(story.link) } catch (e: IOException) { null }?.let {
+                        val content = Jsoup.parse(it).select(".content")
+                        val text = content.first().wholeText().trim()
+                        find(InfoFragment::class.java).setInfo(story.title, text).openWindow()
+                    }
+                }
+
             }
 //            button("Notify").action {
 //                // notification("Title", "Message") {

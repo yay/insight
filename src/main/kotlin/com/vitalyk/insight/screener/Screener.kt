@@ -7,7 +7,6 @@ import com.vitalyk.insight.main.AppSettings
 import com.vitalyk.insight.main.HttpClients
 import kotlinx.coroutines.experimental.runBlocking
 import java.io.File
-import kotlin.math.min
 
 // Change since previous day close
 // Change since this day open
