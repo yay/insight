@@ -57,8 +57,9 @@ class MainView : View("Insight") {
                 )
                 try { httpGet(rssFeed) } catch (e: IOException) { null }?.let {
                     val items = Jsoup.parse(it, "", Parser.xmlParser()).select("item")
+                    val date = items.select("pubDate").first().text().substringBeforeLast("0")
                     Story(
-                        items.select("title").first().text(),
+                        items.select("title").first().text() + " - " + date,
                         items.select("link").first().text()
                     )
                 }?.let { story ->
