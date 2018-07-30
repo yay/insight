@@ -27,12 +27,15 @@ class InfoFragment : Fragment() {
         }
     }
 
-    fun setInfo(title: String, text: String, trim: Boolean = false): Fragment {
+    fun setSize(width: Int, height: Int) {
+        root.setMinSize(width.toDouble(), height.toDouble())
+    }
+
+    fun setInfo(title: String, text: String, trim: Boolean = false) {
         fragment.title = title
         textarea.text = if (trim)
             dropSingle(text.trimIndent(), '\n', " ")
         else
             text
-        return this
     }
 }

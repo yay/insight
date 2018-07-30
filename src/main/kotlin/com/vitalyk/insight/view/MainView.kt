@@ -43,7 +43,10 @@ class MainView : View("Insight") {
             browsebutton("Screener", "https://www.tradingview.com/screener/")
             button("Log").action {
                 getAppLog()?.apply {
-                    find(InfoFragment::class.java).setInfo("App Log", readText()).openModal()
+                    find(InfoFragment::class.java).apply {
+                        setInfo("App Log", readText())
+                        openModal()
+                    }
                 }
             }
             button("DePorre").action {
@@ -62,7 +65,11 @@ class MainView : View("Insight") {
                     try { httpGet(story.link) } catch (e: IOException) { null }?.let {
                         val content = Jsoup.parse(it).select(".content")
                         val text = content.first().wholeText().trim()
-                        find(InfoFragment::class.java).setInfo(story.title, text).openWindow()
+                        find(InfoFragment::class.java).apply {
+                            setInfo(story.title, text)
+                            setSize(600, 600)
+                            openWindow()
+                        }
                     }
                 }
 

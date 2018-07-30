@@ -27,23 +27,26 @@ class YieldCurveView : View("Yield Curve") {
             }
         }
         button("?").action {
-            find(InfoFragment::class.java).setInfo("Yield Curve", """
-                Yield Curve - a summary of yields across a spectrum of maturities in the bond market.
+            find(InfoFragment::class.java).apply {
+                setInfo("Yield Curve", """
+                    Yield Curve - a summary of yields across a spectrum of maturities in the bond market.
 
-                Normally, the yield curve slopes upwards, where short term interest rates are lower then
-                long term interest rates, because if you are're going to tie up your money for a longer
-                period of time, you usually want more compensation for the risk that you're taking.
+                    Normally, the yield curve slopes upwards, where short term interest rates are lower then
+                    long term interest rates, because if you are're going to tie up your money for a longer
+                    period of time, you usually want more compensation for the risk that you're taking.
 
-                The yield curve flattens or sometimes can even invert when the Fed tightens the monetary
-                policy by raising short term interest rates, causing the growth and inflation to slow.
+                    The yield curve flattens or sometimes can even invert when the Fed tightens the monetary
+                    policy by raising short term interest rates, causing the growth and inflation to slow.
 
-                When the yield curve inverts, it can signal a recession coming in the next year or so.
-                One of the reasons behind that is that the difference between short and long term rates
-                is a proxy for bank lending profitability. Banks tend to borrow at short term rates and
-                lend at longer term rates, earning the yield spread. And when the yield curve collapses
-                or inverts, it's less profitable for banks to lend, and consequently harder for consumers
-                and businesses to borrow, which can lead to a recession.
-            """, trim = true).openModal()
+                    When the yield curve inverts, it can signal a recession coming in the next year or so.
+                    One of the reasons behind that is that the difference between short and long term rates
+                    is a proxy for bank lending profitability. Banks tend to borrow at short term rates and
+                    lend at longer term rates, earning the yield spread. And when the yield curve collapses
+                    or inverts, it's less profitable for banks to lend, and consequently harder for consumers
+                    and businesses to borrow, which can lead to a recession.
+                """, trim = true)
+                openModal()
+            }
         }
     }
 
