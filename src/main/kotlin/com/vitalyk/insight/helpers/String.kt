@@ -39,7 +39,7 @@ fun takeOneOffSequence(text: String, char: Char): String {
 }
 
 /**
- * Removes/replaces detached `char`s, while keeping sequences of `char`.
+ * Removes/replaces standalone `char`s, while keeping sequences of `char`.
  */
 fun dropSingle(text: String, char: Char, replacement: String = ""): String {
     val sb = StringBuilder()

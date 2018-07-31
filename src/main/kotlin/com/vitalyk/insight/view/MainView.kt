@@ -15,8 +15,11 @@ import com.vitalyk.insight.screener.getHighsLows
 import com.vitalyk.insight.screener.loadAssetStatsJson
 import com.vitalyk.insight.ui.browsebutton
 import javafx.beans.property.SimpleStringProperty
+import javafx.geometry.Side
+import javafx.scene.control.ContextMenu
 import javafx.scene.control.TabPane
 import javafx.scene.layout.Priority
+import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import org.jsoup.Jsoup
@@ -49,31 +52,57 @@ class MainView : View("Insight") {
                     }
                 }
             }
-            button("DePorre").action {
-                val rssFeed = "https://realmoney.thestreet.com/node/3203/feed"
-                data class Story(
-                    val title: String,
-                    val link: String
-                )
-                try { httpGet(rssFeed) } catch (e: IOException) { null }?.let {
-                    val items = Jsoup.parse(it, "", Parser.xmlParser()).select("item")
-                    val date = items.select("pubDate").first().text().substringBeforeLast("0")
-                    Story(
-                        items.select("title").first().text() + " - " + date,
-                        items.select("link").first().text()
+            button("DePorre") {
+                val menu = ContextMenu()
+                var isBusy = false
+                menu.setOnHiding {
+                    isBusy = false
+                }
+                action {
+                    if (isBusy) return@action
+                    isBusy = true
+                    val rssFeed = "https://realmoney.thestreet.com/node/3203/feed"
+                    data class Story(
+                        val date: String,
+                        val title: String,
+                        val link: String
                     )
-                }?.let { story ->
-                    try { httpGet(story.link) } catch (e: IOException) { null }?.let {
-                        val content = Jsoup.parse(it).select(".content")
-                        val text = content.first().wholeText().trim()
-                        find(InfoFragment::class.java).apply {
-                            setInfo(story.title, text)
-                            setSize(600, 600)
-                            openWindow()
+                    menu.hide()
+                    runAsyncWithProgress {
+                        val xml = httpGet(rssFeed)
+                        val items = Jsoup.parse(xml, "", Parser.xmlParser()).select("item")
+                        items.map {
+                            val date = it.select("pubDate").text().substringBeforeLast("0")
+                            Story(date, it.select("title").text(), it.select("link").text())
+                        }
+                    } ui { stories ->
+                        menu.items.clear()
+                        stories.forEach {
+                            menu.item(it.title) {
+                                action {
+                                    runAsyncWithProgress {
+                                        val html = httpGet(it.link)
+                                        val content = Jsoup.parse(html).select(".content")
+                                        val text = content.first().wholeText()
+                                            .substringBefore("Get an email alert").trim()
+                                        runLater {
+                                            find(InfoFragment::class.java).apply {
+                                                setInfo(it.title, it.date + "\n\n" + text)
+                                                setSize(600, 600)
+                                                openWindow()
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if (menu.items.isNotEmpty()) {
+                            menu.show(this, Side.BOTTOM, 0.0, 0.0)
+                        } else {
+                            isBusy = false
                         }
                     }
                 }
-
             }
 //            button("Notify").action {
 //                // notification("Title", "Message") {
