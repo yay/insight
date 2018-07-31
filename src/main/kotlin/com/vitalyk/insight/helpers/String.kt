@@ -1,7 +1,7 @@
 package com.vitalyk.insight.helpers
 
 /**
- * Replaces sequences of `char` with a single `char`, while removing detached `char`s.
+ * Replaces sequences of `char` with a single `char`, while removing standalone `char`s.
  */
 fun dropSingleSquashSequence(text: String, char: Char): String {
     val sb = StringBuilder()
@@ -21,7 +21,7 @@ fun dropSingleSquashSequence(text: String, char: Char): String {
 }
 
 /**
- * Makes sequences of `char` one `char` shorter, while removing detached `char`s.
+ * Makes sequences of `char` one `char` shorter, while removing standalone `char`s.
  */
 fun takeOneOffSequence(text: String, char: Char): String {
     val sb = StringBuilder()

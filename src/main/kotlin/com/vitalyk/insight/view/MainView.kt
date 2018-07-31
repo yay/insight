@@ -19,13 +19,11 @@ import javafx.geometry.Side
 import javafx.scene.control.ContextMenu
 import javafx.scene.control.TabPane
 import javafx.scene.layout.Priority
-import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import org.jsoup.Jsoup
 import org.jsoup.parser.Parser
 import tornadofx.*
-import java.io.IOException
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -54,6 +52,7 @@ class MainView : View("Insight") {
             }
             button("DePorre") {
                 val menu = ContextMenu()
+                menu.hide()
                 var isBusy = false
                 menu.setOnHiding {
                     isBusy = false
@@ -67,7 +66,6 @@ class MainView : View("Insight") {
                         val title: String,
                         val link: String
                     )
-                    menu.hide()
                     runAsyncWithProgress {
                         val xml = httpGet(rssFeed)
                         val items = Jsoup.parse(xml, "", Parser.xmlParser()).select("item")
@@ -82,6 +80,7 @@ class MainView : View("Insight") {
                                 action {
                                     runAsyncWithProgress {
                                         val html = httpGet(it.link)
+                                        println(html)
                                         val content = Jsoup.parse(html).select(".content")
                                         val text = content.first().wholeText()
                                             .substringBefore("Get an email alert").trim()
