@@ -80,7 +80,6 @@ class MainView : View("Insight") {
                                 action {
                                     runAsyncWithProgress {
                                         val html = httpGet(it.link)
-                                        println(html)
                                         val content = Jsoup.parse(html).select(".content")
                                         val text = content.first().wholeText()
                                             .substringBefore("Get an email alert").trim()

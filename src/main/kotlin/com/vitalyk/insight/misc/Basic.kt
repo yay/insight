@@ -11,9 +11,6 @@ import javafx.scene.canvas.GraphicsContext
 import javafx.scene.layout.Pane
 import javafx.scene.paint.Color
 import javafx.stage.Stage
-import java.util.concurrent.atomic.AtomicInteger
-import kotlin.system.measureNanoTime
-import kotlin.system.measureTimeMillis
 
 data class MinMax(
     val minX: Double,
@@ -56,10 +53,10 @@ class BasicApp: Application() {
                 }
 
                 onMouseDragged = EventHandler { e ->
-                    renderChart(ctx, it, minMax)
+//                    renderChart(ctx, it, minMax)
 
-                    ctx.save()
-//                    ctx.clearRect(0.0, 0.0, ctx.canvas.width, ctx.canvas.height)
+                    ctx.clearRect(0.0, 0.0, ctx.canvas.width, ctx.canvas.height)
+//                    ctx.save()
 
                     ctx.stroke = Color.RED
                     ctx.setLineDashes(4.0, 2.0)
@@ -75,7 +72,7 @@ class BasicApp: Application() {
                     ctx.closePath()
                     ctx.stroke()
 
-                    ctx.restore()
+//                    ctx.restore()
                 }
             }
         }
