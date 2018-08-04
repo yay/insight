@@ -43,14 +43,14 @@ class BasicApp: Application() {
                 val minMax = MinMax(minX, maxX, minY, maxY)
                 renderChart(ctx, it, minMax)
 
-                primaryStage.widthProperty().addListener { observable, oldValue, newValue ->
-                    this.width = newValue.toDouble()
-                    renderChart(ctx, it, minMax)
-                }
-                primaryStage.heightProperty().addListener { observable, oldValue, newValue ->
-                    this.height = newValue.toDouble()
-                    renderChart(ctx, it, minMax)
-                }
+//                primaryStage.widthProperty().addListener { observable, oldValue, newValue ->
+//                    this.width = newValue.toDouble()
+//                    renderChart(ctx, it, minMax)
+//                }
+//                primaryStage.heightProperty().addListener { observable, oldValue, newValue ->
+//                    this.height = newValue.toDouble()
+//                    renderChart(ctx, it, minMax)
+//                }
 
                 onMouseDragged = EventHandler { e ->
 //                    renderChart(ctx, it, minMax)

@@ -19,3 +19,6 @@ to a minimum for our users.
 
 Crypto API: https://github.com/iexg/IEX-API/issues/402
 IEX API v2: https://github.com/iexg/IEX-API/issues/403
+
+IEX earnings API is grossly incorrect, just as Yahoo's.
+Schwab one is correct, but their website is slow and you have to log in first.

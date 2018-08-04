@@ -19,6 +19,7 @@ import javafx.geometry.Side
 import javafx.scene.control.ContextMenu
 import javafx.scene.control.TabPane
 import javafx.scene.layout.Priority
+import javafx.scene.paint.Color
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import org.jsoup.Jsoup
@@ -53,13 +54,7 @@ class MainView : View("Insight") {
             button("DePorre") {
                 val menu = ContextMenu()
                 menu.hide()
-                var isBusy = false
-                menu.setOnHiding {
-                    isBusy = false
-                }
                 action {
-                    if (isBusy) return@action
-                    isBusy = true
                     val rssFeed = "https://realmoney.thestreet.com/node/3203/feed"
                     data class Story(
                         val date: String,
@@ -76,19 +71,17 @@ class MainView : View("Insight") {
                     } ui { stories ->
                         menu.items.clear()
                         stories.forEach {
-                            menu.item(it.title) {
-                                action {
-                                    runAsyncWithProgress {
-                                        val html = httpGet(it.link)
-                                        val content = Jsoup.parse(html).select(".content")
-                                        val text = content.first().wholeText()
-                                            .substringBefore("Get an email alert").trim()
-                                        runLater {
-                                            find(InfoFragment::class.java).apply {
-                                                setInfo(it.title, it.date + "\n\n" + text)
-                                                setSize(600, 600)
-                                                openWindow()
-                                            }
+                            menu.item(it.title).action {
+                                runAsyncWithProgress {
+                                    val html = httpGet(it.link)
+                                    val content = Jsoup.parse(html).select(".content")
+                                    val text = content.first().wholeText()
+                                        .substringBefore("Get an email alert").trim()
+                                    runLater {
+                                        find(InfoFragment::class.java).apply {
+                                            setInfo(it.title, it.date + "\n\n" + text)
+                                            setSize(600, 600)
+                                            openWindow()
                                         }
                                     }
                                 }
@@ -96,10 +89,17 @@ class MainView : View("Insight") {
                         }
                         if (menu.items.isNotEmpty()) {
                             menu.show(this, Side.BOTTOM, 0.0, 0.0)
-                        } else {
-                            isBusy = false
                         }
                     }
+                }
+            }
+
+            label("Tasks: 0") {
+                style {
+                    borderWidth = multi(box(2.px))
+                    borderRadius = multi(box(10.px))
+                    borderColor = multi(box(Color.BLACK))
+                    padding = box(4.px, 8.px, 4.px, 8.px)
                 }
             }
 //            button("Notify").action {

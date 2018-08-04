@@ -4,11 +4,13 @@ import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.main.AppSettings
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.main.Settings
+import com.vitalyk.insight.misc.BasicApp
 import com.vitalyk.insight.reuters.ReutersWire
 import com.vitalyk.insight.style.Styles
 import com.vitalyk.insight.view.MainView
 import io.socket.client.IO
 import io.socket.engineio.client.Socket
+import javafx.application.Application
 import javafx.scene.control.Alert
 import javafx.stage.Stage
 import okhttp3.OkHttpClient
