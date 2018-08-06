@@ -11,6 +11,7 @@ import javafx.scene.canvas.GraphicsContext
 import javafx.scene.layout.Pane
 import javafx.scene.paint.Color
 import javafx.stage.Stage
+import kotlin.math.roundToInt
 
 data class MinMax(
     val minX: Double,
@@ -18,6 +19,23 @@ data class MinMax(
     val minY: Double,
     val maxY: Double
 )
+
+fun GraphicsContext.group(op: GraphicsContext.() -> Unit) {
+    save()
+    op(this)
+    restore()
+}
+
+fun GraphicsContext.path(op: GraphicsContext.() -> Unit) {
+    beginPath()
+    op(this)
+    closePath()
+}
+
+fun GraphicsContext.openPath(op: GraphicsContext.() -> Unit) {
+    beginPath()
+    op(this)
+}
 
 class BasicApp: Application() {
 
@@ -43,36 +61,33 @@ class BasicApp: Application() {
                 val minMax = MinMax(minX, maxX, minY, maxY)
                 renderChart(ctx, it, minMax)
 
-//                primaryStage.widthProperty().addListener { observable, oldValue, newValue ->
-//                    this.width = newValue.toDouble()
-//                    renderChart(ctx, it, minMax)
-//                }
-//                primaryStage.heightProperty().addListener { observable, oldValue, newValue ->
-//                    this.height = newValue.toDouble()
-//                    renderChart(ctx, it, minMax)
-//                }
+                primaryStage.widthProperty().addListener { _, _, value ->
+                    width = value.toDouble()
+                    renderChart(ctx, it, minMax)
+                }
+                primaryStage.heightProperty().addListener { _, _, value ->
+                    height = value.toDouble()
+                    renderChart(ctx, it, minMax)
+                }
 
                 onMouseDragged = EventHandler { e ->
-//                    renderChart(ctx, it, minMax)
+                    renderChart(ctx, it, minMax)
 
-                    ctx.clearRect(0.0, 0.0, ctx.canvas.width, ctx.canvas.height)
-//                    ctx.save()
+//                    ctx.clearRect(0.0, 0.0, ctx.canvas.width, ctx.canvas.height)
 
-                    ctx.stroke = Color.RED
-                    ctx.setLineDashes(4.0, 2.0)
+                    ctx.group {
+                        setLineDashes(4.0, 4.0)
+                        stroke = Color.RED
+                        val offset = -.5 * lineWidth
+                        openPath {
+                            moveTo(e.x + offset, 0.0)
+                            lineTo(e.x + offset, ctx.canvas.height)
 
-                    ctx.beginPath()
-
-                        ctx.moveTo(e.x, 0.0)
-                        ctx.lineTo(e.x, ctx.canvas.height)
-
-                        ctx.moveTo(0.0, e.y)
-                        ctx.lineTo(ctx.canvas.width, e.y)
-
-                    ctx.closePath()
-                    ctx.stroke()
-
-//                    ctx.restore()
+                            moveTo(0.0, e.y + offset)
+                            lineTo(ctx.canvas.width, e.y + offset)
+                        }
+                        stroke()
+                    }
                 }
             }
         }
@@ -95,43 +110,42 @@ fun renderChart(ctx: GraphicsContext, points: List<Iex.DayChartPoint>, minMax: M
 
 //    ctx.fill = Color.WHITE
 //    ctx.fillRect(0.0, 0.0, ctx.canvas.width, ctx.canvas.height)
-    ctx.save()
+    ctx.group {
+        clearRect(0.0, 0.0, ctx.canvas.width, ctx.canvas.height)
 
-    ctx.clearRect(0.0, 0.0, ctx.canvas.width, ctx.canvas.height)
+        val xScale = scaleLinear<Double> {
+            domain(minX, maxX)
+            range(0.0, ctx.canvas.width)
+        }
+        val yScale = scaleLinear<Double> {
+            domain(minY, maxY)
+            range(ctx.canvas.height, 0.0)
+        }
 
-    val xScale = scaleLinear<Double> {
-        domain(minX, maxX)
-        range(0.0, ctx.canvas.width)
+        val barWidth = 3.0
+        val halfBarWidth = barWidth / 2.0
+
+        stroke = Color.BLACK
+        val offset = -.5 * lineWidth
+        openPath {
+            points.forEachIndexed { i, p ->
+                val x = xScale(i).roundToInt() + offset
+                moveTo(x, yScale(p.high))
+                lineTo(x, yScale(p.low))
+            }
+        }
+        stroke()
+
+        points.forEachIndexed { i, p ->
+            val x = xScale(i).roundToInt() + offset
+            val fill = if (p.close > p.open) Color.GREEN else Color.RED
+            ctx.fill = fill
+            val rectX = x - halfBarWidth
+            val rectY1 = yScale(p.close)
+            val rectY2 = yScale(p.open)
+            fillRect(rectX, Math.min(rectY1, rectY2), barWidth, Math.abs(rectY2 - rectY1))
+        }
     }
-    val yScale = scaleLinear<Double> {
-        domain(minY, maxY)
-        range(ctx.canvas.height, 0.0)
-    }
-
-    val barWidth = 3.0
-    val halfBarWidth = barWidth / 2.0
-
-    ctx.stroke = Color.BLACK
-    ctx.beginPath()
-    points.forEachIndexed { i, p ->
-        val x = xScale(i)
-        ctx.moveTo(x, yScale(p.high))
-        ctx.lineTo(x, yScale(p.low))
-    }
-    ctx.closePath()
-    ctx.stroke()
-
-    points.forEachIndexed { i, p ->
-        val x = xScale(i)
-        val fill = if (p.close > p.open) Color.GREEN else Color.RED
-        ctx.fill = fill
-        val rectX = x - halfBarWidth
-        val rectY1 = yScale(p.close)
-        val rectY2 = yScale(p.open)
-        ctx.fillRect(rectX, Math.min(rectY1, rectY2), barWidth, Math.abs(rectY2 - rectY1))
-    }
-
-    ctx.restore()
 }
 
 fun main(args: Array<String>) {
