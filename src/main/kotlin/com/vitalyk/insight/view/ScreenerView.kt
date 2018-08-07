@@ -194,7 +194,7 @@ class ScreenerView : View("Screener") {
             val companyProgressLabel = Label()
 
             button("Fetch stats").onClickActor {
-                val statsCounter = actor<Int>(JavaFx) {
+                val statsCounter = actor<Int> {
                     var counter = 0
                     for (total in channel) {
                         statProgressLabel.text = "Stats: ${++counter} / $total"
