@@ -13,6 +13,7 @@ import javafx.scene.canvas.GraphicsContext
 import javafx.scene.control.Button
 import javafx.scene.layout.*
 import javafx.scene.paint.Color
+import javafx.scene.shape.Path
 import javafx.stage.Stage
 import tornadofx.*
 import kotlin.math.roundToInt
@@ -24,21 +25,16 @@ data class MinMax(
     val maxY: Double
 )
 
-fun GraphicsContext.group(op: GraphicsContext.() -> Unit) {
+inline fun GraphicsContext.group(op: GraphicsContext.() -> Unit) {
     save()
     op(this)
     restore()
 }
 
-fun GraphicsContext.path(op: GraphicsContext.() -> Unit) {
+inline fun GraphicsContext.path(op: GraphicsContext.() -> Unit) {
     beginPath()
     op(this)
     closePath()
-}
-
-fun GraphicsContext.openPath(op: GraphicsContext.() -> Unit) {
-    beginPath()
-    op(this)
 }
 
 open class Series<T> {
@@ -150,6 +146,7 @@ class BasicApp: Application() {
             }
 
             overlayScene.apply {
+                val scene = this
                 style {
                     borderWidth = multi(box(1.px))
                     borderColor = multi(box(Color.RED))
@@ -160,26 +157,76 @@ class BasicApp: Application() {
                 primaryStage.scene.heightProperty().addListener { _, _, value ->
                     height = value.toDouble()
                 }
-            }
 
-            overlayScene.onMouseDragged = EventHandler { e ->
-                val ctx = canvas.graphicsContext2D
-                renderChart(ctx, it, minMax)
+                var startX = 0.0
+                var startY = 0.0
+                onMousePressed = EventHandler { e ->
+                    startX = e.x
+                    startY = e.y
+                }
+                val path = scene.root.path {
+                    onHover {
+                        fill = if (it) Color.RED else Color.BLACK
+                        stroke = if (it) Color.RED else Color.BLACK
+                    }
+                }
+                onMouseDragged = EventHandler { e ->
+                    val ctx = canvas.graphicsContext2D
+                    renderChart(ctx, it, minMax)
 
 //                    ctx.clearRect(0.0, 0.0, ctx.canvas.width, ctx.canvas.height)
 
-                ctx.group {
-                    setLineDashes(4.0, 4.0)
-                    stroke = Color.RED
-                    val offset = -.5 * lineWidth
-                    openPath {
-                        moveTo(e.x + offset, 0.0)
-                        lineTo(e.x + offset, ctx.canvas.height)
+                    fun Point2D.move(distance: Double, angle: Double) =
+                        Point2D(x + distance * Math.cos(angle), y + distance * Math.sin(angle))
 
-                        moveTo(0.0, e.y + offset)
-                        lineTo(ctx.canvas.width, e.y + offset)
+                    ctx.group {
+                        setLineDashes(4.0, 4.0)
+                        stroke = Color.RED
+                        val offset = -.5 * lineWidth
+
+                        when {
+                            e.isMetaDown -> path.apply {
+                                fill = Color.BLACK
+                                strokeWidth = 2.0
+                                elements.clear()
+                                val angle = Math.atan2(e.y - startY, e.x - startX)
+                                val rightAngle = angle + .5 * Math.PI
+                                moveTo(startX, startY)
+                                lineTo(e.x, e.y)
+                                closepath()
+                                val bottom = Point2D(e.x, e.y).move(-10.0, angle)
+                                val left = bottom.move(-3.0, rightAngle)
+                                val right = bottom.move(3.0, rightAngle)
+                                moveTo(left.x, left.y)
+//                                moveTo(e.x + 10.0 * Math.cos(angle), e.y + 10.0 * Math.sin(angle))
+//                                lineTo(e.x - 5.0 * Math.cos(rightAngle), e.y - 5.0 * Math.sin(rightAngle))
+                                lineTo(right.x, right.y)
+                                lineTo(e.x, e.y)
+                                closepath()
+                            }
+                            // MoveTo(startX, startY)
+                            // LineTo(e.x, e.y)
+                            // beginPath()
+                            // moveTo(startX, startY)
+                            // lineTo(e.x, e.y)
+                            // stroke()
+                            e.isAltDown -> {
+//                                println(e.pickResult)
+                                e.pickResult.intersectedNode?.apply {
+                                    (this as? Path)?.moveTo(e.x, e.y)
+                                }
+                            }
+                            else -> {
+                                beginPath()
+                                moveTo(e.x + offset, 0.0)
+                                lineTo(e.x + offset, ctx.canvas.height)
+
+                                moveTo(0.0, e.y + offset)
+                                lineTo(ctx.canvas.width, e.y + offset)
+                                stroke()
+                            }
+                        }
                     }
-                    stroke()
                 }
             }
         }
@@ -218,13 +265,12 @@ fun renderChart(ctx: GraphicsContext, points: List<Iex.DayChartPoint>, minMax: M
 
         stroke = Color.BLACK
         val offset = -.5 * lineWidth
-        openPath {
+        beginPath()
             points.forEachIndexed { i, p ->
                 val x = xScale(i).roundToInt() + offset
                 moveTo(x, yScale(p.high))
                 lineTo(x, yScale(p.low))
             }
-        }
         stroke()
 
         points.forEachIndexed { i, p ->
