@@ -3,6 +3,7 @@ package com.vitalyk.insight.view
 import com.vitalyk.insight.fragment.InfoFragment
 import com.vitalyk.insight.fragment.NewsWatchlistFragment
 import com.vitalyk.insight.fragment.ReutersFragment
+import com.vitalyk.insight.helpers.getResourceAudioClip
 import com.vitalyk.insight.helpers.newYorkZoneId
 import com.vitalyk.insight.helpers.toReadableNumber
 import com.vitalyk.insight.iex.Iex
@@ -14,11 +15,13 @@ import com.vitalyk.insight.screener.getAdvancersDecliners
 import com.vitalyk.insight.screener.getHighsLows
 import com.vitalyk.insight.screener.loadAssetStatsJson
 import com.vitalyk.insight.ui.browsebutton
+import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Side
 import javafx.scene.control.ContextMenu
 import javafx.scene.control.TabPane
 import javafx.scene.layout.Priority
+import javafx.scene.paint.Color
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import org.jsoup.Jsoup
@@ -50,16 +53,53 @@ class MainView : View("Insight") {
                     }
                 }
             }
+
             button("DePorre") {
                 val menu = ContextMenu()
                 menu.hide()
+
+                val newStoryChime = getResourceAudioClip("/sounds/alerts/buzz.wav")
+                val newStoryCount = SimpleIntegerProperty(0).apply {
+                    onChange {
+                        if (it > 0) newStoryChime.play()
+                    }
+                }
+                label(newStoryCount) {
+                    style {
+                        borderWidth = multi(box(2.px))
+                        borderRadius = multi(box(20.px))
+                        borderColor = multi(box(Color.BLACK))
+                        padding = box(0.px, 4.px, 0.px, 4.px)
+                        fontFamily = "Menlo"
+                        fontSize = .9.em
+                    }
+                }
+
+                val rssFeed = "https://realmoney.thestreet.com/node/3203/feed"
+
+                var oldDates = listOf<String>()
+                launch {
+                    while (isActive) {
+                        val xml = httpGet(rssFeed)
+                        val items = Jsoup.parse(xml, "", Parser.xmlParser()).select("item")
+                        val dates = items.map { it.select("pubDate").text() }
+                        val count = if (oldDates.isNotEmpty()) dates.minus(oldDates).size else 0
+                        runLater {
+                            newStoryCount.set(newStoryCount.get() + count)
+                        }
+                        oldDates = dates
+                        delay(5 * 60 * 1000)
+                    }
+                }
+
+                data class Story(
+                    val date: String,
+                    val title: String,
+                    val link: String
+                )
+
                 action {
-                    val rssFeed = "https://realmoney.thestreet.com/node/3203/feed"
-                    data class Story(
-                        val date: String,
-                        val title: String,
-                        val link: String
-                    )
+                    newStoryCount.set(0)
                     runAsyncWithProgress {
                         val xml = httpGet(rssFeed)
                         val items = Jsoup.parse(xml, "", Parser.xmlParser()).select("item")
