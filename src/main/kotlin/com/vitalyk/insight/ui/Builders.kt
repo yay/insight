@@ -133,12 +133,16 @@ fun EventTarget.browsebutton(text: String = "", url: String, op: Button.() -> Un
 /**
  * Performs the given action when the button is clicked, while ignoring subsequent
  * clicks until the action completes.
+ * Only a single concurrent operation will be performed at a time, even if multiple
+ * buttons were clicked.
  */
 fun Button.onClickActor(action: suspend (MouseEvent) -> Unit) {
     val eventActor = actor<MouseEvent>(JavaFx) {
         for (event in channel) action(event)
     }
     onMouseClicked = EventHandler { event ->
+        // `offer` sends an element to the actor immediately, if it is possible,
+        // or discards an element otherwise.
         eventActor.offer(event)
     }
 }

@@ -15,14 +15,10 @@ import com.vitalyk.insight.screener.getHighsLows
 import com.vitalyk.insight.screener.loadAssetStatsJson
 import com.vitalyk.insight.ui.browsebutton
 import javafx.beans.property.SimpleStringProperty
-import javafx.geometry.Insets
 import javafx.geometry.Side
 import javafx.scene.control.ContextMenu
-import javafx.scene.control.ListView
-import javafx.scene.control.MenuItem
 import javafx.scene.control.TabPane
 import javafx.scene.layout.Priority
-import javafx.scene.paint.Color
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import org.jsoup.Jsoup
@@ -96,57 +92,6 @@ class MainView : View("Insight") {
                     }
                 }
             }
-
-            label("Tasks: 0") {
-                style {
-                    borderWidth = multi(box(2.px))
-                    borderRadius = multi(box(10.px))
-                    borderColor = multi(box(Color.BLACK))
-                    padding = box(4.px, 8.px, 4.px, 8.px)
-                }
-            }
-//            button("Tasks: 0") {
-//                data class Hey(
-//                    val name: String,
-//                    val value: String
-//                )
-//                val menu = ContextMenu().apply {
-//                    hide()
-//                    val list = ListView<Hey>().apply {
-//                        prefHeight = 400.0
-//                        prefWidth = 200.0
-//                    }
-//                    this += MenuItem().apply {
-//                        graphic = list
-//                        graphicTextGap = 0.0
-//                        style {
-//                            padding = box(0.px)
-//                        }
-//                    }
-////                    item("List", graphic = list) {
-////
-////                    }
-//                }
-//                action {
-//                    menu.show(this, Side.BOTTOM, 0.0, 0.0)
-//                }
-//            }
-//            button("Notify").action {
-//                // notification("Title", "Message") {
-//                //     showAndWait()
-//                // }
-//                // notification("Urgent", "Act now!").show()
-//                // notification("Title", "Message").action {
-//                // }
-//                val tray = TrayNotification().apply {
-//                    title = "Hello"
-//                    message = "Vitaly"
-//                    notification = Notifications.INFORMATION
-//                    showAndWait()
-//                }
-//            }
-//            button("Quotes").action { replaceWith(MarketMoversView::class) }
-//            button("News").action { replaceWith(NewsView::class) }
 
             spacer {}
 
