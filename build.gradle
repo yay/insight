@@ -76,8 +76,8 @@ dependencies {
 
     compile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.60'
     compile 'org.jetbrains.kotlin:kotlin-reflect:1.2.60'
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.23.4'
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-javafx:0.23.4'
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.24.0'
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-javafx:0.24.0'
 
     compile 'com.squareup.okhttp3:okhttp:3.11.0'
     compile 'com.h2database:h2:1.4.197'

@@ -20,6 +20,7 @@ import javafx.scene.control.TextFormatter
 import javafx.scene.control.ToggleGroup
 import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
+import javafx.scene.paint.Color
 import kotlinx.coroutines.experimental.channels.actor
 import kotlinx.coroutines.experimental.javafx.JavaFx
 import tornadofx.*
@@ -190,35 +191,50 @@ class ScreenerView : View("Screener") {
                 }
             }
 
-            val statProgressLabel = Label()
-            val companyProgressLabel = Label()
-
-            button("Fetch stats").onClickActor {
-                val statsCounter = actor<Int> {
-                    var counter = 0
-                    for (total in channel) {
-                        statProgressLabel.text = "Stats: ${++counter} / $total"
+            button("Fetch stats") {
+                val label = Label().apply {
+                    style {
+                        fontSize = 0.9.em
+                        fontFamily = "Menlo"
+                        textFill = Color.CHOCOLATE
                     }
                 }
-                iex.mapSymbolsWithProgress(iex::getAssetStats, statsCounter)
-                    .toPrettyJson()
-                    .writeToFile(AppSettings.Paths.assetStats)
+                graphic = label
+                onClickActor {
+                    val counter = actor<Int>(JavaFx) {
+                        var counter = 0
+                        for (total in channel) {
+                            label.text = "${++counter} / $total"
+                        }
+                    }
+                    iex.mapSymbolsWithProgress(iex::getAssetStats, counter)
+                        .toPrettyJson()
+                        .writeToFile(AppSettings.Paths.assetStats)
+                }
             }
-            this += statProgressLabel
 
-            button("Fetch companies").onClickActor {
-                // TODO: it seems like only one (stats or companies) can run at a time
-                val companyCounter = actor<Int>(JavaFx) {
-                    var counter = 0
-                    for (total in channel) {
-                        companyProgressLabel.text = "Companies: ${++counter} / $total"
+            // TODO: it seems like only one (stats or companies) can run at a time
+            button("Fetch companies") {
+                val label = Label().apply {
+                    style {
+                        fontSize = 0.9.em
+                        fontFamily = "Menlo"
+                        textFill = Color.CHOCOLATE
                     }
                 }
-                iex.mapSymbolsWithProgress(iex::getCompany, companyCounter)
-                    .toPrettyJson()
-                    .writeToFile(AppSettings.Paths.companyInfo)
+                graphic = label
+                onClickActor {
+                    val counter = actor<Int>(JavaFx) {
+                        var counter = 0
+                        for (total in channel) {
+                            label.text = "${++counter} / $total"
+                        }
+                    }
+                    iex.mapSymbolsWithProgress(iex::getCompany, counter)
+                        .toPrettyJson()
+                        .writeToFile(AppSettings.Paths.companyInfo)
+                }
             }
-            this += companyProgressLabel
         }
     }
 }
