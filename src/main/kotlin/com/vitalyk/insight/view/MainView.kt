@@ -5,6 +5,7 @@ import com.vitalyk.insight.fragment.NewsWatchlistFragment
 import com.vitalyk.insight.fragment.ReutersFragment
 import com.vitalyk.insight.helpers.getResourceAudioClip
 import com.vitalyk.insight.helpers.newYorkZoneId
+import com.vitalyk.insight.helpers.squashSequence
 import com.vitalyk.insight.helpers.toReadableNumber
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.Watchlist
@@ -109,16 +110,17 @@ class MainView : View("Insight") {
                         }
                     } ui { stories ->
                         menu.items.clear()
-                        stories.forEach {
-                            menu.item(it.title).action {
+                        stories.forEach { story ->
+                            menu.item(story.title).action {
                                 runAsyncWithProgress {
-                                    val html = httpGet(it.link)
+                                    val html = httpGet(story.link)
                                     val content = Jsoup.parse(html).select(".content")
                                     val text = content.first().wholeText()
-                                        .substringBefore("Get an email alert").trim()
+                                        .substringBefore("Get an email alert")
+                                        .trim()
                                     runLater {
                                         find(InfoFragment::class.java).apply {
-                                            setInfo(it.title, it.date + "\n\n" + text)
+                                            setInfo(story.title, story.date + "\n\n" + text)
                                             setSize(600, 600)
                                             openWindow()
                                         }

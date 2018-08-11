@@ -21,6 +21,24 @@ fun dropSingleSquashSequence(text: String, char: Char): String {
 }
 
 /**
+ * Replaces sequences of `char` with a single `char`, while keeping standalone `char`s.
+ */
+fun squashSequence(text: String, char: Char): String {
+    val sb = StringBuilder()
+    if (text.isNotEmpty()) {
+        var lastAppended: Char? = null
+        text.forEach {
+            val skip = it == char && lastAppended == char
+            if (!skip) {
+                sb.append(it)
+                lastAppended = it
+            }
+        }
+    }
+    return sb.toString()
+}
+
+/**
  * Makes sequences of `char` one `char` shorter, while removing standalone `char`s.
  */
 fun takeOneOffSequence(text: String, char: Char): String {
