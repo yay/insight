@@ -5,7 +5,6 @@ import com.vitalyk.insight.fragment.NewsWatchlistFragment
 import com.vitalyk.insight.fragment.ReutersFragment
 import com.vitalyk.insight.helpers.getResourceAudioClip
 import com.vitalyk.insight.helpers.newYorkZoneId
-import com.vitalyk.insight.helpers.squashSequence
 import com.vitalyk.insight.helpers.toReadableNumber
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.Watchlist

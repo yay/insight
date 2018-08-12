@@ -14,6 +14,7 @@ import javafx.scene.control.Button
 import javafx.scene.layout.*
 import javafx.scene.paint.Color
 import javafx.scene.shape.Path
+import javafx.scene.shape.Rectangle
 import javafx.stage.Stage
 import tornadofx.*
 import kotlin.math.roundToInt
@@ -82,6 +83,70 @@ class Chart<T> {
     }
 }
 
+class Navigator : VBox() {
+
+    var range = 0.0..0.5
+        set(value) {
+            if (value == field || width == 0.0) return
+            println("value changed $value")
+            if (value.start < 0.0 || value.endInclusive > 1.0 || value.start >= value.endInclusive)
+                throw IllegalArgumentException("A valid range is within 0.0 and 1.0 (inclusive)")
+            field = value
+            println(width)
+            println(value.endInclusive - value.start)
+            updateRect()
+        }
+
+    private val rect = Rectangle().apply {
+        width = 200.0
+        height = 100.0
+        layoutX = 0.0
+        layoutY = 0.0
+        style {
+            fill = Color.RED
+        }
+    }
+
+    private fun updateRect() {
+        println("width: $width")
+        rect.width = width * (range.endInclusive - range.start)
+    }
+
+    override fun resize(width: Double, height: Double) {
+        println("resize")
+        super.resize(width, height)
+        updateRect()
+    }
+
+    init {
+//        minWidth = Double.MAX_VALUE
+        hgrow = Priority.ALWAYS
+        minHeight = 200.0
+
+        style {
+            borderWidth = multi(box(2.px))
+            borderColor = multi(box(Color.RED))
+        }
+
+        this += rect
+        range = 0.0..0.5
+
+        var start: Point2D? = null
+        var startX = 0.0
+        onMousePressed = EventHandler { e ->
+            start = Point2D(e.x, e.y)
+            startX = rect.layoutX
+        }
+        onMouseDragged = EventHandler { e ->
+            val d = Point2D(e.x, e.y).subtract(start)
+
+            rect.layoutX = startX + d.x
+        }
+        onMouseReleased = EventHandler { e ->
+        }
+    }
+}
+
 class BasicApp: Application() {
 
 //    companion object {
@@ -93,7 +158,9 @@ class BasicApp: Application() {
 
     override fun start(primaryStage: Stage) {
         val stackPane = StackPane()
-        val scene = Scene(stackPane)
+//        val root = VBox(stackPane, Navigator())
+        val root = VBox(Navigator())
+        val scene = Scene(root)
         primaryStage.scene = scene
         primaryStage.title = "Basic JavaFx app"
 
@@ -124,7 +191,7 @@ class BasicApp: Application() {
         }
 
         val iex = Iex(HttpClients.main)
-        iex.getDayChart("NFLX", Iex.Range.M3)?.let {
+        iex.getDayChart("NFLX", Iex.Range.Y)?.let {
             val minX = 0.0
             val maxX = it.size.toDouble()
             val minY = it.minBy { it.low }?.low ?: 0.0
