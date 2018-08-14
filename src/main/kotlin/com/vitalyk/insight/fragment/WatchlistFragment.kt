@@ -108,7 +108,7 @@ class WatchlistFragment(private val watchlist: Watchlist) : Fragment() {
                     item(range.value.name).action {
                         selectedItem?.let { selectedItem ->
                             runAsync {
-                                iex.getDayChart(selectedItem.symbol, range) ?: emptyList()
+                                iex.getDayChartWithQuote(selectedItem.symbol, range) ?: mutableListOf()
                             } ui { points ->
                                 find(DayChartFragment::class).let {
                                     it.updateChart(selectedItem.symbol, points)

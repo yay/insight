@@ -102,7 +102,7 @@ private fun getChangeSinceCloseView(iex: Iex) = VBox().apply {
 
     fun showChart(symbol: String, range: Iex.Range) {
         runAsync {
-            iex.getDayChart(symbol, range) ?: emptyList()
+            iex.getDayChartWithQuote(symbol, range) ?: mutableListOf()
         } ui { points ->
             find(DayChartFragment::class).let {
                 it.updateChart(symbol, points)
@@ -153,7 +153,7 @@ private fun getChangeSinceCloseView(iex: Iex) = VBox().apply {
                 chartBox += chart
 
                 runAsync {
-                    iex.getDayChart(symbol, Iex.Range.M3) ?: emptyList()
+                    iex.getDayChartWithQuote(symbol, Iex.Range.M3) ?: mutableListOf()
                 } ui { points ->
                     chart.updateChart(symbol, points)
                 }

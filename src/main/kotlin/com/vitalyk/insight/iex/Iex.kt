@@ -946,6 +946,29 @@ class Iex(private val httpClient: OkHttpClient) {
         }
     }
 
+    fun getDayChartWithQuote(symbol: String, range: Range = Range.Y): MutableList<DayChartPoint>? {
+        return getDayChart(symbol, range)?.let {
+            val result = it.toMutableList()
+            getQuote(symbol)?.let {
+                result.add(DayChartPoint(
+                    date = it.latestUpdate ?: Date(),
+                    open = it.open,
+                    high = it.high,
+                    low = it.low,
+                    close = it.latestPrice,
+                    volume = it.latestVolume,
+                    unadjustedVolume = it.latestVolume,
+                    change = it.change,
+                    changePercent = it.changePercent,
+                    vwap = 0.0,
+                    label = "Last",
+                    changeOverTime = 0.0
+                ))
+            }
+            result
+        }
+    }
+
     // For example: getMinuteChart("AAPL", "20180129")
     fun getMinuteChart(symbol: String, date: String): List<MinuteChartPoint>? {
         return fetch("$baseUrl/stock/$symbol/chart/date/$date")?.let {
