@@ -19,11 +19,18 @@ class EarningsFragment : Fragment("Earnings") {
             item("Earnings Calendar").action {
                 browseTo("http://hosting.briefing.com/cschwab/Calendars/EarningsCalendar5Weeks.htm")
             }
+            item("Nasdaq").action {
+                browseTo("https://www.nasdaq.com/earnings/report/$symbol")
+            }
+            item("Yahoo Finance").action {
+                browseTo("https://finance.yahoo.com/quote/$symbol")
+            }
         }
     }
 
     private val chartLabels = mutableListOf<Text>()
     private val dateFormat = SimpleDateFormat("E MMM dd, yy")
+    private var symbol: String = ""
 
     override val root = vbox {
         this += chart
@@ -46,6 +53,7 @@ class EarningsFragment : Fragment("Earnings") {
         earnings.fiscalPeriod ?: dateFormat.format(earnings.fiscalEndDate)
 
     fun fetch(symbol: String) {
+        this.symbol = symbol
         runAsync {
             val iex = Iex(HttpClients.main)
             iex.getEarnings(symbol)
