@@ -1,9 +1,6 @@
 package com.vitalyk.insight.ui
 
-import com.vitalyk.insight.helpers.toPrettyJson
-import com.vitalyk.insight.helpers.writeToFile
 import com.vitalyk.insight.iex.IexSymbols
-import com.vitalyk.insight.main.AppSettings
 import de.jensd.fx.glyphs.materialicons.MaterialIcon
 import de.jensd.fx.glyphs.materialicons.MaterialIconView
 import javafx.beans.value.ObservableValue
@@ -20,9 +17,6 @@ import javafx.scene.paint.Color
 import javafx.scene.paint.CycleMethod
 import javafx.scene.paint.LinearGradient
 import javafx.scene.paint.Stop
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.channels.ActorScope
-import kotlinx.coroutines.experimental.channels.SendChannel
 import kotlinx.coroutines.experimental.channels.actor
 import kotlinx.coroutines.experimental.javafx.JavaFx
 import tornadofx.*

@@ -7,13 +7,13 @@ import com.vitalyk.insight.helpers.getResourceAudioClip
 import com.vitalyk.insight.helpers.newYorkZoneId
 import com.vitalyk.insight.helpers.toReadableNumber
 import com.vitalyk.insight.iex.Iex
+import com.vitalyk.insight.iex.IexSymbols
 import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.main.getAppLog
 import com.vitalyk.insight.main.httpGet
 import com.vitalyk.insight.screener.getAdvancersDecliners
 import com.vitalyk.insight.screener.getHighsLows
-import com.vitalyk.insight.screener.loadAssetStatsJson
 import com.vitalyk.insight.ui.browsebutton
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
@@ -42,18 +42,24 @@ class MainView : View("Insight") {
             button("Research").action { replaceWith(ResearchView::class) }
 //            button("Watchlists").action { replaceWith(WatchlistView::class) }
             button("Economy").action { replaceWith(EconomyView::class) }
-            button("Screener").action { replaceWith(ScreenerView::class) }
-            browsebutton("Movers", "https://www.fool.com/market-movers/")
-            browsebutton("Screener", "https://www.tradingview.com/screener/")
-            button("Log").action {
-                getAppLog()?.apply {
-                    find(InfoFragment::class.java).apply {
-                        setInfo("App Log", readText())
-                        openModal()
+            button("Screener") {
+                isDisable = true
+                launch {
+                    while (isActive && IexSymbols.assetStats == null) {
+                        delay(1000)
+                    }
+                    getResourceAudioClip("/sounds/alerts/message.wav").play()
+                    runLater { isDisable = false }
+                }
+
+                action {
+                    IexSymbols.assetStats?.let {
+                        replaceWith(ScreenerView::class)
                     }
                 }
             }
-
+            browsebutton("Movers", "https://www.fool.com/market-movers/")
+            browsebutton("Screener", "https://www.tradingview.com/screener/")
             button("DePorre") {
                 val menu = ContextMenu()
                 menu.hide()
@@ -134,6 +140,15 @@ class MainView : View("Insight") {
                 }
             }
 
+            button("Log").action {
+                getAppLog()?.apply {
+                    find(InfoFragment::class.java).apply {
+                        setInfo("App Log", readText())
+                        openModal()
+                    }
+                }
+            }
+
             spacer {}
 
             // Simplistic check
@@ -148,7 +163,7 @@ class MainView : View("Insight") {
 
             val advancerProperty = SimpleStringProperty()
             label(advancerProperty) {
-                val minPrice = 5.0 // Ignore penny stocks
+                val minPrice = 2.0 // Ignore penny stocks
                 tooltip("Advancers / Decliners\nMin price: $$minPrice")
                 style {
                     padding = box(5.px)
@@ -170,20 +185,15 @@ class MainView : View("Insight") {
 
             val breadthProperty = SimpleStringProperty()
             label(breadthProperty) {
-                val minCap = 200_000_000L
+                val minCap = 50_000_000L
                 tooltip("New 52-week highs and lows\nMin market cap: ${minCap.toReadableNumber()}")
                 style {
                     padding = box(5.px)
                 }
                 launch {
-                    var stats: Map<String, Iex.AssetStats>? = null
                     while (isActive) {
-                        if (isMarketHours()) {
-                            if (stats == null) {
-                                stats = loadAssetStatsJson()?.filter {
-                                    it.value.marketCap >= minCap
-                                }
-                            }
+                        val stats = IexSymbols.assetStats
+                        if (isMarketHours() && stats != null) {
                             getHighsLows(iex, stats)?.let {
                                 val msg = "${it.highCount} hi / ${it.lowCount} lo"
                                 runLater {

@@ -60,6 +60,16 @@ class EconomyView : View("Economy") {
                     }
                 }
             }
+            scrollpane {
+                padding = Insets(10.0)
+                vbox {
+                    spacing = 10.0
+
+                    button("Share Buyback").action {
+                        find(BuybackView::class).openModal()
+                    }
+                }
+            }
         }
     }
 }

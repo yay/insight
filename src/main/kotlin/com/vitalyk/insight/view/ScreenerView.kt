@@ -2,27 +2,20 @@ package com.vitalyk.insight.view
 
 import com.vitalyk.insight.fragment.AssetProfileFragment
 import com.vitalyk.insight.fragment.DayChartFragment
-import com.vitalyk.insight.helpers.toPrettyJson
 import com.vitalyk.insight.helpers.toReadableNumber
-import com.vitalyk.insight.helpers.writeToFile
 import com.vitalyk.insight.iex.Iex
-import com.vitalyk.insight.main.AppSettings
+import com.vitalyk.insight.iex.IexSymbols
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.screener.ChangeSinceClose
 import com.vitalyk.insight.screener.getChangeSinceClose
-import com.vitalyk.insight.ui.onClickActor
 import javafx.beans.property.SimpleDoubleProperty
 import javafx.beans.property.SimpleLongProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Orientation
-import javafx.scene.control.Label
 import javafx.scene.control.TextFormatter
 import javafx.scene.control.ToggleGroup
 import javafx.scene.layout.Priority
 import javafx.scene.layout.VBox
-import javafx.scene.paint.Color
-import kotlinx.coroutines.experimental.channels.actor
-import kotlinx.coroutines.experimental.javafx.JavaFx
 import tornadofx.*
 
 class ChangeSinceCloseBean {
@@ -60,7 +53,7 @@ fun ChangeSinceClose.toFxBean(): ChangeSinceCloseBean =
 private fun getChangeSinceCloseView(iex: Iex) = VBox().apply {
     vgrow = Priority.ALWAYS
 
-    val items = getChangeSinceClose(iex).map { it.toFxBean() }.observable()
+    val items = getChangeSinceClose(iex, IexSymbols.assetStats).map { it.toFxBean() }.observable()
     val filteredItems = SortedFilteredList(items)
 
     toolbar {
@@ -80,16 +73,18 @@ private fun getChangeSinceCloseView(iex: Iex) = VBox().apply {
         }
 
         val toggleGroup = ToggleGroup()
-        radiobutton ("500M+", toggleGroup) { isSelected = true }
+        radiobutton ("50M+", toggleGroup) { isSelected = true }
+        radiobutton ("500M+", toggleGroup)
         radiobutton("5B+", toggleGroup)
         radiobutton("50B+", toggleGroup)
         toggleGroup.selectedToggleProperty().addListener(ChangeListener { _, _, _ ->
             toggleGroup.selectedToggle?.let {
                 val index = toggleGroup.toggles.indexOf(it)
                 val minCap = when (index) {
-                    1 -> 5_000_000_000
-                    2 -> 50_000_000_000
-                    else -> 500_000_000
+                    1 -> 500_000_000
+                    2 -> 5_000_000_000
+                    3 -> 50_000_000_000
+                    else -> 50_000_000
                 }
                 // TODO: toggles don't work if tableview is sorted by some column
                 // other than market cap
@@ -191,50 +186,50 @@ class ScreenerView : View("Screener") {
                 }
             }
 
-            button("Fetch stats") {
-                val label = Label().apply {
-                    style {
-                        fontSize = 0.9.em
-                        fontFamily = "Menlo"
-                        textFill = Color.CHOCOLATE
-                    }
-                }
-                graphic = label
-                onClickActor {
-                    val counter = actor<Int>(JavaFx) {
-                        var counter = 0
-                        for (total in channel) {
-                            label.text = "${++counter} / $total"
-                        }
-                    }
-                    iex.mapSymbolsWithProgress(iex::getAssetStats, counter)
-                        .toPrettyJson()
-                        .writeToFile(AppSettings.Paths.assetStats)
-                }
-            }
-
-            // TODO: it seems like only one (stats or companies) can run at a time
-            button("Fetch companies") {
-                val label = Label().apply {
-                    style {
-                        fontSize = 0.9.em
-                        fontFamily = "Menlo"
-                        textFill = Color.CHOCOLATE
-                    }
-                }
-                graphic = label
-                onClickActor {
-                    val counter = actor<Int>(JavaFx) {
-                        var counter = 0
-                        for (total in channel) {
-                            label.text = "${++counter} / $total"
-                        }
-                    }
-                    iex.mapSymbolsWithProgress(iex::getCompany, counter)
-                        .toPrettyJson()
-                        .writeToFile(AppSettings.Paths.companyInfo)
-                }
-            }
+//            button("Fetch stats") {
+//                val label = Label().apply {
+//                    style {
+//                        fontSize = 0.9.em
+//                        fontFamily = "Menlo"
+//                        textFill = Color.CHOCOLATE
+//                    }
+//                }
+//                graphic = label
+//                onClickActor {
+//                    val counter = actor<Int>(JavaFx) {
+//                        var counter = 0
+//                        for (total in channel) {
+//                            label.text = "${++counter} / $total"
+//                        }
+//                    }
+//                    iex.mapSymbolsWithProgress(iex::getAssetStats, counter)
+//                        .toPrettyJson()
+//                        .writeToFile(AppSettings.Paths.assetStats)
+//                }
+//            }
+//
+//            // TODO: it seems like only one (stats or companies) can run at a time
+//            button("Fetch companies") {
+//                val label = Label().apply {
+//                    style {
+//                        fontSize = 0.9.em
+//                        fontFamily = "Menlo"
+//                        textFill = Color.CHOCOLATE
+//                    }
+//                }
+//                graphic = label
+//                onClickActor {
+//                    val counter = actor<Int>(JavaFx) {
+//                        var counter = 0
+//                        for (total in channel) {
+//                            label.text = "${++counter} / $total"
+//                        }
+//                    }
+//                    iex.mapSymbolsWithProgress(iex::getCompany, counter)
+//                        .toPrettyJson()
+//                        .writeToFile(AppSettings.Paths.companyInfo)
+//                }
+//            }
         }
     }
 }

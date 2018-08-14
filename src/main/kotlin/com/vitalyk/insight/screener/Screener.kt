@@ -4,8 +4,6 @@ import com.vitalyk.insight.helpers.objectMapper
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.IexSymbols
 import com.vitalyk.insight.main.AppSettings
-import com.vitalyk.insight.main.HttpClients
-import kotlinx.coroutines.experimental.runBlocking
 import java.io.File
 
 // Change since previous day close
@@ -21,10 +19,14 @@ data class ChangeSinceClose(
     val marketCap: Long
 )
 
-fun getChangeSinceClose(iex: Iex, minClose: Double = 2.0, minCap: Long = 500_000_000): List<ChangeSinceClose> {
+fun getChangeSinceClose(
+    iex: Iex,
+    stats: Map<String, Iex.AssetStats>?,
+    minClose: Double = 2.0,
+    minCap: Long = 50_000_000
+): List<ChangeSinceClose> {
     val prevCloses = iex.getPreviousDay()
     val lastTrades = iex.getLastTrade()?.map { it.symbol to it }?.toMap()
-    val stats = loadAssetStatsJson()
     val blacklist = IexSymbols.blacklist
 
     val changes = mutableListOf<ChangeSinceClose>()
@@ -131,12 +133,4 @@ fun loadAssetStatsJson(): Map<String, Iex.AssetStats>? {
     val file = File(AppSettings.Paths.assetStats)
     if (!file.isFile) return null
     return objectMapper.readValue(file, assetStatsMapType)
-}
-
-fun main(args: Array<String>) = runBlocking {
-    val iex = Iex(HttpClients.main)
-
-    getChangeSinceClose(iex).forEach {
-        println(it)
-    }
 }

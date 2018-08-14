@@ -3,6 +3,7 @@ package com.vitalyk.insight.iex
 import com.vitalyk.insight.iex.Iex.PreviousDay
 import com.vitalyk.insight.iex.Iex.Symbol
 import com.vitalyk.insight.main.HttpClients
+import kotlinx.coroutines.experimental.launch
 
 object IexSymbols {
     private var symbolMap = mapOf<String, Symbol>()
@@ -10,6 +11,7 @@ object IexSymbols {
     private val iex = Iex(HttpClients.main)
 
     val blacklist = setOf("WINS")
+    var assetStats: Map<String, Iex.AssetStats>? = null
 
     init {
         iex.getSymbols()?.let {
@@ -17,6 +19,9 @@ object IexSymbols {
         }
         iex.getPreviousDay()?.let {
             previousDayMap = it
+        }
+        launch {
+            assetStats = iex.getAssetStatsAsync()
         }
     }
 
