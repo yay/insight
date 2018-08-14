@@ -21,3 +21,5 @@ fun Long.toLocalTime(timezone: ZoneId = TimeZone.getDefault().toZoneId()) =
     LocalDateTime.ofInstant(Instant.ofEpochMilli(this), timezone)
 
 fun Long.toEasternTime() = this.toLocalTime(ZoneId.of("America/New_York"))
+
+fun Double.toPercentString(): String = "%.2f%%".format(this * 100.0 - 100.0)

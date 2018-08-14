@@ -13,7 +13,9 @@ import kotlinx.coroutines.experimental.runBlocking
 //}
 
 data class PriceAfterBuyback(
-    val newPrice: Double,
+    val previousClose: Double,
+    val latestPrice: Double,
+    val expectedPrice: Double,
     val ttmEPS: Double,
     val newEPS: Double,
     val currentPE: Double,
@@ -22,6 +24,7 @@ data class PriceAfterBuyback(
 
 fun calculateNewPrice(symbol: String, dollarBuybackAmount: Long): PriceAfterBuyback? = runBlocking {
     val iex = Iex(HttpClients.main)
+    val quoteJob = async { iex.getQuote(symbol) }
     val previousJob = async { iex.getPreviousDay(symbol) }
     val earningsJob = async { iex.getEarnings(symbol) }
     val statsJob = async { iex.getAssetStats(symbol) }
@@ -29,10 +32,11 @@ fun calculateNewPrice(symbol: String, dollarBuybackAmount: Long): PriceAfterBuyb
     val previous = previousJob.await()
     val earnings = earningsJob.await()
     val stats = statsJob.await()
+    val quote = quoteJob.await()
 
     var result: PriceAfterBuyback? = null
 
-    if (previous != null && earnings != null && stats != null) {
+    if (previous != null && earnings != null && stats != null && quote != null) {
         // EPS = net income / outstanding shares
         val ttmEPS = earnings.earnings.sumByDouble { it.actualEps }
         val currentPE = previous.close / ttmEPS
@@ -43,7 +47,9 @@ fun calculateNewPrice(symbol: String, dollarBuybackAmount: Long): PriceAfterBuyb
         val newEPS = netIncome / sharesAfterBuyback
 
         result = PriceAfterBuyback(
-            newPrice = newEPS * currentPE,
+            previousClose = previous.close,
+            latestPrice = quote.latestPrice,
+            expectedPrice = newEPS * currentPE,
             ttmEPS = ttmEPS,
             newEPS = newEPS,
             currentPE = currentPE,
