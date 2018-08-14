@@ -15,9 +15,11 @@ import com.vitalyk.insight.main.httpGet
 import com.vitalyk.insight.screener.getAdvancersDecliners
 import com.vitalyk.insight.screener.getHighsLows
 import com.vitalyk.insight.ui.browsebutton
+import com.vitalyk.insight.yahoo.getDistributionInfo
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Side
+import javafx.scene.control.Alert
 import javafx.scene.control.ContextMenu
 import javafx.scene.control.TabPane
 import javafx.scene.layout.Priority
@@ -38,7 +40,14 @@ class MainView : View("Insight") {
 
     override val root = vbox {
         toolbar {
-            button("Symbol Table").action { replaceWith(SymbolTableView::class) }
+            button("Distribution Days").action {
+                alert(
+                    Alert.AlertType.INFORMATION,
+                    "Market Distribution Days",
+                    getDistributionInfo(),
+                    owner = primaryStage
+                )
+            }
             button("Research").action { replaceWith(ResearchView::class) }
 //            button("Watchlists").action { replaceWith(WatchlistView::class) }
             button("Economy").action { replaceWith(EconomyView::class) }
