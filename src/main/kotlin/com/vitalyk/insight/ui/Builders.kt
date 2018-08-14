@@ -53,6 +53,78 @@ fun EventTarget.toolbox(border: Boolean = true, op: HBox.() -> Unit = {}): HBox 
     return opcr(this, hbox, op)
 }
 
+// TODO: WIP - onAction calls addSymbol() in WatchlistFragment, which gets the old symbol.value
+fun EventTarget.symbolcombo(property: ObservableValue<String>? = null,
+                            op: ComboBox<String>.() -> Unit = {},
+                            onAction: (String) -> Unit = {}) = combobox<String>().apply {
+    if (property != null) {
+        editor.bind(property)
+    }
+
+    val historySize = 10
+    val editor: TextField = editor
+    val comboItems = items
+    isEditable = true
+
+    editor.textFormatter = TextFormatter<String> {
+        it.text = it.text.toUpperCase()
+        it
+    }
+
+    fun addToHistory(symbol: String) {
+        if (!comboItems.contains(symbol)) {
+            if (comboItems.size >= historySize) {
+                comboItems.removeAt(comboItems.lastIndex)
+            }
+            comboItems.add(0, symbol)
+        }
+    }
+
+    // TODO: validator
+    val completeMenu = ContextMenu()
+    val sb = StringBuilder()
+
+    editor.textProperty().onChange { value ->
+        if (!isFocused) return@onChange
+        completeMenu.hide()
+        val symbols = IexSymbols.complete(value)
+        if (symbols.isNotEmpty()) {
+            completeMenu.apply {
+                items.clear()
+                symbols.forEach {
+                    val symbol = it.symbol
+                    sb.append(symbol).append(" - ").append(it.name)
+                    item(sb.toString()) {
+                        action {
+                            editor.text = symbol
+                            addToHistory(symbol)
+                            onAction(symbol)
+                        }
+                    }
+                    sb.setLength(0)
+                }
+                if (items.isNotEmpty()) {
+                    show(editor, Side.BOTTOM, 0.0, 0.0)
+                }
+            }
+        }
+    }
+
+    onKeyReleased = EventHandler { event ->
+        if (event.code == KeyCode.ENTER) {
+            val symbol = value
+            println(symbol)
+            addToHistory(symbol)
+            onAction(symbol)
+        }
+    }
+
+    maxWidth = 100.0
+    promptText = "Enter Symbol"
+
+    op(this)
+}
+
 /**
  * `onAction` is called either when the user pressed the Enter key
  * or selected a symbol from the autocomplete menu.

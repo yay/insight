@@ -83,7 +83,12 @@ class Chart<T> {
     }
 }
 
-class Navigator : VBox() {
+class Navigator : Pane() {
+
+    private val scale = scaleLinear<Double> {
+        domain(0.0, 1.0)
+        range(0.0, width)
+    }
 
     var range = 0.0..0.5
         set(value) {
@@ -92,8 +97,8 @@ class Navigator : VBox() {
             if (value.start < 0.0 || value.endInclusive > 1.0 || value.start >= value.endInclusive)
                 throw IllegalArgumentException("A valid range is within 0.0 and 1.0 (inclusive)")
             field = value
-            println(width)
-            println(value.endInclusive - value.start)
+//            println(width)
+//            println(value.endInclusive - value.start)
             updateRect()
         }
 
@@ -108,13 +113,14 @@ class Navigator : VBox() {
     }
 
     private fun updateRect() {
-        println("width: $width")
-        rect.width = width * (range.endInclusive - range.start)
+//        println("width: $width")
+        rect.width = scale(range.endInclusive - range.start)
     }
 
     override fun resize(width: Double, height: Double) {
         println("resize")
         super.resize(width, height)
+        scale.range(0.0, width)
         updateRect()
     }
 
@@ -131,16 +137,18 @@ class Navigator : VBox() {
         this += rect
         range = 0.0..0.5
 
-        var start: Point2D? = null
-        var startX = 0.0
+        var dragOrigin = Point2D(0.0, 0.0)
+        var rectOrigin = 0.0
         onMousePressed = EventHandler { e ->
-            start = Point2D(e.x, e.y)
-            startX = rect.layoutX
+            dragOrigin = Point2D(e.x, e.y)
+            rectOrigin = rect.layoutX
         }
         onMouseDragged = EventHandler { e ->
-            val d = Point2D(e.x, e.y).subtract(start)
-
-            rect.layoutX = startX + d.x
+            val delta = Point2D(e.x, e.y).subtract(dragOrigin)
+            val layoutX = rectOrigin + delta.x
+            val domainX = scale.invert(layoutX)
+            if (domainX >= 0)
+                rect.layoutX = layoutX
         }
         onMouseReleased = EventHandler { e ->
         }

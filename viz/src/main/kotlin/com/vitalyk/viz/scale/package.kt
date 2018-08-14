@@ -18,6 +18,21 @@ inline fun <reified R> reinterpolatorFor() = when {
     else -> throw IllegalArgumentException()
 } as ReinterpolatorFactory<R>
 
+inline fun <reified R> deinterpolatorFor(): DeinterpolatorFactory<R>? {
+    return when {
+        R::class.isSubclassOf(Number::class) -> { a: R, b: R ->
+            val a = (a as Number).toDouble()
+            val b = (b as Number).toDouble()
+            val d = b - a
+            when {
+                d == -0.0 || d == +0.0 || d.isNaN() -> { _ -> d }
+                else -> { x: R -> ((x as Number).toDouble() - a) / d }
+            }
+        }
+        else -> null
+    }
+}
+
 fun main(args: Array<String>) {
     val scale = scaleLinear<Int> {
         domain(0.0, 5.0)
