@@ -7,7 +7,6 @@ import javafx.beans.property.SimpleDoubleProperty
 import javafx.beans.property.SimpleLongProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Insets
-import javafx.scene.control.TextFormatter
 import javafx.scene.layout.Priority
 import javafx.scene.paint.Color
 import kotlinx.coroutines.experimental.async
