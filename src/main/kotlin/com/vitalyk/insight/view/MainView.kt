@@ -244,6 +244,10 @@ class MainView : View("Insight") {
                     }
                 }
             }
+
+            button("X").action {
+                System.exit(0)
+            }
         }
         hbox {
             vgrow = Priority.ALWAYS
