@@ -22,8 +22,8 @@ data class ChangeSinceClose(
 fun getChangeSinceClose(
     iex: Iex,
     stats: Map<String, Iex.AssetStats>?,
-    minClose: Double = 2.0,
-    minCap: Long = 50_000_000
+    minClose: Double,
+    minCap: Long
 ): List<ChangeSinceClose> {
     val prevCloses = iex.getPreviousDay()
     val lastTrades = iex.getLastTrade()?.map { it.symbol to it }?.toMap()
@@ -58,7 +58,7 @@ data class HighsLows(
     val lowCount: Int
 )
 
-fun getHighsLows(iex: Iex, stats: Map<String, Iex.AssetStats>?): HighsLows? {
+fun getHighsLows(iex: Iex, stats: Map<String, Iex.AssetStats>?, minCap: Long): HighsLows? {
     val lastTrades = iex.getLastTrade()?.map { it.symbol to it }?.toMap()
 
     var highCount = 0
@@ -69,8 +69,10 @@ fun getHighsLows(iex: Iex, stats: Map<String, Iex.AssetStats>?): HighsLows? {
             val symbol = it.key
             val trade = it.value
             stats[symbol]?.let { stat ->
-                if (trade.price > stat.week52high) highCount++
-                if (trade.price < stat.week52low) lowCount++
+                if (stat.marketCap >= minCap) {
+                    if (trade.price > stat.week52high) highCount++
+                    if (trade.price < stat.week52low) lowCount++
+                }
             }
         }
         HighsLows(highCount, lowCount)

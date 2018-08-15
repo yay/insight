@@ -212,7 +212,7 @@ class MainView : View("Insight") {
                     while (isActive) {
                         val stats = IexSymbols.assetStats
                         if (stats != null && isMarketHours()) {
-                            getHighsLows(iex, stats)?.let {
+                            getHighsLows(iex, stats, minCap)?.let {
                                 val msg = "${it.highCount} hi / ${it.lowCount} lo"
                                 runLater {
                                     breadthProperty.value = msg

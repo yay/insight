@@ -53,7 +53,8 @@ fun ChangeSinceClose.toFxBean(): ChangeSinceCloseBean =
 private fun getChangeSinceCloseView(iex: Iex) = VBox().apply {
     vgrow = Priority.ALWAYS
 
-    val items = getChangeSinceClose(iex, IexSymbols.assetStats).map { it.toFxBean() }.observable()
+    val items = getChangeSinceClose(iex, IexSymbols.assetStats, 2.0, 50_000_000)
+        .map { it.toFxBean() }.observable()
     val filteredItems = SortedFilteredList(items)
 
     toolbar {
