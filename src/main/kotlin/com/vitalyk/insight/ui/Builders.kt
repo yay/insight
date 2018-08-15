@@ -113,7 +113,6 @@ fun EventTarget.symbolcombo(property: ObservableValue<String>? = null,
         }
     }
 
-    maxWidth = 100.0
     promptText = "Enter Symbol"
 
     op(this)
@@ -171,7 +170,6 @@ fun EventTarget.symbolfield(property: ObservableValue<String>? = null,
         }
     }
 
-    maxWidth = 100.0
     promptText = "Enter Symbol"
 
     op(this)

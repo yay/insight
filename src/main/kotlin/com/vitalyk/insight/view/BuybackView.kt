@@ -2,6 +2,7 @@ package com.vitalyk.insight.view
 
 import com.vitalyk.insight.helpers.toPercentString
 import com.vitalyk.insight.iex.calculateNewPrice
+import com.vitalyk.insight.ui.symbolfield
 import javafx.beans.property.SimpleDoubleProperty
 import javafx.beans.property.SimpleLongProperty
 import javafx.beans.property.SimpleStringProperty
@@ -27,14 +28,7 @@ class BuybackView : View("Share Buyback") {
             hbox(20) {
                 fieldset("Price after buyback calculator") {
                     vbox {
-                        field("Company ticker") {
-                            textfield(symbolProperty) {
-                                textFormatter = TextFormatter<String> {
-                                    it.text = it.text.toUpperCase()
-                                    it
-                                }
-                            }
-                        }
+                        field("Company ticker") { symbolfield(symbolProperty) }
                         field("Dollar buyback amount") { textfield(amountProperty) }
                         field("Previous close") { textfield(prevCloseProperty) { isEditable = false } }
                         field("Latest price") { textfield(latestPriceProperty) { isEditable = false } }
