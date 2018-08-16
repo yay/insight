@@ -9,6 +9,7 @@ import com.vitalyk.insight.helpers.toReadableNumber
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.IexSymbols
 import com.vitalyk.insight.main.HttpClients
+import com.vitalyk.insight.main.appLogger
 import com.vitalyk.insight.main.getAppLog
 import com.vitalyk.insight.main.httpGet
 import com.vitalyk.insight.screener.getAdvancersDecliners
@@ -27,6 +28,7 @@ import kotlinx.coroutines.experimental.launch
 import org.jsoup.Jsoup
 import org.jsoup.parser.Parser
 import tornadofx.*
+import java.net.UnknownHostException
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -106,14 +108,18 @@ class MainView : View("Insight") {
                 var oldDates = listOf<String>()
                 launch {
                     while (isActive) {
-                        val xml = httpGet(rssFeed)
-                        val items = Jsoup.parse(xml, "", Parser.xmlParser()).select("item")
-                        val dates = items.map { it.select("pubDate").text() }
-                        val count = if (oldDates.isNotEmpty()) dates.minus(oldDates).size else 0
-                        runLater {
-                            newStoryCount.set(newStoryCount.get() + count)
+                        try { httpGet(rssFeed) } catch (e: UnknownHostException) {
+                            appLogger.error("Could not fetch the RSS feed: $rssFeed")
+                            null
+                        }?.let { xmlString ->
+                            val items = Jsoup.parse(xmlString, "", Parser.xmlParser()).select("item")
+                            val dates = items.map { it.select("pubDate").text() }
+                            val count = if (oldDates.isNotEmpty()) dates.minus(oldDates).size else 0
+                            runLater {
+                                newStoryCount.set(newStoryCount.get() + count)
+                            }
+                            oldDates = dates
                         }
-                        oldDates = dates
                         delay(5 * 60 * 1000)
                     }
                 }

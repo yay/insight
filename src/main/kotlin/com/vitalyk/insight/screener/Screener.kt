@@ -107,26 +107,6 @@ fun getAdvancersDecliners(iex: Iex, minPrice: Double = 0.0): AdvancersDecliners?
     } else null
 }
 
-fun getChangeSinceOpen() {
-
-}
-
-fun getChange(dayCount: Int) {
-
-}
-
-fun getNewHighs() {
-
-}
-
-fun getNewLows() {
-
-}
-
-fun getDailyHighCount() {
-
-}
-
 private val assetStatsMapType = objectMapper.typeFactory.constructMapType(
     Map::class.java, String::class.java, Iex.AssetStats::class.java
 )
