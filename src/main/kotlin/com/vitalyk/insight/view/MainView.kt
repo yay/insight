@@ -278,6 +278,7 @@ class MainView : View("Insight") {
                         if (stats != null) {
                             val now = LocalDateTime.now(ZoneId.of("America/New_York"))
                             if (isMarketHours(now)) {
+                                if (points.size > maxIntervals) { points.clear() }
                                 getHighsLows(iex, stats, minCap)?.let {
                                     points.add(ChartPoint(now, it.highCount, it.lowCount))
                                     val msg = "${it.highCount} hi / ${it.lowCount} lo"
