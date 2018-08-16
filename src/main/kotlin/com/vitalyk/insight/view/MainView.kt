@@ -16,8 +16,10 @@ import com.vitalyk.insight.screener.getAdvancersDecliners
 import com.vitalyk.insight.screener.getHighsLows
 import com.vitalyk.insight.yahoo.getDistributionInfo
 import javafx.beans.property.SimpleIntegerProperty
-import javafx.beans.property.SimpleStringProperty
+import javafx.event.EventHandler
 import javafx.geometry.Side
+import javafx.scene.chart.CategoryAxis
+import javafx.scene.chart.NumberAxis
 import javafx.scene.control.Alert
 import javafx.scene.control.ContextMenu
 import javafx.scene.layout.Priority
@@ -178,8 +180,8 @@ class MainView : View("Insight") {
             spacer {}
 
             // Simplistic check
-            fun isMarketHours(): Boolean {
-                val datetime = LocalDateTime.now(ZoneId.of("America/New_York"))
+            fun isMarketHours(datetime: LocalDateTime? = null): Boolean {
+                val datetime = datetime ?: LocalDateTime.now(ZoneId.of("America/New_York"))
                 val day = datetime.dayOfWeek
                 val isWeekend = day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY
                 val hour = datetime.hour
@@ -187,55 +189,138 @@ class MainView : View("Insight") {
                 return !isWeekend && (hour > 9 || (hour == 9 && minute >= 30)) && hour < 16
             }
 
-            val advancerProperty = SimpleStringProperty()
-            label(advancerProperty) {
+            label {
+                data class ChartPoint(
+                    val time: LocalDateTime,
+                    val advancerCount: Int,
+                    val declinerCount: Int
+                )
+
+                val label = this
                 val minPrice = 2.0 // Ignore penny stocks
+                val interval = 60 * 1000
+                val day = 6.5 * 60 * 60 * 1000
+                val maxIntervals = day / interval
+                val points = mutableListOf<ChartPoint>()
+                val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+
                 tooltip("Advancers / Decliners\nMin price: $$minPrice")
                 style {
                     padding = box(5.px)
                 }
+
                 launch {
                     while (isActive) {
-                        if (isMarketHours()) {
+                        val now = LocalDateTime.now(ZoneId.of("America/New_York"))
+                        if (isMarketHours(now)) {
+                            if (points.size > maxIntervals) { points.clear() }
                             getAdvancersDecliners(iex, minPrice)?.let {
+                                points.add(ChartPoint(now, it.advancerCount, it.declinerCount))
                                 val msg = "${it.advancerCount} adv / ${it.declinerCount} dec"
                                 runLater {
-                                    advancerProperty.value = msg
+                                    label.text = msg
                                 }
                             }
                         }
-                        delay(1000 * 60)
+                        delay(interval)
                     }
+                }
+
+                onMouseClicked = EventHandler {
+                    object : Fragment() {
+                        override val root = linechart(null, CategoryAxis(), NumberAxis()) {
+                            animated = false
+                            createSymbols = false
+                            vgrow = Priority.ALWAYS
+                            hgrow = Priority.ALWAYS
+
+                            title = "Advancers / Decliners"
+
+                            series("Advancers") {
+                                points.forEach {
+                                    data(timeFormatter.format(it.time), it.advancerCount)
+                                }
+                            }
+
+                            series("Decliners") {
+                                points.forEach {
+                                    data(timeFormatter.format(it.time), it.declinerCount)
+                                }
+                            }
+                        }
+                    }.openModal()
                 }
             }
 
-            val breadthProperty = SimpleStringProperty()
-            label(breadthProperty) {
+            label {
+                data class ChartPoint(
+                    val time: LocalDateTime,
+                    val highCount: Int,
+                    val lowCount: Int
+                )
+
+                val label = this
                 val minCap = 50_000_000L
+                val interval = 60 * 1000
+                val day = 6.5 * 60 * 60 * 1000
+                val maxIntervals = day / interval
+                val points = mutableListOf<ChartPoint>()
+                val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+
                 tooltip("New 52-week highs and lows\nMin market cap: ${minCap.toReadableNumber()}")
                 style {
                     padding = box(5.px)
                 }
+
                 launch {
                     while (isActive) {
                         val stats = IexSymbols.assetStats
-                        if (stats != null && isMarketHours()) {
-                            getHighsLows(iex, stats, minCap)?.let {
-                                val msg = "${it.highCount} hi / ${it.lowCount} lo"
-                                runLater {
-                                    breadthProperty.value = msg
+                        if (stats != null) {
+                            val now = LocalDateTime.now(ZoneId.of("America/New_York"))
+                            if (isMarketHours(now)) {
+                                getHighsLows(iex, stats, minCap)?.let {
+                                    points.add(ChartPoint(now, it.highCount, it.lowCount))
+                                    val msg = "${it.highCount} hi / ${it.lowCount} lo"
+                                    runLater {
+                                        label.text = msg
+                                    }
                                 }
                             }
-                            delay(1000 * 60)
+                            delay(interval)
                         } else {
                             delay(1000 * 5)
                         }
                     }
                 }
+
+                onMouseClicked = EventHandler {
+                    object : Fragment() {
+                        override val root = linechart(null, CategoryAxis(), NumberAxis()) {
+                            animated = false
+                            createSymbols = false
+                            vgrow = Priority.ALWAYS
+                            hgrow = Priority.ALWAYS
+
+                            title = "New 52-week highs and lows"
+
+                            series("Highs") {
+                                points.forEach {
+                                    data(timeFormatter.format(it.time), it.highCount)
+                                }
+                            }
+
+                            series("Lows") {
+                                points.forEach {
+                                    data(timeFormatter.format(it.time), it.lowCount)
+                                }
+                            }
+                        }
+                    }.openModal()
+                }
             }
 
-            val timeProperty = SimpleStringProperty()
-            label(timeProperty) {
+            label {
+                val label = this
                 val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
                 style {
                     fontFamily = "Menlo"
@@ -247,7 +332,7 @@ class MainView : View("Insight") {
                             .now(newYorkZoneId)
                             .format(timeFormatter)
                         runLater {
-                            timeProperty.value = timeStr
+                            label.text = timeStr
                         }
                     }
                 }

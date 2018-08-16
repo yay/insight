@@ -284,7 +284,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
 
     }
 
-    fun addTrigger() {
+    private fun addTrigger() {
         val dialog = Dialog<TextTrigger>().apply {
             initOwner(primaryStage)
             title = "New Trigger"
