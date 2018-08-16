@@ -1,15 +1,11 @@
 package com.vitalyk.insight
 
-import com.vitalyk.insight.iex.Watchlist
-import com.vitalyk.insight.main.AppSettings
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.main.Settings
-import com.vitalyk.insight.reuters.ReutersWire
 import com.vitalyk.insight.style.Styles
 import com.vitalyk.insight.view.MainView
 import io.socket.client.IO
 import io.socket.engineio.client.Socket
-import javafx.scene.control.Alert
 import javafx.stage.Stage
 import okhttp3.OkHttpClient
 import tornadofx.*
@@ -26,17 +22,17 @@ class Insight : App(MainView::class, Styles::class) {
 //            System.err.println(e.message)
 //        }
 
-        if (!Settings.load(AppSettings) {
-            Watchlist.restore(watchlists)
-            ReutersWire.loadState(reutersWire)
-        }) alert(Alert.AlertType.ERROR, "Application settings failed to load (missing or corrupted).")
-
-        // Note: the shutdown hook won"t execute until the OkHttp threads are shut down.
-        Settings.saveOnShutdown(AppSettings) {
-            println("Saving settings...")
-            AppSettings.watchlists = Watchlist.save()
-            AppSettings.reutersWire = ReutersWire.saveState()
-        }
+//        if (!Settings.load(AppSettings) {
+//            Watchlist.restore(watchlists)
+//            ReutersWire.loadState(reutersWire)
+//        }) alert(Alert.AlertType.ERROR, "Application settings failed to load (missing or corrupted).")
+//
+//        // Note: the shutdown hook won"t execute until the OkHttp threads are shut down.
+//        Settings.saveOnShutdown(AppSettings) {
+//            println("Saving settings...")
+//            AppSettings.watchlists = Watchlist.save()
+//            AppSettings.reutersWire = ReutersWire.saveState()
+//        }
 
         //
         //    // The app won"t exit while the scheduler is running.
@@ -55,7 +51,7 @@ class Insight : App(MainView::class, Styles::class) {
         super.start(stage)
 
         stage.setOnCloseRequest {
-            Watchlist.disconnect()
+//            Watchlist.disconnect()
             HttpClients.shutdown()
         }
     }
