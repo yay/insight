@@ -33,17 +33,17 @@ import java.util.*
 // https://www.reuters.com/assets/jsonWireNews?startTime=1525694056000
 
 class ReutersFragment : Fragment("Reuters Wire") {
-    val searchTextProperty = SimpleStringProperty("")
-    val showSearchProperty = SimpleBooleanProperty(false).apply {
+    private val searchTextProperty = SimpleStringProperty("")
+    private val showSearchProperty = SimpleBooleanProperty(false).apply {
         onChange {
             if (!it) searchTextProperty.value = ""
         }
     }
 
 
-    val showNewsProperty = SimpleBooleanProperty(true)
-    val newsItems = mutableListOf<Story>().observable()
-    val filteredNewsItems = FilteredList(newsItems).apply {
+    private val showNewsProperty = SimpleBooleanProperty(true)
+    private val newsItems = mutableListOf<Story>().observable()
+    private val filteredNewsItems = FilteredList(newsItems).apply {
         searchTextProperty.onChange { text ->
             if (text?.isNotBlank() == true) {
                 setPredicate {
@@ -59,9 +59,9 @@ class ReutersFragment : Fragment("Reuters Wire") {
         }
     }
 
-    val alertItems = mutableListOf<StoryAlert>().observable()
-    val showAlertsProperty = SimpleBooleanProperty(false)
-    val showAlertDetailsProperty = SimpleBooleanProperty(false)
+    private val alertItems = mutableListOf<StoryAlert>().observable()
+    private val showAlertsProperty = SimpleBooleanProperty(false)
+    private val showAlertDetailsProperty = SimpleBooleanProperty(false)
 
     private val TextTrigger.displayName: String
         get() = when (this) {
@@ -79,13 +79,12 @@ class ReutersFragment : Fragment("Reuters Wire") {
             else -> "Unrecognized Value"
         }
 
-    val showTriggersProperty = SimpleBooleanProperty(false)
-    val triggerItems = mutableListOf<TextTrigger>().observable()
+    private val showTriggersProperty = SimpleBooleanProperty(false)
+    private val triggerItems = mutableListOf<TextTrigger>().observable()
 
 
     override val root = vbox {
-        minWidth = 250.0
-        maxWidth = 350.0
+        hgrow = Priority.ALWAYS
         toolbar {
             val toggleGroup = ToggleGroup()
             radiobutton ("News", toggleGroup) { isSelected = true }
@@ -347,11 +346,11 @@ class ReutersFragment : Fragment("Reuters Wire") {
         }
     }
 
-    fun updateTriggers() {
+    private fun updateTriggers() {
         triggerItems.setAll(ReutersWire.triggers)
     }
 
-    fun updateAlerts() {
+    private fun updateAlerts() {
         alertItems.setAll(ReutersWire.alerts)
     }
 

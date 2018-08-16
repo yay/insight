@@ -1,7 +1,6 @@
 package com.vitalyk.insight.view
 
 import com.vitalyk.insight.fragment.InfoFragment
-import com.vitalyk.insight.fragment.NewsWatchlistFragment
 import com.vitalyk.insight.fragment.ReutersFragment
 import com.vitalyk.insight.helpers.browseTo
 import com.vitalyk.insight.helpers.getResourceAudioClip
@@ -9,7 +8,6 @@ import com.vitalyk.insight.helpers.newYorkZoneId
 import com.vitalyk.insight.helpers.toReadableNumber
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.IexSymbols
-import com.vitalyk.insight.iex.Watchlist
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.main.getAppLog
 import com.vitalyk.insight.main.httpGet
@@ -21,9 +19,9 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Side
 import javafx.scene.control.Alert
 import javafx.scene.control.ContextMenu
-import javafx.scene.control.TabPane
 import javafx.scene.layout.Priority
 import javafx.scene.paint.Color
+import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import org.jsoup.Jsoup
@@ -40,18 +38,22 @@ class MainView : View("Insight") {
 
     override val root = vbox {
         toolbar {
-            button("Distribution Days").action {
-                alert(
-                    Alert.AlertType.INFORMATION,
-                    "Market Distribution Days",
-                    getDistributionInfo(),
-                    owner = primaryStage
-                )
-            }
             button("Research").action { replaceWith(ResearchView::class) }
             menubutton("Tools") {
                 item("Share Repurchase").action {
                     find(BuybackView::class).openModal()
+                }
+                item("Distribution Days").action {
+                    async {
+                        val info = getDistributionInfo()
+                        runLater {
+                            alert(Alert.AlertType.INFORMATION,
+                                "Market Distribution Days",
+                                info,
+                                owner = primaryStage
+                            )
+                        }
+                    }
                 }
                 item("Movers (fool.com)").action {
                     browseTo("https://www.fool.com/market-movers/")
@@ -253,26 +255,26 @@ class MainView : View("Insight") {
             vgrow = Priority.ALWAYS
 
             this += ReutersFragment()
-            tabpane {
-                hgrow = Priority.ALWAYS
-                tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
-                tab("Main") {
-                    this += NewsWatchlistFragment("Main")
-                }
-                tab("Indexes") {
-                    this += NewsWatchlistFragment(Watchlist.getOrPut("Indexes").apply {
-                        addSymbols(listOf(
-                            "SPY", // SPDR S&P 500
-                            "DIA", // SPDR Dow Jones Industrial Average
-                            "QQQ", // PowerShares QQQ Trust (tracks Nasdaq 100 Index)
-                            "MDY", // SPDR S&P Midcap 400
-                            "IWM", // iShares Russell 2000 (small caps)
-                            "IFA", // iShares MSCI EAFE (developed markets: UK, France, German, Japan, ...)
-                            "EEM"  // iShares MSCI Emerging Markets (China, Korea, Taiwan, Brazil, ...)
-                        ))
-                    })
-                }
-            }
+//            tabpane {
+//                hgrow = Priority.ALWAYS
+//                tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
+//                tab("Main") {
+//                    this += NewsWatchlistFragment("Main")
+//                }
+//                tab("Indexes") {
+//                    this += NewsWatchlistFragment(Watchlist.getOrPut("Indexes").apply {
+//                        addSymbols(listOf(
+//                            "SPY", // SPDR S&P 500
+//                            "DIA", // SPDR Dow Jones Industrial Average
+//                            "QQQ", // PowerShares QQQ Trust (tracks Nasdaq 100 Index)
+//                            "MDY", // SPDR S&P Midcap 400
+//                            "IWM", // iShares Russell 2000 (small caps)
+//                            "IFA", // iShares MSCI EAFE (developed markets: UK, France, German, Japan, ...)
+//                            "EEM"  // iShares MSCI Emerging Markets (China, Korea, Taiwan, Brazil, ...)
+//                        ))
+//                    })
+//                }
+//            }
         }
     }
 }
