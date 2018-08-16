@@ -25,6 +25,21 @@ class EarningsFragment : Fragment("Earnings") {
             item("Yahoo Finance").action {
                 browseTo("https://finance.yahoo.com/quote/$symbol")
             }
+            menu("Chart") {
+                Iex.Range.values().forEach { range ->
+                    item(range.value.name).action {
+                        runAsync {
+                            val iex = Iex(HttpClients.main)
+                            iex.getDayChartWithQuote(symbol, range) ?: mutableListOf()
+                        } ui { points ->
+                            find(DayChartFragment::class).let {
+                                it.updateChart(symbol, points)
+                                it.openModal()
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
