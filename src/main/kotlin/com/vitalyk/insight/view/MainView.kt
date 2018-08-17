@@ -16,7 +16,10 @@ import com.vitalyk.insight.screener.getAdvancersDecliners
 import com.vitalyk.insight.screener.getHighsLows
 import com.vitalyk.insight.yahoo.getDistributionInfo
 import javafx.beans.property.SimpleIntegerProperty
+import javafx.collections.ObservableList
 import javafx.event.EventHandler
+import javafx.event.EventTarget
+import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.geometry.Side
 import javafx.scene.chart.CategoryAxis
@@ -32,6 +35,7 @@ import kotlinx.coroutines.experimental.launch
 import org.jsoup.Jsoup
 import org.jsoup.parser.Parser
 import tornadofx.*
+import tornadofx.Stylesheet.Companion.chartLegendItem
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -40,6 +44,13 @@ import java.time.format.DateTimeFormatter
 
 class MainView : View("Insight") {
     private val iex = Iex(HttpClients.main)
+
+    private fun research(symbol: String) {
+        find(ResearchView::class).let {
+            it.fetch(symbol)
+            root.replaceWith(it.root)
+        }
+    }
 
     override val root = vbox {
         toolbar {
@@ -235,6 +246,10 @@ class MainView : View("Insight") {
 
                             title = "Advancers / Decliners"
 
+                            style {
+                                chartLegendItem
+                            }
+
                             series("Advancers") {
                                 points.forEach {
                                     data(timeFormatter.format(it.time), it.advancerCount)
@@ -321,42 +336,37 @@ class MainView : View("Insight") {
                     }.openWindow()
                 }
 
+                fun EventTarget.makeSymbolList(name: String, symbols: ObservableList<String>) = vbox {
+                    label(name) {
+                        alignment = Pos.CENTER
+                        maxWidth = Double.MAX_VALUE
+                    }
+                    listview(symbols) {
+                        vgrow = Priority.ALWAYS
+                        onUserSelect {
+                            research(it.split("\n").first())
+                        }
+                    }
+                    hgrow = Priority.ALWAYS
+                }
+
                 contextmenu {
                     item("Show companies").action {
                         highsLows?.let {
                             label.runAsyncWithProgress {
-                                val highs = it.highs.map {
-                                    "$it\n${IexSymbols.name(it)}"
-                                }.observable()
-                                val lows = it.lows.map {
-                                    "$it\n${IexSymbols.name(it)}"
-                                }.observable()
-                                Pair(highs, lows)
+                                Pair(
+                                    it.highs.map { "$it\n${IexSymbols.name(it)}" },
+                                    it.lows.map { "$it\n${IexSymbols.name(it)}" }
+                                )
                             } ui {
                                 object : Fragment() {
                                     override val root = hbox {
-                                        vbox {
-                                            label("Highs") {
-                                                alignment = Pos.CENTER
-                                                maxWidth = Double.MAX_VALUE
-                                            }
-                                            listview(it.first) {
-                                                vgrow = Priority.ALWAYS
-                                            }
-                                            hgrow = Priority.ALWAYS
-                                        }
-                                        vbox {
-                                            label("Lows") {
-                                                alignment = Pos.CENTER
-                                                maxWidth = Double.MAX_VALUE
-                                            }
-                                            listview(it.second) {
-                                                vgrow = Priority.ALWAYS
-                                            }
-                                            hgrow = Priority.ALWAYS
-                                        }
+                                        padding = Insets(5.0)
+                                        spacing = 5.0
+                                        makeSymbolList("Highs", it.first.observable())
+                                        makeSymbolList("Lows", it.second.observable())
                                     }
-                                }.openModal()
+                                }.openWindow()
                             }
                         }
                     }
