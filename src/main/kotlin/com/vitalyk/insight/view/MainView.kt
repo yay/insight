@@ -23,6 +23,7 @@ import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.NumberAxis
 import javafx.scene.control.Alert
 import javafx.scene.control.ContextMenu
+import javafx.scene.input.MouseButton
 import javafx.scene.layout.Priority
 import javafx.scene.paint.Color
 import kotlinx.coroutines.experimental.async
@@ -224,6 +225,7 @@ class MainView : View("Insight") {
                 }
 
                 onMouseClicked = EventHandler {
+                    if (it.button == MouseButton.PRIMARY)
                     object : Fragment() {
                         override val root = linechart(null, CategoryAxis(), NumberAxis()) {
                             animated = false
@@ -245,7 +247,7 @@ class MainView : View("Insight") {
                                 }
                             }
                         }
-                    }.openModal()
+                    }.openWindow()
                 }
             }
 
@@ -293,8 +295,8 @@ class MainView : View("Insight") {
                     }
                 }
 
-                onMousePressed = EventHandler {
-                    if (it.isPrimaryButtonDown)
+                onMouseClicked = EventHandler {
+                    if (it.button == MouseButton.PRIMARY)
                     object : Fragment() {
                         override val root = linechart(null, CategoryAxis(), NumberAxis()) {
                             animated = false
@@ -316,7 +318,7 @@ class MainView : View("Insight") {
                                 }
                             }
                         }
-                    }.openModal()
+                    }.openWindow()
                 }
 
                 contextmenu {
