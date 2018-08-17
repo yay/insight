@@ -2,6 +2,9 @@ package com.vitalyk.insight.main
 
 import okhttp3.*
 import java.io.IOException
+import java.net.ConnectException
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 import java.util.concurrent.TimeUnit
 
 object UserAgents {
@@ -87,32 +90,41 @@ fun httpGet(
     client: OkHttpClient,
     withUrl: HttpUrl.Builder.() -> Unit = {},
     withRequest: Request.Builder.() -> Unit = {}
-): String {
+): String? {
     val httpUrl = (HttpUrl.parse(url) ?: throw IllegalArgumentException("Bad URL: $url"))
         .newBuilder().apply(withUrl).build()
-    val request = Request.Builder().url(httpUrl).apply(withRequest).build()
-    val response = client.newCall(request).execute()
 
-    response.use {
+    val request = Request.Builder().url(httpUrl).apply(withRequest).build()
+
+    val response = try {
+        client.newCall(request).execute()
+    } catch (e: Exception) {
+        appLogger.warn("${e.message}:\n$httpUrl")
+//        e.printStackTrace()
+        when (e) {
+            is SocketTimeoutException -> null
+            is UnknownHostException -> null
+            is ConnectException -> null
+            else -> throw e
+        }
+    }
+
+    return response?.use {
         return if (it.isSuccessful) {
-            val body = it.body()
-            if (body != null) {
-                // body.string() seems to never return null,
-                // but can return an empty string or throw IOException
-                body.string()
-            } else {
-                throw IOException("Empty response body. ${it.message()}.\nURL: $httpUrl")
+            try {
+                it.body()?.string()
+            } catch (e: IOException) { // string() can throw
+                appLogger.error("Request failed: $httpUrl\n${e.message}")
+                null
             }
         } else {
-            throw IOException("Request failed. ${it.message()}.\nURL: $httpUrl")
+            appLogger.error("Request failed: $httpUrl\n${it.message()}")
+            null
         }
     }
 }
 
-/**
- * Watch out for IOException.
- */
-fun httpGet(url: String, params: Map<String, String?> = emptyMap()): String {
+fun httpGet(url: String, params: Map<String, String?> = emptyMap()): String? {
     return httpGet(url,
         client = HttpClients.main,
         withUrl = {

@@ -1,10 +1,8 @@
 package com.vitalyk.insight.bond
 
-import com.vitalyk.insight.main.appLogger
 import com.vitalyk.insight.main.httpGet
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -28,12 +26,7 @@ data class Yield(
 )
 
 fun getUsYieldData(): List<Yield> {
-    return try {
-        httpGet(usYieldUrl, apiKeyParam)
-    } catch (e: IOException) {
-        appLogger.error(e.message)
-        null
-    }?.let {
+    return httpGet(usYieldUrl, apiKeyParam)?.let {
         val records = CSVFormat.DEFAULT
             .withFirstRecordAsHeader()
             .withNullString("")

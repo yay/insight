@@ -168,17 +168,12 @@ fun Exchange.fetchSummary() {
 // For now, Nasdaq has a list of securities traded on Nasdaq, NYSE and AMEX, so we use that:
 // http://www.nasdaq.com/screening/company-list.aspx
 fun Exchange.getExchangeSecuritiesFromNasdaq(): List<Security> {
-
-    return try {
-        yahooGet("http://www.nasdaq.com/screening/companies-by-name.aspx", mapOf(
-            "letter" to "0",
-            "render" to "download",
-            "exchange" to this.code
-        ))
-    } catch (e: IOException) {
-        logger.error(e.message)
-        null
-    }?.let {
+    val params = mapOf(
+        "letter" to "0",
+        "render" to "download",
+        "exchange" to this.code
+    )
+    return yahooGet("http://www.nasdaq.com/screening/companies-by-name.aspx", params)?.let {
         val records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(it.reader())
 
         // Convert CSVRecord's to instances of the Security data class.

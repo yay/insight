@@ -4,7 +4,7 @@ import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.main.UserAgents
 import com.vitalyk.insight.main.httpGet
 
-fun yahooGet(url: String, params: Map<String, String?> = emptyMap()): String {
+fun yahooGet(url: String, params: Map<String, String?> = emptyMap()): String? {
     return httpGet(url,
         client = HttpClients.yahoo,
         withUrl = {

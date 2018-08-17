@@ -100,12 +100,7 @@ fun getChart(symbol: String, interval: String = "1m", includePrePost: Boolean = 
 //        "crumb" to "4zz3rv3vXd1",
 //        "corsDomain" to "finance.yahoo.com"
     )
-    return try {
-        yahooGet(baseUrl + symbol, params)
-    } catch (e: IOException) {
-        e.printStackTrace()
-        null
-    }?.let {
+    return yahooGet(baseUrl + symbol, params)?.let {
         val chartResponse = objectMapper.readValue<ChartResponse>(it).chart
         if (chartResponse.error == null) {
             chartResponse.result.first()

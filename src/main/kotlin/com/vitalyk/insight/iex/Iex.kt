@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -81,15 +82,18 @@ class Iex(private val httpClient: OkHttpClient) {
                     addQueryParameter(key, value)
                 }
             }.build()
+
         val request = Request.Builder().url(httpUrl).build()
         val response = try {
             httpClient.newCall(request).execute()
-        } catch (e: ConnectException) {
+        } catch (e: Exception) {
             logger.warn("${e.message}:\n$httpUrl")
-            null
-        } catch (e: SocketTimeoutException) {
-            logger.warn("${e.message}:\n$httpUrl")
-            null
+            when (e) {
+                is SocketTimeoutException -> null
+                is UnknownHostException -> null
+                is ConnectException -> null
+                else -> throw e
+            }
         }
 
         return response?.use {
@@ -97,11 +101,11 @@ class Iex(private val httpClient: OkHttpClient) {
                 try {
                     it.body()?.string()
                 } catch (e: IOException) { // string() can throw
-                    logger.error("Request failed. ${e.message}:\n$httpUrl")
+                    logger.error("Request failed: $httpUrl\n${e.message}")
                     null
                 }
             } else {
-                logger.error("Request failed. ${it.message()}:\n$httpUrl")
+                logger.error("Request failed: $httpUrl\n${it.message()}")
                 null
             }
         }
