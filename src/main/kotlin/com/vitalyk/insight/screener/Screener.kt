@@ -61,20 +61,28 @@ data class HighsLows(
 fun getHighsLows(iex: Iex, stats: Map<String, Iex.AssetStats>?, minCap: Long): HighsLows? {
     val lastTrades = iex.getLastTrade()?.map { it.symbol to it }?.toMap()
 
+    data class Company(
+        val symbol: String,
+        val cap: Long
+    )
+
     return if (lastTrades != null && stats != null) {
-        val highs = mutableListOf<String>()
-        val lows = mutableListOf<String>()
+        val highs = mutableListOf<Company>()
+        val lows = mutableListOf<Company>()
         lastTrades.forEach {
             val symbol = it.key
             val trade = it.value
             stats[symbol]?.let { stat ->
-                if (stat.marketCap >= minCap) {
-                    if (trade.price > stat.week52high) highs.add(symbol)
-                    if (trade.price < stat.week52low) lows.add(symbol)
+                val cap = stat.marketCap
+                if (cap >= minCap) {
+                    if (trade.price > stat.week52high) highs.add(Company(symbol, cap))
+                    if (trade.price < stat.week52low) lows.add(Company(symbol, cap))
                 }
             }
         }
-        HighsLows(highs, lows)
+        highs.sortByDescending { it.cap }
+        lows.sortByDescending { it.cap }
+        HighsLows(highs.map { it.symbol }, lows.map { it.symbol })
     } else null
 }
 
