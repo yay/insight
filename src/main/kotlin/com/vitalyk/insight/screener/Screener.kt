@@ -54,28 +54,27 @@ fun getChangeSinceClose(
 
 // The number of new 52-week highs and lows today
 data class HighsLows(
-    val highCount: Int,
-    val lowCount: Int
+    val highs: List<String>,
+    val lows: List<String>
 )
 
 fun getHighsLows(iex: Iex, stats: Map<String, Iex.AssetStats>?, minCap: Long): HighsLows? {
     val lastTrades = iex.getLastTrade()?.map { it.symbol to it }?.toMap()
 
-    var highCount = 0
-    var lowCount = 0
-
     return if (lastTrades != null && stats != null) {
+        val highs = mutableListOf<String>()
+        val lows = mutableListOf<String>()
         lastTrades.forEach {
             val symbol = it.key
             val trade = it.value
             stats[symbol]?.let { stat ->
                 if (stat.marketCap >= minCap) {
-                    if (trade.price > stat.week52high) highCount++
-                    if (trade.price < stat.week52low) lowCount++
+                    if (trade.price > stat.week52high) highs.add(symbol)
+                    if (trade.price < stat.week52low) lows.add(symbol)
                 }
             }
         }
-        HighsLows(highCount, lowCount)
+        HighsLows(highs, lows)
     } else null
 }
 

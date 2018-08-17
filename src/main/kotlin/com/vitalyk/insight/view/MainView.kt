@@ -12,11 +12,13 @@ import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.main.appLogger
 import com.vitalyk.insight.main.getAppLog
 import com.vitalyk.insight.main.httpGet
+import com.vitalyk.insight.screener.HighsLows
 import com.vitalyk.insight.screener.getAdvancersDecliners
 import com.vitalyk.insight.screener.getHighsLows
 import com.vitalyk.insight.yahoo.getDistributionInfo
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.event.EventHandler
+import javafx.geometry.Pos
 import javafx.geometry.Side
 import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.NumberAxis
@@ -266,6 +268,7 @@ class MainView : View("Insight") {
                 val maxIntervals = day / interval
                 val points = mutableListOf<ChartPoint>()
                 val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+                var highsLows: HighsLows? = null
 
                 tooltip("New 52-week highs and lows\nMin market cap: ${minCap.toReadableNumber()}")
                 style {
@@ -280,8 +283,9 @@ class MainView : View("Insight") {
                             if (isMarketHours(now)) {
                                 if (points.size > maxIntervals) { points.clear() }
                                 getHighsLows(iex, stats, minCap)?.let {
-                                    points.add(ChartPoint(now, it.highCount, it.lowCount))
-                                    val msg = "${it.highCount} hi / ${it.lowCount} lo"
+                                    highsLows = it
+                                    points.add(ChartPoint(now, it.highs.size, it.lows.size))
+                                    val msg = "${it.highs.size} hi / ${it.lows.size} lo"
                                     runLater {
                                         label.text = msg
                                     }
@@ -294,7 +298,8 @@ class MainView : View("Insight") {
                     }
                 }
 
-                onMouseClicked = EventHandler {
+                onMousePressed = EventHandler {
+                    if (it.isPrimaryButtonDown)
                     object : Fragment() {
                         override val root = linechart(null, CategoryAxis(), NumberAxis()) {
                             animated = false
@@ -317,6 +322,47 @@ class MainView : View("Insight") {
                             }
                         }
                     }.openModal()
+                }
+
+                contextmenu {
+                    item("Show companies").action {
+                        highsLows?.let {
+                            label.runAsyncWithProgress {
+                                val highs = it.highs.map {
+                                    "$it\n${IexSymbols.name(it)}"
+                                }.observable()
+                                val lows = it.lows.map {
+                                    "$it\n${IexSymbols.name(it)}"
+                                }.observable()
+                                Pair(highs, lows)
+                            } ui {
+                                object : Fragment() {
+                                    override val root = hbox {
+                                        vbox {
+                                            label("Highs") {
+                                                alignment = Pos.CENTER
+                                                maxWidth = Double.MAX_VALUE
+                                            }
+                                            listview(it.first) {
+                                                vgrow = Priority.ALWAYS
+                                            }
+                                            hgrow = Priority.ALWAYS
+                                        }
+                                        vbox {
+                                            label("Lows") {
+                                                alignment = Pos.CENTER
+                                                maxWidth = Double.MAX_VALUE
+                                            }
+                                            listview(it.second) {
+                                                vgrow = Priority.ALWAYS
+                                            }
+                                            hgrow = Priority.ALWAYS
+                                        }
+                                    }
+                                }.openModal()
+                            }
+                        }
+                    }
                 }
             }
 
