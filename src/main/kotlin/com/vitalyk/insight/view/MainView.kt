@@ -201,8 +201,7 @@ class MainView : View("Insight") {
             label {
                 data class ChartPoint(
                     val time: LocalDateTime,
-                    val advancerCount: Int,
-                    val declinerCount: Int
+                    val change: Int // advancers - decliners
                 )
 
                 val label = this
@@ -224,7 +223,7 @@ class MainView : View("Insight") {
                         if (isMarketHours(now)) {
                             if (points.size > maxIntervals) { points.clear() }
                             getAdvancersDecliners(iex, minPrice)?.let {
-                                points.add(ChartPoint(now, it.advancerCount, it.declinerCount))
+                                points.add(ChartPoint(now, it.advancerCount - it.declinerCount))
                                 val msg = "${it.advancerCount} adv / ${it.declinerCount} dec"
                                 runLater {
                                     label.text = msg
@@ -241,24 +240,19 @@ class MainView : View("Insight") {
                         override val root = linechart(null, CategoryAxis(), NumberAxis()) {
                             animated = false
                             createSymbols = false
+                            isLegendVisible = false
                             vgrow = Priority.ALWAYS
                             hgrow = Priority.ALWAYS
 
-                            title = "Advancers / Decliners"
+                            title = "Advancers - Decliners = ${points.last().change}"
 
                             style {
                                 chartLegendItem
                             }
 
-                            series("Advancers") {
+                            series("Advancers - Decliners") {
                                 points.forEach {
-                                    data(timeFormatter.format(it.time), it.advancerCount)
-                                }
-                            }
-
-                            series("Decliners") {
-                                points.forEach {
-                                    data(timeFormatter.format(it.time), it.declinerCount)
+                                    data(timeFormatter.format(it.time), it.change)
                                 }
                             }
                         }
