@@ -11,6 +11,7 @@ import com.vitalyk.insight.iex.IexSymbols
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.main.getAppLog
 import com.vitalyk.insight.main.httpGet
+import com.vitalyk.insight.research.topPriceToSales
 import com.vitalyk.insight.screener.HighsLows
 import com.vitalyk.insight.screener.getAdvancersDecliners
 import com.vitalyk.insight.screener.getHighsLows
