@@ -11,7 +11,6 @@ import com.vitalyk.insight.iex.IexSymbols
 import com.vitalyk.insight.main.HttpClients
 import com.vitalyk.insight.main.getAppLog
 import com.vitalyk.insight.main.httpGet
-import com.vitalyk.insight.research.topPriceToSales
 import com.vitalyk.insight.screener.HighsLows
 import com.vitalyk.insight.screener.getAdvancersDecliners
 import com.vitalyk.insight.screener.getHighsLows
@@ -56,6 +55,7 @@ class MainView : View("Insight") {
     override val root = vbox {
         toolbar {
             button("Research").action { replaceWith(ResearchView::class) }
+            button("Economy").action { replaceWith(EconomyView::class) }
             menubutton("Tools") {
                 item("Share Repurchase").action {
                     find(BuybackView::class).openModal()
@@ -79,8 +79,6 @@ class MainView : View("Insight") {
                     browseTo("https://www.tradingview.com/screener/")
                 }
             }
-//            button("Watchlists").action { replaceWith(WatchlistView::class) }
-            button("Economy").action { replaceWith(EconomyView::class) }
             button("Screener") {
                 isDisable = true
                 launch {
@@ -174,15 +172,6 @@ class MainView : View("Insight") {
                         if (menu.items.isNotEmpty()) {
                             menu.show(this, Side.BOTTOM, 0.0, 0.0)
                         }
-                    }
-                }
-            }
-
-            button("Log").action {
-                getAppLog()?.apply {
-                    find(InfoFragment::class.java).apply {
-                        setInfo("App Log", readText())
-                        openModal()
                     }
                 }
             }
@@ -395,26 +384,18 @@ class MainView : View("Insight") {
             vgrow = Priority.ALWAYS
 
             this += ReutersFragment()
-//            tabpane {
-//                hgrow = Priority.ALWAYS
-//                tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
-//                tab("Main") {
-//                    this += NewsWatchlistFragment("Main")
-//                }
-//                tab("Indexes") {
-//                    this += NewsWatchlistFragment(Watchlist.getOrPut("Indexes").apply {
-//                        addSymbols(listOf(
-//                            "SPY", // SPDR S&P 500
-//                            "DIA", // SPDR Dow Jones Industrial Average
-//                            "QQQ", // PowerShares QQQ Trust (tracks Nasdaq 100 Index)
-//                            "MDY", // SPDR S&P Midcap 400
-//                            "IWM", // iShares Russell 2000 (small caps)
-//                            "IFA", // iShares MSCI EAFE (developed markets: UK, France, German, Japan, ...)
-//                            "EEM"  // iShares MSCI Emerging Markets (China, Korea, Taiwan, Brazil, ...)
-//                        ))
-//                    })
-//                }
-//            }
+        }
+        toolbar {
+            button("Watchlists").action { replaceWith(WatchlistView::class) }
+            spacer {}
+            button("Log").action {
+                getAppLog()?.apply {
+                    find(InfoFragment::class.java).apply {
+                        setInfo("App Log", readText())
+                        openModal()
+                    }
+                }
+            }
         }
     }
 }
