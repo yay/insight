@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/insight.iml" filepath="$PROJECT_DIR$/.idea/modules/insight.iml" />
-      <module fileurl="file://$PROJECT_DIR$/insight.iml" filepath="$PROJECT_DIR$/insight.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/viz/insight-viz.iml" filepath="$PROJECT_DIR$/.idea/modules/viz/insight-viz.iml" group="viz" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/insight_main.iml" filepath="$PROJECT_DIR$/.idea/modules/insight_main.iml" group="insight" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/insight_test.iml" filepath="$PROJECT_DIR$/.idea/modules/insight_test.iml" group="insight" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/viz/viz.iml" filepath="$PROJECT_DIR$/.idea/modules/viz/viz.iml" group="viz" />

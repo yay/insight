@@ -9,6 +9,8 @@ import javafx.stage.FileChooser
 import javafx.stage.Stage
 import kotlinx.coroutines.experimental.async
 import tornadofx.*
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 data class Entry(
     val symbol: String,
@@ -31,8 +33,11 @@ suspend fun topPriceToSales() {
     }
 
     runLater {
+        println("Select where to save the data...")
+        val date = LocalDate.now().format(DateTimeFormatter.ISO_DATE)
         FileChooser().apply {
             title = "Save as JSON"
+            initialFileName = "TopPriceToSales-$date.json"
             showSaveDialog(null)?.writeText(entries.toPrettyJson())
         }
     }
@@ -40,6 +45,8 @@ suspend fun topPriceToSales() {
     priceToSales.forEach {
         println("${it.symbol} ${it.priceToSales} ${it.marketCap.toReadableNumber()} ")
     }
+
+    System.exit(0)
 }
 
 class PriceToSalesApp: Application() {
