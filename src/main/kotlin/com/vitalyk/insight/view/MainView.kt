@@ -231,6 +231,8 @@ class MainView : View("Insight") {
                             animated = false
                             createSymbols = false
                             isLegendVisible = false
+                            isHorizontalGridLinesVisible = false
+                            verticalGridLinesVisible = false
                             vgrow = Priority.ALWAYS
                             hgrow = Priority.ALWAYS
 
@@ -300,6 +302,8 @@ class MainView : View("Insight") {
                         override val root = linechart(null, CategoryAxis(), NumberAxis()) {
                             animated = false
                             createSymbols = false
+                            isHorizontalGridLinesVisible = false
+                            verticalGridLinesVisible = false
                             vgrow = Priority.ALWAYS
                             hgrow = Priority.ALWAYS
 
