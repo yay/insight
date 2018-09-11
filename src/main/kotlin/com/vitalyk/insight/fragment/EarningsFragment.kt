@@ -19,8 +19,11 @@ class EarningsFragment : Fragment("Earnings") {
             item("Earnings Calendar").action {
                 browseTo("http://hosting.briefing.com/cschwab/Calendars/EarningsCalendar5Weeks.htm")
             }
-            item("Nasdaq").action {
-                browseTo("https://www.nasdaq.com/earnings/report/$symbol")
+            item("Nasdaq Earnings").action {
+                browseTo("https://www.nasdaq.com/earnings/report/${symbol.toLowerCase()}")
+            }
+            item("Nasdaq Institutional Holdings").action {
+                browseTo("https://www.nasdaq.com/symbol/${symbol.toLowerCase()}/institutional-holdings")
             }
             item("Yahoo Finance").action {
                 browseTo("https://finance.yahoo.com/quote/$symbol")
