@@ -35,7 +35,6 @@ import kotlinx.coroutines.experimental.launch
 import org.jsoup.Jsoup
 import org.jsoup.parser.Parser
 import tornadofx.*
-import tornadofx.Stylesheet.Companion.chartLegendItem
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -237,10 +236,6 @@ class MainView : View("Insight") {
                             hgrow = Priority.ALWAYS
 
                             title = "Advancers - Decliners = ${points.last().change}"
-
-                            style {
-                                chartLegendItem
-                            }
 
                             series("Advancers - Decliners") {
                                 points.forEach {
