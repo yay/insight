@@ -53,6 +53,8 @@ class Insight : App(MainView::class, Styles::class) {
         stage.setOnCloseRequest {
 //            Watchlist.disconnect()
             HttpClients.shutdown()
+
+            System.exit(0)
         }
     }
 
