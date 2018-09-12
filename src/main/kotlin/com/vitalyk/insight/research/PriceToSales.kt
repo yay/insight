@@ -38,20 +38,23 @@ suspend fun topPriceToSales() {
         FileChooser().apply {
             title = "Save as JSON"
             initialFileName = "TopPriceToSales-$date.json"
-            showSaveDialog(null)?.writeText(entries.toPrettyJson())
+            showSaveDialog(null)?.apply {
+                writeText(entries.toPrettyJson())
+                println("Saved to: $absolutePath")
+            }
         }
     }
 
     priceToSales.forEach {
         println("${it.symbol} ${it.priceToSales} ${it.marketCap.toReadableNumber()} ")
     }
-
-    System.exit(0)
 }
 
 class PriceToSalesApp: Application() {
     override fun start(primaryStage: Stage) {
-        async { topPriceToSales() }
+        async {
+            topPriceToSales()
+        }
     }
 }
 
