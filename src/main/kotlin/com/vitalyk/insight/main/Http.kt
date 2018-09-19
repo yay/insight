@@ -118,7 +118,7 @@ fun httpGet(
                 null
             }
         } else {
-            appLogger.error("Request failed: $httpUrl\n${it.message()}")
+            appLogger.warn("Request failed: $httpUrl\n${it.message()}")
             null
         }
     }

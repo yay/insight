@@ -105,7 +105,7 @@ class Iex(private val httpClient: OkHttpClient) {
                     null
                 }
             } else {
-                logger.error("Request failed: $httpUrl\n${it.message()}")
+                logger.warn("Request failed: $httpUrl\n${it.message()}")
                 null
             }
         }
