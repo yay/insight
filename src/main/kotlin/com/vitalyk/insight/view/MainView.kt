@@ -142,12 +142,13 @@ class MainView : View("Insight") {
                 action {
                     newStoryCount.set(0)
                     runAsyncWithProgress {
-                        val xml = httpGet(rssFeed)
-                        val items = Jsoup.parse(xml, "", Parser.xmlParser()).select("item")
-                        items.map {
-                            val date = it.select("pubDate").text().substringBeforeLast("0")
-                            Story(date, it.select("title").text(), it.select("link").text())
-                        }
+                        httpGet(rssFeed)?.let { xml ->
+                            val items = Jsoup.parse(xml, "", Parser.xmlParser()).select("item")
+                            items.map {
+                                val date = it.select("pubDate").text().substringBeforeLast("0")
+                                Story(date, it.select("title").text(), it.select("link").text())
+                            }
+                        } ?: emptyList()
                     } ui { stories ->
                         menu.items.clear()
                         stories.forEach { story ->
@@ -155,16 +156,20 @@ class MainView : View("Insight") {
                                 runAsyncWithProgress {
                                     val html = httpGet(story.link)
                                     val content = Jsoup.parse(html).select(".content")
-                                    val text = content.first().wholeText()
-                                        .substringBefore("Get an email alert")
-                                        .trim()
-                                    runLater {
-                                        find(InfoFragment::class.java).apply {
-                                            setInfo(story.title, story.date + "\n\n" + text)
-                                            setSize(600, 600)
-                                            openWindow()
+                                    content.first()
+                                        ?.wholeText()
+                                        ?.substringBefore("Get an email alert")
+                                        ?.trim()
+                                        ?.let { text ->
+                                            runLater {
+                                                find(InfoFragment::class.java).apply {
+                                                    setInfo(story.title, story.date + "\n\n" + text)
+                                                    setSize(600, 600)
+                                                    openWindow()
+                                                }
+                                            }
                                         }
-                                    }
+                                    Unit
                                 }
                             }
                         }
