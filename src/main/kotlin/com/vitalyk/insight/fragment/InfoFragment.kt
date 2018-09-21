@@ -1,9 +1,11 @@
 package com.vitalyk.insight.fragment
 
 import com.vitalyk.insight.helpers.dropSingle
+import com.vitalyk.insight.main.sendEmail
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.layout.Priority
+import kotlinx.coroutines.experimental.async
 import tornadofx.*
 
 class InfoFragment : Fragment() {
@@ -16,6 +18,12 @@ class InfoFragment : Fragment() {
         padding = Insets(10.0)
         this += textarea
         hbox {
+            button("Email").action {
+                async {
+                    sendEmail("rarename@icloud.com", fragment.title, textarea.text)
+                }
+            }
+            spacer {}
             button("OK") {
                 action {
                     fragment.close()

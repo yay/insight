@@ -7,12 +7,11 @@ import javax.mail.Session
 import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
-fun sendEmail(to: String, subject: String, content: String) {
+fun sendEmail(to: String, subject: String, content: String, isHtml: Boolean = false) {
     val smtpServer = "smtp.gmail.com"
     val port = 465
     val username = "vitalyx@gmail.com"
     val password = "kcoomuicctzglszn"
-    val contentType = "text/html"
     val from = "insight@vitalyk.com"
     val bounceAddress = "vitalyx@gmail.com"
 
@@ -38,7 +37,14 @@ fun sendEmail(to: String, subject: String, content: String) {
         addFrom(InternetAddress.parse(from))
         setRecipients(Message.RecipientType.TO, to)
         setSubject(subject.substringBefore('\n'))
-        setContent(content, contentType)
+
+        if (isHtml) {
+            setContent(content, "text/html; charset=utf-8")
+        } else {
+            setText(content, "utf-8")
+        }
+
+        saveChanges()
     }
 
     val transport = session.transport
