@@ -12,6 +12,7 @@ object IexSymbols {
 
     val blacklist = setOf("WINS")
     var assetStats: Map<String, Iex.AssetStats>? = null
+    var companies: Map<String, Iex.Company>? = null
 
     init {
         iex.getSymbols()?.let {
@@ -20,9 +21,8 @@ object IexSymbols {
         iex.getPreviousDay()?.let {
             previousDayMap = it
         }
-        launch {
-            assetStats = iex.getAssetStatsAsync()
-        }
+        launch { assetStats = iex.getAssetStatsAsync() }
+        launch { companies = iex.getCompaniesAsync() }
     }
 
     // Returns the list of symbols that have the `part` sequence in their name.

@@ -863,6 +863,14 @@ class Iex(private val httpClient: OkHttpClient) {
         }
     }
 
+    suspend fun getCompaniesAsync(): Map<String, Company> {
+        val symbolMap = getSymbols()?.let { it.map { it.symbol to it }.toMap() } ?: emptyMap()
+        return symbolMap.map { async { getCompany(it.key) } }
+            .mapNotNull { it.await() }
+            .map { it.symbol to it }
+            .toMap()
+    }
+
     /**
      * Fetches stats for the specified symbol.
      */

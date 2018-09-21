@@ -16,12 +16,15 @@ data class ChangeSinceClose(
     val price: Double,  // current price
     val change: Double, // price/close ratio
     val changePercent: Double,
-    val marketCap: Long
+    val marketCap: Long,
+    val industry: String = "",
+    val sector: String = ""
 )
 
 fun getChangeSinceClose(
     iex: Iex,
     stats: Map<String, Iex.AssetStats>?,
+    companies: Map<String, Iex.Company>?,
     minClose: Double,
     minCap: Long
 ): List<ChangeSinceClose> {
@@ -43,7 +46,18 @@ fun getChangeSinceClose(
                 if (isExpensiveEnough && isBigEnough && symbol !in blacklist) {
                     val change = price / close
                     val changePct = (change - 1.0) * 100.0
-                    changes.add(ChangeSinceClose(symbol, close, price, change, changePct, cap!!))
+                    val company = companies?.get(symbol)
+                    val changeSinceClose = ChangeSinceClose(
+                        symbol,
+                        close,
+                        price,
+                        change,
+                        changePct,
+                        cap!!,
+                        company?.industry ?: "",
+                        company?.sector ?: ""
+                    )
+                    changes.add(changeSinceClose)
                 }
             }
         }

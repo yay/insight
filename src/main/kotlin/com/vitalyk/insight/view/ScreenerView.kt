@@ -36,6 +36,12 @@ class ChangeSinceCloseBean {
 
     val marketCapProperty = SimpleLongProperty()
     var marketCap by marketCapProperty
+
+    val industryProperty = SimpleStringProperty()
+    var industry by industryProperty
+
+    val sectorProperty = SimpleStringProperty()
+    var sector by sectorProperty
 }
 
 fun ChangeSinceClose.toFxBean(): ChangeSinceCloseBean =
@@ -47,13 +53,15 @@ fun ChangeSinceClose.toFxBean(): ChangeSinceCloseBean =
         it.change = change
         it.changePercent = changePercent
         it.marketCap = marketCap
+        it.industry = industry
+        it.sector = sector
         it
     }
 
 private fun getChangeSinceCloseView(iex: Iex) = VBox().apply {
     vgrow = Priority.ALWAYS
 
-    val items = getChangeSinceClose(iex, IexSymbols.assetStats, 2.0, 50_000_000)
+    val items = getChangeSinceClose(iex, IexSymbols.assetStats, IexSymbols.companies, 2.0, 50_000_000)
         .map { it.toFxBean() }.observable()
     val filteredItems = SortedFilteredList(items)
 
@@ -136,6 +144,8 @@ private fun getChangeSinceCloseView(iex: Iex) = VBox().apply {
             column("Mkt Cap", ChangeSinceCloseBean::marketCap).cellFormat {
                 text = it.toReadableNumber()
             }
+            column("Industry", ChangeSinceCloseBean::industry)
+            column("Sector", ChangeSinceCloseBean::sector)
 
             contextmenu {
                 menu("Chart") {
