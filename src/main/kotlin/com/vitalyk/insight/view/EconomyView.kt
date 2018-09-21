@@ -44,8 +44,9 @@ class EconomyView : View("Economy") {
                     spacing = 10.0
 
                     browsebutton("Economic Calendar", "http://hosting.briefing.com/cschwab/Calendars/EconomicCalendar.htm")
-                    browsebutton("IHS Markit", "https://www.markiteconomics.com/Survey/Page.mvc/PressReleases")
                     browsebutton("Earnings Calendar", "http://hosting.briefing.com/cschwab/Calendars/EarningsCalendar5Weeks.htm")
+                    browsebutton("IHS Markit", "https://www.markiteconomics.com/Survey/Page.mvc/PressReleases")
+                    browsebutton("IHS Calendar", "https://www.markiteconomics.com/Public/Release/ReleaseDates?language=en")
                     browsebutton("IPO Lockup Expirations", "https://www.marketbeat.com/ipos/lockup-expirations/") {
                         tooltip("""
                             A lock-up agreement is a legally binding contract between the underwriters
