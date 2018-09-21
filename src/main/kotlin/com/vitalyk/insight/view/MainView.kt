@@ -165,6 +165,7 @@ class MainView : View("Insight") {
                                                 find(InfoFragment::class.java).apply {
                                                     setInfo(story.title, story.date + "\n\n" + text)
                                                     setSize(600, 600)
+                                                    setUrl(story.link)
                                                     openWindow()
                                                 }
                                             }
