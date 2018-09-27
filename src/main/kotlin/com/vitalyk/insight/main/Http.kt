@@ -8,10 +8,9 @@ import java.net.UnknownHostException
 import java.util.concurrent.TimeUnit
 
 object UserAgents {
-    val chrome =
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) " +
-            "AppleWebKit/537.36 (KHTML, like Gecko) " +
-            "Chrome/57.0.2987.133 Safari/537.36"
+    const val chrome = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) " +
+        "AppleWebKit/537.36 (KHTML, like Gecko) " +
+        "Chrome/69.0.3497.100 Safari/537.36"
 }
 
 object HttpClients {
@@ -114,11 +113,11 @@ fun httpGet(
             try {
                 it.body()?.string()
             } catch (e: IOException) { // string() can throw
-                appLogger.error("Request failed: $httpUrl\n${e.message}")
+                appLogger.error("Request failed - ${e.message}\nURL: $httpUrl")
                 null
             }
         } else {
-            appLogger.warn("Request failed: $httpUrl\n${it.message()}")
+            appLogger.warn("Request failed - ${it.code()} - ${it.message()}\nURL: $httpUrl")
             null
         }
     }
