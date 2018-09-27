@@ -30,6 +30,15 @@ val usaSingleFilerTaxBrackets2018: Array<TaxBracket> = arrayOf(
     TaxBracket(38.5, 500_000..Int.MAX_VALUE)
 )
 
+// val tax = calculateTax(100_000, ukBrackets2018)
+// println("100_000 -> $tax") // EffectiveTax(abs=28360.0, pct=28.36)
+val ukBrackets2018: Array<TaxBracket> = arrayOf(
+    TaxBracket(0.0, 0..11_850),
+    TaxBracket(20.0, 11_850..46_350),
+    TaxBracket(40.0, 46_350..150_000),
+    TaxBracket(45.0, 150_000..Int.MAX_VALUE)
+)
+
 fun intersect(a: IntRange, b: IntRange): IntRange =
     Math.max(a.first, b.first)..Math.min(a.last, b.last)
 
