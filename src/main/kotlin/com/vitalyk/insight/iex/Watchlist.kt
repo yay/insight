@@ -3,8 +3,9 @@ package com.vitalyk.insight.iex
 import com.vitalyk.insight.iex.Iex.Tops
 import io.socket.client.IO
 import io.socket.client.Socket
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 import java.time.Instant
 import kotlin.collections.set

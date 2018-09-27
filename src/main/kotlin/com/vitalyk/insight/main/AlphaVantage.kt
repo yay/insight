@@ -1,7 +1,7 @@
 package com.vitalyk.insight.main
 
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import okhttp3.HttpUrl
 import java.net.URI
 

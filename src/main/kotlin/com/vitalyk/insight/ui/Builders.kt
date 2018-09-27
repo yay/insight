@@ -17,8 +17,8 @@ import javafx.scene.paint.Color
 import javafx.scene.paint.CycleMethod
 import javafx.scene.paint.LinearGradient
 import javafx.scene.paint.Stop
-import kotlinx.coroutines.experimental.channels.actor
-import kotlinx.coroutines.experimental.javafx.JavaFx
+import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.javafx.JavaFx
 import tornadofx.*
 import java.awt.Desktop
 import java.net.URI

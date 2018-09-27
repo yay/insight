@@ -6,9 +6,9 @@ import com.vitalyk.insight.yahoo.YahooData
 import com.vitalyk.insight.yahoo.fetchNews
 import com.vitalyk.insight.yahoo.getYahooSummary
 import com.vitalyk.insight.yahoo.yahooGet
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVPrinter
 import org.apache.commons.csv.CSVRecord

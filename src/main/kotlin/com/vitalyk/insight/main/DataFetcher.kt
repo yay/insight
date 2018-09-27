@@ -1,7 +1,7 @@
 package com.vitalyk.insight.main
 
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.CommonPool
+import kotlinx.coroutines.async
 import com.vitalyk.insight.yahoo.DataFrequency
 import com.vitalyk.insight.yahoo.YahooData
 import java.io.File

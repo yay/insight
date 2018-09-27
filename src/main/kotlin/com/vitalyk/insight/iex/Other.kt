@@ -1,7 +1,7 @@
 package com.vitalyk.insight.iex
 
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 
 fun averagePE(iex: Iex) {
     val sp500 = listOf(

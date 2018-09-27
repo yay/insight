@@ -1,8 +1,8 @@
 package com.vitalyk.insight.iex
 
 import com.vitalyk.insight.main.HttpClients
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 
 
 //fun main(args: Array<String>) {

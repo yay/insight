@@ -7,7 +7,7 @@ import com.vitalyk.insight.main.HttpClients
 import javafx.application.Application
 import javafx.stage.FileChooser
 import javafx.stage.Stage
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.async
 import tornadofx.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

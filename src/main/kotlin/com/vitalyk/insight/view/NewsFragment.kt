@@ -16,9 +16,9 @@ import javafx.scene.input.Clipboard
 import javafx.scene.layout.Priority
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import tornadofx.*
 import java.text.SimpleDateFormat
 import java.time.Duration

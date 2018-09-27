@@ -6,9 +6,10 @@ import com.vitalyk.insight.fragment.EarningsFragment
 import com.vitalyk.insight.iex.IexSymbols
 import com.vitalyk.insight.ui.symbolfield
 import javafx.scene.layout.Priority
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import tornadofx.*
 
 class ResearchView : View("Research") {

@@ -7,8 +7,8 @@ import com.vitalyk.insight.helpers.writeToFile
 import com.vitalyk.insight.iex.Iex.AssetStats
 import com.vitalyk.insight.iex.Iex.Quote
 import com.vitalyk.insight.iex.Iex.Symbol
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
 
 //fun main(args: Array<String>) {

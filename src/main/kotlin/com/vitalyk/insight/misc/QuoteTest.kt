@@ -1,6 +1,6 @@
 package com.vitalyk.insight.misc
 
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.runBlocking
 import com.vitalyk.insight.main.*
 import kotlin.system.measureTimeMillis
 

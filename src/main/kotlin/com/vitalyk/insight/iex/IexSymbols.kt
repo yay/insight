@@ -3,7 +3,7 @@ package com.vitalyk.insight.iex
 import com.vitalyk.insight.iex.Iex.PreviousDay
 import com.vitalyk.insight.iex.Iex.Symbol
 import com.vitalyk.insight.main.HttpClients
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.launch
 
 object IexSymbols {
     private var symbolMap = mapOf<String, Symbol>()

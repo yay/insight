@@ -4,9 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.vitalyk.insight.helpers.objectMapper
 import com.vitalyk.insight.main.httpGet
 import com.vitalyk.insight.trigger.TextTrigger
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.util.*

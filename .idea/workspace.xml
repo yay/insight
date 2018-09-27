@@ -5,9 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="296155b2-79af-4b19-b6a4-d5102d45abea" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/sounds/alerts/email_sent.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_reflect_1_3_0_rc_57.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_1_3_0_rc_57.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_common_1_3_0_rc_57.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlinx_atomicfu_common_0_11_7_eap13.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlinx_kotlinx_coroutines_core_0_26_1_eap13.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlinx_kotlinx_coroutines_core_common_0_26_1_eap13.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlinx_kotlinx_coroutines_javafx_0_26_1_eap13.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_reflect_1_2_70.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_1_2_70.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_common_1_2_70.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlinx_atomicfu_common_0_11_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlinx_kotlinx_coroutines_core_0_25_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlinx_kotlinx_coroutines_core_common_0_25_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlinx_kotlinx_coroutines_javafx_0_25_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/KotlinJavaRuntime.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generator/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/generator/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/InfoFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/InfoFragment.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/research/PriceToSales.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/research/PriceToSales.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/MainView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/MainView.kt" afterDir="false" />
     </list>
     <list id="30aabaf9-6d95-4d80-adbf-bbdacf4dc477" name="Revert: Cleanup." comment="" />
@@ -146,27 +165,28 @@
     <session id="1863142443">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="31" />
-          <entry key="project.open.time.1" value="1" />
-          <entry key="project.open.time.4" value="2" />
-          <entry key="project.open.time.5" value="10" />
+          <entry key="project.closed" value="39" />
+          <entry key="project.open.time.1" value="3" />
+          <entry key="project.open.time.4" value="3" />
+          <entry key="project.open.time.5" value="11" />
           <entry key="project.open.time.6" value="12" />
-          <entry key="project.open.time.7" value="6" />
-          <entry key="project.open.time.8" value="1" />
-          <entry key="project.opened" value="32" />
+          <entry key="project.open.time.7" value="7" />
+          <entry key="project.open.time.8" value="3" />
+          <entry key="project.open.time.9" value="1" />
+          <entry key="project.opened" value="40" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="gradle" value="10" />
-          <entry key="kt" value="3948" />
+          <entry key="gradle" value="68" />
+          <entry key="kt" value="3950" />
           <entry key="txt" value="21" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Groovy" value="10" />
-          <entry key="Kotlin" value="3948" />
+          <entry key="Groovy" value="68" />
+          <entry key="Kotlin" value="3950" />
           <entry key="PLAIN_TEXT" value="21" />
         </counts>
       </usages-collector>
@@ -174,20 +194,20 @@
         <counts>
           <entry key="Untitled" value="1" />
           <entry key="gitignore" value="1" />
-          <entry key="gradle" value="3" />
+          <entry key="gradle" value="8" />
           <entry key="java" value="16" />
           <entry key="json" value="3" />
-          <entry key="kt" value="36" />
+          <entry key="kt" value="39" />
           <entry key="properties" value="1" />
           <entry key="txt" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Groovy" value="3" />
+          <entry key="Groovy" value="8" />
           <entry key="JAVA" value="16" />
           <entry key="JSON" value="3" />
-          <entry key="Kotlin" value="35" />
+          <entry key="Kotlin" value="38" />
           <entry key="PLAIN_TEXT" value="3" />
           <entry key="Properties" value="1" />
           <entry key="Scratch" value="1" />
@@ -196,17 +216,26 @@
     </session>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.47916666">
+    <splitter split-orientation="horizontal" split-proportion="0.47803426">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/MainView.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="473">
-                  <caret line="186" column="73" lean-forward="true" selection-start-line="186" selection-start-column="73" selection-end-line="186" selection-end-column="73" />
+                <state relative-caret-position="70">
+                  <caret line="79" column="17" lean-forward="true" selection-start-line="79" selection-start-column="17" selection-end-line="79" selection-end-column="17" />
                   <folding>
-                    <element signature="e#34#1606#0" expanded="true" />
+                    <element signature="e#34#1470#0" expanded="true" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/build.gradle">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="478">
+                  <caret line="78" column="60" lean-forward="true" selection-start-line="78" selection-start-column="60" selection-end-line="78" selection-end-column="60" />
                 </state>
               </provider>
             </entry>
@@ -214,7 +243,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/IexSymbols.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="165">
+                <state relative-caret-position="210">
                   <caret line="14" column="51" selection-start-line="14" selection-start-column="51" selection-end-line="14" selection-end-column="51" />
                   <folding>
                     <element signature="e#33#211#0" expanded="true" />
@@ -226,11 +255,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/screener/Screener.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="120">
-                  <caret line="12" column="25" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
-                  <folding>
-                    <element signature="e#38#226#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="60">
+                  <caret line="4" column="41" selection-start-line="4" selection-start-column="41" selection-end-line="4" selection-end-column="41" />
                 </state>
               </provider>
             </entry>
@@ -239,14 +265,11 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="176">
-                  <caret line="690" column="29" lean-forward="true" selection-start-line="690" selection-start-column="29" selection-end-line="690" selection-end-column="29" />
-                  <folding>
-                    <element signature="e#33#1339#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="300">
+                  <caret line="20" column="27" lean-forward="true" selection-start-line="20" selection-start-column="27" selection-end-line="20" selection-end-column="27" />
                 </state>
               </provider>
             </entry>
@@ -254,31 +277,19 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/research/PriceToSales.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="468">
-                  <caret line="45" column="5" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
-                  <folding>
-                    <element signature="e#38#445#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="353">
+                  <caret line="54" column="10" selection-start-line="54" selection-start-column="10" selection-end-line="54" selection-end-column="10" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/build.gradle">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="139">
-                  <caret line="63" column="21" selection-start-line="63" selection-start-column="21" selection-end-line="63" selection-end-column="21" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/InfoFragment.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="360">
-                  <caret line="24" column="28" lean-forward="true" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
+                <state relative-caret-position="192">
+                  <caret line="37" column="16" selection-start-line="37" selection-start-column="16" selection-end-line="37" selection-end-column="16" />
                   <folding>
-                    <element signature="e#38#376#0" expanded="true" />
+                    <element signature="e#38#432#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -287,8 +298,11 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/AssetProfileFragment.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="612">
-                  <caret line="52" column="37" lean-forward="true" selection-start-line="52" selection-start-column="37" selection-end-line="52" selection-end-column="37" />
+                <state relative-caret-position="30">
+                  <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+                  <folding>
+                    <element signature="e#38#472#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -296,7 +310,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/style/Styles.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="180">
+                <state relative-caret-position="225">
                   <caret line="15" column="20" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
                   <folding>
                     <element signature="e#35#160#0" expanded="true" />
@@ -308,8 +322,11 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/main/Http.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1815">
-                  <caret line="126" column="4" selection-start-line="126" selection-start-column="4" selection-end-line="126" selection-end-column="4" />
+                <state relative-caret-position="30">
+                  <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+                  <folding>
+                    <element signature="e#34#223#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -317,7 +334,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/Insight.kt">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="90">
+                <state relative-caret-position="240">
                   <caret line="16" column="38" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
                   <folding>
                     <element signature="e#29#397#0" expanded="true" />
@@ -341,11 +358,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>2.60</find>
-      <find>watchlist</find>
-      <find>WatchlistView</find>
-      <find>b</find>
-      <find>log</find>
       <find>grid</find>
       <find>series</find>
       <find>Styles</find>
@@ -371,6 +383,11 @@
       <find>label</find>
       <find>info</find>
       <find>play</find>
+      <find>71</find>
+      <find>repositories</find>
+      <find>-Xprogressive</find>
+      <find>1.2</find>
+      <find>: 1.2</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -387,10 +404,10 @@
       <dir>$PROJECT_DIR$/dataviz/src/main/kotlin</dir>
       <dir>$PROJECT_DIR$/src/test/kotlin/com/vitalyk/insight</dir>
       <dir>$PROJECT_DIR$/viz/src</dir>
-      <dir>$PROJECT_DIR$</dir>
       <dir>$PROJECT_DIR$/src/main</dir>
       <dir>$USER_HOME$/.gradle/caches/modules-2/files-2.1/no.tornado/tornadofx/1.7.16/11a4b4636b390f582e61cf7b6cf25024712d2e47/tornadofx-1.7.16.jar!/tornadofx</dir>
       <dir>$PROJECT_DIR$/src/main/kotlin/com</dir>
+      <dir>$PROJECT_DIR$</dir>
       <dir>$PROJECT_DIR$/src</dir>
     </dirStrings>
   </component>
@@ -475,6 +492,10 @@
                 <option name="description" value="Generates Gradle wrapper files." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="wrapper" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
+                <option name="name" value="mainClasses" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="description" value="Assembles test classes." />
@@ -627,6 +648,10 @@
                 <option name="name" value="buildEnvironment" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
+                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/viz" />
+                <option name="name" value="mainClasses" />
+              </ExternalTaskPojo>
+              <ExternalTaskPojo>
                 <option name="description" value="Assembles test classes." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/viz" />
                 <option name="name" value="testClasses" />
@@ -740,9 +765,9 @@
       <map>
         <entry key="$USER_HOME$/Desktop/DemoFX" value="1487166188000" />
         <entry key="$USER_HOME$/Desktop/kool" value="2973376708000" />
-        <entry key="$PROJECT_DIR$" value="7682816173000" />
+        <entry key="$PROJECT_DIR$" value="7684121723000" />
         <entry key="$PROJECT_DIR$/.gradle" value="0" />
-        <entry key="$PROJECT_DIR$/build.gradle" value="3768753026" />
+        <entry key="$PROJECT_DIR$/build.gradle" value="2909356595" />
         <entry key="$PROJECT_DIR$/dataviz/build.gradle" value="0" />
         <entry key="$PROJECT_DIR$/generator/build.gradle" value="818234932" />
         <entry key="$PROJECT_DIR$/gradle.properties" value="0" />
@@ -763,33 +788,37 @@
                       <ExternalModuleBuildClasspathPojo>
                         <option name="entries">
                           <list>
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/1.2.70/34674a4758c379ef1a058521686aca254ccc3468/kotlin-gradle-plugin-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/1.2.70/a152041c4d7828c5439c3c168ec7d1d6a6c07791/kotlin-gradle-plugin-api-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-model/1.2.70/f902022d6e330f59fc12cf3814c027ac6c1eaf11/kotlin-gradle-plugin-model-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/1.2.70/1844f8b5a45f91c069d2f80ac92c4192da2f2674/kotlin-compiler-embeddable-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-annotation-processing-gradle/1.2.70/b0abf8645215bd6277bab6c11f5902c269d232a9/kotlin-annotation-processing-gradle-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.2.70/9bb844af56ee1ff62e8979ea1a7189d11c6f7da9/kotlin-android-extensions-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-runner/1.2.70/2fad7e0480d30130bb9ba91eada2de2ad2e58f76/kotlin-compiler-runner-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.70/645811a161689d7b2d4362eaee1e30abf22a27d7/kotlin-stdlib-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.2.70/6370f6e37aa541bafeb5e8bbed0fa2f5fe58024e/kotlin-script-runtime-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.2.70/4eb53b88ef21541f41de8708460ac043280bb56/kotlin-reflect-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-build-common/1.2.70/d930fda6e631f7d71391f03ff85efc207618943d/kotlin-build-common-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-client/1.2.70/3ce505a259765d308fba4764284fbd43490498a0/kotlin-daemon-client-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.2.70/8825e81f0a47a12aacdf0b84885353053dc5a8dd/kotlin-stdlib-common-1.2.70-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/1.3.0-rc-57/979c099c48543336c7f5dee0b59d3cb5b867a356/kotlin-gradle-plugin-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/1.3.0-rc-57/5cdc76eae8553c90ecbffca9e4450b4450d93ecd/kotlin-gradle-plugin-api-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-model/1.3.0-rc-57/444a10bf0a36dcdff1edd2588612e97db0d66d7e/kotlin-gradle-plugin-model-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/1.3.0-rc-57/7b38c7d2e6e3984cfc653faa4a115a7abda5e668/kotlin-compiler-embeddable-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-annotation-processing-gradle/1.3.0-rc-57/7284d777a5453f067f17f9f66ac686c3ac4d4e8/kotlin-annotation-processing-gradle-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.3.0-rc-57/3ca51b0ff4f1a571480d6060c9fea06498d99eeb/kotlin-android-extensions-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-runner/1.3.0-rc-57/89dc3d51c96088cf8ebe9d046fa506ac210fc52c/kotlin-compiler-runner-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-compiler-embeddable/1.3.0-rc-57/e6268694398b6d12974585fc6c4121d902e69ed8/kotlin-scripting-compiler-embeddable-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.0-rc-57/41e44a4b0f1427672e6114e36e22ccc733d7c5e1/kotlin-stdlib-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-native-utils/1.3.0-rc-57/7c5d7ccea710855f93ffa5b97a5f97036f9a0f7/kotlin-native-utils-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.3.0-rc-57/8c1fe7a5ce31f31eb7ea2d426c17656834fe80d9/kotlin-script-runtime-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.3.0-rc-57/c75d5e92610bd5d4ef9910cc15edc6ac8ee1d3e3/kotlin-reflect-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-build-common/1.3.0-rc-57/69c7504f6d87275462507c1a36e6edc4b29e6a89/kotlin-build-common-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-client/1.3.0-rc-57/893602f4f478499846741a929061f4e2e5f0c37b/kotlin-daemon-client-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.0-rc-57/67ace1a498d6a522fe5eb0a03a1bafa342717db7/kotlin-stdlib-common-1.3.0-rc-57-sources.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/5991ca87ef1fb5544943d9abc5a9a37583fabe03/annotations-13.0-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/1.2.70/eee4f50652f36bb35d39ef3ab64cdc5bc082ad12/kotlin-gradle-plugin-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/1.2.70/48ea5b2b7d02a9458b105dc8bd20159e03e93091/kotlin-gradle-plugin-api-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-model/1.2.70/222f946f497f97bf289168de775c88240c089cc6/kotlin-gradle-plugin-model-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/1.2.70/d17f029632dda61a4251c8747d82743dbbc9fc20/kotlin-compiler-embeddable-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-annotation-processing-gradle/1.2.70/d3095c5c109fd69f36476b1965ea0f0a2ce03b1e/kotlin-annotation-processing-gradle-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.2.70/78e0f7c6cfaa0cae663e43ff6e304707e7855b8e/kotlin-android-extensions-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-runner/1.2.70/40aac55dafe902e4ca8210eaaa6b7ee697a0fb1a/kotlin-compiler-runner-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.70/b5b9449f73ce7bf312e89a7560cb3c209a0fa13e/kotlin-stdlib-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.2.70/9ee10816b0552804db29a98e5901717dd12118ae/kotlin-script-runtime-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.2.70/895ff3421bed43cef31459dc9f2e9c0e6e0cb64b/kotlin-reflect-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-build-common/1.2.70/5ba7c3e544cffa5d04ca2546e08e580b7541284c/kotlin-build-common-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-client/1.2.70/1b9fe5d562d87aaa7986ab6913911b65f588a528/kotlin-daemon-client-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.2.70/6ea722d7d0b9451293e739076ddb6a4108d57b6b/kotlin-stdlib-common-1.2.70.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/1.3.0-rc-57/2ff1904727ea0622e44ac80758feacd716cde9b2/kotlin-gradle-plugin-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/1.3.0-rc-57/d9081b1472ff56a9b83469e49812a611269c2ffa/kotlin-gradle-plugin-api-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-model/1.3.0-rc-57/df6e2185bc9a02bd6b17d7b37a681a9b59c21a59/kotlin-gradle-plugin-model-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/1.3.0-rc-57/85b5120925e9507ee6c1552e268b7990d3ce7c71/kotlin-compiler-embeddable-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-annotation-processing-gradle/1.3.0-rc-57/45436242b01da52dcbcca12a1ae82562df6333f1/kotlin-annotation-processing-gradle-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.3.0-rc-57/68de41aae9daae11feb9547582d4dcd82a5d0aa2/kotlin-android-extensions-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-runner/1.3.0-rc-57/94e47205989214b6409122c4b4f1e5fde26c6f11/kotlin-compiler-runner-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-compiler-embeddable/1.3.0-rc-57/8da01a4f2c32cef67ead7407a7257cde5f34109c/kotlin-scripting-compiler-embeddable-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.0-rc-57/17cd275070921a36229747a3cffe0bb30608bc24/kotlin-stdlib-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-native-utils/1.3.0-rc-57/a5ca25ad6e817b2811116966aa3b3eab32fb066f/kotlin-native-utils-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.3.0-rc-57/51781576a1f2d20e10a0f068125cdb32b8ad9339/kotlin-script-runtime-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.3.0-rc-57/30064bff2b65fa9cf786dd3e8255c7b84a209ea5/kotlin-reflect-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-build-common/1.3.0-rc-57/1ba0246a4a4a470894d5cee56f8adc6106dc9eec/kotlin-build-common-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-client/1.3.0-rc-57/e630dee0ed1121bea1ac63d355a9c396f483eb8d/kotlin-daemon-client-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.0-rc-57/ca64ac4c1710846a21daa81add832c36f29bcaae/kotlin-stdlib-common-1.3.0-rc-57.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar" />
                           </list>
                         </option>
@@ -897,33 +926,37 @@
                       <ExternalModuleBuildClasspathPojo>
                         <option name="entries">
                           <list>
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/1.2.70/34674a4758c379ef1a058521686aca254ccc3468/kotlin-gradle-plugin-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/1.2.70/a152041c4d7828c5439c3c168ec7d1d6a6c07791/kotlin-gradle-plugin-api-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-model/1.2.70/f902022d6e330f59fc12cf3814c027ac6c1eaf11/kotlin-gradle-plugin-model-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/1.2.70/1844f8b5a45f91c069d2f80ac92c4192da2f2674/kotlin-compiler-embeddable-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-annotation-processing-gradle/1.2.70/b0abf8645215bd6277bab6c11f5902c269d232a9/kotlin-annotation-processing-gradle-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.2.70/9bb844af56ee1ff62e8979ea1a7189d11c6f7da9/kotlin-android-extensions-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-runner/1.2.70/2fad7e0480d30130bb9ba91eada2de2ad2e58f76/kotlin-compiler-runner-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.70/645811a161689d7b2d4362eaee1e30abf22a27d7/kotlin-stdlib-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.2.70/6370f6e37aa541bafeb5e8bbed0fa2f5fe58024e/kotlin-script-runtime-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.2.70/4eb53b88ef21541f41de8708460ac043280bb56/kotlin-reflect-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-build-common/1.2.70/d930fda6e631f7d71391f03ff85efc207618943d/kotlin-build-common-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-client/1.2.70/3ce505a259765d308fba4764284fbd43490498a0/kotlin-daemon-client-1.2.70-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.2.70/8825e81f0a47a12aacdf0b84885353053dc5a8dd/kotlin-stdlib-common-1.2.70-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/1.3.0-rc-57/979c099c48543336c7f5dee0b59d3cb5b867a356/kotlin-gradle-plugin-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/1.3.0-rc-57/5cdc76eae8553c90ecbffca9e4450b4450d93ecd/kotlin-gradle-plugin-api-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-model/1.3.0-rc-57/444a10bf0a36dcdff1edd2588612e97db0d66d7e/kotlin-gradle-plugin-model-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/1.3.0-rc-57/7b38c7d2e6e3984cfc653faa4a115a7abda5e668/kotlin-compiler-embeddable-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-annotation-processing-gradle/1.3.0-rc-57/7284d777a5453f067f17f9f66ac686c3ac4d4e8/kotlin-annotation-processing-gradle-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.3.0-rc-57/3ca51b0ff4f1a571480d6060c9fea06498d99eeb/kotlin-android-extensions-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-runner/1.3.0-rc-57/89dc3d51c96088cf8ebe9d046fa506ac210fc52c/kotlin-compiler-runner-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-compiler-embeddable/1.3.0-rc-57/e6268694398b6d12974585fc6c4121d902e69ed8/kotlin-scripting-compiler-embeddable-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.0-rc-57/41e44a4b0f1427672e6114e36e22ccc733d7c5e1/kotlin-stdlib-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-native-utils/1.3.0-rc-57/7c5d7ccea710855f93ffa5b97a5f97036f9a0f7/kotlin-native-utils-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.3.0-rc-57/8c1fe7a5ce31f31eb7ea2d426c17656834fe80d9/kotlin-script-runtime-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.3.0-rc-57/c75d5e92610bd5d4ef9910cc15edc6ac8ee1d3e3/kotlin-reflect-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-build-common/1.3.0-rc-57/69c7504f6d87275462507c1a36e6edc4b29e6a89/kotlin-build-common-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-client/1.3.0-rc-57/893602f4f478499846741a929061f4e2e5f0c37b/kotlin-daemon-client-1.3.0-rc-57-sources.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.0-rc-57/67ace1a498d6a522fe5eb0a03a1bafa342717db7/kotlin-stdlib-common-1.3.0-rc-57-sources.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/5991ca87ef1fb5544943d9abc5a9a37583fabe03/annotations-13.0-sources.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/1.2.70/eee4f50652f36bb35d39ef3ab64cdc5bc082ad12/kotlin-gradle-plugin-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/1.2.70/48ea5b2b7d02a9458b105dc8bd20159e03e93091/kotlin-gradle-plugin-api-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-model/1.2.70/222f946f497f97bf289168de775c88240c089cc6/kotlin-gradle-plugin-model-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/1.2.70/d17f029632dda61a4251c8747d82743dbbc9fc20/kotlin-compiler-embeddable-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-annotation-processing-gradle/1.2.70/d3095c5c109fd69f36476b1965ea0f0a2ce03b1e/kotlin-annotation-processing-gradle-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.2.70/78e0f7c6cfaa0cae663e43ff6e304707e7855b8e/kotlin-android-extensions-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-runner/1.2.70/40aac55dafe902e4ca8210eaaa6b7ee697a0fb1a/kotlin-compiler-runner-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.70/b5b9449f73ce7bf312e89a7560cb3c209a0fa13e/kotlin-stdlib-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.2.70/9ee10816b0552804db29a98e5901717dd12118ae/kotlin-script-runtime-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.2.70/895ff3421bed43cef31459dc9f2e9c0e6e0cb64b/kotlin-reflect-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-build-common/1.2.70/5ba7c3e544cffa5d04ca2546e08e580b7541284c/kotlin-build-common-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-client/1.2.70/1b9fe5d562d87aaa7986ab6913911b65f588a528/kotlin-daemon-client-1.2.70.jar" />
-                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.2.70/6ea722d7d0b9451293e739076ddb6a4108d57b6b/kotlin-stdlib-common-1.2.70.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/1.3.0-rc-57/2ff1904727ea0622e44ac80758feacd716cde9b2/kotlin-gradle-plugin-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-api/1.3.0-rc-57/d9081b1472ff56a9b83469e49812a611269c2ffa/kotlin-gradle-plugin-api-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin-model/1.3.0-rc-57/df6e2185bc9a02bd6b17d7b37a681a9b59c21a59/kotlin-gradle-plugin-model-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-embeddable/1.3.0-rc-57/85b5120925e9507ee6c1552e268b7990d3ce7c71/kotlin-compiler-embeddable-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-annotation-processing-gradle/1.3.0-rc-57/45436242b01da52dcbcca12a1ae82562df6333f1/kotlin-annotation-processing-gradle-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.3.0-rc-57/68de41aae9daae11feb9547582d4dcd82a5d0aa2/kotlin-android-extensions-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-compiler-runner/1.3.0-rc-57/94e47205989214b6409122c4b4f1e5fde26c6f11/kotlin-compiler-runner-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-compiler-embeddable/1.3.0-rc-57/8da01a4f2c32cef67ead7407a7257cde5f34109c/kotlin-scripting-compiler-embeddable-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.0-rc-57/17cd275070921a36229747a3cffe0bb30608bc24/kotlin-stdlib-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-native-utils/1.3.0-rc-57/a5ca25ad6e817b2811116966aa3b3eab32fb066f/kotlin-native-utils-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.3.0-rc-57/51781576a1f2d20e10a0f068125cdb32b8ad9339/kotlin-script-runtime-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.3.0-rc-57/30064bff2b65fa9cf786dd3e8255c7b84a209ea5/kotlin-reflect-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-build-common/1.3.0-rc-57/1ba0246a4a4a470894d5cee56f8adc6106dc9eec/kotlin-build-common-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-daemon-client/1.3.0-rc-57/e630dee0ed1121bea1ac63d355a9c396f483eb8d/kotlin-daemon-client-1.3.0-rc-57.jar" />
+                            <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.0-rc-57/ca64ac4c1710846a21daa81add832c36f29bcaae/kotlin-stdlib-common-1.3.0-rc-57.jar" />
                             <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar" />
                           </list>
                         </option>
@@ -1041,7 +1074,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/viz/src/main/kotlin/viz/scale/LogScale.kt" />
         <option value="$PROJECT_DIR$/viz/src/main/kotlin/com/vitalyk/viz/array/Bisect.kt" />
         <option value="$PROJECT_DIR$/viz/src/main/kotlin/com/vitalyk/viz/scale/LinearScale.kt" />
         <option value="$PROJECT_DIR$/viz/src/main/kotlin/com/vitalyk/viz/scale/LogScale.kt" />
@@ -1079,8 +1111,6 @@
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/WatchlistView.kt" />
         <option value="$PROJECT_DIR$/notes/Technical.txt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/Insight.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/research/PriceToSales.kt" />
-        <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/EarningsFragment.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/style/Styles.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/main/Http.kt" />
@@ -1089,9 +1119,12 @@
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/screener/Screener.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/EconomyView.kt" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/main/Mailer.kt" />
-        <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt" />
+        <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/MainView.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/research/PriceToSales.kt" />
+        <option value="$PROJECT_DIR$/generator/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/InfoFragment.kt" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt" />
       </list>
     </option>
   </component>
@@ -1101,10 +1134,11 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="y" value="23" />
-    <option name="width" value="1440" />
-    <option name="height" value="873" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-1708" />
+    <option name="y" value="-70" />
+    <option name="width" value="1573" />
+    <option name="height" value="1022" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -1263,7 +1297,6 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -1273,119 +1306,18 @@
             </path>
             <path>
               <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
             <path>
               <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="vitalyk" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="vitalyk" type="462c0819:PsiDirectoryNode" />
-              <item name="insight" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="vitalyk" type="462c0819:PsiDirectoryNode" />
-              <item name="insight" type="462c0819:PsiDirectoryNode" />
-              <item name="fragment" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="vitalyk" type="462c0819:PsiDirectoryNode" />
-              <item name="insight" type="462c0819:PsiDirectoryNode" />
-              <item name="ui" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="kotlin" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="vitalyk" type="462c0819:PsiDirectoryNode" />
-              <item name="insight" type="462c0819:PsiDirectoryNode" />
-              <item name="view" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="sounds" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="insight" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="sounds" type="462c0819:PsiDirectoryNode" />
-              <item name="alerts" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
-            </path>
-            <path>
-              <item name="insight" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
-              <item name="Scratches" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="Gradle: org.jetbrains.kotlinx:kotlinx-coroutines-javafx:0.26.1-eap13" type="70bed36:NamedLibraryElementNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1395,10 +1327,10 @@
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="org.rust.cargo.project.model.PROJECT_DISCOVERY" value="true" />
-    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15368196" />
     <property name="project.structure.side.proportion" value="0.24390244" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="preferences.language.Kotlin" />
     <property name="settings.editor.splitter.proportion" value="0.25700483" />
   </component>
   <component name="RecentsManager">
@@ -1580,12 +1512,12 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="873" extended-state="6" />
+    <frame x="-1708" y="-70" width="1573" height="1022" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Designer" order="0" />
       <window_info id="Favorites" order="1" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="2" weight="0.14513889" />
+      <window_info content_ui="combo" id="Project" order="2" visible="true" weight="0.14621742" />
       <window_info id="Structure" order="3" side_tool="true" weight="0.25" />
       <window_info id="Gradle" order="4" weight="0.15486111" />
       <window_info id="Maven Projects" order="5" weight="0.12111638" />
@@ -1603,7 +1535,7 @@
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5013889" side_tool="true" weight="0.3628429" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.4071703" />
       <window_info anchor="bottom" id="Build" order="9" weight="0.32916668" />
-      <window_info anchor="bottom" id="Run" order="10" sideWeight="0.4982382" weight="0.3478803" />
+      <window_info active="true" anchor="bottom" id="Run" order="10" sideWeight="0.4982382" visible="true" weight="0.36698213" />
       <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49861112" weight="0.3840399" />
       <window_info anchor="bottom" id="Statistic" order="12" weight="0.39948782" />
       <window_info anchor="right" id="Palette&#9;" order="0" />
@@ -1707,44 +1639,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.kts">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/no.tornado/tornadofx/1.7.17/59e5067bee2d7c0fb626771edcaf2337afc92586/tornadofx-1.7.17-sources.jar!/tornadofx/Layouts.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
-          <caret line="78" column="15" lean-forward="true" selection-start-line="78" selection-start-column="15" selection-end-line="78" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.9.5/7f93f92d7ff619c1a49b5442ba77c0c297a88019/jackson-databind-2.9.5-sources.jar!/com/fasterxml/jackson/databind/ObjectMapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="3025" column="34" lean-forward="true" selection-start-line="3025" selection-start-column="34" selection-end-line="3025" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.61/5146b44c50f5e853d6d77150089b6281d72fe736/kotlin-stdlib-1.2.61-sources.jar!/kotlin/Collections.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="134" column="46" lean-forward="true" selection-start-line="134" selection-start-column="46" selection-end-line="134" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.2.61/bb8aafdddb6c895ba1a9646eddabdb844eb544fb/kotlin-stdlib-common-1.2.61-sources.jar!/generated/_Collections.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="1271" lean-forward="true" selection-start-line="1271" selection-end-line="1271" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.2.61/5146b44c50f5e853d6d77150089b6281d72fe736/kotlin-stdlib-1.2.61-sources.jar!/kotlin/String.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="23" column="23" lean-forward="true" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/ui/Builders.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="385">
@@ -1884,33 +1778,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/style/Styles.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="15" column="20" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
-          <folding>
-            <element signature="e#35#160#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/main/Http.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1815">
-          <caret line="126" column="4" selection-start-line="126" selection-start-column="4" selection-end-line="126" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/Insight.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="16" column="38" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
-          <folding>
-            <element signature="e#29#397#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/javax.mail/mail/1.4.7/bb76e5678cdb3e7488bb5578a8461e82fba5fe36/mail-1.4.7-sources.jar!/javax/mail/internet/MimeMessage.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
@@ -1925,40 +1792,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="63" column="21" selection-start-line="63" selection-start-column="21" selection-end-line="63" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/research/PriceToSales.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="45" column="5" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
-          <folding>
-            <element signature="e#38#445#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="690" column="29" lean-forward="true" selection-start-line="690" selection-start-column="29" selection-end-line="690" selection-end-column="29" />
-          <folding>
-            <element signature="e#33#1339#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/EarningsFragment.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="49" column="61" lean-forward="true" selection-start-line="49" selection-start-column="61" selection-end-line="49" selection-end-column="61" />
-          <folding>
-            <element signature="e#38#379#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1966,10 +1803,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="274">
           <caret line="81" column="66" selection-start-line="81" selection-start-column="66" selection-end-line="81" selection-end-column="66" />
-          <folding>
-            <element signature="e#7097#7098#0" expanded="true" />
-            <element signature="e#7119#7120#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1977,9 +1810,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="174">
           <caret line="21" column="42" lean-forward="true" selection-start-line="21" selection-start-column="42" selection-end-line="21" selection-end-column="42" />
-          <folding>
-            <element signature="e#34#240#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1990,23 +1820,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/IexSymbols.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="14" column="51" selection-start-line="14" selection-start-column="51" selection-end-line="14" selection-end-column="51" />
-          <folding>
-            <element signature="e#33#211#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/ScreenerView.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="733">
           <caret line="102" column="13" selection-start-line="102" selection-start-column="13" selection-end-line="102" selection-end-column="13" />
-          <folding>
-            <element signature="e#34#777#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2014,9 +1831,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="733">
           <caret line="133" column="44" selection-start-line="133" selection-start-column="44" selection-end-line="133" selection-end-column="44" />
-          <folding>
-            <element signature="e#37#435#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2038,9 +1852,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="733">
           <caret line="174" column="5" selection-start-line="174" selection-start-column="5" selection-end-line="174" selection-end-column="5" />
-          <folding>
-            <element signature="e#34#861#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2051,23 +1862,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/screener/Screener.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="12" column="25" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
-          <folding>
-            <element signature="e#38#226#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/AssetProfileFragment.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="52" column="37" lean-forward="true" selection-start-line="52" selection-start-column="37" selection-end-line="52" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/ReutersFragment.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="568">
@@ -2075,23 +1869,135 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-common/0.26.1/cce9d0f5a98b4a20f4f36c7527f2961ac9d2ae62/kotlinx-coroutines-core-common-0.26.1-sources.jar!/Deferred.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="126" column="93" lean-forward="true" selection-start-line="126" selection-start-column="93" selection-end-line="126" selection-end-column="93" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-common/0.26.1/cce9d0f5a98b4a20f4f36c7527f2961ac9d2ae62/kotlinx-coroutines-core-common-0.26.1-sources.jar!/Builders.common.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="62" column="59" selection-start-line="62" selection-start-column="15" selection-end-line="62" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/IexSymbols.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="51" selection-start-line="14" selection-start-column="51" selection-end-line="14" selection-end-column="51" />
+          <folding>
+            <element signature="e#33#211#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/screener/Screener.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="41" selection-start-line="4" selection-start-column="41" selection-end-line="4" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/AssetProfileFragment.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+          <folding>
+            <element signature="e#38#472#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/style/Styles.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="20" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
+          <folding>
+            <element signature="e#35#160#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/main/Http.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+          <folding>
+            <element signature="e#34#223#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/Insight.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="38" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
+          <folding>
+            <element signature="e#29#397#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/viz/build.gradle">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/generator/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="37" lean-forward="true" selection-start-line="9" selection-start-column="37" selection-end-line="9" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/MainView.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="473">
-          <caret line="186" column="73" lean-forward="true" selection-start-line="186" selection-start-column="73" selection-end-line="186" selection-end-column="73" />
+        <state relative-caret-position="70">
+          <caret line="79" column="17" lean-forward="true" selection-start-line="79" selection-start-column="17" selection-end-line="79" selection-end-column="17" />
           <folding>
-            <element signature="e#34#1606#0" expanded="true" />
+            <element signature="e#34#1470#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="478">
+          <caret line="78" column="60" lean-forward="true" selection-start-line="78" selection-start-column="60" selection-end-line="78" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/research/PriceToSales.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="353">
+          <caret line="54" column="10" selection-start-line="54" selection-start-column="10" selection-end-line="54" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-common/0.26.1-eap13/a3cf49f0764584b41e6f92d53fb6a01b29c6df18/kotlinx-coroutines-core-common-0.26.1-eap13-sources.jar!/Deferred.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="218" column="27" lean-forward="true" selection-start-line="218" selection-start-column="27" selection-end-line="218" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/InfoFragment.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="28" lean-forward="true" selection-start-line="24" selection-start-column="28" selection-end-line="24" selection-end-column="28" />
+        <state relative-caret-position="192">
+          <caret line="37" column="16" selection-start-line="37" selection-start-column="16" selection-end-line="37" selection-end-column="16" />
           <folding>
-            <element signature="e#38#376#0" expanded="true" />
+            <element signature="e#38#432#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="27" lean-forward="true" selection-start-line="20" selection-start-column="27" selection-end-line="20" selection-end-column="27" />
         </state>
       </provider>
     </entry>
@@ -2150,11 +2056,12 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>insight_main|insight</last-edited>
+          <last-edited>viz|viz</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.24390244" />
+                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>

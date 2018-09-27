@@ -29,9 +29,10 @@ import javafx.scene.control.ContextMenu
 import javafx.scene.input.MouseButton
 import javafx.scene.layout.Priority
 import javafx.scene.paint.Color
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.parser.Parser
 import tornadofx.*

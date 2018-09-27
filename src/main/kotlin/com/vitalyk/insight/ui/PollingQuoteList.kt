@@ -17,11 +17,8 @@ import javafx.scene.shape.Circle
 import javafx.scene.text.Font
 import javafx.scene.text.FontWeight
 import javafx.stage.Popup
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.javafx.JavaFx
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.javafx.JavaFx
 import tornadofx.*
 
 class QuoteChart : Fragment() {
@@ -239,7 +236,7 @@ class PollingQuoteList(title: String, private val getQuotes: () -> List<Quote>?)
         updateJob.apply {
             if (this == null || !this.isActive || (this.isActive && this.cancel())) {
                 updateJob = launch {
-                    while (this.isActive && root.isVisible && root.parent != null) {
+                    while (isActive && root.isVisible && root.parent != null) {
                         val quotes = async { getQuotes() }.await()
                         runLater {
                             updateQuotes(quotes)

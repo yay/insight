@@ -9,7 +9,7 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Insets
 import javafx.scene.layout.Priority
 import javafx.scene.paint.Color
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.async
 import tornadofx.*
 
 class BuybackView : View("Share Buyback") {

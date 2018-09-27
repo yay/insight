@@ -7,8 +7,8 @@ import javafx.scene.layout.Background
 import javafx.scene.layout.BackgroundFill
 import javafx.scene.layout.CornerRadii
 import javafx.scene.paint.Color
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 
 class ChangeBlinkTableCell<S, T>(

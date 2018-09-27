@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.layout.Priority
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.async
 import tornadofx.*
 
 class InfoFragment : Fragment() {
