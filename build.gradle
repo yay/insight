@@ -13,7 +13,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 buildscript {
-    ext.kotlin_version = '1.3.0-rc-57'
+    ext.kotlin_version = '1.3.0-rc-116'
 
     repositories {
         jcenter()
@@ -63,8 +63,8 @@ subprojects {
     }
 
     dependencies {
-        compile 'org.jetbrains.kotlin:kotlin-stdlib:1.3.0-rc-57'
-        compile 'org.jetbrains.kotlin:kotlin-reflect:1.3.0-rc-57'
+        compile 'org.jetbrains.kotlin:kotlin-stdlib:1.3.0-rc-116'
+        compile 'org.jetbrains.kotlin:kotlin-reflect:1.3.0-rc-116'
     }
 }
 
@@ -76,8 +76,8 @@ dependencies {
     // Add whatever jars are in lib folder as dependencies.
     compile fileTree(dir: 'lib', include: ['*.jar'])
 
-    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.3.0-rc-57'
-    compile 'org.jetbrains.kotlin:kotlin-reflect:1.3.0-rc-57'
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.3.0-rc-116'
+    compile 'org.jetbrains.kotlin:kotlin-reflect:1.3.0-rc-116'
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.26.1-eap13'
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-javafx:0.26.1-eap13'
 
