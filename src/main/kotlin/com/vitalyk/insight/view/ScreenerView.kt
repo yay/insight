@@ -125,52 +125,65 @@ private fun getChangeSinceCloseView(iex: Iex) = VBox().apply {
     val profileBox = VBox().apply {
         this += profileFragment
     }
+    val newsFragment = NewsFragment()
 
     splitpane {
         vgrow = Priority.ALWAYS
 
-        tableview(filteredItems) {
-            vgrow = Priority.ALWAYS
+        splitpane(orientation = Orientation.VERTICAL) {
+            tableview(filteredItems) {
+                vgrow = Priority.ALWAYS
 
-            column("Symbol", ChangeSinceCloseBean::symbol)
-            column("Change %", ChangeSinceCloseBean::changePercent).cellFormat {
-                text = "%.2f".format(it)
-            }
-            column("Close", ChangeSinceCloseBean::close)
-            column("Price", ChangeSinceCloseBean::price)
-            column("Change", ChangeSinceCloseBean::change).cellFormat {
-                text = "%.2f".format(it)
-            }
-            column("Mkt Cap", ChangeSinceCloseBean::marketCap).cellFormat {
-                text = it.toReadableNumber()
-            }
-            column("Industry", ChangeSinceCloseBean::industry)
-            column("Sector", ChangeSinceCloseBean::sector)
+                column("Symbol", ChangeSinceCloseBean::symbol)
+                column("Change %", ChangeSinceCloseBean::changePercent).cellFormat {
+                    text = "%.2f".format(it)
+                }
+                column("Close", ChangeSinceCloseBean::close)
+                column("Price", ChangeSinceCloseBean::price)
+                column("Change", ChangeSinceCloseBean::change).cellFormat {
+                    text = "%.2f".format(it)
+                }
+                column("Mkt Cap", ChangeSinceCloseBean::marketCap).cellFormat {
+                    text = it.toReadableNumber()
+                }
+                column("Industry", ChangeSinceCloseBean::industry)
+                column("Sector", ChangeSinceCloseBean::sector)
 
-            contextmenu {
-                menu("Chart") {
-                    Iex.Range.values().forEach { range ->
-                        item(range.value.name).action {
-                            selectedItem?.let { showChart(it.symbol, range) }
+                contextmenu {
+                    menu("Chart") {
+                        Iex.Range.values().forEach { range ->
+                            item(range.value.name).action {
+                                selectedItem?.let { showChart(it.symbol, range) }
+                            }
                         }
                     }
                 }
-            }
 
-            onUserSelect {
-                val symbol = it.symbol
-                val chart = DayChartFragment()
-                chartBox.children.clear()
-                chartBox += chart
+                onUserSelect {
+                    val symbol = it.symbol
+                    val chart = DayChartFragment()
+                    chartBox.children.clear()
+                    chartBox += chart
 
-                runAsync {
-                    iex.getDayChartWithQuote(symbol, Iex.Range.M3) ?: mutableListOf()
-                } ui { points ->
-                    chart.updateChart(symbol, points)
+                    runAsync {
+                        iex.getDayChartWithQuote(symbol, Iex.Range.M3) ?: mutableListOf()
+                    } ui { points ->
+                        chart.updateChart(symbol, points)
+                    }
+
+                    profileFragment.fetch(symbol)
+
+                    runLater {
+                        newsFragment.symbol.value = symbol
+                    }
                 }
-
-                profileFragment.fetch(symbol)
             }
+            this += newsFragment.apply {
+                toolbarVisible.set(false)
+            }
+
+            setDividerPositions(.75, .25)
+
         }
         splitpane(orientation = Orientation.VERTICAL) {
             this += chartBox
@@ -187,7 +200,7 @@ class ScreenerView : View("Screener") {
         val vbox = this
         toolbar {
             button("Back").action { replaceWith(MainView::class) }
-            button("Change since close").action {
+            button("Get Change Since Close").action {
                 if (children.size > 1)
                     vbox.children.last().removeFromParent()
                 runAsyncWithProgress {
