@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.type.CollectionType
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.SendChannel
 import okhttp3.HttpUrl
@@ -839,7 +840,7 @@ class Iex(private val httpClient: OkHttpClient) {
         val total = symbolMap.size
         return symbolMap
             .map { (symbol, _) ->
-                async {
+                GlobalScope.async {
                     val data = fn(symbol)
                     if (data != null) Pair(symbol, data) else null
                 }

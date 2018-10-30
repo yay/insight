@@ -24,7 +24,7 @@ import javafx.scene.chart.NumberAxis
 import javafx.scene.control.Alert
 import javafx.scene.input.MouseButton
 import javafx.scene.layout.Priority
-import kotlinx.coroutines.async
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -54,7 +54,7 @@ class MainView : View("Insight") {
                     find(BuybackView::class).openModal()
                 }
                 item("Distribution Days").action {
-                    async {
+                    GlobalScope.launch {
                         val info = getDistributionInfo()
                         runLater {
                             alert(Alert.AlertType.INFORMATION,
@@ -74,7 +74,7 @@ class MainView : View("Insight") {
             }
             button("Screener") {
                 isDisable = true
-                launch {
+                GlobalScope.launch {
                     while (isActive && IexSymbols.assetStats == null) {
                         delay(1000)
                     }
@@ -93,6 +93,7 @@ class MainView : View("Insight") {
             spacer {}
 
             // Simplistic check
+            @Suppress("NAME_SHADOWING")
             fun isMarketHours(datetime: LocalDateTime? = null): Boolean {
                 val datetime = datetime ?: LocalDateTime.now(ZoneId.of("America/New_York"))
                 val day = datetime.dayOfWeek
@@ -121,7 +122,7 @@ class MainView : View("Insight") {
                     padding = box(5.px)
                 }
 
-                launch {
+                GlobalScope.launch {
                     while (isActive) {
                         val now = LocalDateTime.now(ZoneId.of("America/New_York"))
                         if (isMarketHours(now)) {
@@ -153,8 +154,8 @@ class MainView : View("Insight") {
                             title = "Advancers - Decliners = ${points.last().change}"
 
                             series("Advancers - Decliners") {
-                                points.forEach {
-                                    data(timeFormatter.format(it.time), it.change)
+                                points.forEach { point ->
+                                    data(timeFormatter.format(point.time), point.change)
                                 }
                             }
                         }
@@ -183,7 +184,7 @@ class MainView : View("Insight") {
                     padding = box(5.px)
                 }
 
-                launch {
+                GlobalScope.launch {
                     while (isActive) {
                         val stats = IexSymbols.assetStats
                         if (stats != null) {
@@ -220,14 +221,14 @@ class MainView : View("Insight") {
                             title = "New 52-week highs and lows"
 
                             series("Highs") {
-                                points.forEach {
-                                    data(timeFormatter.format(it.time), it.highCount)
+                                points.forEach { point ->
+                                    data(timeFormatter.format(point.time), point.highCount)
                                 }
                             }
 
                             series("Lows") {
-                                points.forEach {
-                                    data(timeFormatter.format(it.time), it.lowCount)
+                                points.forEach { point ->
+                                    data(timeFormatter.format(point.time), point.lowCount)
                                 }
                             }
                         }
@@ -253,16 +254,16 @@ class MainView : View("Insight") {
                         highsLows?.let {
                             label.runAsyncWithProgress {
                                 Pair(
-                                    it.highs.map { "$it\n${IexSymbols.name(it)}" },
-                                    it.lows.map { "$it\n${IexSymbols.name(it)}" }
+                                    it.highs.map { sym -> "$sym\n${IexSymbols.name(sym)}" },
+                                    it.lows.map { sym -> "$sym\n${IexSymbols.name(sym)}" }
                                 )
-                            } ui {
+                            } ui { pair ->
                                 object : Fragment() {
                                     override val root = hbox {
                                         padding = Insets(5.0)
                                         spacing = 5.0
-                                        makeSymbolList("Highs", it.first.observable())
-                                        makeSymbolList("Lows", it.second.observable())
+                                        makeSymbolList("Highs", pair.first.observable())
+                                        makeSymbolList("Lows", pair.second.observable())
                                     }
                                 }.openWindow()
                             }
@@ -277,7 +278,7 @@ class MainView : View("Insight") {
                 style {
                     fontFamily = "Menlo"
                 }
-                launch {
+                GlobalScope.launch {
                     while (isActive) {
                         delay(1000)
                         val timeStr = ZonedDateTime

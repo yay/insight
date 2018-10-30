@@ -3,6 +3,7 @@ package com.vitalyk.insight.iex
 import com.vitalyk.insight.iex.Iex.PreviousDay
 import com.vitalyk.insight.iex.Iex.Symbol
 import com.vitalyk.insight.main.HttpClients
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 object IexSymbols {
@@ -21,8 +22,8 @@ object IexSymbols {
         iex.getPreviousDay()?.let {
             previousDayMap = it
         }
-        launch { assetStats = iex.getAssetStatsAsync() }
-        launch { companies = iex.getCompaniesAsync() }
+        GlobalScope.launch { assetStats = iex.getAssetStatsAsync() }
+        GlobalScope.launch { companies = iex.getCompaniesAsync() }
     }
 
     // Returns the list of symbols that have the `part` sequence in their name.
