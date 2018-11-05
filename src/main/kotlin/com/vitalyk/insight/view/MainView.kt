@@ -24,6 +24,7 @@ import javafx.scene.chart.NumberAxis
 import javafx.scene.control.Alert
 import javafx.scene.input.MouseButton
 import javafx.scene.layout.Priority
+import javafx.stage.Stage
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -139,9 +140,8 @@ class MainView : View("Insight") {
                     }
                 }
 
-                onMouseClicked = EventHandler {
-                    if (it.button == MouseButton.PRIMARY)
-                    object : Fragment() {
+                fun showChart(): Stage? {
+                    return object : Fragment() {
                         override val root = linechart(null, CategoryAxis(), NumberAxis()) {
                             animated = false
                             createSymbols = false
@@ -160,6 +160,21 @@ class MainView : View("Insight") {
                             }
                         }
                     }.openWindow()
+                }
+
+                var chart: Stage? = null
+                onMouseEntered = EventHandler {
+                    if (chart == null) {
+                        chart = showChart()
+                    }
+                }
+                onMouseExited = EventHandler {
+                    chart?.close()
+                    chart = null
+                }
+
+                onMouseClicked = EventHandler {
+                    if (it.button == MouseButton.PRIMARY) showChart()
                 }
             }
 
@@ -207,9 +222,8 @@ class MainView : View("Insight") {
                     }
                 }
 
-                onMouseClicked = EventHandler {
-                    if (it.button == MouseButton.PRIMARY)
-                    object : Fragment() {
+                fun showChart(): Stage? {
+                    return object : Fragment() {
                         override val root = linechart(null, CategoryAxis(), NumberAxis()) {
                             animated = false
                             createSymbols = false
@@ -233,6 +247,21 @@ class MainView : View("Insight") {
                             }
                         }
                     }.openWindow()
+                }
+
+                var chart: Stage? = null
+                onMouseEntered = EventHandler {
+                    if (chart == null) {
+                        chart = showChart()
+                    }
+                }
+                onMouseExited = EventHandler {
+                    chart?.close()
+                    chart = null
+                }
+
+                onMouseClicked = EventHandler {
+                    if (it.button == MouseButton.PRIMARY) showChart()
                 }
 
                 fun EventTarget.makeSymbolList(name: String, symbols: ObservableList<String>) = vbox {
