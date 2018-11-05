@@ -2,9 +2,15 @@ package com.vitalyk.insight.helpers
 
 import com.vitalyk.insight.Insight
 import javafx.beans.property.Property
+import javafx.embed.swing.SwingFXUtils
 import javafx.scene.Node
+import javafx.scene.SnapshotParameters
+import javafx.scene.image.WritableImage
 import javafx.scene.media.AudioClip
+import javafx.scene.transform.Transform
+import javafx.stage.FileChooser
 import java.util.*
+import javax.imageio.ImageIO
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.memberProperties
@@ -120,4 +126,21 @@ fun getToFxBeanAltDefinition(klass: KClass<*>): String {
         klass.declaredMemberProperties.map { prop ->
             "${indent}bean.${prop.name} = ${prop.name}"
         }.joinToString("\n") + "\n}"
+}
+
+fun Node.saveToFile(name: String, scale: Double = 1.0) {
+    val image = layoutBounds.let {
+        WritableImage((it.width * scale).toInt(), (it.height * scale).toInt())
+    }
+    val snapParams = SnapshotParameters().apply {
+        transform = Transform.scale(scale, scale)
+    }
+    snapshot(snapParams, image)
+    FileChooser().apply {
+        title = "Save as PNG"
+        initialFileName = "$name.png"
+        showSaveDialog(null)?.apply {
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", this)
+        }
+    }
 }

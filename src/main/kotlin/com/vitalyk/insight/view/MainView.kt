@@ -2,10 +2,7 @@ package com.vitalyk.insight.view
 
 import com.vitalyk.insight.fragment.InfoFragment
 import com.vitalyk.insight.fragment.ReutersFragment
-import com.vitalyk.insight.helpers.browseTo
-import com.vitalyk.insight.helpers.getResourceAudioClip
-import com.vitalyk.insight.helpers.newYorkZoneId
-import com.vitalyk.insight.helpers.toReadableNumber
+import com.vitalyk.insight.helpers.*
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.iex.IexSymbols
 import com.vitalyk.insight.main.HttpClients
@@ -158,6 +155,13 @@ class MainView : View("Insight") {
                                     data(timeFormatter.format(point.time), point.change)
                                 }
                             }
+
+                            val chart = this
+                            contextmenu {
+                                item("Save as...").action {
+                                    chart.saveToFile("Advancers - Decliners")
+                                }
+                            }
                         }
                     }.openWindow()
                 }
@@ -243,6 +247,13 @@ class MainView : View("Insight") {
                             series("Lows") {
                                 points.forEach { point ->
                                     data(timeFormatter.format(point.time), point.lowCount)
+                                }
+                            }
+
+                            val chart = this
+                            contextmenu {
+                                item("Save as...").action {
+                                    chart.saveToFile("Highs - Lows")
                                 }
                             }
                         }
