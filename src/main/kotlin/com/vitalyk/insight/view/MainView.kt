@@ -209,12 +209,6 @@ class MainView : View("Insight") {
                     padding = box(5.px)
                 }
 
-                contextmenu {
-                    item("Copy").action {
-                        clipboard.putString(this@label.text)
-                    }
-                }
-
                 GlobalScope.launch {
                     while (isActive) {
                         val stats = IexSymbols.assetStats
@@ -302,6 +296,9 @@ class MainView : View("Insight") {
                 }
 
                 contextmenu {
+                    item("Copy").action {
+                        clipboard.putString(this@label.text)
+                    }
                     item("Show companies").action {
                         highsLows?.let {
                             label.runAsyncWithProgress {
