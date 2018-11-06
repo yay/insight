@@ -138,7 +138,7 @@ class MainView : View("Insight") {
                 }
 
                 fun showChart(): Stage? {
-                    return object : Fragment() {
+                    return if (points.isNotEmpty()) object : Fragment() {
                         override val root = linechart(null, CategoryAxis(), NumberAxis()) {
                             animated = false
                             createSymbols = false
@@ -163,7 +163,7 @@ class MainView : View("Insight") {
                                 }
                             }
                         }
-                    }.openWindow()
+                    }.openWindow() else null
                 }
 
                 var chart: Stage? = null
@@ -227,7 +227,7 @@ class MainView : View("Insight") {
                 }
 
                 fun showChart(): Stage? {
-                    return object : Fragment() {
+                    return if (points.isNotEmpty()) object : Fragment() {
                         override val root = linechart(null, CategoryAxis(), NumberAxis()) {
                             animated = false
                             createSymbols = false
@@ -257,7 +257,7 @@ class MainView : View("Insight") {
                                 }
                             }
                         }
-                    }.openWindow()
+                    }.openWindow() else null
                 }
 
                 var chart: Stage? = null
