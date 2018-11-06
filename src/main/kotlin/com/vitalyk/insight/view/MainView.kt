@@ -21,6 +21,7 @@ import javafx.scene.chart.NumberAxis
 import javafx.scene.control.Alert
 import javafx.scene.input.MouseButton
 import javafx.scene.layout.Priority
+import javafx.scene.paint.Color
 import javafx.stage.Stage
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -174,11 +175,13 @@ class MainView : View("Insight") {
 
                 var chart: Stage? = null
                 onMouseEntered = EventHandler {
+                    textFill = Color.BLUEVIOLET
                     if (chart == null) {
                         chart = showChart()
                     }
                 }
                 onMouseExited = EventHandler {
+                    textFill = Color.BLACK
                     chart?.close()
                     chart = null
                 }
@@ -268,11 +271,13 @@ class MainView : View("Insight") {
 
                 var chart: Stage? = null
                 onMouseEntered = EventHandler {
+                    textFill = Color.BLUEVIOLET
                     if (chart == null) {
                         chart = showChart()
                     }
                 }
                 onMouseExited = EventHandler {
+                    textFill = Color.BLACK
                     chart?.close()
                     chart = null
                 }
