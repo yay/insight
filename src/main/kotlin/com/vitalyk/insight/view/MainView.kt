@@ -120,6 +120,12 @@ class MainView : View("Insight") {
                     padding = box(5.px)
                 }
 
+                contextmenu {
+                    item("Copy").action {
+                        clipboard.putString(this@label.text)
+                    }
+                }
+
                 GlobalScope.launch {
                     while (isActive) {
                         val now = LocalDateTime.now(ZoneId.of("America/New_York"))
@@ -201,6 +207,12 @@ class MainView : View("Insight") {
                 tooltip("New 52-week highs and lows\nMin market cap: ${minCap.toReadableNumber()}")
                 style {
                     padding = box(5.px)
+                }
+
+                contextmenu {
+                    item("Copy").action {
+                        clipboard.putString(this@label.text)
+                    }
                 }
 
                 GlobalScope.launch {
