@@ -7,8 +7,10 @@ import javafx.event.EventTarget
 import javafx.geometry.Side
 import javafx.scene.control.ContextMenu
 import javafx.scene.paint.Color
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import org.jsoup.Jsoup
 import org.jsoup.parser.Parser
 import tornadofx.*
@@ -38,7 +40,7 @@ private fun EventTarget.rss() { // this is just placeholder to prevent compile e
         val rssFeed = "https://realmoney.thestreet.com/node/3203/feed"
 
         var oldDates = listOf<String>()
-        kotlinx.coroutines.launch {
+        GlobalScope.launch {
             while (isActive) {
                 httpGet(rssFeed)?.let { xmlString ->
                     val items = Jsoup.parse(xmlString, "", Parser.xmlParser()).select("item")

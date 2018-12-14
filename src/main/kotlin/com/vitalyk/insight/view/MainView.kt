@@ -110,7 +110,7 @@ class MainView : View("Insight") {
 
                 val label = this
                 val minPrice = 2.0 // Ignore penny stocks
-                val interval = 60 * 1000
+                val interval = 60 * 1000L
                 val day = 6.5 * 60 * 60 * 1000
                 val maxIntervals = day / interval
                 val points = mutableListOf<ChartPoint>()
@@ -200,7 +200,7 @@ class MainView : View("Insight") {
 
                 val label = this
                 val minCap = 50_000_000L
-                val interval = 60 * 1000
+                val interval = 60 * 1000L
                 val day = 6.5 * 60 * 60 * 1000
                 val maxIntervals = day / interval
                 val points = mutableListOf<ChartPoint>()

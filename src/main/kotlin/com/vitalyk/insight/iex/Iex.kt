@@ -866,7 +866,7 @@ class Iex(private val httpClient: OkHttpClient) {
 
     suspend fun getCompaniesAsync(): Map<String, Company> {
         val symbolMap = getSymbols()?.let { it.map { it.symbol to it }.toMap() } ?: emptyMap()
-        return symbolMap.map { async { getCompany(it.key) } }
+        return symbolMap.map { GlobalScope.async { getCompany(it.key) } }
             .mapNotNull { it.await() }
             .map { it.symbol to it }
             .toMap()
@@ -888,7 +888,7 @@ class Iex(private val httpClient: OkHttpClient) {
      */
     suspend fun getAssetStatsAsync(): Map<String, AssetStats> {
         val symbolMap = getSymbols()?.let { it.map { it.symbol to it }.toMap() } ?: emptyMap()
-        return symbolMap.map { async { getAssetStats(it.key) } }
+        return symbolMap.map { GlobalScope.async { getAssetStats(it.key) } }
             .mapNotNull { it.await() }
             .map { it.symbol to it }
             .toMap()
@@ -908,7 +908,7 @@ class Iex(private val httpClient: OkHttpClient) {
     suspend fun getAssetStatsWithProgress(counter: SendChannel<Int>): Map<String, AssetStats> {
         val symbolMap = getSymbols()?.let { it.map { it.symbol to it }.toMap() } ?: emptyMap()
         val total = symbolMap.size
-        return symbolMap.map { async { getAssetStats(it.key) } }
+        return symbolMap.map { GlobalScope.async { getAssetStats(it.key) } }
             .mapNotNull { it.await().also { counter.send(total) } }
             .map { it.symbol to it }
             .toMap()

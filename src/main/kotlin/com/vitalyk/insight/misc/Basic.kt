@@ -2,6 +2,7 @@ package com.vitalyk.insight.misc
 
 import com.vitalyk.insight.iex.Iex
 import com.vitalyk.insight.main.HttpClients
+import com.vitalyk.viz.scale.LinearScale
 import com.vitalyk.viz.scale.scaleLinear
 import javafx.application.Application
 import javafx.event.EventHandler

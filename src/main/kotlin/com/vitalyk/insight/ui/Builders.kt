@@ -17,8 +17,10 @@ import javafx.scene.paint.Color
 import javafx.scene.paint.CycleMethod
 import javafx.scene.paint.LinearGradient
 import javafx.scene.paint.Stop
-import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.javafx.JavaFx
+import kotlinx.coroutines.channels.actor
 import tornadofx.*
 import java.awt.Desktop
 import java.net.URI
@@ -201,7 +203,7 @@ fun EventTarget.browsebutton(text: String = "", url: String, op: Button.() -> Un
  * buttons were clicked.
  */
 fun Button.onClickActor(action: suspend (MouseEvent) -> Unit) {
-    val eventActor = actor<MouseEvent>(JavaFx) {
+    val eventActor = GlobalScope.actor<MouseEvent>(Dispatchers.JavaFx) {
         for (event in channel) action(event)
     }
     onMouseClicked = EventHandler { event ->

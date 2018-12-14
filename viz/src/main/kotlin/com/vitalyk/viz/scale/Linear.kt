@@ -9,7 +9,7 @@ inline fun <reified R> scaleLinear(
     init: LinearScale<R>.() -> Unit = {}
 ): LinearScale<R> {
     val scale = LinearScale(
-        reinterpolatorFactory ?: reinterpolatorFor(),
+        reinterpolatorFactory ?: reinterpolatorFor<R>(),
         when {
             deinterpolatorFactory != null -> deinterpolatorFactory
             reinterpolatorFactory != null -> null

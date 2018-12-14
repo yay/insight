@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Insets
 import javafx.geometry.Pos
 import javafx.scene.layout.Priority
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import tornadofx.*
 
@@ -35,7 +36,7 @@ class InfoFragment : Fragment() {
         this += textarea
         hbox {
             button("Email").action {
-                async {
+                GlobalScope.async {
                     sendEmail("rarename@icloud.com", fragment.title, textarea.text)
                     getResourceAudioClip("/sounds/alerts/email_sent.wav").play()
                 }

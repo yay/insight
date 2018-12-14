@@ -7,6 +7,7 @@ import com.vitalyk.insight.main.HttpClients
 import javafx.application.Application
 import javafx.stage.FileChooser
 import javafx.stage.Stage
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import tornadofx.*
 import java.time.LocalDate
@@ -52,7 +53,7 @@ suspend fun topPriceToSales() {
 
 class PriceToSalesApp: Application() {
     override fun start(primaryStage: Stage) {
-        async {
+        GlobalScope.async {
             topPriceToSales()
         }
     }

@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Insets
 import javafx.scene.layout.Priority
 import javafx.scene.paint.Color
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import tornadofx.*
 
@@ -48,7 +49,7 @@ class BuybackView : View("Share Buyback") {
                             padding = Insets(10.0, 0.0, 0.0, 0.0)
                             spacer {}
                             button("Calculate").action {
-                                async {
+                                GlobalScope.async {
                                     calculateNewPrice(symbolProperty.get(), amountProperty.get())?.let {
                                         runLater {
                                             prevCloseProperty.set(it.previousClose)

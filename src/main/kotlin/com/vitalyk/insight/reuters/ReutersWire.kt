@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.vitalyk.insight.helpers.objectMapper
 import com.vitalyk.insight.main.httpGet
 import com.vitalyk.insight.trigger.TextTrigger
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.slf4j.LoggerFactory
 import java.io.IOException
 import java.util.*
@@ -44,7 +41,7 @@ object ReutersWire {
     )
 
     private val logger = LoggerFactory.getLogger(javaClass)
-    private val updateInterval = 10_000 // as on reuters.com
+    private val updateInterval = 10_000L // as on reuters.com
     const val baseUrl = "https://www.reuters.com"
     private const val url = "$baseUrl/assets/jsonWireNews"
 
@@ -170,7 +167,7 @@ object ReutersWire {
     private fun startFetching() {
         val job = fetchJob
         if (job == null || !job.isActive) {
-            fetchJob = launch {
+            fetchJob = GlobalScope.launch {
                 while (isActive && storyListeners.isNotEmpty()) {
                     fetch()
                     delay(updateInterval)

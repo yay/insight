@@ -1,9 +1,9 @@
 package com.vitalyk.insight.main
 
-import kotlinx.coroutines.CommonPool
-import kotlinx.coroutines.async
 import com.vitalyk.insight.yahoo.DataFrequency
 import com.vitalyk.insight.yahoo.YahooData
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import java.io.File
 import java.time.LocalDate
 
@@ -55,11 +55,11 @@ object YahooFetcher {
         }
     }
 
-    fun asyncFetchData(symbols: List<String>) = async(CommonPool) {
+    fun asyncFetchData(symbols: List<String>) = GlobalScope.async {
         fetchData(symbols)
     }
 
-    fun asyncFetchSummary(symbols: List<String>) = async(CommonPool) {
+    fun asyncFetchSummary(symbols: List<String>) = GlobalScope.async {
         fetchSummary(symbols)
     }
 }

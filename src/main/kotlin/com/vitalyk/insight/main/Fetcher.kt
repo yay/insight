@@ -7,6 +7,7 @@ import com.vitalyk.insight.yahoo.fetchNews
 import com.vitalyk.insight.yahoo.getYahooSummary
 import com.vitalyk.insight.yahoo.yahooGet
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import org.apache.commons.csv.CSVFormat
@@ -201,9 +202,9 @@ suspend fun Exchange.asyncFetchDailyData() {
     val baseUrl = "https://query1.finance.yahoo.com/v7/finance/download"
     val crumb = "Al6fqK3.l4h"
 
-    val securities = async { exchange.getSecurities() }.await()
+    val securities = GlobalScope.async { exchange.getSecurities() }.await()
 
-    securities.map { (symbol) -> async {
+    securities.map { (symbol) -> GlobalScope.async {
         val filename = "${AppSettings.Paths.dailyData}/${exchange.code}/$symbol.csv"
         val file = File(filename)
         val fileExists = file.exists()
@@ -313,10 +314,10 @@ suspend fun Exchange.asyncFetchIntradayData() {
     // No matter what time and date it is locally, we are interested in what date it is in New York.
     val nyDateTime = ZonedDateTime.now(ZoneId.of("America/New_York"))
     val nyIsoDate: String = nyDateTime.format(DateTimeFormatter.ISO_LOCAL_DATE)
-    val securities = async { exchange.getSecurities() }.await()
+    val securities = GlobalScope.async { exchange.getSecurities() }.await()
 
     securities.map { (symbol) ->
-        async {
+        GlobalScope.async {
             val data = fetchIntradayData(symbol)
             if (data != null) {
                 try {
@@ -375,10 +376,10 @@ suspend fun Exchange.asyncFetchSummary() {
         return
     }
 
-    val securities = async { exchange.getSecurities() }.await()
+    val securities = GlobalScope.async { exchange.getSecurities() }.await()
 
     securities.map { (symbol) ->
-        async {
+        GlobalScope.async {
             val data = getYahooSummary(symbol)
             if (data != null) {
                 try {
@@ -394,7 +395,7 @@ suspend fun Exchange.asyncFetchSummary() {
 
 // Creates a map of ticker symbols to company names for all exchanges.
 fun createTickerToNameJson() {
-    async {
+    GlobalScope.async {
         var map = mutableMapOf<String, MutableMap<String, String>>()
         StockFetcherUS.forAll { exchange, companies ->
             val symbolNames = mutableMapOf<String, String>()

@@ -4,9 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import com.vitalyk.insight.helpers.toPrettyJson
 import com.vitalyk.insight.helpers.toReadableNumber
 import com.vitalyk.insight.helpers.writeToFile
-import com.vitalyk.insight.iex.Iex.AssetStats
-import com.vitalyk.insight.iex.Iex.Quote
-import com.vitalyk.insight.iex.Iex.Symbol
+import com.vitalyk.insight.iex.Iex.*
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import java.time.LocalDate
@@ -73,7 +72,7 @@ fun getShortInterest(iex: Iex) = runBlocking {
 
 suspend fun getQuotes(iex: Iex, symbols: List<Symbol>): Map<String, Quote> {
     return symbols.map {
-        async {
+        GlobalScope.async {
             iex.getQuote(it.symbol)
         }
     }.mapNotNull {

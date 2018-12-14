@@ -7,6 +7,7 @@ import javafx.scene.layout.Background
 import javafx.scene.layout.BackgroundFill
 import javafx.scene.layout.CornerRadii
 import javafx.scene.paint.Color
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
@@ -47,7 +48,7 @@ class ChangeBlinkTableCell<S, T>(
                 }
             }
 
-            launch {
+            GlobalScope.launch {
                 delay(BLINK_TIME)
                 Platform.runLater { background = null }
             }
@@ -62,6 +63,6 @@ class ChangeBlinkTableCell<S, T>(
         private val INCREASE_COLOR_BG = Color(0.802, 1.0, 0.68, 1.0)
         private val DECREASE_COLOR_BG = Color(1.0, 0.747, 0.782, 1.0)
         private val CHANGE_COLOR = Color(1.0, 0.917, 0.68, 1.0)
-        private const val BLINK_TIME = 1000
+        private const val BLINK_TIME = 1000L
     }
 }

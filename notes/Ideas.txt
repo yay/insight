@@ -39,3 +39,6 @@ Implement screener:
 - news section (why up/down?)
 
 Implement long-term earnings view.
+
+
+Long-term (decades of data) unemployment rate and wage growth data.

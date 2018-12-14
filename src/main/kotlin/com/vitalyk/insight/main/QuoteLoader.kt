@@ -1,7 +1,7 @@
 package com.vitalyk.insight.main
 
 import com.vitalyk.insight.yahoo.YahooDataColumns
-import kotlinx.coroutines.CommonPool
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
@@ -79,7 +79,7 @@ suspend fun asyncLoadAllDailyQuotes(exchanges: List<String>): Map<ExchangeName, 
         exchangeMap[exchange] = tickerMap
 
         for (file in walker) {
-            async(CommonPool) {
+            GlobalScope.async {
                 if (file.isFile()) {
                     val symbol = file.nameWithoutExtension.trim()
                     if (symbol != exchange) {

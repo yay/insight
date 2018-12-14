@@ -6,10 +6,7 @@ import com.vitalyk.insight.fragment.EarningsFragment
 import com.vitalyk.insight.iex.IexSymbols
 import com.vitalyk.insight.ui.symbolfield
 import javafx.scene.layout.Priority
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import tornadofx.*
 
 class ResearchView : View("Research") {
@@ -52,7 +49,7 @@ class ResearchView : View("Research") {
     private var clipboardSymbol: String = ""
 
     override fun onDock() {
-        clipboardJob = launch {
+        clipboardJob = GlobalScope.launch {
             while (isActive) {
                 delay(1000)
                 runLater {

@@ -3,6 +3,7 @@ package com.vitalyk.insight.iex
 import com.vitalyk.insight.iex.Iex.Tops
 import io.socket.client.IO
 import io.socket.client.Socket
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -190,7 +191,7 @@ class Watchlist(name: String, symbols: List<String> = emptyList()) {
     }
 
     fun simulation() {
-        launch {
+        GlobalScope.launch {
             while (isActive) {
                 delay(1500)
                 map.values.forEach { oldTop ->

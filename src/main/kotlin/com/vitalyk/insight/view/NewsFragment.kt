@@ -16,6 +16,7 @@ import javafx.scene.input.Clipboard
 import javafx.scene.layout.Priority
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -32,7 +33,7 @@ class NewsFragment : Fragment("News") {
     private val fetchTimes = mutableMapOf<String, Instant>()
     // The news fetched last time itself.
     private val cache = mutableMapOf<String, List<NewsItem>>()
-    private val cacheKeepTime = 30_000 // ms
+    private val cacheKeepTime = 30_000L // ms
     private var cacheInvalidationJob: Job? = null
 
     var symbol = SimpleStringProperty("").apply {
@@ -119,7 +120,7 @@ class NewsFragment : Fragment("News") {
             // If `cacheKeepTime` since last fetch, then all of the cached items
             // are past their expiration.
             cacheInvalidationJob?.cancel()
-            cacheInvalidationJob = launch {
+            cacheInvalidationJob = GlobalScope.launch {
                 delay(cacheKeepTime)
                 cache.clear()
                 fetchTimes.clear()
