@@ -1,8 +1,6 @@
 package com.vitalyk.insight.ui
 
 import com.vitalyk.insight.iex.IexSymbols
-import de.jensd.fx.glyphs.materialicons.MaterialIcon
-import de.jensd.fx.glyphs.materialicons.MaterialIconView
 import javafx.beans.value.ObservableValue
 import javafx.event.EventHandler
 import javafx.event.EventTarget
@@ -178,19 +176,7 @@ fun EventTarget.symbolfield(property: ObservableValue<String>? = null,
 }
 
 
-fun ToolBar.browsebutton(text: String = "", url: String, op: Button.() -> Unit = {}) = Button(text).also {
-    it.graphic = MaterialIconView(MaterialIcon.EXPLORE).apply {
-        glyphSize = 16.0
-    }
-    items += it
-    it.action { Desktop.getDesktop().browse(URI(url)) }
-    op(it)
-}
-
 fun EventTarget.browsebutton(text: String = "", url: String, op: Button.() -> Unit = {}) = Button(text).also {
-    it.graphic = MaterialIconView(MaterialIcon.EXPLORE).apply {
-        glyphSize = 16.0
-    }
     it.action { Desktop.getDesktop().browse(URI(url)) }
     addChildIfPossible(it)
     op(it)

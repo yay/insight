@@ -13,7 +13,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 buildscript {
-    ext.kotlin_version = '1.3.20'
+    ext.kotlin_version = '1.3.31'
 
     repositories {
         jcenter()
@@ -63,8 +63,8 @@ subprojects {
     }
 
     dependencies {
-        compile 'org.jetbrains.kotlin:kotlin-stdlib:1.3.20'
-        compile 'org.jetbrains.kotlin:kotlin-reflect:1.3.20'
+        compile 'org.jetbrains.kotlin:kotlin-stdlib:1.3.31'
+        compile 'org.jetbrains.kotlin:kotlin-reflect:1.3.31'
     }
 }
 
@@ -76,20 +76,16 @@ dependencies {
     // Add whatever jars are in lib folder as dependencies.
     compile fileTree(dir: 'lib', include: ['*.jar'])
 
-    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.3.20'
-    compile 'org.jetbrains.kotlin:kotlin-reflect:1.3.20'
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.0'
-    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-javafx:1.1.0'
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.3.31'
+    compile 'org.jetbrains.kotlin:kotlin-reflect:1.3.31'
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1'
+    compile 'org.jetbrains.kotlinx:kotlinx-coroutines-javafx:1.2.1'
 
-    compile 'com.squareup.okhttp3:okhttp:3.12.1'
+    compile 'com.squareup.okhttp3:okhttp:3.14.2'
     compile 'com.h2database:h2:1.4.197'
 //    compile 'org.openjfx:javafx-controls:11.0.1'
-    compile 'no.tornado:tornadofx:1.7.17'
+    compile 'no.tornado:tornadofx:1.7.19'
 //    compile 'com.google.guava:guava:25.0-jre'
-    // https://bitbucket.org/Jerady/fontawesomefx/src/master/
-    // https://github.com/Jerady/fontawesomefx-examples
-//    compile 'de.jensd:fontawesomefx-materialdesignfont:1.7.22'
-    compile 'de.jensd:fontawesomefx-materialicons:2.2.0-9.1.2'
 
     compile 'org.apache.commons:commons-csv:1.5' // CSV parser
     compile 'org.jsoup:jsoup:1.11.2' // HTML parser

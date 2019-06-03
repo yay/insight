@@ -4,8 +4,6 @@ import com.vitalyk.insight.bond.Yield
 import com.vitalyk.insight.bond.getUsYieldData
 import com.vitalyk.insight.fragment.InfoFragment
 import com.vitalyk.insight.helpers.aggregate
-import de.jensd.fx.glyphs.materialicons.MaterialIcon
-import de.jensd.fx.glyphs.materialicons.MaterialIconView
 import javafx.scene.chart.CategoryAxis
 import javafx.scene.chart.NumberAxis
 import javafx.scene.control.ScrollBar
@@ -22,9 +20,6 @@ class YieldCurveView : View("Yield Curve") {
         button("Back").action { replaceWith(EconomyView::class) }
         button("Update") {
             action { updateData() }
-            graphic = MaterialIconView(MaterialIcon.REFRESH).apply {
-                glyphSize = 16.0
-            }
         }
         button("?").action {
             find(InfoFragment::class.java).apply {

@@ -11,8 +11,6 @@ import com.vitalyk.insight.trigger.AllKeywordsTrigger
 import com.vitalyk.insight.trigger.AnyKeywordTrigger
 import com.vitalyk.insight.trigger.RegexTrigger
 import com.vitalyk.insight.trigger.TextTrigger
-import de.jensd.fx.glyphs.materialicons.MaterialIcon
-import de.jensd.fx.glyphs.materialicons.MaterialIconView
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.collections.transformation.FilteredList
@@ -183,9 +181,6 @@ class ReutersFragment : Fragment("Reuters Wire") {
             cellFormat { alert ->
                 graphic = vbox {
                     hbox {
-                        this += MaterialIconView(MaterialIcon.NOTIFICATIONS_NONE).apply {
-                            glyphSize = 16.0
-                        }
                         label(dateFormat.format(alert.date)) {
                             textFill = Color.GRAY
                             padding = Insets(0.0, 0.0, 0.0, 5.0)
@@ -193,9 +188,6 @@ class ReutersFragment : Fragment("Reuters Wire") {
                         bindVisibleAndManaged(showAlertDetailsProperty)
                     }
                     hbox {
-                        this += MaterialIconView(MaterialIcon.ACCESS_TIME).apply {
-                            glyphSize = 16.0
-                        }
                         label(dateFormat.format(alert.story.date)) {
                             textFill = Color.GRAY
                             padding = Insets(0.0, 0.0, 0.0, 5.0)
