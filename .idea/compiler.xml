@@ -2,12 +2,16 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="com.vitalyk.insight-insight_main" target="1.8" />
+      <module name="com.vitalyk.insight-insight_test" target="1.8" />
       <module name="dataviz_main" target="1.8" />
       <module name="dataviz_test" target="1.8" />
       <module name="generator_main" target="1.8" />
       <module name="generator_test" target="1.8" />
       <module name="h2_main" target="1.8" />
       <module name="h2_test" target="1.8" />
+      <module name="insight-viz_main" target="1.8" />
+      <module name="insight-viz_test" target="1.8" />
       <module name="insight_main" target="1.8" />
       <module name="insight_test" target="1.8" />
       <module name="viz_main" target="1.8" />
