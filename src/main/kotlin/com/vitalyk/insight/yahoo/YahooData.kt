@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleDoubleProperty
 import javafx.beans.property.SimpleLongProperty
 import javafx.beans.property.SimpleObjectProperty
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.apache.commons.csv.CSVFormat
@@ -37,7 +38,7 @@ data class YFinanceAuth(
 
 fun getYFinanceAuth(symbol: String = "AAPL"): YFinanceAuth? {
     val url = "https://uk.finance.yahoo.com/quote/$symbol/history"
-    val httpUrl = HttpUrl.parse(url) ?: throw MalformedURLException("Invalid HttpUrl.")
+    val httpUrl = url.toHttpUrlOrNull() ?: throw MalformedURLException("Invalid HttpUrl.")
     val urlBuilder = httpUrl.newBuilder()
     val requestUrl = urlBuilder.build().toString()
     val request = Request.Builder()
@@ -45,7 +46,7 @@ fun getYFinanceAuth(symbol: String = "AAPL"): YFinanceAuth? {
         .url(requestUrl)
         .build()
     val response = HttpClients.yahoo.newCall(request).execute()
-    val body = response.body()
+    val body = response.body
 
     val cookieHeader = response.headers("set-cookie")
 
@@ -207,7 +208,7 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
     )
 
     init {
-        val httpUrl = HttpUrl.parse(baseUrl)
+        val httpUrl = baseUrl.toHttpUrlOrNull()
 
         if (httpUrl != null) {
             urlBuilder = httpUrl.newBuilder()
@@ -252,8 +253,8 @@ class YahooData(var symbol: String, var frequency: DataFrequency = DataFrequency
         val response = client.newCall(request).execute()
 
         response.use {
-            if (it.code() == 200) {
-                val body = it.body()
+            if (it.code == 200) {
+                val body = it.body
 
                 if (body != null) {
                     data = body.string()

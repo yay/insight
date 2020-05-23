@@ -14,6 +14,12 @@
       <module name="insight-viz_test" target="1.8" />
       <module name="insight_main" target="1.8" />
       <module name="insight_test" target="1.8" />
+      <module name="Sites-insight" target="1.8" />
+      <module name="Sites-insight-viz" target="1.8" />
+      <module name="Sites-insight-viz_main" target="1.8" />
+      <module name="Sites-insight-viz_test" target="1.8" />
+      <module name="Sites-insight_main" target="1.8" />
+      <module name="Sites-insight_test" target="1.8" />
       <module name="viz_main" target="1.8" />
       <module name="viz_test" target="1.8" />
     </bytecodeTargetLevel>

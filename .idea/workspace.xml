@@ -1,34 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="296155b2-79af-4b19-b6a4-d5102d45abea" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_okhttp3_okhttp_3_14_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_okio_okio_1_17_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__no_tornado_tornadofx_1_7_19.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlinx_kotlinx_coroutines_javafx_1_2_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_mchange_c3p0_0_9_5_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_mchange_mchange_commons_java_0_2_15.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_okhttp3_okhttp_4_7_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_okio_okio_2_6_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_zaxxer_HikariCP_java7_2_4_13.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__no_tornado_tornadofx_1_7_20.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlinx_kotlinx_coroutines_javafx_1_3_7.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_json_json_20190722.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jsoup_jsoup_1_13_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_openjfx_javafx_base_11_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_openjfx_javafx_base_linux_11_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_openjfx_javafx_controls_linux_11_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_openjfx_javafx_graphics_11_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_openjfx_javafx_graphics_linux_11_0_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_quartz_scheduler_quartz_2_3_2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_slf4j_jul_to_slf4j_1_7_30.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_slf4j_slf4j_api_1_7_30.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_okhttp3_okhttp_3_12_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_okio_okio_1_15_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__de_jensd_fontawesomefx_commons_9_1_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__de_jensd_fontawesomefx_materialicons_2_2_0_9_1_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__no_tornado_tornadofx_1_7_17.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_reflect_1_3_20.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_reflect_1_3_61.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_1_3_20.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_1_3_61.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_common_1_3_20.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_common_1_3_61.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_jdk7_1_2_60.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_jdk7_1_3_20.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_jdk8_1_2_60.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_jdk8_1_3_20.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlinx_kotlinx_coroutines_core_1_1_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlinx_kotlinx_coroutines_core_1_2_1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlinx_kotlinx_coroutines_core_common_1_1_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlinx_kotlinx_coroutines_javafx_1_1_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_h2database_h2_1_4_197.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_mchange_c3p0_0_9_5_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_mchange_mchange_commons_java_0_2_11.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_okhttp3_okhttp_3_14_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_squareup_okio_okio_1_17_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_zaxxer_HikariCP_java6_2_3_13.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__no_tornado_tornadofx_1_7_19.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_reflect_1_3_61.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_reflect_1_3_72.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_1_3_61.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_1_3_72.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_common_1_3_61.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_common_1_3_72.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_jdk7_1_3_20.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_jdk7_1_3_61.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_jdk8_1_3_20.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_jdk8_1_3_61.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlinx_kotlinx_coroutines_core_1_2_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlinx_kotlinx_coroutines_core_1_3_7.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlinx_kotlinx_coroutines_javafx_1_2_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_json_json_20180130.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jsoup_jsoup_1_11_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_quartz_scheduler_quartz_2_3_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_slf4j_jul_to_slf4j_1_7_5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_slf4j_slf4j_api_1_7_25.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/iex/Iex.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/main/Http.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/main/Http.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/misc/Basic.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/yahoo/YahooData.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/yahoo/YahooData.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/module-info.java1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viz/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viz/src/main/kotlin/com/vitalyk/viz/array/Bisect.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viz/src/main/kotlin/com/vitalyk/viz/scale/Continuous.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viz/src/main/kotlin/com/vitalyk/viz/scale/Linear.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viz/src/main/kotlin/com/vitalyk/viz/scale/Log.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viz/src/main/kotlin/com/vitalyk/viz/scale/Nice.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viz/src/main/kotlin/com/vitalyk/viz/scale/Scale.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viz/src/main/kotlin/com/vitalyk/viz/scale/package.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/viz/src/main/kotlin/com/vitalyk/viz/util/Truthy.kt" beforeDir="false" />
     </list>
     <list id="30aabaf9-6d95-4d80-adbf-bbdacf4dc477" name="Revert: Cleanup." comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -239,10 +286,11 @@
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1548271302426" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="kotlin&#10;TEXT" />
@@ -272,7 +320,7 @@
       <recent name="$PROJECT_DIR$/src/main/resources/sounds/alerts" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Kotlin.Insight">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -311,8 +359,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Insight" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <module name="Sites-insight_main" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.vitalyk.insight.Insight" />
+      <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Kotlin.Insight" />
         <item itemvalue="Gradle.insight [build]" />
       </list>
     </recent_temporary>
@@ -388,9 +450,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -409,32 +469,37 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="-1382" y="35" width="981" height="683" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1581021313776">
-      <screen x="-1920" y="-97" width="1920" height="1057" />
+    <state width="1244" height="286" key="GridCell.Tab.0.bottom" timestamp="1590248660249">
+      <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state x="-1382" y="35" width="981" height="683" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.-97.1920.1057/0.23.1536.937@-1920.-97.1920.1057" timestamp="1581021313776" />
-    <state width="1371" height="234" key="GridCell.Tab.0.bottom" timestamp="1581021723695">
-      <screen x="-1920" y="-97" width="1920" height="1057" />
+    <state width="1244" height="286" key="GridCell.Tab.0.bottom/1920.143.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1590248660249" />
+    <state width="1244" height="286" key="GridCell.Tab.0.center" timestamp="1590248660249">
+      <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state width="1371" height="234" key="GridCell.Tab.0.bottom/-1920.-97.1920.1057/0.23.1536.937@-1920.-97.1920.1057" timestamp="1581021723695" />
-    <state width="1371" height="234" key="GridCell.Tab.0.center" timestamp="1581021723694">
-      <screen x="-1920" y="-97" width="1920" height="1057" />
+    <state width="1244" height="286" key="GridCell.Tab.0.center/1920.143.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1590248660249" />
+    <state width="1244" height="286" key="GridCell.Tab.0.left" timestamp="1590248660248">
+      <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state width="1371" height="234" key="GridCell.Tab.0.center/-1920.-97.1920.1057/0.23.1536.937@-1920.-97.1920.1057" timestamp="1581021723694" />
-    <state width="1371" height="234" key="GridCell.Tab.0.left" timestamp="1581021723693">
-      <screen x="-1920" y="-97" width="1920" height="1057" />
+    <state width="1244" height="286" key="GridCell.Tab.0.left/1920.143.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1590248660248" />
+    <state width="1244" height="286" key="GridCell.Tab.0.right" timestamp="1590248660249">
+      <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state width="1371" height="234" key="GridCell.Tab.0.left/-1920.-97.1920.1057/0.23.1536.937@-1920.-97.1920.1057" timestamp="1581021723693" />
-    <state width="1371" height="234" key="GridCell.Tab.0.right" timestamp="1581021723695">
-      <screen x="-1920" y="-97" width="1920" height="1057" />
+    <state width="1244" height="286" key="GridCell.Tab.0.right/1920.143.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1590248660249" />
+    <state x="539" y="112" key="SettingsEditor" timestamp="1590243764080">
+      <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state width="1371" height="234" key="GridCell.Tab.0.right/-1920.-97.1920.1057/0.23.1536.937@-1920.-97.1920.1057" timestamp="1581021723695" />
-    <state x="-1296" y="-67" key="SettingsEditor" timestamp="1581021397779">
-      <screen x="-1920" y="-97" width="1920" height="1057" />
+    <state x="539" y="112" key="SettingsEditor/1920.143.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1590243764080" />
+    <state width="500" height="445" key="SwitcherDM" timestamp="1590243364132">
+      <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state x="-1296" y="-67" key="SettingsEditor/-1920.-97.1920.1057/0.23.1536.937@-1920.-97.1920.1057" timestamp="1581021397779" />
+    <state width="500" height="445" key="SwitcherDM/1920.143.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1590243364132" />
+    <state x="744" y="176" width="713" height="644" key="find.popup" timestamp="1590244346342">
+      <screen x="0" y="23" width="1920" height="1057" />
+    </state>
+    <state x="744" y="176" width="713" height="644" key="find.popup/1920.143.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1590244346342" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">

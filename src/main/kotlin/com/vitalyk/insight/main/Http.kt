@@ -1,6 +1,7 @@
 package com.vitalyk.insight.main
 
 import okhttp3.*
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import java.io.IOException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -61,8 +62,8 @@ object HttpClients {
             // and PlatformImpl.exit() docs.
             // Also: https://publicobject.com/2015/01/02/okio-watchdog/
             //       https://github.com/square/okhttp/issues/3957
-            it.dispatcher().executorService().shutdown()
-            it.connectionPool().evictAll()
+            it.dispatcher.executorService.shutdown()
+            it.connectionPool.evictAll()
         }
     }
 }
@@ -90,7 +91,7 @@ fun httpGet(
     withUrl: HttpUrl.Builder.() -> Unit = {},
     withRequest: Request.Builder.() -> Unit = {}
 ): String? {
-    val httpUrl = (HttpUrl.parse(url) ?: throw IllegalArgumentException("Bad URL: $url"))
+    val httpUrl = (url.toHttpUrlOrNull() ?: throw IllegalArgumentException("Bad URL: $url"))
         .newBuilder().apply(withUrl).build()
 
     val request = Request.Builder().url(httpUrl).apply(withRequest).build()
@@ -111,13 +112,13 @@ fun httpGet(
     return response?.use {
         return if (it.isSuccessful) {
             try {
-                it.body()?.string()
+                it.body?.string()
             } catch (e: IOException) { // string() can throw
                 appLogger.error("Request failed - ${e.message}\nURL: $httpUrl")
                 null
             }
         } else {
-            appLogger.warn("Request failed - ${it.code()} - ${it.message()}\nURL: $httpUrl")
+            appLogger.warn("Request failed - ${it.code} - ${it.message}\nURL: $httpUrl")
             null
         }
     }

@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Sites-insight.iml" filepath="$PROJECT_DIR$/.idea/modules/Sites-insight.iml" group="insight" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Sites-insight_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Sites-insight_main.iml" group="insight" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Sites-insight_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Sites-insight_test.iml" group="insight" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.vitalyk.insight-insight.iml" filepath="$PROJECT_DIR$/.idea/modules/com.vitalyk.insight-insight.iml" group="insight" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.vitalyk.insight-insight_main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.vitalyk.insight-insight_main.iml" group="insight" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.vitalyk.insight-insight_test.iml" filepath="$PROJECT_DIR$/.idea/modules/com.vitalyk.insight-insight_test.iml" group="insight" />

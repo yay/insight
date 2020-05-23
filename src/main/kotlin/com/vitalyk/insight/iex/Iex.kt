@@ -19,6 +19,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.SendChannel
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.slf4j.LoggerFactory
@@ -77,7 +78,7 @@ class Iex(private val httpClient: OkHttpClient) {
     private val logger by lazy { LoggerFactory.getLogger(this::class.simpleName) }
 
     private fun fetch(url: String, params: Map<String, String?> = emptyMap()): String? {
-        val httpUrl = (HttpUrl.parse(url) ?: throw IllegalArgumentException("Bad URL: $url"))
+        val httpUrl = (url.toHttpUrlOrNull() ?: throw IllegalArgumentException("Bad URL: $url"))
             .newBuilder().apply {
                 for ((key, value) in params) {
                     addQueryParameter(key, value)
@@ -100,13 +101,13 @@ class Iex(private val httpClient: OkHttpClient) {
         return response?.use {
             if (it.isSuccessful) {
                 try {
-                    it.body()?.string()
+                    it.body?.string()
                 } catch (e: IOException) { // string() can throw
                     logger.error("Request failed: $httpUrl\n${e.message}")
                     null
                 }
             } else {
-                logger.warn("Request failed: $httpUrl\n${it.message()}")
+                logger.warn("Request failed: $httpUrl\n${it.message}")
                 null
             }
         }
