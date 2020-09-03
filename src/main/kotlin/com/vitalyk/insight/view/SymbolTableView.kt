@@ -24,7 +24,7 @@ class SymbolTableView : Fragment("Instrument Data") {
     private val iex = Iex(HttpClients.main)
 
     private var dataPoints = emptyList<Iex.DayChartPoint>()
-    val dataBeans = mutableListOf<DayChartPointBean>().observable()
+    val dataBeans = mutableListOf<DayChartPointBean>().asObservable()
     var symbol = SimpleStringProperty("AAPL")
     var range = SimpleObjectProperty(Iex.Range.Y)
 
@@ -46,7 +46,7 @@ class SymbolTableView : Fragment("Instrument Data") {
             symbolfield(symbol) { updateSymbolTable() }
             button("Go").action { updateSymbolTable() }
             label("Period:")
-            rangeCombo = combobox(range, Iex.Range.values().toList().observable()) {
+            rangeCombo = combobox(range, Iex.Range.values().toList().asObservable()) {
                 // TODO: ComboBoxBase could have `action` extension as well
                 setOnAction { updateSymbolTable() }
             }

@@ -99,7 +99,7 @@ fun getFxBeanTableView(klass: KClass<*>): String {
     val beanName = "${klass.simpleName}Bean"
     val indent = " ".repeat(4)
 
-    return "tableview(listOf<$beanName>().observable()) {\n" +
+    return "tableview(listOf<$beanName>().asObservable()) {\n" +
         klass.declaredMemberProperties.map { prop ->
             "${indent}column(\"${prop.name.capitalize()}\", $beanName::${prop.name}Property)"
         }.joinToString("\n") +

@@ -4,6 +4,9 @@
     <bytecodeTargetLevel>
       <module name="com.vitalyk.insight-insight_main" target="1.8" />
       <module name="com.vitalyk.insight-insight_test" target="1.8" />
+      <module name="com.vitalyk.insight.insight" target="1.8" />
+      <module name="com.vitalyk.insight.insight.main" target="1.8" />
+      <module name="com.vitalyk.insight.insight.test" target="1.8" />
       <module name="dataviz_main" target="1.8" />
       <module name="dataviz_test" target="1.8" />
       <module name="generator_main" target="1.8" />

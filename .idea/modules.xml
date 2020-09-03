@@ -8,6 +8,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.vitalyk.insight-insight.iml" filepath="$PROJECT_DIR$/.idea/modules/com.vitalyk.insight-insight.iml" group="insight" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.vitalyk.insight-insight_main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.vitalyk.insight-insight_main.iml" group="insight" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.vitalyk.insight-insight_test.iml" filepath="$PROJECT_DIR$/.idea/modules/com.vitalyk.insight-insight_test.iml" group="insight" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.vitalyk.insight.insight.iml" filepath="$PROJECT_DIR$/.idea/modules/com.vitalyk.insight.insight.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.vitalyk.insight.insight.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.vitalyk.insight.insight.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.vitalyk.insight.insight.test.iml" filepath="$PROJECT_DIR$/.idea/modules/com.vitalyk.insight.insight.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/insight.iml" filepath="$PROJECT_DIR$/.idea/modules/insight.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/viz/insight-viz.iml" filepath="$PROJECT_DIR$/.idea/modules/viz/insight-viz.iml" group="insight/viz" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/viz/insight-viz_main.iml" filepath="$PROJECT_DIR$/.idea/modules/viz/insight-viz_main.iml" group="insight/viz" />

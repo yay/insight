@@ -40,7 +40,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
 
 
     private val showNewsProperty = SimpleBooleanProperty(true)
-    private val newsItems = mutableListOf<Story>().observable()
+    private val newsItems = mutableListOf<Story>().asObservable()
     private val filteredNewsItems = FilteredList(newsItems).apply {
         searchTextProperty.onChange { text ->
             if (text?.isNotBlank() == true) {
@@ -57,7 +57,7 @@ class ReutersFragment : Fragment("Reuters Wire") {
         }
     }
 
-    private val alertItems = mutableListOf<StoryAlert>().observable()
+    private val alertItems = mutableListOf<StoryAlert>().asObservable()
     private val showAlertsProperty = SimpleBooleanProperty(false)
     private val showAlertDetailsProperty = SimpleBooleanProperty(false)
 
@@ -78,12 +78,15 @@ class ReutersFragment : Fragment("Reuters Wire") {
         }
 
     private val showTriggersProperty = SimpleBooleanProperty(false)
-    private val triggerItems = mutableListOf<TextTrigger>().observable()
+    private val triggerItems = mutableListOf<TextTrigger>().asObservable()
 
 
     override val root = vbox {
         hgrow = Priority.ALWAYS
-        toolbar {
+        hbox {
+            padding = Insets(5.0)
+            spacing = 5.0
+            alignment = Pos.CENTER_LEFT
             val toggleGroup = ToggleGroup()
             radiobutton ("News", toggleGroup) { isSelected = true }
             radiobutton("Alerts", toggleGroup)

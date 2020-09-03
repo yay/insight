@@ -62,7 +62,7 @@ private fun getChangeSinceCloseView(iex: Iex) = VBox().apply {
     vgrow = Priority.ALWAYS
 
     val items = getChangeSinceClose(iex, IexSymbols.assetStats, IexSymbols.companies, 2.0, 50_000_000)
-        .map { it.toFxBean() }.observable()
+        .map { it.toFxBean() }.asObservable()
     val filteredItems = SortedFilteredList(items)
 
     toolbar {
@@ -89,7 +89,7 @@ private fun getChangeSinceCloseView(iex: Iex) = VBox().apply {
         toggleGroup.selectedToggleProperty().addListener(ChangeListener { _, _, _ ->
             toggleGroup.selectedToggle?.let {
                 val index = toggleGroup.toggles.indexOf(it)
-                val minCap = when (index) {
+                val minCap: Long = when (index) {
                     1 -> 500_000_000
                     2 -> 5_000_000_000
                     3 -> 50_000_000_000

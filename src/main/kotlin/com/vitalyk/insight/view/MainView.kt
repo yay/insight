@@ -45,7 +45,10 @@ class MainView : View("Insight") {
     }
 
     override val root = vbox {
-        toolbar {
+        hbox {
+            padding = Insets(5.0)
+            spacing = 5.0
+            alignment = Pos.CENTER_LEFT
             button("Research").action { replaceWith(ResearchView::class) }
             button("Economy").action { replaceWith(EconomyView::class) }
             menubutton("Tools") {
@@ -316,8 +319,8 @@ class MainView : View("Insight") {
                                     override val root = hbox {
                                         padding = Insets(5.0)
                                         spacing = 5.0
-                                        makeSymbolList("Highs", pair.first.observable())
-                                        makeSymbolList("Lows", pair.second.observable())
+                                        makeSymbolList("Highs", pair.first.asObservable())
+                                        makeSymbolList("Lows", pair.second.asObservable())
                                     }
                                 }.openWindow()
                             }
@@ -350,8 +353,9 @@ class MainView : View("Insight") {
 
             this += ReutersFragment()
         }
-        toolbar {
+        hbox {
             spacer {}
+            padding = Insets(5.0)
             button("Log").action {
                 getAppLog()?.apply {
                     find(InfoFragment::class.java).apply {
