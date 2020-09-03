@@ -23,28 +23,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="296155b2-79af-4b19-b6a4-d5102d45abea" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_reflect_1_4_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_1_4_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_common_1_4_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlinx_kotlinx_coroutines_core_jvm_1_3_9.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlinx_kotlinx_coroutines_javafx_1_3_9.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_core_jackson_core_2_9_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_core_jackson_core_2_9_5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_core_jackson_databind_2_9_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_fasterxml_jackson_core_jackson_databind_2_9_5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_reflect_1_3_72.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_1_3_72.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_common_1_3_72.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlinx_kotlinx_coroutines_core_1_3_7.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlinx_kotlinx_coroutines_javafx_1_3_7.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/ReutersFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/fragment/ReutersFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/helpers/FX.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/helpers/FX.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/MainView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/MainView.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/ScreenerView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/ScreenerView.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/SymbolTableView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/view/SymbolTableView.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/main/Http.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/main/Http.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/yahoo/YahooData.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/com/vitalyk/insight/yahoo/YahooData.kt" afterDir="false" />
     </list>
     <list id="30aabaf9-6d95-4d80-adbf-bbdacf4dc477" name="Revert: Cleanup." comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -423,83 +404,65 @@
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
     <state x="480" y="195" width="1071" height="700" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1536.23.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1599153649923" />
-    <state width="1255" height="277" key="GridCell.Tab.0.bottom" timestamp="1599160652360">
+    <state width="1637" height="329" key="GridCell.Tab.0.bottom" timestamp="1599169613351">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state width="1255" height="277" key="GridCell.Tab.0.bottom/-1536.23.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1599160652360" />
-    <state width="1255" height="277" key="GridCell.Tab.0.center" timestamp="1599160652359">
+    <state width="1637" height="329" key="GridCell.Tab.0.bottom/-1536.23.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1599169613351" />
+    <state width="1637" height="329" key="GridCell.Tab.0.center" timestamp="1599169613350">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state width="1255" height="277" key="GridCell.Tab.0.center/-1536.23.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1599160652359" />
-    <state width="1255" height="277" key="GridCell.Tab.0.left" timestamp="1599160652358">
+    <state width="1637" height="329" key="GridCell.Tab.0.center/-1536.23.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1599169613350" />
+    <state width="1637" height="329" key="GridCell.Tab.0.left" timestamp="1599169613350">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state width="1255" height="277" key="GridCell.Tab.0.left/-1536.23.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1599160652358" />
-    <state width="1255" height="277" key="GridCell.Tab.0.right" timestamp="1599160652359">
+    <state width="1637" height="329" key="GridCell.Tab.0.left/-1536.23.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1599169613350" />
+    <state width="1637" height="329" key="GridCell.Tab.0.right" timestamp="1599169613351">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state width="1255" height="277" key="GridCell.Tab.0.right/-1536.23.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1599160652359" />
+    <state width="1637" height="329" key="GridCell.Tab.0.right/-1536.23.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1599169613351" />
+    <state width="1637" height="329" key="GridCell.Tab.1.bottom" timestamp="1599169613352">
+      <screen x="0" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1637" height="329" key="GridCell.Tab.1.bottom/-1536.23.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1599169613352" />
+    <state width="1637" height="329" key="GridCell.Tab.1.center" timestamp="1599169613351">
+      <screen x="0" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1637" height="329" key="GridCell.Tab.1.center/-1536.23.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1599169613351" />
+    <state width="1637" height="329" key="GridCell.Tab.1.left" timestamp="1599169613351">
+      <screen x="0" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1637" height="329" key="GridCell.Tab.1.left/-1536.23.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1599169613351" />
+    <state width="1637" height="329" key="GridCell.Tab.1.right" timestamp="1599169613352">
+      <screen x="0" y="23" width="1920" height="1057" />
+    </state>
+    <state width="1637" height="329" key="GridCell.Tab.1.right/-1536.23.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1599169613352" />
     <state x="520" y="139" key="SettingsEditor" timestamp="1599154171275">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
     <state x="520" y="139" key="SettingsEditor/-1536.23.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1599154171275" />
-    <state x="744" y="262" width="670" height="637" key="find.popup" timestamp="1599160586059">
+    <state x="466" y="252" width="883" height="617" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1599168805348">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
-    <state x="744" y="262" width="670" height="637" key="find.popup/-1536.23.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1599160586059" />
+    <state x="466" y="252" width="883" height="617" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/-1536.23.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1599168805348" />
+    <state x="655" y="149" width="778" height="715" key="find.popup" timestamp="1599169083581">
+      <screen x="0" y="23" width="1920" height="1057" />
+    </state>
+    <state x="655" y="149" width="778" height="715" key="find.popup/-1536.23.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1599169083581" />
     <state x="603" y="142" width="897" height="708" key="new project wizard" timestamp="1599153847057">
       <screen x="0" y="23" width="1920" height="1057" />
     </state>
     <state x="603" y="142" width="897" height="708" key="new project wizard/-1536.23.1536.937/0.23.1920.1057@0.23.1920.1057" timestamp="1599153847057" />
   </component>
-  <component name="debuggerHistoryManager">
-    <expressions id="evaluateExpression">
-      <expression>
-        <expression-string>earnings.fiscalPeriod ?: dateFormat.format(earnings.fiscalEndDate) +             &quot;\n&quot; + dateFormat.format(earnings.epsReportDate) +             (earnings.announceTime?.let { &quot; ($it)&quot; } ?: &quot;&quot;)</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>&quot;\n&quot; + dateFormat.format(earnings.epsReportDate) +             (earnings.announceTime?.let { &quot; ($it)&quot; } ?: &quot;&quot;)</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>range</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>domain</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>reinterpolatorFactory</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>reinterpolatorFor()</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>Jsoup.parse(html)?.select(&quot;.content&quot;)?.takeIf { it.isNotEmpty() }?.let {println(it)}</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>Jsoup.parse(html)?.select(&quot;.content&quot;)?.takeIf { it.isNotEmpty() }</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>Jsoup.parse(html)?.select(&quot;.content&quot;)</expression-string>
-        <language-id>kotlin</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-    </expressions>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties>
+            <option name="NOTIFY_CAUGHT" value="false" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="gradleExecuteTaskHistory">
     <option value="" />

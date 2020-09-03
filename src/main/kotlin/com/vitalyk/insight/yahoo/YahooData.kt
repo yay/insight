@@ -31,47 +31,6 @@ enum class ChartIntradayInterval(val value: String) {
     HOUR("1h")
 }
 
-data class YFinanceAuth(
-    val cookie: String,
-    val crumb: String
-)
-
-fun getYFinanceAuth(symbol: String = "AAPL"): YFinanceAuth? {
-    val url = "https://uk.finance.yahoo.com/quote/$symbol/history"
-    val httpUrl = url.toHttpUrlOrNull() ?: throw MalformedURLException("Invalid HttpUrl.")
-    val urlBuilder = httpUrl.newBuilder()
-    val requestUrl = urlBuilder.build().toString()
-    val request = Request.Builder()
-        .addHeader("User-Agent", UserAgents.chrome)
-        .url(requestUrl)
-        .build()
-    val response = HttpClients.yahoo.newCall(request).execute()
-    val body = response.body
-
-    val cookieHeader = response.headers("set-cookie")
-
-    if (cookieHeader.isNotEmpty()) {
-        val cookie = response.headers("set-cookie").first().split(";").first()
-        // Example: "CrumbStore":{"crumb":"l45fI\u002FklCHs"}
-        // val crumbRegEx = Regex(""".*"CrumbStore":\{"crumb":"([^"]+)"}""", RegexOption.MULTILINE)
-        // val crumb = crumbRegEx.find("body.string()")?.groupValues?.get(1) // takes ages
-
-        if (body != null) {
-            val text = body.string()
-            val keyword = "CrumbStore\":{\"crumb\":\""
-            val start = text.indexOf(keyword)
-            val end = text.indexOf("\"}", start)
-            val crumb = text.substring(start + keyword.length until end)
-            return if (crumb.isNotBlank()) YFinanceAuth(cookie, crumb) else null
-        }
-    } else {
-        throw Exception("No cookie found.")
-    }
-
-    return null
-}
-
-
 fun String.parseYahooCSV(): Iterable<CSVRecord> =
     CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(StringReader(this))
 
